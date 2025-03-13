@@ -14,3 +14,8 @@
 - [out/artifacts](out/artifacts): fitxer JAR de l'aplicació
 - [src](src): codi font (fitxers .java)
 - [test](test): joc de proves
+
+
+**Diagrama**
+
+![Descripción de la imagen](Diagrama/Captura_Diagrama.png)
