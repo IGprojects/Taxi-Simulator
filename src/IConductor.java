@@ -46,9 +46,19 @@ public interface IConductor {
      *       completada.
      * 
      * @param r Ruta a executar
+     * @param v Vehicle que executa la ruta
+     * 
+     * @return Ruta completada
      * 
      */
-    void executarRuta(Ruta r);
+    Ruta executarRuta(Ruta r, Vehicle v);
+
+    /**
+     * @pre Cert.
+     * @post Planifica la millor ruta entre totes les peticions
+     * 
+     */
+    Ruta planificarRuta(Mapa mapa, List<Peticio> peticio, Vehicle v);
 
     /**
      * @brief Decideix el moviment del conductor segons l'estat actual de la
