@@ -6,7 +6,7 @@
  * @author Grup b9
  * @version 2025.03.04
  */
-public abstract class Mapa {
+public class Mapa {
     /**
      * @pre Cert
      *
