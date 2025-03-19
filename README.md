@@ -18,4 +18,4 @@
 
 **Diagrama**
 
-![Descripción de la imagen](Diagrama/Captura_Diagrama.png)
+![Descripción de la imagen](Diagrama/Diagrama.png)
