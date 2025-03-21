@@ -13,6 +13,22 @@ import java.util.List;
  */
 public class Simulador {
 
+    private List<Vehicle> vehicles;
+    private List<Conductor> conductors;
+    private List<Peticio> peticions;
+    private Date horaInici;
+    private Date horaFi;
+    private Mapa mapa;
+
+    public Simulador(Date horaInici, Date horaFi, Mapa mapa) {
+        this.vehicles = new ArrayList<Vehicle>();
+        this.conductors = new ArrayList<Conductor>();
+        this.peticions = new ArrayList<Peticio>();
+        this.horaInici = horaInici;
+        this.horaFi = horaFi;
+        this.mapa = mapa;
+    }
+
     /**
      * @pre v != null
      * @post El vehicle s'afegeix a la llista de vehicles disponibles per la
@@ -20,7 +36,9 @@ public class Simulador {
      *
      * @param v Vehicle a afegir.
      */
-    public void afegirVehicle(Vehicle v);
+    public void afegirVehicle(Vehicle v) {
+        vehicles.add(v);
+    }
 
     /**
      * @pre c != null
@@ -29,7 +47,9 @@ public class Simulador {
      *
      * @param c Conductor a afegir.
      */
-    public void afegirConductor(Conductor c);
+    public void afegirConductor(Conductor c) {
+        conductors.add(c);
+    }
 
     /**
      * @pre p != null
@@ -37,43 +57,71 @@ public class Simulador {
      *
      * @param p Petició a afegir.
      */
-    public void afegirPeticio(Peticio p);
+    public void afegirPeticio(Peticio p) {
+        peticions.add(p);
+    }
 
     /**
      * @pre cert
      * @post Es genera una petició de trasllat amb dades aleatòries i s'afegeix a la
      *       llista de peticions.
      */
-    public void afegirPeticioAleatoria();
+    public void afegirPeticioAleatoria() {
+    }
 
     /**
      * @pre cert
      * @post Inicia l'execució de la simulació.
-     *       
+     * 
      */
-    public void iniciar();
+    public void iniciar() {
+        while (!peticions.isEmpty()) {
+            double distMin = 0;
+            Vehicle vMin = null;
+            for (Vehicle v : vehicles) {
+                if (!v.estaOcupat()) {
+                    double dist = v.distanciaFins(peticioActual().getOrigen());
+                    if (dist < distMin) {
+                        distMin = dist;
+                        vMin = v;
+                    }
+                }
+
+            }
+            if (vMin != null) {
+                vMin.moure(peticioActual().obtenirOrigen(), distMin);
+                vMin.carregarBateria(100);
+                peticioServida();
+            }
+        }
+        finalitzar();
+    }
 
     /**
      * @pre !peticions.isEmpty()
-     * @post S’assigna la petició a un vehicle si és possible i es realitza el
-     *       viatge.
+     * @post S'elimina la petició ja servida
+     * 
      */
-    private void seguentPeticio();
+    private Peticio peticioActual() {
+        return peticions.get(0);
+
+    }
+
+    /**
+     * @pre !peticions.isEmpty()
+     * @post S'elimina la petició ja servida
+     * 
+     */
+    private void peticioServida() {
+        peticions.remove(0);
+
+    }
 
     /**
      * @pre cert
      * @post Tanca la simulació i mostra un resum dels resultats.
      */
-    private void finalitzar();
+    private void finalitzar() {
 
-    /**
-     * @brief Calcula estadístiques sobre la simulació.
-     *
-     * @pre Cert
-     * @post Retorna els resultats estadístics, incloent peticions completades i
-     *       temps mitjans.
-     *
-     * @return Objecte de tipus CalculEstadistic amb els resultats de la simulació.
-     */
-    public CalculsEstadistics calculsEstadistics();
+    }
 }

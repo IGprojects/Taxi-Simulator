@@ -6,7 +6,9 @@
  * @version 2025.03.04
  */
 public class Vehicle {
-
+    private Lloc ubicacio;
+    private bool esOcupat;
+    private Conductor conductor;
     /**
      * @pre Cert.
      * @post Retorna true si el vehicle té bateria (>0%), altrament false.
@@ -76,15 +78,6 @@ public class Vehicle {
     public boolean bateriaBaixa();
 
     /**
-     * @pre distancia >= 0.
-     * @post Retorna true si la bateria permet completar la distància, false si no
-     *       n'hi ha prou.
-     *
-     * @param distancia Distància a recórrer en quilòmetres.
-     */
-    public boolean potFerViatge(double distancia);
-
-    /**
      * @pre novaUbicacio != null i distancia >= 0.
      * @post El vehicle es desplaça a la nova ubicació i la seva bateria es redueix
      *       en funció de la distància recorreguda.
@@ -99,5 +92,21 @@ public class Vehicle {
      * @post Retorna true si el vehicle està carregant, false en cas contrari.
      */
     public boolean esCarregant();
+
+    /**
+     * @pre Cert.
+     * @post Retorna true si el vehicle està ocupat, false en cas contrari.
+     */
+    public boolean estaOcupat() {
+        return esOcupat;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna true si el vehicle està carregant, false en cas contrari.
+     */
+    public double distanciaFins(Lloc desti) {
+        return ubicacio.distancia(desti);
+    }
 
 }

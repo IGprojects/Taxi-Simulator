@@ -7,13 +7,6 @@
  * @version 2025.03.04
  */
 public class Mapa {
-    /**
-     * @pre Cert
-     *
-     * @post Omple la llista de llocs i el mapa de connexions
-     */
-    public void carregarMapa(String fitxer) {
-    }
 
     /**
      * @pre id>0

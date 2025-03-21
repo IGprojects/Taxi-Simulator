@@ -6,6 +6,4 @@
  * @version 2025.03.04
  */
 public class Parquing {
-    
-     
 }

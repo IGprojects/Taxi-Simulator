@@ -10,6 +10,7 @@ import java.util.Date;
  * @version 2025.03.04
  */
 public class Peticio {
+    private boolean enServei;
     /**
      * @pre Cert.
      * @post Retorna el lloc on el client vol ser recollit.

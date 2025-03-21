@@ -9,5 +9,11 @@ import java.util.List;
  */
 public class ConductorVoraç extends Conductor {
     @Override
-    public void decidirMoviment(Mapa mapa, List<Peticio> peticions);
+    public Ruta planificarRuta(Mapa mapa, List<Peticio> peticio, Vehicle v) {
+    }
+
+    @Override
+    public void executarRuta(Ruta r, Vehicle v) {
+
+    }
 }

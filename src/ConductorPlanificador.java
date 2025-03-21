@@ -7,9 +7,6 @@ import java.util.List;
 public class ConductorPlanificador extends Conductor {
 
     @Override
-    public void decidirMoviment(Mapa mapa, List<Peticio> peticions);
-
-    @Override
     public Ruta planificarRuta(Mapa mapa, List<Peticio> peticio, Vehicle v) {
         /*
          * Algorisme de Backtracking per trobar la millor ruta d’un conductor
