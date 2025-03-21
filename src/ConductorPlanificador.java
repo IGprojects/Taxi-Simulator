@@ -103,6 +103,7 @@ public class ConductorPlanificador extends Conductor {
      * @param mapa      El mapa de la simulació.
      * @return Petició òptima seleccionada.
      */
+    //
     private Peticio seleccionarMillorPeticio(List<Peticio> peticions, Mapa mapa);
 }
 
