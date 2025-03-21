@@ -105,3 +105,49 @@ public class ConductorPlanificador extends Conductor {
      */
     private Peticio seleccionarMillorPeticio(List<Peticio> peticions, Mapa mapa);
 }
+
+
+
+ public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
+    Ruta ruta = new Ruta();
+    Lloc ubicacioActual = mapa.getCarregadorPrivatPredeterminat();
+
+    // Ja assumim que el Set està ordenat, així que només iterem
+    for (Peticio peticio : peticions) {
+        Lloc origen = peticio.obtenirOrigen();
+        Lloc desti = peticio.obtenirDesti();
+
+        List<Lloc> camiFinsOrigen = mapa.dijkstra(ubicacioActual, origen);
+        List<Lloc> camiFinsDesti = mapa.dijkstra(origen, desti);
+
+        ruta.afegirTram(camiFinsOrigen);
+        ruta.afegirTram(camiFinsDesti);
+        ruta.afegirPeticioPlanificada(peticio);
+
+        ubicacioActual = desti; // Ens preparem per a la següent petició
+    }
+
+    return ruta;
+}
+public void executarRuta(Ruta r, Vehicle v) {
+    for (Tram tram : r.obtenirTrams()) {
+        Lloc desti = tram.obtenirDesti();
+        if (v.teAutonomiaSuficient(v.obtenirUbicacioActual(), desti)) {
+            v.moureFins(desti);
+        } else {
+            v.carregarBateriaCompleta();
+        }
+
+        if (desti.esPuntDeRecollida()) {
+            v.recollirPassatgers(desti);
+        } else if (desti.esPuntDeDeixada()) {
+            v.deixarPassatgers(desti);
+        }
+    }
+}
+
+public Peticio seleccionarMillorPeticio(Set<Peticio> peticions, Mapa mapa) {
+    // Com que el Set ja està ordenat, només retornem el primer element
+    return peticions.iterator().next();
+}
+
