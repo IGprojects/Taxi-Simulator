@@ -7,26 +7,28 @@ import java.util.List;
  * @author Grup b9
  * @version 2025.03.04
  */
-public abstract class Conductor implements IConductor {
+public abstract class Conductor{
 
-    @Override
-    public Vehicle obtenirVehicle();
+    private Peticio peticio;
 
-    @Override
-    public void assignarVehicle(Vehicle v);
 
-    @Override
-    public boolean estaDisponible();
+    
 
-    @Override
-    public void assignarPeticio(Peticio p);
+    /**
+     * @pre Cert.
+     * @post Retorna si el conductor està disponible.
+     */
+    public void executarRuta(Ruta r){
 
-    @Override
-    public void executarRuta(Ruta r);
+    }
 
-    @Override
+    /**
+     * @pre Cert.
+     * @post Decideix el moviment del conductor basant-se en el mapa i les peticions.
+     */
     public abstract void decidirMoviment(Mapa mapa, List<Peticio> peticions);
 
-    @Override
-    public void recollirPassatgers(int numPass);
+
+    
+    
 }

@@ -1,3 +1,4 @@
+
 /**
  * @class Parquing
  * @brief Defineix la localitzacio amb pàrquing
@@ -6,4 +7,9 @@
  * @version 2025.03.04
  */
 public class Parquing {
+
+    private int puntcargaRapida;
+    private int puntcargaLenta;
+    private int places;
+
 }

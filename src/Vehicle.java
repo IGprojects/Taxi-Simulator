@@ -1,3 +1,6 @@
+
+import java.lang.reflect.Parameter;
+
 /**
  * @class Vehicle
  * @brief Defineix el vehicle i les seves característiques
@@ -6,30 +9,61 @@
  * @version 2025.03.04
  */
 public class Vehicle {
+
+    final int MAXPASSATGERS;
+    final int AUTONOMIA;
+    final double TEMPSCARGARAPIDA;
+    final double TEMPSCARGALENTA;
+
     private Lloc ubicacio;
-    private bool esOcupat;
     private Conductor conductor;
+    private double bateria;
+    private int numPassatgers;
+
+    /**
+     * Constructor de la classe Vehicle.
+     *
+     * @param ubicacio La ubicació inicial del vehicle.
+     * @param conductor El conductor que gestionarà el vehicle.
+     */
+    public Vehicle(Lloc ubicacio, Conductor conductor, int maxpassatgers, int autonomia,double tempsCargaLenta,double tempsCargaRapida) {
+        this.ubicacio = ubicacio;
+        this.conductor = conductor;
+        this.bateria = 100.0;           // La bateria comença plena
+        this.numPassatgers = 0;         // El vehicle comença buit
+        this.AUTONOMIA = autonomia;
+        this.MAXPASSATGERS = maxpassatgers;
+        this.TEMPSCARGALENTA=tempsCargaLenta;
+        this.TEMPSCARGARAPIDA=tempsCargaRapida;
+    }
+
     /**
      * @pre Cert.
      * @post Retorna true si el vehicle té bateria (>0%), altrament false.
      * @return true si el vehicle té bateria disponible, false si està esgotada.
      */
-    public boolean teBateria();
+    public boolean teBateria(double km) {
+        return this.bateria > km;
+    }
 
     /**
      * @pre Cert.
      * @post Retorna true si el vehicle està ple, altrament false.
      */
-    public boolean esPle();
+    public boolean esPle() {
+        return MAXPASSATGERS == numPassatgers;
+    }
 
     /**
-     * @pre numPass >= 0
-     * @post S'afegeixen els passatgers especificats al vehicle si hi ha espai
-     *       suficient.
+     * @pre nPassatgers < MAXPassatgers @post S 'afegeixen els passatgers
+     * especificats al vehicle si hi ha espai suficient.
      *
-     * @param numPass Nombre de passatgers a afegir.
+     * @param nPassatgers Nombre de passatgers a afegir.
      */
-    public void afegirPassatgers(int numPass);
+    public void afegirPassatgers(int nPassatgers) {
+
+        numPassatgers += nPassatgers;
+    }
 
     /**
      * @brief Allibera tots els passatgers del vehicle.
@@ -37,76 +71,102 @@ public class Vehicle {
      * @pre Cert
      * @post El vehicle queda buit sense passatgers.
      */
-    public void alliberarPassatgers();
+    public void alliberarPassatgers() {
+        this.numPassatgers = 0;
+    }
 
     /**
      * @pre Cert.
      * @post Retorna el nombre de passatgers actuals del vehicle.
      */
-    public int passatgersActuals();
+    public int passatgersActuals() {
+        return this.numPassatgers;
+    }
 
     /**
-     * @pre percentatge > 0 i percentatge <= 100.
-     * @post La bateria s'incrementa fins al percentatge indicat sense superar el
-     *       100%.
+     * @pre bateria >= 0.
+     * @post Incrementa el nivell de bateria segons el percentatge indicat.
      *
-     * @param percentatge Percentatge al qual es vol carregar la bateria.
+     * @param percentatge Percentatge a carregar (ha d'estar en l'interval [0,
+     * 100]).
      */
-    public void carregarBateria(double percentatge);
+    public void carregarBateria(double percentatge) {
+        if (percentatge > 0) {
+            bateria += percentatge;  // Carregar bateria
+            if (bateria > 100) {
+                bateria = 100;  // No permetre superar el 100%
+            }
+        }
+    }
 
     /**
-     * @pre distancia >= 0.
+     * @pre bateria >0.
      * @post La bateria es redueix en funció de la distància recorreguda.
      *
      * @param distancia Distància en quilòmetres que el vehicle ha recorregut.
      */
-    public void consumirBaateria(double distancia);
+    public boolean consumirBateria(double distancia) {
+        double bat = 0;
+        if (distancia >= 0) {
+            // Fórmula per reduir la bateria segons l'autonomia màxima
+            bat = bateria - ((distancia / AUTONOMIA) * 100);
+        }
+        if (bat > 0) {
+            bateria = bat;
+        }
+        return false;
+    }
 
     /**
      * @pre Cert.
      * @post Retorna el nivell de bateria en percentatge (0% - 100%).
      */
-    public double obtenirBateria();
+    public double obtenirBateria() {
+        return this.bateria;
+    }
 
     /**
      * @pre Cert.
      * @post Retorna true si la bateria està per sota del 20%, false en cas
-     *       contrari.
+     * contrari.
      *
      * @return true si la bateria és baixa, false si encara és suficient.
      */
-    public boolean bateriaBaixa();
+    public boolean bateriaBaixa() {
+        return this.bateria < 20;
+    }
 
     /**
      * @pre novaUbicacio != null i distancia >= 0.
-     * @post El vehicle es desplaça a la nova ubicació i la seva bateria es redueix
-     *       en funció de la distància recorreguda.
+     * @post El vehicle es desplaça a la nova ubicació i la seva bateria es
+     * redueix en funció de la distància recorreguda.
      *
      * @param novaUbicacio Lloc on es mourà el vehicle.
-     * @param distancia    Distància recorreguda per arribar a la nova ubicació.
+     * @param distancia Distància recorreguda per arribar a la nova ubicació.
      */
-    public void moure(Lloc novaUbicacio, double distancia);
+    public boolean moure(Lloc novaUbicacio, double distancia) {
+        if (consumirBateria(distancia)) {
+            this.ubicacio = novaUbicacio;
+            return true;
+        }
 
-    /**
-     * @pre Cert.
-     * @post Retorna true si el vehicle està carregant, false en cas contrari.
-     */
-    public boolean esCarregant();
-
-    /**
-     * @pre Cert.
-     * @post Retorna true si el vehicle està ocupat, false en cas contrari.
-     */
-    public boolean estaOcupat() {
-        return esOcupat;
+        return false;
     }
 
     /**
      * @pre Cert.
      * @post Retorna true si el vehicle està carregant, false en cas contrari.
      */
-    public double distanciaFins(Lloc desti) {
-        return ubicacio.distancia(desti);
+    public boolean esCarregant() {
     }
 
 }
+
+/**
+ * @pre Cert.
+ * @post Assigna una petició al conductor.
+ */
+/*          private Peticio peticio;
+    public void assignarPeticio(Peticio p){
+        this.peticio=p;
+    };*/
