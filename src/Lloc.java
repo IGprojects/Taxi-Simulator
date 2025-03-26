@@ -10,6 +10,16 @@ import java.util.List;
  * @version 2025.03.04
  */
 public class Lloc {
+
+    final int CAPACITATMAXIMA; /// < Capacitat màxima de vehicles en el lloc
+    private int id; /// < Identificador del lloc
+    private int vehiclesActuals; /// < Nombre de vehicles actuals en el lloc
+
+    public Lloc(int id, int capacitatMaxima) {
+        this.id = id;
+        this.CAPACITATMAXIMA = capacitatMaxima;
+    }
+
     /**
      * @pre Cert.
      * @post Retorna un enter representant la capacitat màxima de vehicles en el
@@ -17,7 +27,9 @@ public class Lloc {
      * 
      * @return Capacitat màxima de vehicles en el lloc.
      */
-    int obtenirCapacitatMaxima();
+    int obtenirCapacitatMaxima() {
+        return CAPACITATMAXIMA;
+    }
 
     /**
      * @pre Cert
@@ -25,14 +37,22 @@ public class Lloc {
      * 
      * @return True si s'ha afegit, altrament fals.
      */
-    boolean entrarVehicle();
+    boolean entrarVehicle() {
+        if (!estaPle()) {
+            vehiclesActuals++;
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @pre Cert
      * @post El nombre de passatgers disminueix en 1.
      * 
      */
-    void sortirVehicle();
+    void sortirVehicle() {
+        vehiclesActuals--;
+    }
 
     /**
      * @pre Cert.
@@ -40,7 +60,9 @@ public class Lloc {
      * 
      * @return Nombre de vehicles presents en el lloc.
      */
-    int obtenirVehiclesActuals();
+    int obtenirVehiclesActuals() {
+        return vehiclesActuals;
+    }
 
     /**
      * @pre Cert.
@@ -49,6 +71,8 @@ public class Lloc {
      * 
      * @return true si el lloc està ple, false en cas contrari.
      */
-    boolean estaPle();
+    boolean estaPle() {
+        return vehiclesActuals == CAPACITATMAXIMA;
+    }
 
 }

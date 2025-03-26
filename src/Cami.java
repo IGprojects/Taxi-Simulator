@@ -9,52 +9,45 @@
  */
 public class Cami {
 
+    Lloc origen; ///< Punt d'origen del camí.
+    Lloc desti; ///< Punt de destí del camí.
+    double distancia; ///< Distància en quilòmetres.
+    double temps; ///< Temps estimat en minuts.
+
     /**
      * @pre Cert.
      * @post Retorna el punt d'origen del camí.
      *
      */
-    public Lloc obtenirOrigen();
+    public Lloc obtenirOrigen() {
+        return origen;
+    }
 
     /**
      * @pre Cert.
      * @post Retorna el punt de destí del camí.
      *
      */
-    public Lloc obtenirDesti();
+    public Lloc obtenirDesti() {
+        return desti;
+    }
 
     /**
      * @pre Cert.
      * @post Retorna la distància del camí.
      *
      */
-    public double obtenirDistancia();
+    public double obtenirDistancia() {
+        return distancia;
+    }
 
     /**
      * @pre Cert.
      * @post Retorna el temps estimat per recórrer el camí.
      *
      */
-    public double obtenirTemps();
-
-    /**
-     * @brief Modifica la distància del camí.
-     *
-     * @pre novaDistancia > 0
-     * @post La distància del camí s’ha actualitzat.
-     *
-     * @param novaDistancia Nova distància en quilòmetres.
-     */
-    public void modificarDistancia(double novaDistancia);
-
-    /**
-     * @brief Modifica el temps estimat de trajecte.
-     *
-     * @pre nouTemps > 0
-     * @post El temps del camí s’ha actualitzat.
-     *
-     * @param nouTemps Nou temps estimat en minuts.
-     */
-    public void modificarTemps(double nouTemps);
+    public double obtenirTemps() {
+        return temps;
+    }
 
 }

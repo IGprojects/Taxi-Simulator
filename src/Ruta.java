@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * @class Ruta
  * @brief Representa la ruta que segueix un vehicle per completar una petició.
@@ -9,6 +11,12 @@
  */
 public class Ruta {
 
+    
+    private List<Lloc> llocs; ///< Llista de llocs que formen la ruta.
+    double distanciaTotal; ///< Distància total de la ruta.
+    double tempsTotal; ///< Temps total de la ruta.
+
+
     /**
      * @pre cami != null
      * @post Afegeix el destí del camí a la ruta i actualitza la distància i el
@@ -16,7 +24,12 @@ public class Ruta {
      * 
      * @param cami Camí a afegir a la ruta.
      */
-    public void afegirCami(Cami cami);
+    public void afegirCami(Cami cami) {
+        llocs.add(cami.obtenirOrigen());
+        llocs.add(cami.obtenirDesti());
+        distanciaTotal += cami.obtenirDistancia();
+        tempsTotal += cami.obtenirTemps();
+    }
 
     /**
      * @pre Cert.
@@ -24,7 +37,9 @@ public class Ruta {
      * 
      * @return Distància total en quilòmetres.
      */
-    public double obtenirDistanciaTotal();
+    public double obtenirDistanciaTotal() {
+        return distanciaTotal;
+    }
 
     /**
      * @pre Cert.
@@ -32,12 +47,16 @@ public class Ruta {
      * 
      * @return Temps total en minuts.
      */
-    public double obtenirTempsTotal();
+    public double obtenirTempsTotal() {
+        return tempsTotal;
+    }
 
     /**
      * @pre Cert.
      * @post Retorna true si la ruta conté llocs, false si està buida.
      * 
      */
-    public boolean esBuida();
+    public boolean esBuida() {
+        return llocs.isEmpty();
+    }
 }

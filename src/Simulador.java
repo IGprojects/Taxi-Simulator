@@ -13,12 +13,12 @@ import java.util.List;
  */
 public class Simulador {
 
-    private List<Vehicle> vehicles;
-    private List<Conductor> conductors;
-    private List<Peticio> peticions;
-    private Date horaInici;
-    private Date horaFi;
-    private Mapa mapa;
+    private List<Vehicle> vehicles; ///< Vehicles disponibles per la simulació.
+    private List<Conductor> conductors; ///< Conductors disponibles per la simulació.
+    private List<Peticio> peticions; ///< Peticions pendents de servei.
+    private Date horaInici; ///< Hora d'inici de la simulació.
+    private Date horaFi; ///< Hora de finalització de la simulació.
+    private Mapa mapa; ///< Mapa de la ciutat.
 
     public Simulador(Date horaInici, Date horaFi, Mapa mapa) {
         this.vehicles = new ArrayList<Vehicle>();

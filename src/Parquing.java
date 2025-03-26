@@ -8,8 +8,50 @@
  */
 public class Parquing {
 
-    private int puntcargaRapida;
-    private int puntcargaLenta;
-    private int places;
+    private int puntcargaRapida; /// < Nombre de punts de càrrega ràpida disponibles.
+    private int puntcargaLenta; /// < Nombre de punts de càrrega lenta disponibles.
+    private int places; /// < Nombre de places de pàrquing disponibles.
 
+    /**
+     * Constructor de la classe Parquing.
+     *
+     * @param puntcargaRapida Nombre de punts de càrrega ràpida disponibles.
+     * @param puntcargaLenta  Nombre de punts de càrrega lenta disponibles.
+     * @param places          Nombre de places de pàrquing disponibles.
+     */
+    public Parquing(int puntcargaRapida, int puntcargaLenta, int places) {
+        this.puntcargaRapida = puntcargaRapida;
+        this.puntcargaLenta = puntcargaLenta;
+        this.places = places;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna el nombre de punts de càrrega ràpida disponibles.
+     *
+     * @return Nombre de punts de càrrega ràpida disponibles.
+     */
+    public int obtenirPuntCargaRapida() {
+        return puntcargaRapida;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna el nombre de punts de càrrega lenta disponibles.
+     *
+     * @return Nombre de punts de càrrega lenta disponibles.
+     */
+    public int obtenirPuntCargaLenta() {
+        return puntcargaLenta;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna el nombre de places de pàrquing disponibles.
+     *
+     * @return Nombre de places de pàrquing disponibles.
+     */
+    public int obtenirPlaces() {
+        return places;
+    }
 }

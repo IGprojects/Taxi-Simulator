@@ -10,15 +10,16 @@ import java.lang.reflect.Parameter;
  */
 public class Vehicle {
 
-    final int MAXPASSATGERS;
-    final int AUTONOMIA;
-    final double TEMPSCARGARAPIDA;
-    final double TEMPSCARGALENTA;
+    final int MAXPASSATGERS; ///< Nombre màxim de passatgers que pot transportar el vehicle.
+    final int AUTONOMIA; ///< Autonomia màxima del vehicle en quilòmetres.
+    final double TEMPSCARGARAPIDA; ///< Temps en minuts per carregar la bateria amb carga ràpida.
+    final double TEMPSCARGALENTA; ///< Temps en minuts per carregar la bateria amb carga lenta.
 
-    private Lloc ubicacio;
-    private Conductor conductor;
-    private double bateria;
-    private int numPassatgers;
+    private Lloc ubicacio; ///< Lloc on es troba actualment el vehicle.
+    private Conductor conductor; ///< Conductor del vehicle.
+    private double bateria; ///< Nivell de bateria del vehicle (0% - 100%).
+    private int numPassatgers; ///< Nombre de passatgers actuals del vehicle.
+    private boolean carregant; ///< Indica si el vehicle està carregant.
 
     /**
      * Constructor de la classe Vehicle.
@@ -158,6 +159,7 @@ public class Vehicle {
      * @post Retorna true si el vehicle està carregant, false en cas contrari.
      */
     public boolean esCarregant() {
+        return this.carregant;
     }
 
 }
