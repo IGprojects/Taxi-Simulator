@@ -94,4 +94,46 @@ public class Mapa {
 
         return -1;
     }
+
+    /**
+     * @pre Origen i desti existents
+     *
+     * @post Retorna el camí més ràpid entre dos llocs
+     */
+
+    public List<Lloc> camiVoraç(Lloc origen, Lloc desti) {
+        List<Lloc> cami = new ArrayList<>();
+        Set<Lloc> visitats = new HashSet<>();
+        Lloc actual = origen;
+
+        cami.add(actual);
+
+        while (!actual.equals(desti)) {
+            visitats.add(actual);
+            List<Cami> camins = llocs.get(actual);
+
+            if (camins == null || camins.isEmpty()) break;
+
+            Cami millor = null;
+            for (Cami c : camins) {
+                if (!visitats.contains(c.obtenirDesti())) {
+                    if (millor == null || c.obtenirTemps() < millor.obtenirTemps()) {
+                        millor = c;
+                    }
+                }
+            }
+
+            if (millor == null) break;
+
+            actual = millor.obtenirDesti();
+            cami.add(actual);
+        }
+
+        if (!actual.equals(desti)) return Collections.emptyList();
+        return cami;
+}
+
+
+    
+
 }

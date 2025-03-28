@@ -7,6 +7,9 @@ import java.util.List;
 public class ConductorPlanificador extends Conductor {
 
     @Override
+    public void decidirMoviment(Mapa mapa, List<Peticio> peticions);
+
+    @Override
     public Ruta planificarRuta(Mapa mapa, List<Peticio> peticio, Vehicle v) {
         /*
          * Algorisme de Backtracking per trobar la millor ruta d’un conductor
@@ -127,6 +130,34 @@ public class ConductorPlanificador extends Conductor {
 
     return ruta;
 }
+
+public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
+    Ruta ruta = new Ruta();
+    Lloc ubicacioActual = mapa.getCarregadorPrivatPredeterminat();
+    Set<Peticio> pendents = new HashSet<>(peticions);
+
+    while (!pendents.isEmpty()) {
+        Peticio millor = seleccionarMillorPeticio(ubicacioActual, pendents, mapa);
+        if (millor == null) break;
+
+        Lloc origen = millor.obtenirOrigen();
+        Lloc desti = millor.obtenirDesti();
+
+        List<Lloc> camiFinsOrigen = mapa.camiVoraç(ubicacioActual, origen);
+        List<Lloc> camiFinsDesti = mapa.camiVoraç(origen, desti);
+
+        ruta.afegirTram(camiFinsOrigen);
+        ruta.afegirTram(camiFinsDesti);
+        ruta.afegirPeticioPlanificada(millor);
+
+        ubicacioActual = desti;
+        pendents.remove(millor);
+    }
+
+    return ruta;
+}
+
+
 public void executarRuta(Ruta r, Vehicle v) {
     for (Tram tram : r.obtenirTrams()) {
         Lloc desti = tram.obtenirDesti();
@@ -144,8 +175,24 @@ public void executarRuta(Ruta r, Vehicle v) {
     }
 }
 
-public Peticio seleccionarMillorPeticio(Set<Peticio> peticions, Mapa mapa) {
-    // Com que el Set ja està ordenat, només retornem el primer element
-    return peticions.iterator().next();
-}
 
+public Peticio seleccionarMillorPeticio(Lloc ubicacioActual, Set<Peticio> peticions, Mapa mapa) {
+    Peticio millor = null;
+    double millorTemps = Double.POSITIVE_INFINITY;
+
+    for (Peticio p : peticions) {
+        List<Lloc> cami = mapa.camiVoraç(ubicacioActual, p.obtenirOrigen());
+        double temps = 0;
+
+        for (int i = 0; i < cami.size() - 1; i++) {
+            temps += mapa.calcularTemps(cami.get(i), cami.get(i + 1));
+        }
+
+        if (temps < millorTemps) {
+            millor = p;
+            millorTemps = temps;
+        }
+    }
+
+    return millor;
+}
