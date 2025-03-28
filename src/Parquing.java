@@ -6,7 +6,7 @@
  * @author Grup b9
  * @version 2025.03.04
  */
-public class Parquing {
+public class Parquing extends Lloc{
 
     private int puntcargaRapida; /// < Nombre de punts de càrrega ràpida disponibles.
     private int puntcargaLenta; /// < Nombre de punts de càrrega lenta disponibles.
@@ -19,10 +19,11 @@ public class Parquing {
      * @param puntcargaLenta  Nombre de punts de càrrega lenta disponibles.
      * @param places          Nombre de places de pàrquing disponibles.
      */
-    public Parquing(int puntcargaRapida, int puntcargaLenta, int places) {
+    public Parquing(int puntcargaRapida, int puntcargaLenta, int places,Lloc _lloc,) {
         this.puntcargaRapida = puntcargaRapida;
         this.puntcargaLenta = puntcargaLenta;
         this.places = places;
+        this.
     }
 
     /**

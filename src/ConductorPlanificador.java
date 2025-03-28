@@ -1,10 +1,15 @@
+
 import java.util.List;
 
 /**
  * @class ConductorPlanificador
  * @brief Conductor que planifica rutes entre càrregues completes.
  */
+
 public class ConductorPlanificador extends Conductor {
+
+
+    private Parquing carregadorPrivat;/// <ubicacio del punt de carrega privat personal del conductor
 
     @Override
     public void decidirMoviment(Mapa mapa, List<Peticio> peticions);
@@ -105,35 +110,29 @@ public class ConductorPlanificador extends Conductor {
      */
     //
     private Peticio seleccionarMillorPeticio(List<Peticio> peticions, Mapa mapa);
+
+
+public void executarRuta(Mapa mapa,Ruta r, Vehicle v) {
+    for (Tram tram : r.obtenirTrams()) {
+        Lloc desti = tram.obtenirDesti();
+        if (v.consumirBateria(mapa.calcularDistancia(v.getUbicacioActual(), desti))) {
+            
+            v.moure(desti,mapa.calcularDistancia(v.getUbicacioActual(), desti));//falta passar per
+        } else {
+            v.carregarBateria(100);
+        }
+
+       
+}
 }
 
 
 
- public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
-    Ruta ruta = new Ruta();
-    Lloc ubicacioActual = mapa.getCarregadorPrivatPredeterminat();
 
-    // Ja assumim que el Set està ordenat, així que només iterem
-    for (Peticio peticio : peticions) {
-        Lloc origen = peticio.obtenirOrigen();
-        Lloc desti = peticio.obtenirDesti();
-
-        List<Lloc> camiFinsOrigen = mapa.dijkstra(ubicacioActual, origen);
-        List<Lloc> camiFinsDesti = mapa.dijkstra(origen, desti);
-
-        ruta.afegirTram(camiFinsOrigen);
-        ruta.afegirTram(camiFinsDesti);
-        ruta.afegirPeticioPlanificada(peticio);
-
-        ubicacioActual = desti; // Ens preparem per a la següent petició
-    }
-
-    return ruta;
-}
 
 public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
     Ruta ruta = new Ruta();
-    Lloc ubicacioActual = mapa.getCarregadorPrivatPredeterminat();
+    Lloc ubicacioActual = this.carregadorPrivat;
     Set<Peticio> pendents = new HashSet<>(peticions);
 
     while (!pendents.isEmpty()) {
@@ -158,22 +157,7 @@ public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
 }
 
 
-public void executarRuta(Ruta r, Vehicle v) {
-    for (Tram tram : r.obtenirTrams()) {
-        Lloc desti = tram.obtenirDesti();
-        if (v.teAutonomiaSuficient(v.obtenirUbicacioActual(), desti)) {
-            v.moureFins(desti);
-        } else {
-            v.carregarBateriaCompleta();
-        }
 
-        if (desti.esPuntDeRecollida()) {
-            v.recollirPassatgers(desti);
-        } else if (desti.esPuntDeDeixada()) {
-            v.deixarPassatgers(desti);
-        }
-    }
-}
 
 
 public Peticio seleccionarMillorPeticio(Lloc ubicacioActual, Set<Peticio> peticions, Mapa mapa) {

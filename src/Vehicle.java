@@ -1,5 +1,4 @@
 
-import java.lang.reflect.Parameter;
 
 /**
  * @class Vehicle
@@ -47,6 +46,16 @@ public class Vehicle {
         return this.bateria > km;
     }
 
+
+    /**
+     * @pre Cert.
+     * @post Retorna la ubicacio actual del vehicle
+     * @return Lloc on es troba actualment el conductor
+     */
+    public Lloc getUbicacioActual(){
+        return this.ubicacio;
+    }
+
     /**
      * @pre Cert.
      * @post Retorna true si el vehicle està ple, altrament false.
@@ -74,6 +83,16 @@ public class Vehicle {
      */
     public void alliberarPassatgers() {
         this.numPassatgers = 0;
+    }
+
+    /**
+     * @brief Allibera un numero concrey de passatgers del vehicle.
+     *
+     * @pre Cert
+     * @post El vehicle queda buit sense passatgers.
+     */
+    public void alliberarPassatgersConcret(int n) {
+        this.numPassatgers -= n;
     }
 
     /**
