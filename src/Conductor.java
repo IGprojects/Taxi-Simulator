@@ -10,6 +10,7 @@
 public abstract class Conductor {
 
     private Peticio peticio;//Peticio actual del contuctor
+    protected Vehicle vehicle;//Vehicle que condueix el conductor
     
     /**
      * @pre Cert.

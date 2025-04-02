@@ -1,182 +1,114 @@
-
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+
 
 /**
  * @class ConductorPlanificador
  * @brief Conductor que planifica rutes entre càrregues completes.
  */
-
 public class ConductorPlanificador extends Conductor {
 
 
-    private Parquing carregadorPrivat;/// <ubicacio del punt de carrega privat personal del conductor
-
-    @Override
-    public void decidirMoviment(Mapa mapa, List<Peticio> peticions);
-
-    @Override
-    public Ruta planificarRuta(Mapa mapa, List<Peticio> peticio, Vehicle v) {
-        /*
-         * Algorisme de Backtracking per trobar la millor ruta d’un conductor
-         * "planificador".
-         * Entrada:
-         * - peticions: llista de peticions pendents
-         * - vehicle: vehicle assignat al conductor
-         * Sortida:
-         * - Millor seqüència de peticions possibles entre cada càrrega
-         * 
-         * planificarRuta(peticions, vehicle):
-         * millorRuta = []
-         * millorDistancia = 0
-         * 
-         * // Funció recursiva per buscar la millor combinació de peticions
-         * backtracking(rutaActual, autonomiaRestant, distanciaTotal):
-         * SI No Hi Ha Més Peticions Pendents LLAVORS
-         * SI distanciaTotal > millorDistancia LLAVORS
-         * millorRuta = Copia(rutaActual)
-         * millorDistancia = distanciaTotal
-         * FSI
-         * FSI
-         * 
-         * Inicialitzar Conjunt De Candidats (peticionsDisponibles)
-         * 
-         * MENTRE Queden Candidats FER
-         * peticio = Seguent Candidat
-         * 
-         * SI Acceptable(peticio, autonomiaRestant) LLAVORS
-         * Anotar Candidat (rutaActual.afegir(peticio))
-         * novaAutonomia = autonomiaRestant - DistanciaNecessària(peticio)
-         * novaDistancia = distanciaTotal + DistanciaNecessària(peticio)
-         * 
-         * SI NO Solucio Completa LLAVORS
-         * Backtracking(rutaActual, novaAutonomia, novaDistancia)
-         * ALTRAMENT
-         * SI novaDistancia > millorDistancia LLAVORS
-         * millorRuta = Copia(rutaActual)
-         * millorDistancia = novaDistancia
-         * FSI
-         * FSI
-         * 
-         * Desanotar Candidat (rutaActual.eliminar(peticio))
-         * FSI
-         * 
-         * Seguent Candidat
-         * FMENTRE
-         * 
-         * // Iniciar backtracking amb bateria al 100%
-         * backtracking([], vehicle.getAutonomiaMaxima(), 0)
-         * Retornar millorRuta
-         */
-    }
-
-    @Override
-    public void executarRuta(Ruta r, Vehicle v) {
-        /*
-         * Algorisme per executar la ruta planificada
-         * Entrada:
-         * - ruta: seqüència de llocs que el vehicle ha de seguir
-         * - vehicle: vehicle que executa la ruta
-         * Sortida:
-         * - Informe de peticions ateses i estat final del vehicle
-         * 
-         * executarRuta(ruta, vehicle):
-         * per cada lloc en ruta:
-         * SI vehicle.teAutonomiaSuficient(vehicle.ubicacioActual, lloc) LLAVORS
-         * vehicle.moureFins(lloc)
-         * SI NO LLAVORS
-         * vehicle.carregarBateriaCompleta()
-         * FSI
-         * 
-         * SI lloc.ésPuntDeRecollida() LLAVORS
-         * vehicle.recollirPassatgers(lloc)
-         * FSI
-         * 
-         * SI lloc.ésPuntDeDeixada() LLAVORS
-         * vehicle.deixarPassatgers(lloc)
-         * FSI
-         * 
-         * Retornar "Ruta completada"
-         */
-
-    }
-
     /**
-     * @pre peticions != null
-     * @post Retorna la petició que millor s'ajusta al pla de càrrega.
-     *
-     * @param peticions Llista de peticions disponibles.
-     * @param mapa      El mapa de la simulació.
-     * @return Petició òptima seleccionada.
-     */
-    //
-    private Peticio seleccionarMillorPeticio(List<Peticio> peticions, Mapa mapa);
-
-
-public void executarRuta(Mapa mapa,Ruta r, Vehicle v) {
-    for (Tram tram : r.obtenirTrams()) {
-        Lloc desti = tram.obtenirDesti();
-        if (v.consumirBateria(mapa.calcularDistancia(v.getUbicacioActual(), desti))) {
-            
-            v.moure(desti,mapa.calcularDistancia(v.getUbicacioActual(), desti));//falta passar per
-        } else {
-            v.carregarBateria(100);
+     * @pre vehicle != null && vehicle.teAutonomiaSuficient()
+     * @post Crea un conductor planificador amb un vehicle assignat.            
+     *      
+     * @param vehicle Vehicle assignat al conductor.
+     *   */
+        public void decidirMoviment(Mapa mapa, Set<Peticio> peticions) {
+            Ruta ruta = planificarRuta(mapa, peticions);
+            executarRuta(ruta, vehicle);
         }
 
-       
-}
-}
+        /**
+         * @pre mapa != null && peticions != null
+         * @post Retorna una ruta planificada per al vehicle.
+         *
+         * @param mapa      El mapa de la simulació.
+         * @param peticions Llista de peticions disponibles.
+         * @return Ruta planificada.
+         */
+        public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
+            Ruta ruta = new Ruta();
+            Lloc ubicacioActual = mapa.getCarregadorPrivatPredeterminat();
+            Set<Peticio> pendents = new HashSet<>(peticions);
 
+            while (!pendents.isEmpty()) {
+                Peticio millor = seleccionarMillorPeticio(ubicacioActual, pendents, mapa);
+                if (millor != null){
 
+                    Lloc origen = millor.obtenirOrigen();
+                    Lloc desti = millor.obtenirDesti();
 
+                    List<Lloc> camiFinsOrigen = mapa.camiVoraç(ubicacioActual, origen);
+                    List<Lloc> camiFinsDesti = mapa.camiVoraç(origen, desti);
 
+                    ruta.afegirTram(camiFinsOrigen);
+                    ruta.afegirTram(camiFinsDesti);
+                    ruta.afegirPeticioPlanificada(millor);
 
-public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
-    Ruta ruta = new Ruta();
-    Lloc ubicacioActual = this.carregadorPrivat;
-    Set<Peticio> pendents = new HashSet<>(peticions);
+                    ubicacioActual = desti;
+                    pendents.remove(millor);
+                }
+            }
 
-    while (!pendents.isEmpty()) {
-        Peticio millor = seleccionarMillorPeticio(ubicacioActual, pendents, mapa);
-        if (millor == null) break;
+            return ruta;
+        }
 
-        Lloc origen = millor.obtenirOrigen();
-        Lloc desti = millor.obtenirDesti();
+        /**
+         * @pre r != null && v != null
+         * @post Executa la ruta planificada pel vehicle.
+         *
+         * @param r Ruta a executar.
+         * @param v Vehicle que executarà la ruta.
+         */
 
-        List<Lloc> camiFinsOrigen = mapa.camiVoraç(ubicacioActual, origen);
-        List<Lloc> camiFinsDesti = mapa.camiVoraç(origen, desti);
+        public void executarRuta(Ruta r, Vehicle v) {
+            for (Tram tram : r.obtenirTrams()) {
+                Lloc desti = tram.obtenirDesti();
+                if (v.teAutonomiaSuficient(v.obtenirUbicacioActual(), desti)) {
+                    v.moureFins(desti);
+                } else {
+                    v.carregarBateriaCompleta();
+                }
 
-        ruta.afegirTram(camiFinsOrigen);
-        ruta.afegirTram(camiFinsDesti);
-        ruta.afegirPeticioPlanificada(millor);
+                if (desti.esPuntDeRecollida()) {
+                    v.recollirPassatgers(desti);
+                } else if (desti.esPuntDeDeixada()) {
+                    v.deixarPassatgers(desti);
+                }
+            }
+        }
+        
+        /**
+         * @pre peticions != null
+         * @post Retorna la petició que millor s'ajusta al pla de càrrega.
+         *
+         * @param ubicacioActual La ubicació actual del vehicle.
+         * @param peticions      Llista de peticions disponibles.
+         * @param mapa           El mapa de la simulació.
+         * @return Petició òptima seleccionada.
+         */
 
-        ubicacioActual = desti;
-        pendents.remove(millor);
+        public Peticio seleccionarMillorPeticio(Lloc ubicacioActual, Set<Peticio> peticions, Mapa mapa) {
+            Peticio millor = null;
+            double millorTemps = Double.POSITIVE_INFINITY;
+
+            for (Peticio p : peticions) {
+                List<Lloc> cami = mapa.camiVoraç(ubicacioActual, p.obtenirOrigen());
+                double temps = 0;
+
+                for (int i = 0; i < cami.size() - 1; i++) {
+                    temps += mapa.calcularTemps(cami.get(i), cami.get(i + 1));
+                }
+
+                if (temps < millorTemps) {
+                    millor = p;
+                    millorTemps = temps;
+                }
+            }
+
+            return millor;
+        }
     }
-
-    return ruta;
-}
-
-
-
-
-
-public Peticio seleccionarMillorPeticio(Lloc ubicacioActual, Set<Peticio> peticions, Mapa mapa) {
-    Peticio millor = null;
-    double millorTemps = Double.POSITIVE_INFINITY;
-
-    for (Peticio p : peticions) {
-        List<Lloc> cami = mapa.camiVoraç(ubicacioActual, p.obtenirOrigen());
-        double temps = 0;
-
-        for (int i = 0; i < cami.size() - 1; i++) {
-            temps += mapa.calcularTemps(cami.get(i), cami.get(i + 1));
-        }
-
-        if (temps < millorTemps) {
-            millor = p;
-            millorTemps = temps;
-        }
-    }
-
-    return millor;
-}
