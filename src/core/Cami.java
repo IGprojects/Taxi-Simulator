@@ -1,3 +1,4 @@
+package core;
 /**
  * @class Cami
  * @brief Representa un camí entre dos llocs del mapa.
@@ -14,7 +15,7 @@ public class Cami {
     double distancia; ///< Distància en quilòmetres.
     double temps; ///< Temps estimat en minuts.
 
-    /**
+    /** 
      * @pre Cert.
      * @post Retorna el punt d'origen del camí.
      *

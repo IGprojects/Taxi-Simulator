@@ -1,6 +1,12 @@
+package core;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.PriorityQueue;
+
+import events.ArribadaPeticio;
+import events.Event;
 
 /**
  * @class Simulador
@@ -13,12 +19,14 @@ import java.util.List;
  */
 public class Simulador {
 
-    private List<Vehicle> vehicles; ///< Vehicles disponibles per la simulació.
-    private List<Conductor> conductors; ///< Conductors disponibles per la simulació.
-    private List<Peticio> peticions; ///< Peticions pendents de servei.
-    private Date horaInici; ///< Hora d'inici de la simulació.
-    private Date horaFi; ///< Hora de finalització de la simulació.
-    private Mapa mapa; ///< Mapa de la ciutat.
+    private List<Vehicle> vehicles; /// < Vehicles disponibles per la simulació.
+    private List<Conductor> conductors; /// < Conductors disponibles per la simulació.
+    private List<Peticio> peticions; /// < Peticions pendents de servei.
+    private Date horaInici; /// < Hora d'inici de la simulació.
+    private Date horaFi; /// < Hora de finalització de la simulació.
+    private Date horaActual; /// < Hora actual de la simulació.
+    private Mapa mapa; /// < Mapa de la ciutat.
+    private PriorityQueue<Event> esdeveniments = new PriorityQueue<>(); /// < Esdeveniments programats.
 
     public Simulador(Date horaInici, Date horaFi, Mapa mapa) {
         this.vehicles = new ArrayList<Vehicle>();
@@ -27,6 +35,8 @@ public class Simulador {
         this.horaInici = horaInici;
         this.horaFi = horaFi;
         this.mapa = mapa;
+        this.horaActual = horaInici;
+
     }
 
     /**
@@ -52,6 +62,16 @@ public class Simulador {
     }
 
     /**
+     * @pre e != null
+     * @post L'esdeveniment s'afegeix a la cua d'esdeveniments programats
+     *
+     * @param e Esdeveniment a afegir.
+     */
+    public void afegirEsdeveniment(Event e) {
+        esdeveniments.add(e);
+    }
+
+    /**
      * @pre p != null
      * @post La petició es registra i queda pendent d’assignació a un vehicle.
      *
@@ -59,6 +79,8 @@ public class Simulador {
      */
     public void afegirPeticio(Peticio p) {
         peticions.add(p);
+        esdeveniments.add(new ArribadaPeticio(p.obtenirHoraMinimaRecollida(), p));
+
     }
 
     /**
@@ -67,6 +89,7 @@ public class Simulador {
      *       llista de peticions.
      */
     public void afegirPeticioAleatoria() {
+        
     }
 
     /**
@@ -75,25 +98,12 @@ public class Simulador {
      * 
      */
     public void iniciar() {
-        while (!peticions.isEmpty()) {
-            double distMin = 0;
-            Vehicle vMin = null;
-            for (Vehicle v : vehicles) {
-                if (!v.estaOcupat()) {
-                    double dist = v.distanciaFins(peticioActual().getOrigen());
-                    if (dist < distMin) {
-                        distMin = dist;
-                        vMin = v;
-                    }
-                }
-
-            }
-            if (vMin != null) {
-                vMin.moure(peticioActual().obtenirOrigen(), distMin);
-                vMin.carregarBateria(100);
-                peticioServida();
-            }
+        while (!esdeveniments.isEmpty() && horaActual.before(horaFi)) {
+            Event e = esdeveniments.poll();
+            horaActual = e.getTemps();
+            e.executar(this);
         }
+
         finalitzar();
     }
 

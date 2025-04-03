@@ -1,4 +1,8 @@
+package core;
 import java.util.Date;
+import java.util.PriorityQueue;
+
+import org.w3c.dom.events.Event;
 
 /**
  * @class Peticio

@@ -1,4 +1,4 @@
-
+package core;
 import java.util.List;
 import java.util.Map;
 
@@ -12,26 +12,9 @@ import java.util.Map;
  * @version 2025.03.04
  */
 public class Ruta {
-
-    private List<Lloc> llocs;
-    private Map<Lloc,double> tempsLloc;
-
-    ///< Llista de llocs que formen la ruta.
-    double distanciaTotal;
-    ///< Distància total de la ruta.
-    double tempsTotal;
-
-    ///< Temps total de la ruta.
-
-/**
-     * @pre llocs != null
-     * @post retorna la llista del llocs per on te que passar per fer la ruta.
-     * 
-     * @return desti final de la ruta
-     */
-    public Lloc getLlocDesti() {
-        return llocs.getLast();
-    }
+    private List<Lloc> llocs; ///< Llista de llocs que formen la ruta.
+    double distanciaTotal; ///< Distància total de la ruta.
+    double tempsTotal; ///< Temps total de la ruta.
 
     /**
      * @pre llocs != null
