@@ -1,16 +1,16 @@
 package events;
 
-import java.util.Date;
+import java.time.LocalTime;
 
 import core.Simulador;
 public abstract class Event implements Comparable<Event> {
-    protected Date temps;
+    protected LocalTime temps;
 
-    public Event(Date temps) {
+    public Event(LocalTime temps) {
         this.temps = temps;
     }
 
-    public Date getTemps() {
+    public LocalTime getTemps() {
         return temps;
     }
 

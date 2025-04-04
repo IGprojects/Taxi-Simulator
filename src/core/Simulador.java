@@ -1,5 +1,6 @@
 package core;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,25 +20,16 @@ import events.Event;
  */
 public class Simulador {
 
-    private List<Vehicle> vehicles;
-    /// < Vehicles disponibles per la simulació.
-    private List<Conductor> conductors;
-    /// < Conductors disponibles per la simulació.
-    private List<Peticio> peticions;
-    /// < Peticions pendents de servei.
-    private Date horaInici;
-    /// < Hora d'inici de la simulació.
-    private Date horaFi;
-    /// < Hora de finalització de la simulació.
-    private Date horaActual;
-    /// < Hora actual de la simulació.
-    private Mapa mapa;
-    /// < Mapa de la ciutat.
-    private PriorityQueue<Event> esdeveniments = new PriorityQueue<>();
+    private List<Vehicle> vehicles; /// < Vehicles disponibles per la simulació.
+    private List<Conductor> conductors; /// < Conductors disponibles per la simulació.
+    private List<Peticio> peticions; /// < Peticions pendents de servei.
+    private LocalTime horaInici; /// < Hora d'inici de la simulació.
+    private LocalTime horaFi; /// < Hora de finalització de la simulació.
+    private LocalTime horaActual; /// < Hora actual de la simulació.
+    private Mapa mapa; /// < Mapa de la ciutat.
+    private PriorityQueue<Event> esdeveniments = new PriorityQueue<>(); /// < Esdeveniments programats.
 
-    /// < Esdeveniments programats.
-
-    public Simulador(Date horaInici, Date horaFi, Mapa mapa) {
+    public Simulador(LocalTime horaInici, LocalTime horaFi, Mapa mapa) {
         this.vehicles = new ArrayList<Vehicle>();
         this.conductors = new ArrayList<Conductor>();
         this.peticions = new ArrayList<Peticio>();
@@ -88,8 +80,6 @@ public class Simulador {
      */
     public void afegirPeticio(Peticio p) {
         peticions.add(p);
-        esdeveniments.add(new ArribadaPeticio(p.obtenirHoraMinimaRecollida(), p));
-
     }
 
     /**
@@ -107,7 +97,7 @@ public class Simulador {
      *
      */
     public void iniciar() {
-        while (!esdeveniments.isEmpty() && horaActual.before(horaFi)) {
+        while (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
             Event e = esdeveniments.poll();
             horaActual = e.getTemps();
             e.executar(this);
