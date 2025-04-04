@@ -12,21 +12,30 @@ import events.Event;
  * @class Simulador
  * @brief Classe que gestiona l'execució de la simulació.
  * @details Controla els vehicles, conductors i peticions, processant-les en
- *          funció del temps.
+ * funció del temps.
  *
  * @author Grup b9
  * @version 2025.03.04
  */
 public class Simulador {
 
-    private List<Vehicle> vehicles; /// < Vehicles disponibles per la simulació.
-    private List<Conductor> conductors; /// < Conductors disponibles per la simulació.
-    private List<Peticio> peticions; /// < Peticions pendents de servei.
-    private Date horaInici; /// < Hora d'inici de la simulació.
-    private Date horaFi; /// < Hora de finalització de la simulació.
-    private Date horaActual; /// < Hora actual de la simulació.
-    private Mapa mapa; /// < Mapa de la ciutat.
-    private PriorityQueue<Event> esdeveniments = new PriorityQueue<>(); /// < Esdeveniments programats.
+    private List<Vehicle> vehicles;
+    /// < Vehicles disponibles per la simulació.
+    private List<Conductor> conductors;
+    /// < Conductors disponibles per la simulació.
+    private List<Peticio> peticions;
+    /// < Peticions pendents de servei.
+    private Date horaInici;
+    /// < Hora d'inici de la simulació.
+    private Date horaFi;
+    /// < Hora de finalització de la simulació.
+    private Date horaActual;
+    /// < Hora actual de la simulació.
+    private Mapa mapa;
+    /// < Mapa de la ciutat.
+    private PriorityQueue<Event> esdeveniments = new PriorityQueue<>();
+
+    /// < Esdeveniments programats.
 
     public Simulador(Date horaInici, Date horaFi, Mapa mapa) {
         this.vehicles = new ArrayList<Vehicle>();
@@ -42,7 +51,7 @@ public class Simulador {
     /**
      * @pre v != null
      * @post El vehicle s'afegeix a la llista de vehicles disponibles per la
-     *       simulació.
+     * simulació.
      *
      * @param v Vehicle a afegir.
      */
@@ -53,7 +62,7 @@ public class Simulador {
     /**
      * @pre c != null
      * @post El conductor s'afegeix a la llista de conductors disponibles per la
-     *       simulació.
+     * simulació.
      *
      * @param c Conductor a afegir.
      */
@@ -85,17 +94,17 @@ public class Simulador {
 
     /**
      * @pre cert
-     * @post Es genera una petició de trasllat amb dades aleatòries i s'afegeix a la
-     *       llista de peticions.
+     * @post Es genera una petició de trasllat amb dades aleatòries i s'afegeix
+     * a la llista de peticions.
      */
     public void afegirPeticioAleatoria() {
-        
+
     }
 
     /**
      * @pre cert
      * @post Inicia l'execució de la simulació.
-     * 
+     *
      */
     public void iniciar() {
         while (!esdeveniments.isEmpty() && horaActual.before(horaFi)) {
@@ -110,7 +119,7 @@ public class Simulador {
     /**
      * @pre !peticions.isEmpty()
      * @post S'elimina la petició ja servida
-     * 
+     *
      */
     private Peticio peticioActual() {
         return peticions.get(0);
@@ -120,7 +129,7 @@ public class Simulador {
     /**
      * @pre !peticions.isEmpty()
      * @post S'elimina la petició ja servida
-     * 
+     *
      */
     private void peticioServida() {
         peticions.remove(0);
@@ -134,4 +143,38 @@ public class Simulador {
     private void finalitzar() {
 
     }
-}
+
+    /**
+     * @brief Retorna el nombre de peticions no servides.
+     *
+     * @pre Cert.
+     * @post Retorna el nombre de peticions que no han pogut ser servides.
+     *
+     * @return Nombre de peticions no servides.
+     */
+    public int obtenirPeticionsNoServides() {
+        return this.peticions.size();
+    }
+
+    ;
+
+    /**
+     * @pre Cert.
+     * @post Retorna el temps mig d'espera en minuts.
+     * 
+     * @return Temps mitjà d'espera en minuts.
+     */
+    public double calcularTempsEsperaMitja() {
+        if (peticions.isEmpty()) {
+            return 0.0;
+        }
+
+        double sumaTemps = 0.0;
+
+        for (Peticio p : peticions) {
+            sumaTemps += p.diferenciaEnMinuts();
+        }
+
+        return sumaTemps / peticions.size();}
+
+    };

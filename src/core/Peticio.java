@@ -1,27 +1,38 @@
 package core;
-import java.util.Date;
-import java.util.PriorityQueue;
 
-import org.w3c.dom.events.Event;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 /**
  * @class Peticio
  * @brief Representa una petició de transport feta per un client.
  * @details Conté la informació necessària per determinar si un vehicle pot
- *          satisfer la petició.
- * 
+ * satisfer la petició.
+ *
  * @author Grup b9
  * @version 2025.03.04
  */
 public class Peticio {
 
-    private Lloc origen; /// < Lloc on el client vol ser recollit.
-    private Lloc desti; /// < Lloc on el client vol arribar.
-    private Date horaMinimaRecollida; /// < Hora mínima en què el client vol ser recollit.
-    private Date horaMaximaArribada; /// < Hora màxima en què el client vol arribar al destí.
-    private int numPassatgers; /// < Nombre de passatgers que han de viatjar.
-    private boolean vehicleCompartit; /// < Indica si el client vol un vehicle compartit.
-    private EstatPeticio estat; /// < Estat actual de la petició.
+    private Lloc origen;
+    /// < Lloc on el client vol ser recollit.
+    private Lloc desti;
+    /// < Lloc on el client vol arribar.
+   // private Date horaMinimaRecollida;
+    private LocalDateTime horaMinimaRecollida;
+
+    /// < Hora mínima en què el client vol ser recollit.
+    //private Date horaMaximaArribada;
+    private LocalDateTime horaMaximaArribada;
+
+    /// < Hora màxima en què el client vol arribar al destí.
+    private int numPassatgers;
+    /// < Nombre de passatgers que han de viatjar.
+    private boolean vehicleCompartit;
+    /// < Indica si el client vol un vehicle compartit.
+    private EstatPeticio estat;
+
+    /// < Estat actual de la petició.
 
     public EstatPeticio estatActual() {
         return estat;
@@ -50,7 +61,7 @@ public class Peticio {
      * @post Retorna l'hora més primerenca en què el client vol ser recollit.
      *
      */
-    public Date obtenirHoraMinimaRecollida() {
+    public LocalDateTime obtenirHoraMinimaRecollida() {
         return horaMinimaRecollida;
     }
 
@@ -59,7 +70,7 @@ public class Peticio {
      * @post Retorna l'hora màxima en què el client vol arribar al seu destí.
      *
      */
-    public Date obtenirHoraMaximaArribada() {
+    public LocalDateTime obtenirHoraMaximaArribada() {
         return horaMaximaArribada;
     }
 
@@ -75,7 +86,7 @@ public class Peticio {
     /**
      * @pre Cert.
      * @post Retorna true si el client vol un vehicle compartit, false en cas
-     *       contrari.
+     * contrari.
      *
      */
     public boolean esVehicleCompartit() {
@@ -98,5 +109,13 @@ public class Peticio {
      */
     public void peticioEnProces() {
         estat = EstatPeticio.EN_PROCES;
+    }
+
+    public double diferenciaEnMinuts() {
+        // Calculem la diferència com una Duration
+        Duration durada = Duration.between(this.horaMinimaRecollida, this.horaMaximaArribada);
+
+        // Retornem la durada en minuts com a double
+        return durada.toSeconds() / 60.0;
     }
 }
