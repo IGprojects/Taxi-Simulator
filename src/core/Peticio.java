@@ -1,7 +1,7 @@
 package core;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * @class Peticio
@@ -19,11 +19,11 @@ public class Peticio {
     private Lloc desti;
     /// < Lloc on el client vol arribar.
    // private Date horaMinimaRecollida;
-    private LocalDateTime horaMinimaRecollida;
+    private LocalTime horaMinimaRecollida;
 
     /// < Hora mínima en què el client vol ser recollit.
     //private Date horaMaximaArribada;
-    private LocalDateTime horaMaximaArribada;
+    private LocalTime horaMaximaArribada;
 
     /// < Hora màxima en què el client vol arribar al destí.
     private int numPassatgers;
@@ -61,7 +61,7 @@ public class Peticio {
      * @post Retorna l'hora més primerenca en què el client vol ser recollit.
      *
      */
-    public LocalDateTime obtenirHoraMinimaRecollida() {
+    public LocalTime obtenirHoraMinimaRecollida() {
         return horaMinimaRecollida;
     }
 
@@ -70,7 +70,7 @@ public class Peticio {
      * @post Retorna l'hora màxima en què el client vol arribar al seu destí.
      *
      */
-    public LocalDateTime obtenirHoraMaximaArribada() {
+    public LocalTime obtenirHoraMaximaArribada() {
         return horaMaximaArribada;
     }
 

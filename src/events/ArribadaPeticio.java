@@ -1,6 +1,6 @@
 package events;
 
-import java.util.Date;
+import java.time.LocalTime;
 
 import core.Peticio;
 import core.Simulador;
@@ -8,7 +8,7 @@ import core.Simulador;
 public class ArribadaPeticio extends Event {
     private Peticio peticio;
 
-    public ArribadaPeticio(Date temps, Peticio p) {
+    public ArribadaPeticio(LocalTime temps, Peticio p) {
         super(temps);
         this.peticio = p;
     }
