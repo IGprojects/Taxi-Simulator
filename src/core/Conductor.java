@@ -1,5 +1,4 @@
 package core;
-import java.util.List;
 
 /**
  * @class Conductor
@@ -17,7 +16,8 @@ public abstract class Conductor {
      * @pre Cert.
      * @post Retorna si el conductor està disponible.
      */
-    public void executarRuta(Ruta r) {
+    public abstract void executarRuta(Ruta r, Vehicle v);
+    
+    
 
-    }
 }

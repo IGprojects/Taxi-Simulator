@@ -9,23 +9,7 @@ import java.util.List;
  * @version 2025.03.04
  */
 public class ConductorVoraç extends Conductor {
-
     
-    /**
-     * Planidica la millor ruta a partir de les peticions que ha rebut
-     *
-     * @return Ruta ruta que planificada a partir de les propietats del
-     * conductorVoraç
-     *
-     *
-     */
-    public Ruta planificarRuta(Mapa mapa, List<Peticio> peticions, Vehicle v) {
-        Ruta ruta=new Ruta();
-
-
-        return ruta;
-    }
-
     
     public void executarRuta(Mapa mapa,Ruta r,List<Peticio> peticions, Vehicle v) {
         for (Lloc lloc : r.getLlocs()) {
@@ -37,11 +21,6 @@ public class ConductorVoraç extends Conductor {
                 v.carregarBateria(100);
             }
 
-            /*if (desti.esPuntDeRecollida(peticions)) {
-                v.recollirPassatgers(desti);
-            } else if (desti.esPuntDeDeixada(peticions)) {
-                v.deixarPassatgers(desti);
-            }*/
         }
     }
 

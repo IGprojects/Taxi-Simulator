@@ -45,8 +45,8 @@ public class ConductorPlanificador extends Conductor {
                     List<Lloc> camiFinsOrigen = mapa.camiVoraç(ubicacioActual, origen);
                     List<Lloc> camiFinsDesti = mapa.camiVoraç(origen, desti);
 
-                    ruta.afegirTram(camiFinsOrigen);
-                    ruta.afegirTram(camiFinsDesti);
+                    ruta.afegirCami(cacamiFinsOrigenmi);
+                    ruta.afegirCami(camiFinsDesti);
                     ruta.afegirPeticioPlanificada(millor);
 
                     ubicacioActual = desti;
@@ -65,6 +65,7 @@ public class ConductorPlanificador extends Conductor {
          * @param v Vehicle que executarà la ruta.
          */
 
+        @Override
         public void executarRuta(Ruta r, Vehicle v) {
             for (Tram tram : r.obtenirTrams()) {
                 Lloc desti = tram.obtenirDesti();
