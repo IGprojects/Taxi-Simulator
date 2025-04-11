@@ -2,7 +2,9 @@ package events;
 
 import java.time.LocalTime;
 
+import core.Ruta;
 import core.Simulador;
+import core.Vehicle;
 public abstract class Event implements Comparable<Event> {
     protected LocalTime temps;
 

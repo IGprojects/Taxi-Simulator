@@ -13,9 +13,9 @@ import events.Event;
  * @class Simulador
  * @brief Classe que gestiona l'execució de la simulació.
  * @details Controla els vehicles, conductors i peticions, processant-les en
- * funció del temps.
+ *          funció del temps.
  *
- * @author Grup b9
+ * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class Simulador {
@@ -43,7 +43,7 @@ public class Simulador {
     /**
      * @pre v != null
      * @post El vehicle s'afegeix a la llista de vehicles disponibles per la
-     * simulació.
+     *       simulació.
      *
      * @param v Vehicle a afegir.
      */
@@ -54,7 +54,7 @@ public class Simulador {
     /**
      * @pre c != null
      * @post El conductor s'afegeix a la llista de conductors disponibles per la
-     * simulació.
+     *       simulació.
      *
      * @param c Conductor a afegir.
      */
@@ -85,7 +85,7 @@ public class Simulador {
     /**
      * @pre cert
      * @post Es genera una petició de trasllat amb dades aleatòries i s'afegeix
-     * a la llista de peticions.
+     *       a la llista de peticions.
      */
     public void afegirPeticioAleatoria() {
 
@@ -98,12 +98,55 @@ public class Simulador {
      */
     public void iniciar() {
         while (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
+            // Processar esdeveniments fins a l'hora actual
+            assignarPeticio();
             Event e = esdeveniments.poll();
             horaActual = e.getTemps();
             e.executar(this);
         }
 
         finalitzar();
+    }
+
+    private void assignarPeticio() {
+        // Assignar la petició al vehicle i eliminar-la de la llista de peticions
+        boolean peticioAssignada = false;
+        List<Conductor> conductorsCopia = new ArrayList<>(conductors);
+        Peticio p = peticioActual();
+
+        while (!peticioAssignada && !conductorsCopia.isEmpty()) {
+            double distanciaMinima = Double.MAX_VALUE;
+            Conductor conductorMinim = null;
+            for (int i = 0; i < conductorsCopia.size(); i++) {
+                Conductor c = conductors.get(i);
+                double distancia = mapa.calcularDistancia(c.getPosicio(), p.obtenirOrigen());
+                if (distancia < distanciaMinima) {
+                    distanciaMinima = distancia;
+                    conductorMinim = c;
+                }
+            }
+            if (conductorMinim instanceof ConductorVoraç) {
+                ConductorVoraç c = (ConductorVoraç) conductorMinim;
+                if (c.potExecutarRuta(p)) {
+                    c.executarRuta();
+                    peticioAssignada = true;
+                    peticioServida();
+                    
+                } else {
+                    conductorsCopia.remove(conductorMinim);
+                }
+            } else if (conductorMinim instanceof ConductorPlanificador) {
+                ConductorPlanificador c = (ConductorPlanificador) conductorMinim;
+                if (c.potExecutarRuta(p)) {
+                    c.planificarRuta(mapa, peticions);
+                    peticioAssignada = true;
+                    peticioServida();
+
+                } else {
+                    conductorsCopia.remove(conductorMinim);
+                }
+            }
+        }
     }
 
     /**
@@ -165,6 +208,7 @@ public class Simulador {
             sumaTemps += p.diferenciaEnMinuts();
         }
 
-        return sumaTemps / peticions.size();}
+        return sumaTemps / peticions.size();
+    }
 
-    };
+};

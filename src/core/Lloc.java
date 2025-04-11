@@ -15,9 +15,12 @@ public class Lloc {
     final int CAPACITATMAXIMA; /// < Capacitat màxima de vehicles en el lloc
     private int id; /// < Identificador del lloc
     private int vehiclesActuals; /// < Nombre de vehicles actuals en el lloc
+    private int x,y;
 
-    public Lloc(int id, int capacitatMaxima) {
+    public Lloc(int id, int capacitatMaxima, int x, int y) {
         this.id = id;
+        this.x = x;
+        this.y = y;
         this.CAPACITATMAXIMA = capacitatMaxima;
     }
 
