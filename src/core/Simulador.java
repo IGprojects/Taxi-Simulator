@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Random;
 
-import events.ArribadaPeticio;
 import events.Event;
 
 /**
@@ -87,9 +87,39 @@ public class Simulador {
      * @post Es genera una petició de trasllat amb dades aleatòries i s'afegeix
      *       a la llista de peticions.
      */
-    public void afegirPeticioAleatoria() {
-
+    public void afegirPeticioAleatoria(List<Lloc> llocsDisponibles) {
+        Random random = new Random();
+    
+        if (llocsDisponibles.size() < 2) return;
+    
+        // Triar origen i destí diferents
+        Lloc origen = llocsDisponibles.get(random.nextInt(llocsDisponibles.size()));
+        Lloc desti;
+        do {
+            desti = llocsDisponibles.get(random.nextInt(llocsDisponibles.size()));
+        } while (desti.equals(origen));
+    
+        // Generar hores aleatòries dins el rang de simulació (entre horaInici i horaFi)
+        int minutsInici = horaInici.toSecondOfDay() / 60;
+        int minutsFi = horaFi.toSecondOfDay() / 60;
+        int marge = minutsFi - minutsInici;
+    
+        int minutsRecollida = minutsInici + random.nextInt(marge - 30); // mínim 30 min abans del final
+        int minutsArribada = minutsRecollida + 15 + random.nextInt(45); // entre 15 i 60 minuts després
+    
+        LocalTime horaMinRecollida = LocalTime.ofSecondOfDay(minutsRecollida * 60);
+        LocalTime horaMaxArribada = LocalTime.ofSecondOfDay(minutsArribada * 60);
+    
+        int numPassatgers = 1 + random.nextInt(4); // entre 1 i 4 passatgers
+        boolean compartida = random.nextBoolean();
+    
+        Peticio peticio = new Peticio(origen, desti, horaMinRecollida, horaMaxArribada, numPassatgers, compartida);
+    
+        // Registrar la petició (pots tenir una llista de peticions al simulador)
+        this.peticions.add(peticio);
+        System.out.println("Afegida petició aleatòria: " + peticio);
     }
+    
 
     /**
      * @pre cert

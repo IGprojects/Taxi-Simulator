@@ -7,9 +7,9 @@ import java.time.LocalTime;
  * @class Peticio
  * @brief Representa una petició de transport feta per un client.
  * @details Conté la informació necessària per determinar si un vehicle pot
- * satisfer la petició.
+ *          satisfer la petició.
  *
- * @author Grup b9
+ * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class Peticio {
@@ -18,11 +18,9 @@ public class Peticio {
     /// < Lloc on el client vol ser recollit.
     private Lloc desti;
     /// < Lloc on el client vol arribar.
-   // private Date horaMinimaRecollida;
     private LocalTime horaMinimaRecollida;
 
     /// < Hora mínima en què el client vol ser recollit.
-    //private Date horaMaximaArribada;
     private LocalTime horaMaximaArribada;
 
     /// < Hora màxima en què el client vol arribar al destí.
@@ -33,6 +31,17 @@ public class Peticio {
     private EstatPeticio estat;
 
     /// < Estat actual de la petició.
+    ///
+    public Peticio(Lloc origen, Lloc desti, LocalTime horaMinimaRecollida, LocalTime horaMaximaArribada,
+            int numPassatgers, boolean vehicleCompartit) {
+        this.origen = origen;
+        this.desti = desti;
+        this.horaMinimaRecollida = horaMinimaRecollida;
+        this.horaMaximaArribada = horaMaximaArribada;
+        this.numPassatgers = numPassatgers;
+        this.vehicleCompartit = vehicleCompartit;
+        this.estat = EstatPeticio.PENDENT; // L'estat inicial podria ser "pendent"
+    }
 
     public EstatPeticio estatActual() {
         return estat;
@@ -86,7 +95,7 @@ public class Peticio {
     /**
      * @pre Cert.
      * @post Retorna true si el client vol un vehicle compartit, false en cas
-     * contrari.
+     *       contrari.
      *
      */
     public boolean esVehicleCompartit() {
