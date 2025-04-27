@@ -8,8 +8,12 @@ import core.Lloc;
 import core.Ruta;
 
 /**
- * Esdeveniment que representa el desplaçament d’un vehicle entre dos llocs.
- * Autor: [el teu nom]
+ * @class Event
+ * @brief Representa un esdeveniment en la simulació.
+ * @details Cada esdeveniment té un temps associat i pot ser comparat amb altres
+ *
+ * @author Dídac Gros Labrador
+ * @version 2025.03.04
  */
 public class MoureVehicleEvent extends Event {
     private Vehicle vehicle;

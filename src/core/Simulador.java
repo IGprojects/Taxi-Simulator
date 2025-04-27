@@ -8,6 +8,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 
 import events.Event;
+import events.IniciRutaEvent;
 
 /**
  * @class Simulador
@@ -89,37 +90,37 @@ public class Simulador {
      */
     public void afegirPeticioAleatoria(List<Lloc> llocsDisponibles) {
         Random random = new Random();
-    
-        if (llocsDisponibles.size() < 2) return;
-    
+
+        if (llocsDisponibles.size() < 2)
+            return;
+
         // Triar origen i destí diferents
         Lloc origen = llocsDisponibles.get(random.nextInt(llocsDisponibles.size()));
         Lloc desti;
         do {
             desti = llocsDisponibles.get(random.nextInt(llocsDisponibles.size()));
         } while (desti.equals(origen));
-    
+
         // Generar hores aleatòries dins el rang de simulació (entre horaInici i horaFi)
         int minutsInici = horaInici.toSecondOfDay() / 60;
         int minutsFi = horaFi.toSecondOfDay() / 60;
         int marge = minutsFi - minutsInici;
-    
+
         int minutsRecollida = minutsInici + random.nextInt(marge - 30); // mínim 30 min abans del final
         int minutsArribada = minutsRecollida + 15 + random.nextInt(45); // entre 15 i 60 minuts després
-    
+
         LocalTime horaMinRecollida = LocalTime.ofSecondOfDay(minutsRecollida * 60);
         LocalTime horaMaxArribada = LocalTime.ofSecondOfDay(minutsArribada * 60);
-    
+
         int numPassatgers = 1 + random.nextInt(4); // entre 1 i 4 passatgers
         boolean compartida = random.nextBoolean();
-    
+
         Peticio peticio = new Peticio(origen, desti, horaMinRecollida, horaMaxArribada, numPassatgers, compartida);
-    
+
         // Registrar la petició (pots tenir una llista de peticions al simulador)
         this.peticions.add(peticio);
         System.out.println("Afegida petició aleatòria: " + peticio);
     }
-    
 
     /**
      * @pre cert
@@ -129,7 +130,8 @@ public class Simulador {
     public void iniciar() {
         while (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
             // Processar esdeveniments fins a l'hora actual
-            assignarPeticio();
+            planificarRutes();
+            executarRutes();
             Event e = esdeveniments.poll();
             horaActual = e.getTemps();
             e.executar(this);
@@ -138,44 +140,22 @@ public class Simulador {
         finalitzar();
     }
 
-    private void assignarPeticio() {
-        // Assignar la petició al vehicle i eliminar-la de la llista de peticions
-        boolean peticioAssignada = false;
-        List<Conductor> conductorsCopia = new ArrayList<>(conductors);
-        Peticio p = peticioActual();
+    /**
+     * @pre Cert.
+     * @post Es planifica (si cal) i s'executa la ruta de tots els conductors
+     *       disponibles.
+     */
+    private void planificarRutes() {
+        for (Conductor c : conductors) {
+            Ruta r = c.planificarRuta(mapa, peticions); // passa-li el mapa i les peticions
+            IniciRutaEvent event = new IniciRutaEvent(r.obtenirHoraInici(), r.obtenirConductor(), r.obtenirConductor().obtenirVehicle(), r);
+            esdeveniments.add(event);
+        }
+    }
 
-        while (!peticioAssignada && !conductorsCopia.isEmpty()) {
-            double distanciaMinima = Double.MAX_VALUE;
-            Conductor conductorMinim = null;
-            for (int i = 0; i < conductorsCopia.size(); i++) {
-                Conductor c = conductors.get(i);
-                double distancia = mapa.calcularDistancia(c.getPosicio(), p.obtenirOrigen());
-                if (distancia < distanciaMinima) {
-                    distanciaMinima = distancia;
-                    conductorMinim = c;
-                }
-            }
-            if (conductorMinim instanceof ConductorVoraç) {
-                ConductorVoraç c = (ConductorVoraç) conductorMinim;
-                if (c.potExecutarRuta(p)) {
-                    c.executarRuta();
-                    peticioAssignada = true;
-                    peticioServida();
-                    
-                } else {
-                    conductorsCopia.remove(conductorMinim);
-                }
-            } else if (conductorMinim instanceof ConductorPlanificador) {
-                ConductorPlanificador c = (ConductorPlanificador) conductorMinim;
-                if (c.potExecutarRuta(p)) {
-                    c.planificarRuta(mapa, peticions);
-                    peticioAssignada = true;
-                    peticioServida();
-
-                } else {
-                    conductorsCopia.remove(conductorMinim);
-                }
-            }
+    private void executarRutes() {
+        for (Conductor c : conductors) {
+            c.executarRuta(null, null);
         }
     }
 
@@ -204,7 +184,7 @@ public class Simulador {
      * @post Tanca la simulació i mostra un resum dels resultats.
      */
     private void finalitzar() {
-
+        System.out.println("Simulació finalitzada.");
     }
 
     /**

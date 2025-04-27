@@ -5,7 +5,7 @@ package core;
  * @details Cada camí és unidireccional i conté informació sobre la distància i
  *          el temps estimat de trajecte.
  * 
- * @author Grup b9
+ * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class Cami {

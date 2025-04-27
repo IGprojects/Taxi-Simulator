@@ -5,6 +5,15 @@ import java.time.LocalTime;
 import core.Ruta;
 import core.Simulador;
 import core.Vehicle;
+
+/**
+ * @class Event
+ * @brief Representa un esdeveniment en la simulació.
+ * @details Cada esdeveniment té un temps associat i pot ser comparat amb altres
+ *
+ * @author Dídac Gros Labrador
+ * @version 2025.03.04
+ */
 public abstract class Event implements Comparable<Event> {
     protected LocalTime temps;
 
@@ -23,4 +32,3 @@ public abstract class Event implements Comparable<Event> {
 
     public abstract void executar(Simulador simulador);
 }
-

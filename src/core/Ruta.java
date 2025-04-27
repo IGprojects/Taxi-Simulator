@@ -1,4 +1,5 @@
 package core;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -8,13 +9,23 @@ import java.util.Map;
  * @details Conté una seqüència de llocs per on passa la ruta, així com la
  * distància i el temps total del recorregut.
  *
- * @author Grup b9
+ * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class Ruta {
     private List<Lloc> llocs; ///< Llista de llocs que formen la ruta.
-    double distanciaTotal; ///< Distància total de la ruta.
-    double tempsTotal; ///< Temps total de la ruta.
+    private double distanciaTotal; ///< Distància total de la ruta.
+    private double tempsTotal; ///< Temps total de la ruta.
+    private LocalTime horaInici; ///< Hora d'inici de la ruta.
+    private Conductor conductor; ///< Conductor que realitza la ruta.
+
+    public Ruta(List<Lloc> llocs, LocalTime horaInici, double distanciaTotal, double tempsTotal, Conductor conductor) {
+        this.llocs = llocs;
+        this.distanciaTotal = distanciaTotal;
+        this.tempsTotal = tempsTotal;
+        this.horaInici = horaInici;
+        this.conductor = conductor;
+    }
 
     /**
      * @pre llocs != null
@@ -58,6 +69,26 @@ public class Ruta {
      */
     public double obtenirTempsTotal() {
         return tempsTotal;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna el conductor que realitza la ruta.
+     *
+     * @return Conductor que realitza la ruta.
+     */
+    public Conductor obtenirConductor() {
+        return conductor;
+    }
+
+     /**
+     * @pre Cert.
+     * @post Retorna l'hora inicial.
+     *
+     * @return Hora inicial.
+     */
+    public LocalTime obtenirHoraInici() {
+        return horaInici;
     }
 
     /**
