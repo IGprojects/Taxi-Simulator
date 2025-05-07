@@ -136,5 +136,35 @@ public class Mapa {
 
 
     
+        /**
+     * 
+     * 
+     * 
+     * @param origen
+     * @param desti
+     * @return
+     */
+    public Map<Lloc, List<Cami>> getLlocs() {
+        return llocs;
+    }
+
+    /**
+     * 
+     * 
+     * 
+     * @param id
+     * @return
+     */
+    public Lloc getLlocPerId(int id) {
+        for (Lloc lloc : llocs.keySet()) {
+            if (lloc.obtenirId() == id)
+                return lloc;
+        }
+        return null;
+    }
+
+
+
+
 
 }
