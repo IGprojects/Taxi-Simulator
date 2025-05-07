@@ -19,6 +19,7 @@ public class Lloc {
     public Lloc(int id, int capacitatMaxima) {
         this.id = id;
         this.capacitatMaxima = capacitatMaxima;
+        this.vehiclesActuals = 0;
     }
 
     /**
