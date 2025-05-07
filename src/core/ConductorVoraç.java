@@ -1,7 +1,5 @@
 package core;
 
-import java.util.List;
-
 /**
  * @class ConductorVoraç
  * @brief Defineix un tipus de conductor (conductor voraç)
@@ -15,7 +13,12 @@ public class ConductorVoraç extends Conductor {
         super(id, nom, vehicle);
     }
 
-    public void executarRuta(Mapa mapa, Ruta r, List<Peticio> peticions, Vehicle v) {
+    @Override
+    public void executarRuta(Ruta r, Vehicle v) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /*public void executarRuta(Mapa mapa, Ruta r, List<Peticio> peticions, Vehicle v) {
         for (Lloc lloc : r.getLlocs()) {
             Lloc desti = r.getLlocDesti();
             if (v.consumirBateria(mapa.calcularDistancia(v.getUbicacioActual(), desti))) {
@@ -26,7 +29,7 @@ public class ConductorVoraç extends Conductor {
 
         }
     }
-
+*/
     /**
      * @pre Cert.
      * @post Decideix el moviment del conductor basant-se en el mapa i les

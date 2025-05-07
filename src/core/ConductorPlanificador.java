@@ -1,7 +1,6 @@
 package core;
 import java.util.List;
 import java.util.Set;
-import java.util.HashSet;
 
 
 /**
@@ -21,10 +20,10 @@ public class ConductorPlanificador extends Conductor {
      *      
      * @param vehicle Vehicle assignat al conductor.
      *   */
-        public void decidirMoviment(Mapa mapa, Set<Peticio> peticions) {
+        /*  public void decidirMoviment(Mapa mapa, Set<Peticio> peticions) {
             Ruta ruta = planificarRuta(mapa, peticions);
             executarRuta(ruta, vehicle);
-        }
+        }*/
 
         /**
          * @pre mapa != null && peticions != null
@@ -34,7 +33,7 @@ public class ConductorPlanificador extends Conductor {
          * @param peticions Llista de peticions disponibles.
          * @return Ruta planificada.
          */
-        public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
+        /*public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
             Ruta ruta = new Ruta();
             Lloc ubicacioActual = mapa.getCarregadorPrivatPredeterminat();
             Set<Peticio> pendents = new HashSet<>(peticions);
@@ -59,7 +58,7 @@ public class ConductorPlanificador extends Conductor {
             }
 
             return ruta;
-        }
+        }*/
 
         /**
          * @pre r != null && v != null
@@ -69,7 +68,7 @@ public class ConductorPlanificador extends Conductor {
          * @param v Vehicle que executarà la ruta.
          */
 
-        @Override
+        /*@Override
         public void executarRuta(Ruta r, Vehicle v) {
             for (Tram tram : r.obtenirTrams()) {
                 Lloc desti = tram.obtenirDesti();
@@ -117,4 +116,9 @@ public class ConductorPlanificador extends Conductor {
 
             return millor;
         }
+
+    @Override
+    public void executarRuta(Ruta r, Vehicle v) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     }
