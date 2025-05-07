@@ -15,6 +15,13 @@ public class Cami {
     double distancia; ///< Distància en quilòmetres.
     double temps; ///< Temps estimat en minuts.
 
+    public Cami(Lloc origen, Lloc desti, double distancia, double temps) {
+        this.origen = origen;
+        this.desti = desti;
+        this.distancia = distancia;
+        this.temps = temps;
+    }
+
     /** 
      * @pre Cert.
      * @post Retorna el punt d'origen del camí.

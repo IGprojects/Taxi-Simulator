@@ -7,21 +7,18 @@ import java.util.List;
  * @brief Característiques de cada lloc
  * @details Definirà els atributs de cada lloc
  *
- * @author Grup b9
+ * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class Lloc {
 
-    final int CAPACITATMAXIMA; /// < Capacitat màxima de vehicles en el lloc
-    private int id; /// < Identificador del lloc
+    protected int capacitatMaxima; /// < Capacitat màxima de vehicles en el lloc
+    protected int id; /// < Identificador del lloc
     private int vehiclesActuals; /// < Nombre de vehicles actuals en el lloc
-    private int x,y;
 
-    public Lloc(int id, int capacitatMaxima, int x, int y) {
+    public Lloc(int id, int capacitatMaxima) {
         this.id = id;
-        this.x = x;
-        this.y = y;
-        this.CAPACITATMAXIMA = capacitatMaxima;
+        this.capacitatMaxima = capacitatMaxima;
     }
 
     /**
@@ -32,7 +29,7 @@ public class Lloc {
      * @return Capacitat màxima de vehicles en el lloc.
      */
     int obtenirCapacitatMaxima() {
-        return CAPACITATMAXIMA;
+        return capacitatMaxima;
     }
 
     /**
@@ -76,7 +73,17 @@ public class Lloc {
      * @return true si el lloc està ple, false en cas contrari.
      */
     boolean estaPle() {
-        return vehiclesActuals == CAPACITATMAXIMA;
+        return vehiclesActuals == capacitatMaxima;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna l'identificador del lloc.
+     * 
+     * @return Identificador del lloc.
+     */
+    public int obtenirId() {
+        return id;
     }
 
 }

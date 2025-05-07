@@ -30,10 +30,11 @@ public class Simulador {
     private Mapa mapa; /// < Mapa de la ciutat.
     private PriorityQueue<Event> esdeveniments = new PriorityQueue<>(); /// < Esdeveniments programats.
 
-    public Simulador(LocalTime horaInici, LocalTime horaFi, Mapa mapa) {
-        this.vehicles = new ArrayList<Vehicle>();
-        this.conductors = new ArrayList<Conductor>();
-        this.peticions = new ArrayList<Peticio>();
+    public Simulador(LocalTime horaInici, LocalTime horaFi, Mapa mapa, List<Vehicle> vehicles,
+            List<Conductor> conductors, List<Peticio> peticions) {
+        this.vehicles = vehicles;;
+        this.conductors = conductors;
+        this.peticions = peticions;
         this.horaInici = horaInici;
         this.horaFi = horaFi;
         this.mapa = mapa;
@@ -148,7 +149,8 @@ public class Simulador {
     private void planificarRutes() {
         for (Conductor c : conductors) {
             Ruta r = c.planificarRuta(mapa, peticions); // passa-li el mapa i les peticions
-            IniciRutaEvent event = new IniciRutaEvent(r.obtenirHoraInici(), r.obtenirConductor(), r.obtenirConductor().obtenirVehicle(), r);
+            IniciRutaEvent event = new IniciRutaEvent(r.obtenirHoraInici(), r.obtenirConductor(),
+                    r.obtenirConductor().obtenirVehicle(), r);
             esdeveniments.add(event);
         }
     }

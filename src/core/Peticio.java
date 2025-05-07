@@ -14,6 +14,7 @@ import java.time.LocalTime;
  */
 public class Peticio {
 
+    private int id; /// < Identificador de la petició.
     private Lloc origen;
     /// < Lloc on el client vol ser recollit.
     private Lloc desti;
@@ -32,8 +33,9 @@ public class Peticio {
 
     /// < Estat actual de la petició.
     ///
-    public Peticio(Lloc origen, Lloc desti, LocalTime horaMinimaRecollida, LocalTime horaMaximaArribada,
+    public Peticio(int id, Lloc origen, Lloc desti, LocalTime horaMinimaRecollida, LocalTime horaMaximaArribada,
             int numPassatgers, boolean vehicleCompartit) {
+        this.id = id;
         this.origen = origen;
         this.desti = desti;
         this.horaMinimaRecollida = horaMinimaRecollida;

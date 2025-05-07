@@ -10,6 +10,10 @@ import java.util.HashSet;
  */
 public class ConductorPlanificador extends Conductor {
 
+    public ConductorPlanificador(int id, String nom, Vehicle vehicle) {
+        super(id, nom, vehicle);
+    }
+
 
     /**
      * @pre vehicle != null && vehicle.teAutonomiaSuficient()

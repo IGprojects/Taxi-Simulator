@@ -15,9 +15,9 @@ public class Vehicle {
     final double TEMPSCARGARAPIDA; ///< Temps en minuts per carregar la bateria amb carga ràpida.
     final double TEMPSCARGALENTA; ///< Temps en minuts per carregar la bateria amb carga lenta.
 
+    private int id; ///< Identificador del vehicle.
     private Lloc ubicacio; ///< Lloc on es troba actualment el vehicle.
-    private Conductor conductor; ///< Conductor del vehicle.
-    private double bateria; ///< Nivell de bateria del vehicle (0% - 100%).
+    private double bateria; ///< Nivell actual de bateria del vehicle (0% - 100%).
     private int numPassatgers; ///< Nombre de passatgers actuals del vehicle.
     private boolean carregant; ///< Indica si el vehicle està carregant.
 
@@ -25,17 +25,21 @@ public class Vehicle {
      * Constructor de la classe Vehicle.
      *
      * @param ubicacio La ubicació inicial del vehicle.
-     * @param conductor El conductor que gestionarà el vehicle.
      */
-    public Vehicle(Lloc ubicacio, Conductor conductor, int maxpassatgers, int autonomia,double tempsCargaLenta,double tempsCargaRapida) {
+    public Vehicle(int id, Lloc ubicacio ,int maxpassatgers, int autonomia,double tempsCargaLenta,double tempsCargaRapida) {
+        this.id = id;
         this.ubicacio = ubicacio;
-        this.conductor = conductor;
         this.bateria = 100.0;           // La bateria comença plena
         this.numPassatgers = 0;         // El vehicle comença buit
         this.AUTONOMIA = autonomia;
         this.MAXPASSATGERS = maxpassatgers;
         this.TEMPSCARGALENTA=tempsCargaLenta;
         this.TEMPSCARGARAPIDA=tempsCargaRapida;
+        this.carregant = false;         // El vehicle no està carregant inicialment
+    }
+
+    public int getId() {
+        return id;
     }
 
     /**
