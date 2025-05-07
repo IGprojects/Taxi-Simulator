@@ -116,7 +116,7 @@ public class Simulador {
         int numPassatgers = 1 + random.nextInt(4); // entre 1 i 4 passatgers
         boolean compartida = random.nextBoolean();
 
-        Peticio peticio = new Peticio(origen, desti, horaMinRecollida, horaMaxArribada, numPassatgers, compartida);
+        Peticio peticio = new Peticio(99, origen, desti, horaMinRecollida, horaMaxArribada, numPassatgers, compartida);
 
         // Registrar la petició (pots tenir una llista de peticions al simulador)
         this.peticions.add(peticio);
@@ -131,7 +131,7 @@ public class Simulador {
     public void iniciar() {
         while (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
             // Processar esdeveniments fins a l'hora actual
-            planificarRutes();
+            // planificarRutes();
             executarRutes();
             Event e = esdeveniments.poll();
             horaActual = e.getTemps();
@@ -146,14 +146,14 @@ public class Simulador {
      * @post Es planifica (si cal) i s'executa la ruta de tots els conductors
      *       disponibles.
      */
-    private void planificarRutes() {
-        for (Conductor c : conductors) {
-            Ruta r = c.planificarRuta(mapa, peticions); // passa-li el mapa i les peticions
-            IniciRutaEvent event = new IniciRutaEvent(r.obtenirHoraInici(), r.obtenirConductor(),
-                    r.obtenirConductor().obtenirVehicle(), r);
-            esdeveniments.add(event);
-        }
-    }
+    // private void planificarRutes() {
+    //     for (Conductor c : conductors) {
+    //         Ruta r = c.planificarRuta(mapa, peticions); // passa-li el mapa i les peticions
+    //         IniciRutaEvent event = new IniciRutaEvent(r.obtenirHoraInici(), r.obtenirConductor(),
+    //                 r.obtenirConductor().obtenirVehicle(), r);
+    //         esdeveniments.add(event);
+    //     }
+    // }
 
     private void executarRutes() {
         for (Conductor c : conductors) {

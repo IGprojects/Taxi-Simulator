@@ -28,7 +28,7 @@ public class Lloc {
      * 
      * @return Capacitat màxima de vehicles en el lloc.
      */
-    int obtenirCapacitatMaxima() {
+    public int obtenirCapacitatMaxima() {
         return capacitatMaxima;
     }
 

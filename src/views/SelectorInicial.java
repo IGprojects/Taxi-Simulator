@@ -1,13 +1,16 @@
-package myapp;
+package views;
 
 import java.awt.*;
 import java.io.File;
+import java.time.LocalTime;
+
 import javax.swing.*;
 
 public class SelectorInicial {
 
     public interface DadesIniciListener {
-        void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions, String horaInici, String horaFinal);
+        void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions,
+                LocalTime horaInici, LocalTime horaFinal);
     }
 
     public static void mostrar(DadesIniciListener listener) {
@@ -22,11 +25,11 @@ public class SelectorInicial {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         JLabel[] labels = {
-            new JLabel("Mapa.csv:"),
-            new JLabel("Connexions.csv:"),
-            new JLabel("Vehicles.csv:"),
-            new JLabel("Conductors.csv:"),
-            new JLabel("Peticions.csv:")
+                new JLabel("Llocs.csv:"),
+                new JLabel("Connexions.csv:"),
+                new JLabel("Vehicles.csv:"),
+                new JLabel("Conductors.csv:"),
+                new JLabel("Peticions.csv:")
         };
 
         JButton[] fileButtons = new JButton[5];
@@ -54,36 +57,45 @@ public class SelectorInicial {
         JTextField horaIniciField = new JTextField();
         JTextField horaFinalField = new JTextField();
 
-        gbc.gridx = 0; gbc.gridy = 5;
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         panel.add(horaIniciLabel, gbc);
         gbc.gridx = 1;
         panel.add(horaIniciField, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 6;
+        gbc.gridx = 0;
+        gbc.gridy = 6;
         panel.add(horaFinalLabel, gbc);
         gbc.gridx = 1;
         panel.add(horaFinalField, gbc);
 
         JButton startBtn = new JButton("Iniciar simulació");
-        gbc.gridx = 0; gbc.gridy = 7; gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
         panel.add(startBtn, gbc);
 
         startBtn.addActionListener(e -> {
             for (int i = 0; i < 5; i++) {
                 if (selectedFiles[i] == null) {
-                    JOptionPane.showMessageDialog(frame, "Selecciona tots els fitxers!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Selecciona tots els fitxers!", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
-            String horaInici = horaIniciField.getText().trim();
-            String horaFinal = horaFinalField.getText().trim();
-            if (!horaInici.matches("\\d{2}:\\d{2}") || !horaFinal.matches("\\d{2}:\\d{2}")) {
-                JOptionPane.showMessageDialog(frame, "Format d'hora incorrecte. Usa HH:mm", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
+            try {
+                LocalTime horaInici = LocalTime.parse(horaIniciField.getText().trim());
+                LocalTime horaFinal = LocalTime.parse(horaFinalField.getText().trim());
+
+                frame.dispose(); // Tanca aquesta finestra
+                listener.onDadesCompletades(
+                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],
+                        horaInici, horaFinal);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, "Format d'hora incorrecte. Usa HH:mm", "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
-            frame.dispose(); // Tanca aquesta finestra
-            listener.onDadesCompletades(selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4], horaInici, horaFinal);
         });
 
         frame.add(panel);

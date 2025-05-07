@@ -1,8 +1,12 @@
 package core;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @class Mapa
@@ -113,7 +117,8 @@ public class Mapa {
             visitats.add(actual);
             List<Cami> camins = llocs.get(actual);
 
-            if (camins == null || camins.isEmpty()) break;
+            if (camins == null || camins.isEmpty())
+                break;
 
             Cami millor = null;
             for (Cami c : camins) {
@@ -124,19 +129,19 @@ public class Mapa {
                 }
             }
 
-            if (millor == null) break;
+            if (millor == null)
+                break;
 
             actual = millor.obtenirDesti();
             cami.add(actual);
         }
 
-        if (!actual.equals(desti)) return Collections.emptyList();
+        if (!actual.equals(desti))
+            return Collections.emptyList();
         return cami;
-}
+    }
 
-
-    
-        /**
+    /**
      * 
      * 
      * 
@@ -162,9 +167,5 @@ public class Mapa {
         }
         return null;
     }
-
-
-
-
 
 }

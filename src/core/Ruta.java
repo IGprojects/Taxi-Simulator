@@ -99,10 +99,4 @@ public class Ruta {
     public boolean esBuida() {
         return llocs.isEmpty();
     }
-
-
-    public afegirPeticioPlanificada(Peticio peticio){
-        
-
-    }
 }

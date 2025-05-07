@@ -1,18 +1,41 @@
-package myapp;
+package views;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.*;
+
+import core.Cami;
+import core.Lloc;
+import core.Mapa;
 
 public class MapPanel extends JPanel {
 
     private final Mapa mapa;
     private List<Cami> caminsActius = new java.util.ArrayList<>();
+    private final Map<Lloc, Point> posicions = new HashMap<>();
 
     public MapPanel(Mapa mapa) {
         this.mapa = mapa;
         setBackground(Color.WHITE);
+        calcularPosicionsAutomatiques(); // Nou
+    }
+
+    private void calcularPosicionsAutomatiques() {
+        int margin = 100;
+        int separacio = 120;
+        int cols = (int) Math.ceil(Math.sqrt(mapa.getLlocs().size()));
+        int i = 0;
+
+        for (Lloc lloc : mapa.getLlocs().keySet()) {
+            int row = i / cols;
+            int col = i % cols;
+            int x = margin + col * separacio;
+            int y = margin + row * separacio;
+            posicions.put(lloc, new Point(x, y));
+            i++;
+        }
     }
 
     public void setCaminsActius(List<Cami> camins) {
@@ -20,13 +43,14 @@ public class MapPanel extends JPanel {
         repaint();
     }
 
-    //pintar una aresta faltara ficar delays per fer afecte de pas entre diferentes arestes
+    // pintar una aresta faltara ficar delays per fer afecte de pas entre diferentes
+    // arestes
     public void destacarCamiEntre(int idOrigen, int idDesti) {
         for (Map.Entry<Lloc, List<Cami>> entry : mapa.getLlocs().entrySet()) {
             for (Cami cami : entry.getValue()) {
-                if ((cami.obtenirOrigen().getId() == idOrigen && cami.obtenirDesti().getId() == idDesti) ||
-                    (cami.obtenirOrigen().getId() == idDesti && cami.obtenirDesti().getId() == idOrigen)) {
-    
+                if ((cami.obtenirOrigen().obtenirId() == idOrigen && cami.obtenirDesti().obtenirId() == idDesti) ||
+                        (cami.obtenirOrigen().obtenirId() == idDesti && cami.obtenirDesti().obtenirId() == idOrigen)) {
+
                     if (!caminsActius.contains(cami)) {
                         caminsActius.add(cami);
                         repaint();
@@ -35,11 +59,9 @@ public class MapPanel extends JPanel {
                 }
             }
         }
-    
+
         System.out.println("Cap camí trobat entre " + idOrigen + " i " + idDesti);
     }
-    
-
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -54,10 +76,10 @@ public class MapPanel extends JPanel {
             for (Cami cami : entry.getValue()) {
                 Lloc desti = cami.obtenirDesti();
 
-                int x1 = origen.getX();
-                int y1 = origen.getY();
-                int x2 = desti.getX();
-                int y2 = desti.getY();
+                Point p1 = posicions.get(origen);
+                Point p2 = posicions.get(desti);
+                int x1 = p1.x, y1 = p1.y;
+                int x2 = p2.x, y2 = p2.y;
 
                 if (caminsActius.contains(cami)) {
                     g2.setColor(Color.RED);
@@ -73,8 +95,9 @@ public class MapPanel extends JPanel {
 
         // Dibuixar llocs
         for (Lloc lloc : mapa.getLlocs().keySet()) {
-            int x = lloc.getX();
-            int y = lloc.getY();
+            Point p = posicions.get(lloc);
+            int x = p.x, y = p.y;
+            
             int size = 50;
 
             if (lloc.obtenirCapacitatMaxima() > 0) {
@@ -87,7 +110,7 @@ public class MapPanel extends JPanel {
 
             g2.setColor(Color.WHITE);
             g2.setFont(new Font("SansSerif", Font.BOLD, 16));
-            String text = String.valueOf(lloc.getId());
+            String text = String.valueOf(lloc.obtenirId());
             FontMetrics fm = g2.getFontMetrics();
             int textWidth = fm.stringWidth(text);
             int textHeight = fm.getHeight();
