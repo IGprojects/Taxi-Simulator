@@ -168,4 +168,13 @@ public class Mapa {
         return null;
     }
 
+
+    public getCarregadorPrivatPredeterminat() {
+        for (Lloc lloc : llocs.keySet()) {
+            if (lloc.esCarregadorPrivat())
+                return lloc;
+        }
+        return null;
+    }
+
 }

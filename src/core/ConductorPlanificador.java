@@ -12,6 +12,20 @@ import java.util.ArrayList;
 public class ConductorPlanificador extends Conductor {
 
     public void decidirMoviment(Mapa mapa, List<Peticio> peticions) {
+        //if (peticions.isEmpty()) {
+            // No hi ha peticions pendents, anar al carregador privat
+            //Lloc carregador = mapa.getCarregadorPrivatPredeterminat();
+            //double dist = mapa.getDistancia(vehicle.getUbicacioActual().getId(), carregador.getId());
+            //if (!vehicle.potFerViatge(dist)) {
+              //  System.out.println("ATENCIÓ: El vehicle no pot arribar ni al punt de càrrega.");
+                //return;
+            //}
+
+            //vehicle.moure(carregador, dist);
+            //vehicle.consumirBateria(dist);
+            //vehicle.carregarBateria(100.0);
+            //return;
+        //}
         Lloc ubicacioActual = vehicle.getUbicacioActual();
         List<Peticio> pendents = new ArrayList<>(peticions);
         Ruta ruta = new Ruta();
@@ -27,7 +41,7 @@ public class ConductorPlanificador extends Conductor {
             double distanciaTotal = mapa.getDistancia(ubicacioActual.getId(), origen) +
                                     mapa.getDistancia(origen.getId(), desti);
 
-            double percentatgeDespres = vehicle.getBateria() - ((distanciaTotal / vehicle.getAutonomia()) * 100);
+            double percentatgeDespres = vehicle.obtenirBateria() - ((distanciaTotal / vehicle.getAutonomia()) * 100);
 
             if (vehicle.potFerViatge(distanciaTotal) && percentatgeDespres >= 20) {
                 // Executar directament
