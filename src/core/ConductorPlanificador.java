@@ -1,6 +1,8 @@
 package core;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.ArrayList;
 
 
 /**
@@ -9,116 +11,147 @@ import java.util.Set;
  */
 public class ConductorPlanificador extends Conductor {
 
-    public ConductorPlanificador(int id, String nom, Vehicle vehicle) {
-        super(id, nom, vehicle);
+    public void decidirMoviment(Mapa mapa, List<Peticio> peticions) {
+        Lloc ubicacioActual = vehicle.getUbicacioActual();
+        List<Peticio> pendents = new ArrayList<>(peticions);
+        Ruta ruta = new Ruta();
+        boolean haTrobat = false;
+
+        while (!pendents.isEmpty()) {
+            Peticio millor = seleccionarMillorPeticio(ubicacioActual, pendents, mapa, vehicle);
+            if (millor == null) break;
+
+            Lloc origen = millor.obtenirOrigen();
+            Lloc desti = millor.obtenirDesti();
+
+            double distanciaTotal = mapa.getDistancia(ubicacioActual.getId(), origen) +
+                                    mapa.getDistancia(origen.getId(), desti);
+
+            double percentatgeDespres = vehicle.getBateria() - ((distanciaTotal / vehicle.getAutonomia()) * 100);
+
+            if (vehicle.potFerViatge(distanciaTotal) && percentatgeDespres >= 20) {
+                // Executar directament
+                vehicle.moure(origen, mapa.getDistancia(ubicacioActual.getId(), origen));
+                vehicle.consumirBateria(mapa.getDistancia(ubicacioActual.getId(), origen));
+
+                vehicle.moure(desti, mapa.getDistancia(origen.getId(), desti));
+                vehicle.consumirBateria(mapa.getDistancia(origen.getId(), desti));
+
+                // Simulem càrrega i descàrrega
+                if (origen.esRecollida()) vehicle.afegirPassatgers(millor.obtenirNumPassatgers());
+                if (desti.esDeixada()) vehicle.alliberarPassatgers();
+
+                ubicacioActual = desti;
+                pendents.remove(millor);
+                haTrobat = true;
+            } else {
+                pendents.remove(millor);
+            }
+        }
+
+        if (!haTrobat) {
+            // No hi ha peticions viables → anar al carregador privat
+            Lloc carregador = mapa.getCarregadorPrivatPredeterminat();
+            double dist = mapa.getDistancia(ubicacioActual.getId(), carregador.getId());
+            if (!vehicle.potFerViatge(dist)) {
+                System.out.println("ATENCIÓ: El vehicle no pot arribar ni al punt de càrrega.");
+                return;
+            }
+
+            vehicle.moure(carregador, dist);
+            vehicle.consumirBateria(dist);
+            vehicle.carregarBateria(100.0);
+        }
     }
 
+    public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
+        Ruta ruta = new Ruta();
+        Lloc ubicacioActual = mapa.getCarregadorPrivatPredeterminat();
+        Set<Peticio> pendents = new HashSet<>(peticions);
 
-    /**
-     * @pre vehicle != null && vehicle.teAutonomiaSuficient()
-     * @post Crea un conductor planificador amb un vehicle assignat.            
-     *      
-     * @param vehicle Vehicle assignat al conductor.
-     *   */
-        /*  public void decidirMoviment(Mapa mapa, Set<Peticio> peticions) {
-            Ruta ruta = planificarRuta(mapa, peticions);
-            executarRuta(ruta, vehicle);
-        }*/
+        while (!pendents.isEmpty()) {
+            Peticio millor = seleccionarMillorPeticio(ubicacioActual, pendents, mapa);
+            if (millor != null) {
+                Lloc origen = millor.obtenirOrigen();
+                Lloc desti = millor.obtenirDesti();
 
-        /**
-         * @pre mapa != null && peticions != null
-         * @post Retorna una ruta planificada per al vehicle.
-         *
-         * @param mapa      El mapa de la simulació.
-         * @param peticions Llista de peticions disponibles.
-         * @return Ruta planificada.
-         */
-        /*public Ruta planificarRuta(Mapa mapa, Set<Peticio> peticions) {
-            Ruta ruta = new Ruta();
-            Lloc ubicacioActual = mapa.getCarregadorPrivatPredeterminat();
-            Set<Peticio> pendents = new HashSet<>(peticions);
+                double distTotal = mapa.getDistancia(ubicacioActual.getId(), origen) +
+                                   mapa.getDistancia(origen.getId(), desti);
+                double percentDespres = vehicle.getBateria() - ((distTotal / vehicle.getAutonomia()) * 100);
 
-            while (!pendents.isEmpty()) {
-                Peticio millor = seleccionarMillorPeticio(ubicacioActual, pendents, mapa);
-                if (millor != null){
-
-                    Lloc origen = millor.obtenirOrigen();
-                    Lloc desti = millor.obtenirDesti();
-
+                if (vehicle.potFerViatge(distTotal) && percentDespres >= 20) {
                     List<Lloc> camiFinsOrigen = mapa.camiVoraç(ubicacioActual, origen);
                     List<Lloc> camiFinsDesti = mapa.camiVoraç(origen, desti);
 
-                    ruta.afegirCami(cacamiFinsOrigenmi);
-                    ruta.afegirCami(camiFinsDesti);
-                    ruta.afegirPeticioPlanificada(millor);
+                    ruta.afegirTram(camiFinsOrigen);
+                    ruta.afegirTram(camiFinsDesti);
+                    ruta.afegirPeticio(millor);
 
+                    vehicle.consumirBateria(distTotal);
                     ubicacioActual = desti;
                     pendents.remove(millor);
-                }
-            }
-
-            return ruta;
-        }*/
-
-        /**
-         * @pre r != null && v != null
-         * @post Executa la ruta planificada pel vehicle.
-         *
-         * @param r Ruta a executar.
-         * @param v Vehicle que executarà la ruta.
-         */
-
-        /*@Override
-        public void executarRuta(Ruta r, Vehicle v) {
-            for (Tram tram : r.obtenirTrams()) {
-                Lloc desti = tram.obtenirDesti();
-                if (v.teAutonomiaSuficient(v.obtenirUbicacioActual(), desti)) {
-                    v.moureFins(desti);
                 } else {
-                    v.carregarBateriaCompleta();
+                    pendents.remove(millor); // petició no viable
                 }
-
-                if (desti.esPuntDeRecollida()) {
-                    v.recollirPassatgers(desti);
-                } else if (desti.esPuntDeDeixada()) {
-                    v.deixarPassatgers(desti);
-                }
+            } else {
+                break;
             }
         }
-        
-        /**
-         * @pre peticions != null
-         * @post Retorna la petició que millor s'ajusta al pla de càrrega.
-         *
-         * @param ubicacioActual La ubicació actual del vehicle.
-         * @param peticions      Llista de peticions disponibles.
-         * @param mapa           El mapa de la simulació.
-         * @return Petició òptima seleccionada.
-         */
 
-        public Peticio seleccionarMillorPeticio(Lloc ubicacioActual, Set<Peticio> peticions, Mapa mapa) {
-            Peticio millor = null;
-            double millorTemps = Double.POSITIVE_INFINITY;
+        // Si no s'ha pogut planificar cap ruta viable, anar al carregador
+        if (ruta.esBuida()) {
+            List<Lloc> camiCarrega = mapa.camiVoraç(ubicacioActual, mapa.getCarregadorPrivatPredeterminat());
+            ruta.afegirTram(camiCarrega);
+        }
 
-            for (Peticio p : peticions) {
-                List<Lloc> cami = mapa.camiVoraç(ubicacioActual, p.obtenirOrigen());
-                double temps = 0;
+        return ruta;
+    }
 
-                for (int i = 0; i < cami.size() - 1; i++) {
-                    temps += mapa.calcularTemps(cami.get(i), cami.get(i + 1));
-                }
+    public void executarRuta(Ruta r, Vehicle v) {
+        for (Tram tram : r.obtenirTrams()) {
+            Lloc desti = tram.obtenirDesti();
+            double distancia = tram.obtenirDistancia();
 
+            if (v.potFerViatge(distancia)) {
+                v.moure(desti, distancia);
+            } else {
+                v.carregarBateria(100.0); // carrega completa al punt privat
+                v.moure(desti, distancia);
+            }
+
+            if (desti.esRecollida()) {
+                int nPassatgers = r.obtenirNumPassatgers(desti);
+                v.afegirPassatgers(nPassatgers);
+            } else if (desti.esDeixada()) {
+                v.alliberarPassatgers();
+            }
+        }
+    }
+
+    private Peticio seleccionarMillorPeticio(Lloc ubicacioActual, List<Peticio> peticions, Mapa mapa, Vehicle vehicle) {
+        Peticio millor = null;
+        double millorTemps = Double.POSITIVE_INFINITY;
+
+        for (Peticio p : peticions) {
+            Lloc origen = p.obtenirOrigen();
+            Lloc desti = p.obtenirDesti();
+
+            double distTotal = mapa.getDistancia(ubicacioActual.getId(), origen) +
+                               mapa.getDistancia(origen.getId(), desti);
+
+            double percentDespres = vehicle.getBateria() - ((distTotal / vehicle.getAutonomia()) * 100);
+
+            if (vehicle.potFerViatge(distTotal) && percentDespres >= 20) {
+                double temps = mapa.getTemps(ubicacioActual.getId(), origen) +
+                               mapa.getTemps(origen.getId(), desti);
                 if (temps < millorTemps) {
                     millor = p;
                     millorTemps = temps;
                 }
             }
-
-            return millor;
         }
 
-    @Override
-    public void executarRuta(Ruta r, Vehicle v) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return millor;
     }
-    }
+}
+
