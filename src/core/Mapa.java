@@ -21,6 +21,7 @@ public class Mapa {
     private Map<Lloc, List<Cami>> llocs; /// < Llista de llocs i les seves connexions
     private int nLlocs; /// < Nombre de llocs del mapa
     private int nConnexions; /// < Nombre de connexions del mapa
+    private boolean esPrivat; /// < Indica si el lloc és un carregador privat
 
     /**
      * Constructor de la classe Mapa
@@ -168,13 +169,18 @@ public class Mapa {
         return null;
     }
 
+    public boolean esCarregadorPrivat() {
+        return this.esPrivat;
+    }
 
-    public getCarregadorPrivatPredeterminat() {
+
+    public Lloc getCarregadorPrivatPredeterminat() {
         for (Lloc lloc : llocs.keySet()) {
             if (lloc.esCarregadorPrivat())
                 return lloc;
         }
         return null;
     }
+
 
 }

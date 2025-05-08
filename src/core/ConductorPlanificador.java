@@ -84,7 +84,7 @@ public class ConductorPlanificador extends Conductor {
         Set<Peticio> pendents = new HashSet<>(peticions);
 
         while (!pendents.isEmpty()) {
-            Peticio millor = seleccionarMillorPeticio(ubicacioActual, pendents, mapa);
+            Peticio millor = seleccionarMillorPeticio(ubicacioActual, pendents, mapa, vehicle);
             if (millor != null) {
                 Lloc origen = millor.obtenirOrigen();
                 Lloc desti = millor.obtenirDesti();
