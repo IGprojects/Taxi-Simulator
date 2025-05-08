@@ -1,3 +1,5 @@
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,6 +11,7 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import core.Cami;
@@ -68,7 +71,8 @@ public class Main {
 
         Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors,
                 peticions);
-        mostrarMapa(mapa, simulador);
+
+        mostrarMapa(mapa, simulador, vehicles, llocs);
     }
 
     public static void main(String[] args) {
@@ -131,7 +135,7 @@ public class Main {
         // }
     }
 
-    private static void mostrarMapa(Mapa mapa, Simulador simulador) {
+    private static void mostrarMapa(Mapa mapa, Simulador simulador, List<Vehicle> vehicles, List<Lloc> llocs) {
         JFrame frame = new JFrame("Visualització del Mapa");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -143,32 +147,24 @@ public class Main {
         JButton startButton = new JButton("Iniciar Simulació");
         frame.add(startButton, java.awt.BorderLayout.SOUTH);
 
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton botoReset = new JButton("Afegir petició aleatòria");
+        topPanel.add(botoReset);
+        frame.add(topPanel, BorderLayout.NORTH);
+
+        // 🔁 Acció del botó
+        botoReset.addActionListener(e -> {
+            simulador.afegirPeticioAleatoria(llocs);
+        });
+
+        simulador.setMapPanel(mapPanel);
+        for (Vehicle vehicle : vehicles) {
+            mapPanel.assignarColorVehicle(vehicle);
+        }
         startButton.addActionListener(e -> {
             simulador.iniciar();
         });
 
         frame.setVisible(true);
-    }
-
-    public static void simularRecorregut(Mapa mapa, MapPanel panel, List<Lloc> ruta, int delayMilisegons) {
-        new Thread(() -> {
-            java.util.List<Cami> caminsRecorreguts = new java.util.ArrayList<>();
-            for (int i = 0; i < ruta.size() - 1; i++) {
-                Lloc origen = ruta.get(i);
-                Lloc desti = ruta.get(i + 1);
-                for (Cami cami : mapa.getLlocs().get(origen)) {
-                    if (cami.obtenirDesti().equals(desti)) {
-                        caminsRecorreguts.add(cami);
-                        panel.setCaminsActius(new java.util.ArrayList<>(caminsRecorreguts));
-                        try {
-                            Thread.sleep(delayMilisegons);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-                        break;
-                    }
-                }
-            }
-        }).start();
     }
 }

@@ -1,5 +1,11 @@
 package core;
 
+import java.time.LocalTime;
+import java.util.List;
+
+import events.FiRutaEvent;
+import events.MoureVehicleEvent;
+
 /**
  * @class ConductorVoraç
  * @brief Defineix un tipus de conductor (conductor voraç)
@@ -14,22 +20,73 @@ public class ConductorVoraç extends Conductor {
     }
 
     @Override
-    public void executarRuta(Ruta r, Vehicle v) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public void executarRuta(Ruta ruta, Vehicle vehicle, Simulador simulador) {
+        List<Lloc> llocs = ruta.getLlocs();
+        LocalTime horaActual = ruta.obtenirHoraInici();
 
-    /*public void executarRuta(Mapa mapa, Ruta r, List<Peticio> peticions, Vehicle v) {
-        for (Lloc lloc : r.getLlocs()) {
-            Lloc desti = r.getLlocDesti();
-            if (v.consumirBateria(mapa.calcularDistancia(v.getUbicacioActual(), desti))) {
-                v.moure(desti, mapa.calcularDistancia(v.getUbicacioActual(), lloc));// falta passar per
-            } else {
-                v.carregarBateria(100);
-            }
+        for (int i = 0; i < llocs.size() - 1; i++) {
+            Lloc origen = llocs.get(i);
+            Lloc desti = llocs.get(i + 1);
 
+            double distancia = simulador.getMapa().calcularDistancia(origen, desti);
+            double temps = simulador.getMapa().calcularTemps(origen, desti);
+
+            horaActual = horaActual.plusMinutes((long) temps);
+
+            MoureVehicleEvent moure = new MoureVehicleEvent(horaActual, vehicle, origen, desti, distancia);
+            simulador.afegirEsdeveniment(moure);
         }
+
+        simulador.afegirEsdeveniment(new FiRutaEvent(horaActual, this));
+
     }
-*/
+
+    public Ruta planificarRuta(Peticio peticio, Mapa mapa) {
+        List<Lloc> cami = mapa.camiVoraç(peticio.obtenirOrigen(), peticio.obtenirDesti());
+        double distanciaTotal = 0;
+        double tempsTotal = 0;
+
+        for (int i = 0; i < cami.size() - 1; i++) {
+            Lloc origen = cami.get(i);
+            Lloc desti = cami.get(i + 1);
+            distanciaTotal += mapa.calcularDistancia(origen, desti);
+            tempsTotal += mapa.calcularTemps(origen, desti);
+        }
+        for (Lloc lloc : cami) {
+            System.out.print("Lloc: " + lloc.obtenirId() + " - ");
+        }
+        System.out.println();
+        return new Ruta(cami, peticio.obtenirHoraMinimaRecollida(), distanciaTotal, tempsTotal, this);
+    }
+
+    public boolean teBateria(double distancia) {
+        // Comprovar si el vehicle pot fer la petició
+        return vehicle.teBateria(distancia);
+    }
+
+    @Override
+    public Ruta planificarCarrega(Mapa mapa, LocalTime horaActual) {
+        // Planificar la ruta de càrrega més propera
+        return mapa.rutaParquingMesProper(vehicle.getUbicacioActual(), horaActual, this);
+
+    }
+
+    /*
+     * public void executarRuta(Mapa mapa, Ruta r, List<Peticio> peticions, Vehicle
+     * v) {
+     * for (Lloc lloc : r.getLlocs()) {
+     * Lloc desti = r.getLlocDesti();
+     * if (v.consumirBateria(mapa.calcularDistancia(v.getUbicacioActual(), desti)))
+     * {
+     * v.moure(desti, mapa.calcularDistancia(v.getUbicacioActual(), lloc));// falta
+     * passar per
+     * } else {
+     * v.carregarBateria(100);
+     * }
+     * 
+     * }
+     * }
+     */
     /**
      * @pre Cert.
      * @post Decideix el moviment del conductor basant-se en el mapa i les

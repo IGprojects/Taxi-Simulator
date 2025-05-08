@@ -69,6 +69,15 @@ public class Peticio {
 
     /**
      * @pre Cert.
+     * @post Retorna la id de la peticio.
+     *
+     */
+    public int obtenirId() {
+        return id;
+    }
+
+    /**
+     * @pre Cert.
      * @post Retorna l'hora més primerenca en què el client vol ser recollit.
      *
      */

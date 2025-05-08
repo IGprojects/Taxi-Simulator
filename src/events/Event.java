@@ -2,9 +2,7 @@ package events;
 
 import java.time.LocalTime;
 
-import core.Ruta;
 import core.Simulador;
-import core.Vehicle;
 
 /**
  * @class Event

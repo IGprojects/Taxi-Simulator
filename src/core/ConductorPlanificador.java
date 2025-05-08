@@ -2,6 +2,7 @@ package core;
 import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 
@@ -10,7 +11,9 @@ import java.util.ArrayList;
  * @brief Conductor que planifica rutes entre càrregues completes.
  */
 public class ConductorPlanificador extends Conductor {
-
+    public ConductorPlanificador(int id, String nom, Vehicle vehicle) {
+        super(id, nom, vehicle);
+    }
     public void decidirMoviment(Mapa mapa, List<Peticio> peticions) {
         //if (peticions.isEmpty()) {
             // No hi ha peticions pendents, anar al carregador privat
@@ -166,6 +169,26 @@ public class ConductorPlanificador extends Conductor {
         }
 
         return millor;
+    }
+    @Override
+    public void executarRuta(Ruta ruta, Vehicle vehicle, Simulador simulador) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'executarRuta'");
+    }
+    @Override
+    public Ruta planificarRuta(Peticio peticio, Mapa mapa) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'planificarRuta'");
+    }
+    @Override
+    public Ruta planificarCarrega(Mapa mapa, LocalTime horaInici) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'planificarCarrega'");
+    }
+    @Override
+    public boolean teBateria(double distancia) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'teBateria'");
     }
 }
 

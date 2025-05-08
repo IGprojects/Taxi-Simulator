@@ -16,7 +16,7 @@ public class SelectorInicial {
     public static void mostrar(DadesIniciListener listener) {
         JFrame frame = new JFrame("Selecció d'arxius i horaris");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 400);
+        frame.setSize(500, 450);
         frame.setLocationRelativeTo(null); // centrat
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -75,6 +75,37 @@ public class SelectorInicial {
         gbc.gridwidth = 2;
         panel.add(startBtn, gbc);
 
+        JButton testBtn = new JButton("Mode proves");
+        gbc.gridy = 8;
+        panel.add(testBtn, gbc);
+
+        // Botó de proves amb valors hardcoded
+        testBtn.addActionListener(e -> {
+            try {
+                selectedFiles[0] = new File(
+                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\llocs.csv");
+                selectedFiles[1] = new File(
+                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\camins.csv");
+                selectedFiles[2] = new File(
+                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\vehicles.csv");
+                selectedFiles[3] = new File(
+                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\conductors.csv");
+                selectedFiles[4] = new File(
+                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\peticions.csv");
+
+                LocalTime horaInici = LocalTime.parse("08:00");
+                LocalTime horaFinal = LocalTime.parse("12:00");
+
+                frame.dispose();
+                listener.onDadesCompletades(
+                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],
+                        horaInici, horaFinal);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, "Error al mode de proves: " + ex.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         startBtn.addActionListener(e -> {
             for (int i = 0; i < 5; i++) {
                 if (selectedFiles[i] == null) {
@@ -87,7 +118,7 @@ public class SelectorInicial {
                 LocalTime horaInici = LocalTime.parse(horaIniciField.getText().trim());
                 LocalTime horaFinal = LocalTime.parse(horaFinalField.getText().trim());
 
-                frame.dispose(); // Tanca aquesta finestra
+                frame.dispose();
                 listener.onDadesCompletades(
                         selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],
                         horaInici, horaFinal);
@@ -95,10 +126,10 @@ public class SelectorInicial {
                 JOptionPane.showMessageDialog(frame, "Format d'hora incorrecte. Usa HH:mm", "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
-
         });
 
         frame.add(panel);
         frame.setVisible(true);
     }
+
 }

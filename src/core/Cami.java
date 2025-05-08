@@ -1,4 +1,5 @@
 package core;
+
 /**
  * @class Cami
  * @brief Representa un camí entre dos llocs del mapa.
@@ -10,10 +11,10 @@ package core;
  */
 public class Cami {
 
-    Lloc origen; ///< Punt d'origen del camí.
-    Lloc desti; ///< Punt de destí del camí.
-    double distancia; ///< Distància en quilòmetres.
-    double temps; ///< Temps estimat en minuts.
+    Lloc origen; /// < Punt d'origen del camí.
+    Lloc desti; /// < Punt de destí del camí.
+    double distancia; /// < Distància en quilòmetres.
+    double temps; /// < Temps estimat en minuts.
 
     public Cami(Lloc origen, Lloc desti, double distancia, double temps) {
         this.origen = origen;
@@ -22,13 +23,29 @@ public class Cami {
         this.temps = temps;
     }
 
-    /** 
+    /**
      * @pre Cert.
      * @post Retorna el punt d'origen del camí.
      *
      */
     public Lloc obtenirOrigen() {
         return origen;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        Cami altre = (Cami) obj;
+        return origen.equals(altre.origen) && desti.equals(altre.desti);
+    }
+
+    @Override
+    public int hashCode() {
+        return origen.hashCode() * 31 + desti.hashCode();
     }
 
     /**

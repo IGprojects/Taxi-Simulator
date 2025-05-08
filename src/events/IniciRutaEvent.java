@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import core.Simulador;
 import core.Vehicle;
 import core.Conductor;
+import core.Lloc;
 import core.Ruta;
 
 public class IniciRutaEvent extends Event {
@@ -16,11 +17,15 @@ public class IniciRutaEvent extends Event {
         this.conductor = conductor;
         this.ruta = ruta;
         this.vehicle = vehicle;
+
+        System.out.println("[" + temps + "] IniciRutaEvent: Conductor " + conductor.getId() + " inicia la ruta amb vehicle "
+                + vehicle.getId());
     }
 
     @Override
     public void executar(Simulador simulador) {
         System.out.println("[" + temps + "] El conductor inicia la ruta.");
-        conductor.executarRuta(ruta, vehicle); 
+        conductor.executarRuta(ruta, vehicle, simulador); // <--- passem el simulador
     }
+
 }
