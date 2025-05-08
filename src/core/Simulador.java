@@ -10,6 +10,7 @@ import java.util.Random;
 import javax.swing.Timer;
 
 import events.Event;
+import events.FiRutaEvent;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
 import views.MapPanel;
@@ -64,6 +65,9 @@ public class Simulador {
                 double millorTemps = Double.MAX_VALUE;
 
                 for (Conductor conductor : conductors) {
+                    if(conductor.getId() == 3) {
+                        System.out.println("Ocupat: " + conductor.isOcupat());
+                    }
                     Vehicle vehicle = conductor.getVehicle();
                     Lloc ubicacio = vehicle.getUbicacioActual();
 
@@ -74,6 +78,7 @@ public class Simulador {
                     if (camiFinsOrigen != null && camiFinsDesti != null && camiTotal != null) {
                         double distanciaFinsOrigen = mapa.calcularDistanciaRuta(camiFinsOrigen);
                         double distanciaFinsDesti = mapa.calcularDistanciaRuta(camiFinsDesti);
+                        double distanciaTotal = distanciaFinsDesti + distanciaFinsOrigen;
 
                         double tempsFinsOrigen = mapa.calcularTempsRuta(camiFinsOrigen);
 
@@ -83,25 +88,21 @@ public class Simulador {
                                 .plusMinutes((long) (tempsFinsOrigen + tempsFinsDesti));
 
                         if (horaArribadaPrevista.isBefore(peticio.obtenirHoraMaximaArribada())) {
-                            if (!conductor.isOcupat()) {
-                                if (conductorPotServirPeticio(ubicacio, origenPeticio, destiPeticio,
-                                        conductor, distanciaFinsOrigen + distanciaFinsDesti)) {
+                            if (conductor.potServirPeticio(peticio.obtenirNumPassatgers())) {
+                                System.out.println("Conductoraaaaaaaaaaaaaaaaa" + conductor.getId());
+
+                                if (conductor.teBateria(distanciaTotal, this, mapa, horaInici, horaActual)) {
                                     // Si el vehicle pot fer la petició, buscar el millor conductor
                                     if (distanciaFinsOrigen < millorDistancia) {
                                         millorDistancia = distanciaFinsOrigen;
                                         millorConductor = conductor;
                                         millorTemps = tempsFinsOrigen;
                                     }
-                                } else {
-                                    // Si el vehicle no pot fer la petició, buscar un parquing
-                                    System.out.println("El conductor esta ocupat");
-                                    Ruta r = conductor.planificarCarrega(mapa, horaInici);
-                                    afegirEsdeveniment(new IniciRutaEvent(horaActual, conductor,
-                                            conductor.getVehicle(), r));
-                                }
-                            }
+                                } else
+                                    System.out.println("\nEl vehicle no pot fer la petició, ja que no té bateria.");
+                            } else
+                                System.out.println("El vehicle no pot fer la petició.");
                         }
-
                     }
                 }
 
@@ -113,7 +114,6 @@ public class Simulador {
                         afegirEsdeveniment(new MoureVehicleEvent(horaSortida, millorConductor.getVehicle(),
                                 millorConductor.getVehicle().getUbicacioActual(), origenPeticio, millorDistancia));
                     }
-
                     Ruta ruta = millorConductor.planificarRuta(peticio, mapa);
                     if (ruta != null) {
                         peticio.peticioEnProces();
@@ -130,25 +130,11 @@ public class Simulador {
 
                 } else
                     System.out.println("Cap conductor pot arribar a la petició " + peticio.obtenirId());
+
             }
         }
 
         peticions.removeAll(peticionsAssignades);
-    }
-
-    /**
-     * @pre ubicacioActual != null, origenPeticio != null, destiPeticio != null,
-     * @param ubicacioActual
-     * @param origenPeticio
-     * @param destiPeticio
-     * @param conductor
-     * @return true si el conductor pot servir la petició, false en cas contrari.
-     */
-    private boolean conductorPotServirPeticio(Lloc ubicacioActual, Lloc origenPeticio, Lloc destiPeticio,
-            Conductor conductor, double distancia) {
-        return (ubicacioActual.obtenirId() == origenPeticio.obtenirId()
-                || conductor.teBateria(distancia))
-                && conductor.teBateria(distancia);
     }
 
     /**
@@ -164,18 +150,20 @@ public class Simulador {
                     Event event = esdeveniments.poll();
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
-                    System.out.println("-----------------");
-
                     System.out.println("Hora actual: " + horaActual);
+                  
                     event.executar(Simulador.this);
+
+                } else if (esdeveniments.isEmpty() && !peticions.isEmpty()) {
+                    // Si no hi ha esdeveniments però hi ha peticions, reintenta
+                    assignarPeticions();
+
                 } else {
-                    ((Timer) e.getSource()).stop();
-                    finalitzar();
+                    finalitzarSimulacio(e);
                 }
             }
         });
         timer.start();
-
     }
 
     /**
@@ -286,10 +274,14 @@ public class Simulador {
     }
 
     /**
+     * @param e
      * @pre cert
      * @post Tanca la simulació i mostra un resum dels resultats.
      */
-    private void finalitzar() {
+    private void finalitzarSimulacio(ActionEvent e) {
+        ((Timer) e.getSource()).stop();
+
+        System.out.println("------------------");
         System.out.println("Simulació finalitzada.");
     }
 

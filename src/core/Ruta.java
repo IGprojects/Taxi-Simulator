@@ -1,4 +1,5 @@
 package core;
+
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -7,24 +8,27 @@ import java.util.Map;
  * @class Ruta
  * @brief Representa la ruta que segueix un vehicle per completar una petició.
  * @details Conté una seqüència de llocs per on passa la ruta, així com la
- * distància i el temps total del recorregut.
+ *          distància i el temps total del recorregut.
  *
  * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class Ruta {
-    private List<Lloc> llocs; ///< Llista de llocs que formen la ruta.
-    private double distanciaTotal; ///< Distància total de la ruta.
-    private double tempsTotal; ///< Temps total de la ruta.
-    private LocalTime horaInici; ///< Hora d'inici de la ruta.
-    private Conductor conductor; ///< Conductor que realitza la ruta.
+    private List<Lloc> llocs; /// < Llista de llocs que formen la ruta.
+    private double distanciaTotal; /// < Distància total de la ruta.
+    private double tempsTotal; /// < Temps total de la ruta.
+    private LocalTime horaInici; /// < Hora d'inici de la ruta.
+    private Conductor conductor; /// < Conductor que realitza la ruta.
+    private boolean esRutaCarrega; /// < Indica si la ruta és per una petició.
 
-    public Ruta(List<Lloc> llocs, LocalTime horaInici, double distanciaTotal, double tempsTotal, Conductor conductor) {
+    public Ruta(List<Lloc> llocs, LocalTime horaInici, double distanciaTotal, double tempsTotal, Conductor conductor,
+            boolean esRutaCarrega) {
         this.llocs = llocs;
         this.distanciaTotal = distanciaTotal;
         this.tempsTotal = tempsTotal;
         this.horaInici = horaInici;
         this.conductor = conductor;
+        this.esRutaCarrega = esRutaCarrega;
     }
 
     /**
@@ -40,7 +44,7 @@ public class Ruta {
     /**
      * @pre cami != null
      * @post Afegeix el destí del camí a la ruta i actualitza la distància i el
-     * temps total.
+     *       temps total.
      *
      * @param cami Camí a afegir a la ruta.
      */
@@ -73,6 +77,16 @@ public class Ruta {
 
     /**
      * @pre Cert.
+     * @post Retorna si la ruta és per fer una càrrega o no.
+     *
+     * @return true si és una ruta per fer una càrrega, false en cas contrari.
+     */
+    public boolean isRutaCarrega() {
+        return esRutaCarrega;
+    }
+
+    /**
+     * @pre Cert.
      * @post Retorna el conductor que realitza la ruta.
      *
      * @return Conductor que realitza la ruta.
@@ -81,7 +95,7 @@ public class Ruta {
         return conductor;
     }
 
-     /**
+    /**
      * @pre Cert.
      * @post Retorna l'hora inicial.
      *

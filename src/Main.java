@@ -1,8 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
@@ -68,7 +66,7 @@ public class Main {
         System.out.println("Dades carregades correctament.");
         System.out.println("Hora d'inici: " + horaInici);
         System.out.println("Hora final: " + horaFinal);
-
+        System.out.println("--------------------------------");
         Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors,
                 peticions);
 

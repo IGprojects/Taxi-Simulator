@@ -8,9 +8,8 @@ import core.Cami;
 import core.Lloc;
 
 /**
- * @class Event
- * @brief Representa un esdeveniment en la simulació.
- * @details Cada esdeveniment té un temps associat i pot ser comparat amb altres
+ * @class MoureVehicleEvent
+ * @brief Representa un esdeveniment de moviment d'un vehicle.
  *
  * @author Dídac Gros Labrador
  * @version 2025.03.04
@@ -32,14 +31,16 @@ public class MoureVehicleEvent extends Event {
     @Override
     public void executar(Simulador simulador) {
         System.out.println(
-                "[" + temps + "] Vehicle " + " es mou de " + origen.obtenirId() + " a " + desti.obtenirId() + ".");
+                "[" + temps + "] Vehicle " + vehicle.getId() + " es mou de " + origen.obtenirId() + " a "
+                        + desti.obtenirId() + ".");
         vehicle.moure(desti, distancia);
 
         // Notificar al MapPanel per pintar aquest tram
         if (simulador.getMapPanel() != null) {
             simulador.getMapPanel().animarCami(new Cami(origen, desti, distancia, 0), vehicle);
 
-            // simulador.getMapPanel().afegirCamiPerVehicle(vehicle, new Cami(origen, desti, distancia, 0));
+            // simulador.getMapPanel().afegirCamiPerVehicle(vehicle, new Cami(origen, desti,
+            // distancia, 0));
         }
     }
 

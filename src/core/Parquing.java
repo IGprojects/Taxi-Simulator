@@ -1,5 +1,7 @@
 package core;
 
+import java.util.List;
+
 /**
  * @class Parquing
  * @brief Defineix la localitzacio amb pàrquing
@@ -9,33 +11,44 @@ package core;
  */
 public class Parquing extends Lloc {
 
-    private int puntscargaRapida; /// < Nombre de punts de càrrega ràpida disponibles.
-    private int puntscargaLenta; /// < Nombre de punts de càrrega lenta disponibles.
+    private List<PuntCarrega> puntsCargaPrivats; /// < Nombre de punts de càrrega ràpida disponibles.
+    private List<PuntCarrega> puntsCargaPublics; /// < Nombre de punts de càrrega lenta disponibles.
 
-    public Parquing(int id, int capacitatMaxima, int puntscargaRapida, int puntscargaLenta) {
+    public Parquing(int id, int capacitatMaxima, List<PuntCarrega> puntsCargaPublics,
+            List<PuntCarrega> puntsCargaPrivats) {
         super(id, capacitatMaxima);
-        this.puntscargaRapida = puntscargaRapida;
-        this.puntscargaLenta = puntscargaLenta;
+        this.puntsCargaPublics = puntsCargaPublics;
+        this.puntsCargaPrivats = puntsCargaPrivats;
+    }
+
+    public PuntCarrega puntCarregaPublicDisponible(){
+
+        for (PuntCarrega punt : puntsCargaPublics) {
+            if (!punt.isOcupat()) {
+                return punt;
+            }
+        }
+        return null; // No hi ha punts de càrrega disponibles
     }
 
     /**
      * @pre Cert.
-     * @post Retorna el nombre de punts de càrrega ràpida disponibles.
+     * @post Retorna el nombre de punts de càrrega privats disponibles.
      *
-     * @return Nombre de punts de càrrega ràpida disponibles.
+     * @return Nombre de punts de càrrega privats disponibles.
      */
-    public int obtenirPuntCargaRapida() {
-        return puntscargaRapida;
+    public int obtenirPuntsCarregaPrivats() {
+        return puntsCargaPrivats.size();
     }
 
     /**
      * @pre Cert.
-     * @post Retorna el nombre de punts de càrrega lenta disponibles.
+     * @post Retorna el nombre de punts de càrrega públics disponibles.
      *
-     * @return Nombre de punts de càrrega lenta disponibles.
+     * @return Nombre de punts de càrrega públics disponibles.
      */
-    public int obtenirPuntCargaLenta() {
-        return puntscargaLenta;
+    public int obtenirPuntsCarregaPublics() {
+        return puntsCargaPublics.size();
     }
 
     /**

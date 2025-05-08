@@ -29,7 +29,22 @@ public class LectorCSV {
                 } else if (tipus == 'P') {
                     int nCarregadors = Integer.parseInt(camps[3].trim());
                     int nCarregadorsPrivats = Integer.parseInt(camps[4].trim());
-                    llocs.add(new Parquing(id, maxVehicles, nCarregadors, nCarregadorsPrivats));
+                    List<PuntCarrega> puntsCarregaPublics = new ArrayList<>();
+                    List<PuntCarrega> puntsCarregaPrivats = new ArrayList<>();
+
+                    for (int i = 0; i < nCarregadors; i++) {
+                        if (i % 2 == 0)
+                            puntsCarregaPublics.add(new PuntCarrega(TipusPuntCarrega.CARGA_RAPIDA));
+                        else
+                            puntsCarregaPublics.add(new PuntCarrega(TipusPuntCarrega.CARGA_LENTA));
+                    }
+                    for (int i = 0; i < nCarregadorsPrivats; i++) {
+                        if (i % 2 == 0)
+                            puntsCarregaPublics.add(new PuntCarrega(TipusPuntCarrega.CARGA_RAPIDA));
+                        else
+                            puntsCarregaPublics.add(new PuntCarrega(TipusPuntCarrega.CARGA_LENTA));
+                    }
+                    llocs.add(new Parquing(id, maxVehicles, puntsCarregaPublics, puntsCarregaPrivats));
                 } else {
                     System.err.println("Tipus desconegut: " + tipus + " a la línia: " + linia);
                 }

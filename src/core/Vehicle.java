@@ -17,6 +17,7 @@ public class Vehicle {
     private int id; /// < Identificador del vehicle.
     private Lloc ubicacio; /// < Lloc on es troba actualment el vehicle.
     private double bateria; /// < Nivell actual de bateria del vehicle (0% - 100%).
+    private int percentatgeCarrega; /// < Percentatge de càrrega del vehicle (0% - 100%).
     private int numPassatgers; /// < Nombre de passatgers actuals del vehicle.
     private boolean carregant; /// < Indica si el vehicle està carregant.
 
@@ -36,6 +37,8 @@ public class Vehicle {
         this.TEMPSCARGALENTA = tempsCargaLenta;
         this.TEMPSCARGARAPIDA = tempsCargaRapida;
         this.carregant = false; // El vehicle no està carregant inicialment
+        this.percentatgeCarrega = 100; // Bateria al 100% inicialment
+        percentatgeCarrega = 25;
     }
 
     public int getId() {
@@ -47,8 +50,13 @@ public class Vehicle {
      * @post Retorna true si el vehicle té bateria (>0%), altrament false.
      * @return true si el vehicle té bateria disponible, false si està esgotada.
      */
-    public boolean teBateria(double km) {
-        return this.bateria > km;
+    public boolean teBateria(double km, boolean voraç) {
+        if (voraç) {
+            double batBaixar = (int) ((km / AUTONOMIA) * 100);
+            return percentatgeCarrega - batBaixar > 20;
+        }
+        return true;
+        // return this.bateria > km;
     }
 
     /**
@@ -114,13 +122,12 @@ public class Vehicle {
      * @param percentatge Percentatge a carregar (ha d'estar en l'interval [0,
      *                    100]).
      */
-    public void carregarBateria(double percentatge) {
-        if (percentatge > 0) {
-            bateria += percentatge; // Carregar bateria
-            if (bateria > 100) {
-                bateria = 100; // No permetre superar el 100%
-            }
-        }
+    public void carregarBateria(boolean voraç) {
+        bateria = voraç ? 80 : 100; // Carrega ràpida al 80% o lenta al 100%
+                percentatgeCarrega = voraç ? 80 : 100; // Carrega ràpida al 80% o lenta al 100%
+ 
+        carregant = false; // El vehicle ja no està carregant
+
     }
 
     /**
@@ -130,17 +137,16 @@ public class Vehicle {
      * @param distancia Distància en quilòmetres que el vehicle ha recorregut.
      */
     public boolean consumirBateria(double distancia) {
+        System.out.println("-----------");
         System.out.println("Distancia: " + distancia);
         double bat = 0;
         if (distancia >= 0) {
-            System.out.println("Bateria actual: " + bateria);
+            System.out.println("Bateria abans: " + percentatgeCarrega);
             // Fórmula per reduir la bateria segons l'autonomia màxima
-            bat = bateria - ((distancia / AUTONOMIA) * 100);
-            System.out.println("Bateria actual: " + bateria);
+            bateria -= distancia;
+            percentatgeCarrega -= (int) ((distancia / AUTONOMIA) * 100);
+            System.out.println("Bateria ara: " + percentatgeCarrega);
             System.out.println("-----------");
-        }
-        if (bat > 0) {
-            bateria = bat;
         }
         return false;
     }
@@ -150,7 +156,8 @@ public class Vehicle {
      * @post Retorna el nivell de bateria en percentatge (0% - 100%).
      */
     public double obtenirBateria() {
-        return this.bateria;
+        return percentatgeCarrega;
+        // return this.bateria;
     }
 
     /**
@@ -172,13 +179,10 @@ public class Vehicle {
      * @param novaUbicacio Lloc on es mourà el vehicle.
      * @param distancia    Distància recorreguda per arribar a la nova ubicació.
      */
-    public boolean moure(Lloc novaUbicacio, double distancia) {
-        if (consumirBateria(distancia)) {
-            this.ubicacio = novaUbicacio;
-            return true;
-        }
+    public void moure(Lloc novaUbicacio, double distancia) {
+        consumirBateria(distancia);
+        this.ubicacio = novaUbicacio;
 
-        return false;
     }
 
     /**
@@ -189,15 +193,16 @@ public class Vehicle {
         return this.carregant;
     }
 
-}
+    /**
+     * @pre Cert.
+     * @post Retorna el nombre màxim de passatgers que pot transportar el vehicle.
+     *
+     * @param MAXPASSATGERS Nombre màxim de passatgers que pot transportar el
+     *                      vehicle.
+     * @return El nombre màxim de passatgers que pot transportar el vehicle.
+     */
+    public int getMaxPassatgers() {
+        return MAXPASSATGERS;
+    }
 
-/**
- * @pre Cert.
- * @post Assigna una petició al conductor.
- */
-/*
- * private Peticio peticio;
- * public void assignarPeticio(Peticio p){
- * this.peticio=p;
- * };
- */
+}

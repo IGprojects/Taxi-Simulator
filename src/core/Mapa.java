@@ -23,7 +23,7 @@ public class Mapa {
     private Map<Lloc, List<Cami>> llocs; /// < Llista de llocs i les seves connexions
     private int nLlocs; /// < Nombre de llocs del mapa
     private int nConnexions; /// < Nombre de connexions del mapa
-    private boolean esPrivat; /// < Indica si el lloc és un carregador privat
+    // private boolean esPrivat; /// < Indica si el lloc és un carregador privat
 
     /**
      * Constructor de la classe Mapa
@@ -191,11 +191,11 @@ public class Mapa {
         for (Lloc lloc : llocs.keySet()) {
             if (lloc instanceof Parquing && !lloc.estaPle()) {
                 List<Lloc> cami = camiVoraç(origen, lloc);
-                if (!cami.isEmpty()) {
+                if (cami != null) {
                     double tempsRuta = calcularTempsRuta(cami);
                     if (tempsRuta < millorTemps) {
                         millorTemps = tempsRuta;
-                        millorRuta = new Ruta(cami, horaInici, -1, tempsRuta, conductor);
+                        millorRuta = new Ruta(cami, horaInici, -1, tempsRuta, conductor, true);
                     }
                 }
             }
@@ -231,12 +231,12 @@ public class Mapa {
         return null;
     }
 
-  public Lloc getCarregadorPrivatPredeterminat() {
-        for (Lloc lloc : llocs.keySet()) {
-            if (lloc.esCarregadorPrivat())
-                return lloc;
-        }
-        return null;
-    }
+//   public Lloc getCarregadorPrivatPredeterminat() {
+//         for (Lloc lloc : llocs.keySet()) {
+//             if (lloc.esCarregadorPrivat())
+//                 return lloc;
+//         }
+//         return null;
+//     }
 
 }
