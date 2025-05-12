@@ -2,7 +2,6 @@ package core;
 
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @class Ruta
@@ -29,6 +28,15 @@ public class Ruta {
         this.horaInici = horaInici;
         this.conductor = conductor;
         this.esRutaCarrega = esRutaCarrega;
+    }
+
+    public Ruta() {
+        this.llocs = null; // Llista buida en lloc de null
+        this.distanciaTotal = 0.0;
+        this.tempsTotal = 0.0;
+        this.horaInici = null; // O LocalTime.MIN si prefereixes un valor per defecte
+        this.conductor = null;
+        this.esRutaCarrega = false; // Valor per defecte més lògic
     }
 
     /**
@@ -112,5 +120,67 @@ public class Ruta {
      */
     public boolean esBuida() {
         return llocs.isEmpty();
+    }
+
+
+
+    //SETTERS
+
+        public void setLlocs(List<Lloc> llocs) {
+        
+        this.llocs = llocs; // Defensa contra modificacions externes
+    }
+
+    public void setDistanciaTotal(double distanciaTotal) {
+        if (distanciaTotal <= 0) {
+            throw new IllegalArgumentException("La distància total ha de ser positiva");
+        }
+        this.distanciaTotal = distanciaTotal;
+    }
+
+    public void setTempsTotal(double tempsTotal) {
+        if (tempsTotal <= 0) {
+            throw new IllegalArgumentException("El temps total ha de ser positiu");
+        }
+        this.tempsTotal = tempsTotal;
+    }
+
+    public void setHoraInici(LocalTime horaInici) {
+        if (horaInici == null) {
+            throw new IllegalArgumentException("L'hora d'inici no pot ser nul·la");
+        }
+        this.horaInici = horaInici;
+    }
+
+    public void setConductor(Conductor conductor) {
+        if (conductor == null) {
+            throw new IllegalArgumentException("El conductor no pot ser nul");
+        }
+        this.conductor = conductor;
+    }
+
+    public void setEsRutaCarrega(boolean esRutaCarrega) {
+        this.esRutaCarrega = esRutaCarrega;
+    }
+
+
+    public double getDistanciaTotal() {
+        return distanciaTotal;
+    }
+
+    public double getTempsTotal() {
+        return tempsTotal;
+    }
+
+    public LocalTime getHoraInici() {
+        return horaInici;
+    }
+
+    public Conductor getConductor() {
+        return conductor;
+    }
+
+    public boolean isEsRutaCarrega() {
+        return esRutaCarrega;
     }
 }

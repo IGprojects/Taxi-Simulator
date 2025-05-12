@@ -1,0 +1,445 @@
+package core;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import events.CarregarBateriaEvent;
+import events.Event;
+import events.FiCarregaEvent;
+import events.FiRutaEvent;
+import events.IniciRutaEvent;
+import events.MoureVehicleEvent;
+
+public class LectorJSON {
+
+
+    public static Map<Integer, Lloc> convertirLlistaAMap_Llocs(List<Lloc> llocs) {
+        return llocs.stream()
+                   .collect(Collectors.toMap(
+                       Lloc::obtenirId,  // Función para extraer la clave (ID)
+                       lloc -> lloc  // Función para el valor (el objeto mismo)
+                   ));
+    }
+
+
+    public static Map<Integer, Vehicle> convertirLlistaAMap_Vehicles(List<Vehicle> vehicles) {
+        return vehicles.stream()
+                   .collect(Collectors.toMap(
+                       Vehicle::getId,  // Función para extraer la clave (ID)
+                       Vehicle -> Vehicle  // Función para el valor (el objeto mismo)
+                   ));
+    }
+
+    public static Map<Integer, Conductor> convertirLlistaAMap_Conductors(List<Conductor> conductors) {
+        return conductors.stream()
+                   .collect(Collectors.toMap(
+                       Conductor::getId,  // Función para extraer la clave (ID)
+                       Conductor -> Conductor  // Función para el valor (el objeto mismo)
+                   ));
+    }
+
+    public static List<Lloc> carregarLlocs(String pathFitxer) {
+        List<Lloc> llocs = new ArrayList<>();
+        String jsonContent = llegirFitxerComplet(pathFitxer);
+        
+        // Patró per extreure cada objecte lloc
+        Pattern pattern = Pattern.compile(
+            "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*," +
+            "\\s*\"MAX_VEHICLES\"\\s*:\\s*(\\d+)\\s*," +
+            "\\s*\"TIPUS\"\\s*:\\s*\"([^\"]+)\"\\s*," +
+            "\\s*\"N_CARREGADORS\"\\s*:\\s*(\\d+)\\s*," +
+            "\\s*\"N_CARREGADORS_PRIVATS\"\\s*:\\s*(\\d+)\\s*\\}");
+        
+        Matcher matcher = pattern.matcher(jsonContent);
+        
+        while (matcher.find()) {
+            int id = Integer.parseInt(matcher.group(1));
+            int maxVehicles = Integer.parseInt(matcher.group(2));
+            String tipus = matcher.group(3);
+            int nCarregadors = Integer.parseInt(matcher.group(4));
+            int nCarregadorsPrivats = Integer.parseInt(matcher.group(5));
+
+            if (tipus.equals("ESTACIO")) {
+                llocs.add(new Lloc(id, maxVehicles));
+            } else if (tipus.equals("PARC")) {
+                List<PuntCarrega> puntsCarregaPublics = new ArrayList<>();
+                List<PuntCarrega> puntsCarregaPrivats = new ArrayList<>();
+
+                for (int j = 0; j < nCarregadors; j++) {
+                    puntsCarregaPublics.add(new PuntCarrega(
+                        j % 2 == 0 ? TipusPuntCarrega.CARGA_RAPIDA : TipusPuntCarrega.CARGA_LENTA));
+                }
+                for (int j = 0; j < nCarregadorsPrivats; j++) {
+                    puntsCarregaPrivats.add(new PuntCarrega(
+                        j % 2 == 0 ? TipusPuntCarrega.CARGA_RAPIDA : TipusPuntCarrega.CARGA_LENTA));
+                }
+                llocs.add(new Parquing(id, maxVehicles, puntsCarregaPublics, puntsCarregaPrivats));
+            }
+        }
+        return llocs;
+    }
+
+    public static List<Cami> carregarCamins(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
+        List<Cami> camins = new ArrayList<>();
+        String jsonContent = llegirFitxerComplet(pathFitxer);
+        
+        Pattern pattern = Pattern.compile(
+            "\\{\\s*\"ORIGEN\"\\s*:\\s*\"?(\\d+)\"?\\s*," +
+            "\\s*\"DESTI\"\\s*:\\s*\"?(\\d+)\"?\\s*," +
+            "\\s*\"DISTANCIA_KM\"\\s*:\\s*(\\d+\\.?\\d*)\\s*," +
+            "\\s*\"TEMPS_MIN\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
+        
+        Matcher matcher = pattern.matcher(jsonContent);
+        
+        while (matcher.find()) {
+            int idOrigen = Integer.parseInt(matcher.group(1));
+            int idDesti = Integer.parseInt(matcher.group(2));
+            double distancia = Double.parseDouble(matcher.group(3));
+            double temps = Double.parseDouble(matcher.group(4));
+
+            Lloc origen = llocsPerId.get(idOrigen);
+            Lloc desti = llocsPerId.get(idDesti);
+
+            if (origen != null && desti != null) {
+                camins.add(new Cami(origen, desti, distancia, temps));
+            }
+        }
+        return camins;
+    }
+
+    public static List<Vehicle> carregarVehicles(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
+        List<Vehicle> vehicles = new ArrayList<>();
+        String jsonContent = llegirFitxerComplet(pathFitxer);
+        
+        Pattern pattern = Pattern.compile(
+            "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*," +
+            "\\s*\"ID_UBICACIO\"\\s*:\\s*\"?(\\d+)\"?\\s*," +
+            "\\s*\"AUTONOMIA_KM\"\\s*:\\s*(\\d+)\\s*," +
+            "\\s*\"MAX_PASSATGERS\"\\s*:\\s*(\\d+)\\s*," +
+            "\\s*\"TEMPS_CARGA_RAPIDA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*," +
+            "\\s*\"TEMPS_CARGA_LENTA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
+        
+        Matcher matcher = pattern.matcher(jsonContent);
+        
+        while (matcher.find()) {
+            int id = Integer.parseInt(matcher.group(1));
+            int idUbicacio = Integer.parseInt(matcher.group(2));
+            int autonomia = Integer.parseInt(matcher.group(3));
+            int maxPassatgers = Integer.parseInt(matcher.group(4));
+            double tempsCargaRapida = Double.parseDouble(matcher.group(5));
+            double tempsCargaLenta = Double.parseDouble(matcher.group(6));
+
+            Lloc ubicacio = llocsPerId.get(idUbicacio);
+            if (ubicacio != null) {
+                vehicles.add(new Vehicle(id, ubicacio, maxPassatgers, autonomia, 
+                    tempsCargaLenta, tempsCargaRapida));
+            }
+        }
+        return vehicles;
+    }
+
+    private static String llegirFitxerComplet(String pathFitxer) {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(pathFitxer))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line.trim());
+            }
+        } catch (IOException e) {
+            System.err.println("Error llegint fitxer: " + e.getMessage());
+        }
+        return content.toString();
+    }
+
+
+    public static List<Conductor> carregarConductors(String pathFitxer, Map<Integer, Vehicle> vehiclesPerId) {
+    List<Conductor> conductors = new ArrayList<>();
+    String jsonContent = llegirFitxerComplet(pathFitxer);
+    
+    Pattern pattern = Pattern.compile(
+        "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*," +
+        "\\s*\"NOM\"\\s*:\\s*\"([^\"]*)\"\\s*," +
+        "\\s*\"TIPUS\"\\s*:\\s*\"([^\"]*)\"\\s*," +
+        "\\s*\"IDVEHICLE\"\\s*:\\s*\"?(\\d+)\"?\\s*\\}");
+    
+    Matcher matcher = pattern.matcher(jsonContent);
+    
+    while (matcher.find()) {
+        int id = Integer.parseInt(matcher.group(1));
+        String nom = matcher.group(2);
+        String tipus = matcher.group(3).toLowerCase();
+        int idVehicle = Integer.parseInt(matcher.group(4));
+        
+        Vehicle vehicle = vehiclesPerId.get(idVehicle);
+        if (vehicle == null) {
+            System.err.println("Vehicle amb ID " + idVehicle + " no trobat. Conductor ID " + id + " omès.");
+            continue;
+        }
+        
+        Conductor conductor;
+        switch (tipus) {
+            case "voraç":
+                conductor = new ConductorVoraç(id, nom, vehicle);
+                break;
+            case "planificador":
+                conductor = new ConductorPlanificador(id, nom, vehicle);
+                break;
+            default:
+                System.err.println("Tipus de conductor desconegut: " + tipus);
+                continue;
+        }
+        conductors.add(conductor);
+    }
+    return conductors;
+}
+
+
+public static LocalTime[] carregarHorari(String pathFitxer) {
+    String jsonContent = llegirFitxerComplet(pathFitxer);
+    
+    // Patró per extreure horaInici i horaFinal
+    Pattern pattern = Pattern.compile(
+        "\"horaInici\"\\s*:\\s*\"([^\"]*)\"\\s*," +
+        "\\s*\"horaFinal\"\\s*:\\s*\"([^\"]*)\"");
+    
+    Matcher matcher = pattern.matcher(jsonContent);
+    
+    if (matcher.find()) {
+        try {
+            LocalTime horaInici = LocalTime.parse(matcher.group(1));
+            LocalTime horaFinal = LocalTime.parse(matcher.group(2));
+            return new LocalTime[]{horaInici, horaFinal};
+        } catch (Exception e) {
+            System.err.println("Error parsejant hores: " + e.getMessage());
+        }
+    }
+    return null;
+}
+
+
+public static List<Event> carregarEvents(String pathFitxer, 
+                                   Map<Integer, Vehicle> vehiclesPerId,
+                                   Map<Integer, Conductor> conductorsPerId,
+                                   Map<Integer, Lloc> llocsPerId) {
+    List<Event> events = new ArrayList<>();
+    String jsonContent = llegirFitxerComplet(pathFitxer);
+    
+    // Patró general per extreure events
+    Pattern eventPattern = Pattern.compile(
+        "\\{\\s*\"type\"\\s*:\\s*\"([^\"]+)\"\\s*," +
+        "\\s*\"temps\"\\s*:\\s*\"([^\"]+)\"\\s*," +
+        "(.*?)\\s*\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)");
+    
+    Matcher matcher = eventPattern.matcher(jsonContent);
+    
+    while (matcher.find()) {
+        try {
+            String eventType = matcher.group(1);
+            LocalTime temps = LocalTime.parse(matcher.group(2));
+            String eventData = matcher.group(3);
+            
+            Event event = crearEventFromData(eventType, temps, eventData, 
+                                          vehiclesPerId, conductorsPerId, llocsPerId);
+            if (event != null) {
+                events.add(event);
+            }
+        } catch (Exception e) {
+            System.err.println("Error parsejant event: " + e.getMessage());
+        }
+    }
+    
+    return events;
+}
+
+private static Event crearEventFromData(String eventType, LocalTime temps, String eventData,
+                            Map<Integer, Vehicle> vehiclesPerId,
+                                      Map<Integer, Conductor> conductorsPerId,
+                                      Map<Integer, Lloc> llocsPerId) {
+    try {
+        switch (eventType) {
+            case "MoureVehicle":
+                return parseMoureVehicleEvent(temps, eventData, vehiclesPerId, llocsPerId);
+            case "IniciRuta":
+                return parseIniciRutaEvent(temps, eventData, conductorsPerId, vehiclesPerId,llocsPerId);
+            case "FiRuta":
+                return parseFiRutaEvent(temps, eventData, conductorsPerId);
+            case "FiCarrega":
+                return parseFiCarregaEvent(temps, eventData, vehiclesPerId);
+            case "CarregarBateria":
+                return parseCarregarBateriaEvent(temps, eventData, vehiclesPerId, conductorsPerId);
+            default:
+                System.err.println("Tipus d'event desconegut: " + eventType);
+                return null;
+        }
+    } catch (Exception e) {
+        System.err.println("Error creant event " + eventType + ": " + e.getMessage());
+        return null;
+    }
+}
+
+// Métodos de parseo para cada tipo de evento
+private static Event parseMoureVehicleEvent(LocalTime temps, String data,
+                                          Map<Integer, Vehicle> vehiclesPerId,
+                                          Map<Integer, Lloc> llocsPerId) {
+    Pattern p = Pattern.compile(
+        "\"vehicleId\"\\s*:\\s*(\\d+)\\s*," +
+        "\\s*\"origenId\"\\s*:\\s*(\\d+)\\s*," +
+        "\\s*\"destiId\"\\s*:\\s*(\\d+)\\s*," +
+        "\\s*\"distancia\"\\s*:\\s*(\\d+\\.?\\d*)");
+    
+    Matcher m = p.matcher(data);
+    if (m.find()) {
+        Vehicle vehicle = vehiclesPerId.get(Integer.parseInt(m.group(1)));
+        Lloc origen = llocsPerId.get(Integer.parseInt(m.group(2)));
+        Lloc desti = llocsPerId.get(Integer.parseInt(m.group(3)));
+        double distancia = Double.parseDouble(m.group(4));
+        
+        if (vehicle != null && origen != null && desti != null) {
+            return new MoureVehicleEvent(temps, vehicle, origen, desti, distancia);
+        }
+    }
+    return null;
+}
+
+
+
+private static Event parseIniciRutaEvent(LocalTime temps, String data,
+                                      Map<Integer, Conductor> conductorsPerId,
+                                      Map<Integer, Vehicle> vehiclesPerId,
+                                      Map<Integer, Lloc> llocsPerId) {
+    
+    // Patrón regex mejorado para capturar todos los campos
+    Pattern p = Pattern.compile(
+        "\"conductorId\"\\s*:\\s*(\\d+)\\s*," +
+        "\\s*\"vehicleId\"\\s*:\\s*(\\d+)\\s*," +
+        "\\s*\"ruta\"\\s*:\\s*\\{\\s*" +
+        "\"llocs\"\\s*:\\s*\\[(.*?)\\]\\s*," +
+        "\\s*\"distanciaTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*," +
+        "\\s*\"tempsTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*," +
+        "\\s*\"horaInici\"\\s*:\\s*\"([^\"]*)\"\\s*," +
+        "\\s*\"esRutaCarrega\"\\s*:\\s*(true|false)\\s*\\}");
+    
+    Matcher m = p.matcher(data);
+    if (m.find()) {
+        try {
+            // Parsear datos básicos
+            Conductor conductor = conductorsPerId.get(Integer.parseInt(m.group(1)));
+            Vehicle vehicle = vehiclesPerId.get(Integer.parseInt(m.group(2)));
+            
+            // Parsear lista de ubicaciones
+            List<Lloc> llocsRuta = Arrays.stream(m.group(3).split("\\s*,\\s*"))
+                .map(Integer::parseInt)
+                .map(llocsPerId::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+            
+            // Validar que todos los puntos existen
+            if (llocsRuta.size() != m.group(3).split(",").length) {
+                System.err.println("Algunos llocs de la ruta no existen");
+                return null;
+            }
+            
+            // Parsear resto de campos de la ruta
+            double distanciaTotal = Double.parseDouble(m.group(4));
+            double tempsTotal = Double.parseDouble(m.group(5));
+            LocalTime horaInici = LocalTime.parse(m.group(6));
+            boolean esRutaCarrega = Boolean.parseBoolean(m.group(7));
+            
+            if (conductor != null && vehicle != null && !llocsRuta.isEmpty()) {
+                // Crear la ruta completa
+                Ruta ruta = new Ruta();
+                ruta.setLlocs(llocsRuta);
+                ruta.setDistanciaTotal(distanciaTotal);
+                ruta.setTempsTotal(tempsTotal);
+                ruta.setHoraInici(horaInici);
+                ruta.setConductor(conductor);
+                ruta.setEsRutaCarrega(esRutaCarrega);
+                
+                return new IniciRutaEvent(temps, conductor, vehicle,ruta);
+            }
+        } catch (Exception e) {
+            System.err.println("Error parsejant IniciRutaEvent: " + e.getMessage());
+        }
+    }
+    return null;
+}
+
+
+
+private static Event parseFiRutaEvent(LocalTime temps, String data, 
+                                     Map<Integer, Conductor> conductorsPerId) {
+    Pattern p = Pattern.compile(
+        "\"conductorId\"\\s*:\\s*(\\d+)");
+    
+    Matcher m = p.matcher(data);
+    if (m.find()) {
+        int conductorId = Integer.parseInt(m.group(1));
+        Conductor conductor = conductorsPerId.get(conductorId);
+        
+        if (conductor != null) {
+            return new FiRutaEvent(temps, conductor);
+        } else {
+            System.err.println("Conductor no trobat amb ID: " + conductorId);
+        }
+    }
+    return null;
+}
+
+private static Event parseFiCarregaEvent(LocalTime temps, String data,
+                                       Map<Integer, Vehicle> vehiclesPerId) {
+    Pattern p = Pattern.compile(
+        "\"vehicleId\"\\s*:\\s*(\\d+)");
+    
+    Matcher m = p.matcher(data);
+    if (m.find()) {
+        int vehicleId = Integer.parseInt(m.group(1));
+        Vehicle vehicle = vehiclesPerId.get(vehicleId);
+        
+        if (vehicle != null) {
+            return new FiCarregaEvent(temps, vehicle);
+        } else {
+            System.err.println("Vehicle no trobat amb ID: " + vehicleId);
+        }
+    }
+    return null;
+}
+
+private static Event parseCarregarBateriaEvent(LocalTime temps, String data,
+                                             Map<Integer, Vehicle> vehiclesPerId,
+                                             Map<Integer, Conductor> conductorsPerId) {
+    Pattern p = Pattern.compile(
+        "\"vehicleId\"\\s*:\\s*(\\d+)\\s*," +
+        "\\s*\"duracioCarregaMinuts\"\\s*:\\s*(\\d+\\.?\\d*)\\s*," +
+        "\\s*\"conductorId\"\\s*:\\s*(\\d+)");
+    
+    Matcher m = p.matcher(data);
+    if (m.find()) {
+        int vehicleId = Integer.parseInt(m.group(1));
+        double duracio = Double.parseDouble(m.group(2));
+        int conductorId = Integer.parseInt(m.group(3));
+        
+        Vehicle vehicle = vehiclesPerId.get(vehicleId);
+        Conductor conductor = conductorsPerId.get(conductorId);
+        
+        if (vehicle != null && conductor != null) {
+            return new CarregarBateriaEvent(temps, vehicle, duracio, conductor);
+        } else {
+            if (vehicle == null) System.err.println("Vehicle no trobat amb ID: " + vehicleId);
+            if (conductor == null) System.err.println("Conductor no trobat amb ID: " + conductorId);
+        }
+    }
+    return null;
+}
+
+
+}

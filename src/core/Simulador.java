@@ -52,6 +52,9 @@ public class Simulador {
         assignarPeticions();
     }
 
+
+    
+
     public void assignarPeticions() {
         List<Peticio> peticionsAssignades = new ArrayList<>();
 

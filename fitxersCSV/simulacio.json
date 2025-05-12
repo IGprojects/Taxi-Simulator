@@ -1,0 +1,107 @@
+{
+  "llocs": [
+    {
+      "ID": "L1",
+      "MAX_VEHICLES": 5,
+      "TIPUS": "ESTACIO",
+      "N_CARREGADORS": 3,
+      "N_CARREGADORS_PRIVATS": 1
+    },
+    {
+      "ID": "L2",
+      "MAX_VEHICLES": 3,
+      "TIPUS": "PARC",
+      "N_CARREGADORS": 2,
+      "N_CARREGADORS_PRIVATS": 0
+    }
+  ],
+  "connexions": [
+    {
+      "ORIGEN": "L1",
+      "DESTI": "L2",
+      "DISTANCIA_KM": 10.5,
+      "TEMPS_MIN": 15
+    },
+    {
+      "ORIGEN": "L2",
+      "DESTI": "L1",
+      "DISTANCIA_KM": 10.5,
+      "TEMPS_MIN": 15
+    }
+  ],
+  "vehicles": [
+    {
+      "ID": "V1",
+      "ID_UBICACIO": "L1",
+      "AUTONOMIA_KM": 120,
+      "MAX_PASSATGERS": 4,
+      "TEMPS_CARGA_RAPIDA": 30,
+      "TEMPS_CARGA_LENTA": 120
+    },
+    {
+      "ID": "V2",
+      "ID_UBICACIO": "L2",
+      "AUTONOMIA_KM": 150,
+      "MAX_PASSATGERS": 6,
+      "TEMPS_CARGA_RAPIDA": 45,
+      "TEMPS_CARGA_LENTA": 180
+    }
+  ],
+  "conductors": [
+    {
+      "ID": "C1",
+      "NOM": "Pere Garcia",
+      "TIPUS": "BASIC",
+      "IDVEHICLE": "V1"
+    },
+    {
+      "ID": "C2",
+      "NOM": "Anna Martinez",
+      "TIPUS": "AVANÇAT",
+      "IDVEHICLE": "V2"
+    }
+  ],
+  "horaInici": "08:00",
+  "horaFinal": "20:00",
+  "events": [
+    {
+      "type": "MoureVehicle",
+      "temps": "08:00",
+      "vehicleId": 1,
+      "origenId": 101,
+      "destiId": 102,
+      "distancia": 5.2
+    },
+    {
+      "type": "CarregarBateria",
+      "temps": "08:30",
+      "vehicleId": 1,
+      "duracioCarregaMinuts": 45,
+      "conductorId": 501
+    },
+    {
+      "type": "IniciRuta",
+      "temps": "09:00",
+      "conductorId": 101,
+      "vehicleId": 202,
+      "ruta": {
+        "llocs": [
+          101,
+          102,
+          103
+        ],
+        "distanciaTotal": 15.5,
+        "tempsTotal": 30.0,
+        "horaInici": "08:00",
+        "esRutaCarrega": true
+      }
+    },
+    {
+      "type": "IniciRuta",
+      "temps": "09:15",
+      "conductorId": 501,
+      "vehicleId": 1,
+      "rutaId": 201
+    }
+  ]
+}

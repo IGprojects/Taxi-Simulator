@@ -1,22 +1,32 @@
 package views;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.io.File;
 import java.time.LocalTime;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class SelectorInicial {
 
     public interface DadesIniciListener {
         void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions,
                 LocalTime horaInici, LocalTime horaFinal);
+        
+        void onSimulacioJsonSeleccionat(File simulacioJson);
     }
 
     public static void mostrar(DadesIniciListener listener) {
         JFrame frame = new JFrame("Selecció d'arxius i horaris");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 450);
+        frame.setSize(500, 500); // Augmentem una mida la finestra
         frame.setLocationRelativeTo(null); // centrat
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -29,13 +39,14 @@ public class SelectorInicial {
                 new JLabel("Connexions.csv:"),
                 new JLabel("Vehicles.csv:"),
                 new JLabel("Conductors.csv:"),
-                new JLabel("Peticions.csv:")
+                new JLabel("Peticions.csv:"),
+                new JLabel("Simulacio.json:") // Nou label pel json
         };
 
-        JButton[] fileButtons = new JButton[5];
-        File[] selectedFiles = new File[5];
+        JButton[] fileButtons = new JButton[6]; // Ara són 6 botons
+        File[] selectedFiles = new File[6]; // Ara són 6 fitxers
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) { // Ara iterem 6 vegades
             int idx = i;
             fileButtons[i] = new JButton("Selecciona fitxer...");
             fileButtons[i].addActionListener(e -> {
@@ -58,26 +69,31 @@ public class SelectorInicial {
         JTextField horaFinalField = new JTextField();
 
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6; // Ara comença a la fila 6
         panel.add(horaIniciLabel, gbc);
         gbc.gridx = 1;
         panel.add(horaIniciField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         panel.add(horaFinalLabel, gbc);
         gbc.gridx = 1;
         panel.add(horaFinalField, gbc);
 
         JButton startBtn = new JButton("Iniciar simulació");
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.gridwidth = 2;
         panel.add(startBtn, gbc);
 
         JButton testBtn = new JButton("Mode proves");
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         panel.add(testBtn, gbc);
+        
+        // Nou botó per carregar només el json
+        JButton jsonBtn = new JButton("Carregar Simulació");
+        gbc.gridy = 10;
+        panel.add(jsonBtn, gbc);
 
         // Botó de proves amb valors hardcoded
         testBtn.addActionListener(e -> {
@@ -106,8 +122,19 @@ public class SelectorInicial {
             }
         });
 
+        // Acció per al botó de carregar simulació
+        jsonBtn.addActionListener(e -> {
+            if (selectedFiles[5] == null) {
+                JOptionPane.showMessageDialog(frame, "Selecciona el fitxer simulacio.json!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            frame.dispose();
+            listener.onSimulacioJsonSeleccionat(selectedFiles[5]);
+        });
+
         startBtn.addActionListener(e -> {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 5; i++) { // Comprovem només els 5 primers fitxers
                 if (selectedFiles[i] == null) {
                     JOptionPane.showMessageDialog(frame, "Selecciona tots els fitxers!", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -131,5 +158,4 @@ public class SelectorInicial {
         frame.add(panel);
         frame.setVisible(true);
     }
-
 }
