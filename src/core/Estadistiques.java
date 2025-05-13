@@ -50,8 +50,8 @@ public class Estadistiques {
         }
     }
     
-    public void registrarPeticionNoServida() {
-        peticionesNoServidas++;
+    public void registrarPeticionNoServida(int numPeticions) {
+        this.peticionesNoServidas=numPeticions;
     }
     
     public void registrarOcupacionVehiculo(double porcentajeOcupacion) {
@@ -165,4 +165,47 @@ public class Estadistiques {
             getTiempoEsperaPromedioAgregado()
         );
     }
+
+    //SETTERS
+    public void setPeticionesServidas(int peticionesServidas) {
+    this.peticionesServidas = peticionesServidas;
+}
+
+public void setPeticionesNoServidas(int peticionesNoServidas) {
+    this.peticionesNoServidas = peticionesNoServidas;
+}
+
+public void setTiempoTotalEspera(double tiempoTotalEspera) {
+    this.tiempoTotalEspera = tiempoTotalEspera;
+}
+
+public void setTiempoMaximoEspera(double tiempoMaximoEspera) {
+    this.tiempoMaximoEspera = tiempoMaximoEspera;
+}
+
+public void setOcupacionTotalVehiculos(double ocupacionTotalVehiculos) {
+    this.ocupacionTotalVehiculos = ocupacionTotalVehiculos;
+}
+
+public void setMuestrasOcupacion(int muestrasOcupacion) {
+    this.muestrasOcupacion = muestrasOcupacion;
+}
+
+public void setPorcentajeBateriaPromedio(double porcentajeBateriaPromedio) {
+    this.porcentajeBateriaPromedio = porcentajeBateriaPromedio;
+}
+
+public void setMuestrasBateria(int muestrasBateria) {
+    this.muestrasBateria = muestrasBateria;
+}
+
+public void setTiempoTotalViaje(double tiempoTotalViaje) {
+    this.tiempoTotalViaje = tiempoTotalViaje;
+}
+
+public void setMuestrasViaje(int muestrasViaje) {
+    this.muestrasViaje = muestrasViaje;
+}
+
+
 }

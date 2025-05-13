@@ -205,4 +205,13 @@ public class Vehicle {
         return MAXPASSATGERS;
     }
 
+    
+/**
+     * @pre Cert.
+     * @post Retorna el nombre de passatgers que  transporta el vehicle..
+     * @return El nombre de passatgers que transporta el vehicle.
+     */
+    public int getPassatgersActuals() {
+        return this.numPassatgers;
+    }
 }

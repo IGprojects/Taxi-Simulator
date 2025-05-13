@@ -1,8 +1,10 @@
 package core;
 
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Frame;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -17,6 +19,14 @@ import views.MapPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static javax.swing.BorderFactory.createEmptyBorder;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  * @class Simulador
@@ -38,6 +48,7 @@ public class Simulador {
     private Mapa mapa; /// < Mapa de la ciutat.
     private PriorityQueue<Event> esdeveniments = new PriorityQueue<>(); /// < Esdeveniments programats.
     private MapPanel mapPanel; /// < Panell per mostrar el mapa i els vehicles.
+    private Estadistiques estadistiques=new Estadistiques();
 
     public Simulador(LocalTime horaInici, LocalTime horaFi, Mapa mapa, List<Vehicle> vehicles,
             List<Conductor> conductors, List<Peticio> peticions) {
@@ -83,6 +94,7 @@ public class Simulador {
                         double distanciaFinsDesti = mapa.calcularDistanciaRuta(camiFinsDesti);
                         double distanciaTotal = distanciaFinsDesti + distanciaFinsOrigen;
 
+                        //temps d espera fins arribar al client
                         double tempsFinsOrigen = mapa.calcularTempsRuta(camiFinsOrigen);
 
                         double tempsFinsDesti = mapa.calcularTempsRuta(camiFinsDesti);
@@ -93,13 +105,15 @@ public class Simulador {
                         if (horaArribadaPrevista.isBefore(peticio.obtenirHoraMaximaArribada())) {
                             if (conductor.potServirPeticio(peticio.obtenirNumPassatgers())) {
                                 System.out.println("Conductoraaaaaaaaaaaaaaaaa" + conductor.getId());
-
+                                
                                 if (conductor.teBateria(distanciaTotal, this, mapa, horaInici, horaActual)) {
                                     // Si el vehicle pot fer la petició, buscar el millor conductor
                                     if (distanciaFinsOrigen < millorDistancia) {
                                         millorDistancia = distanciaFinsOrigen;
                                         millorConductor = conductor;
                                         millorTemps = tempsFinsOrigen;
+                                        estadistiques.registrarOcupacionVehiculo(vehicle.getPassatgersActuals());
+                                        estadistiques.registrarPeticionServida(tempsFinsOrigen);
                                     }
                                 } else
                                     System.out.println("\nEl vehicle no pot fer la petició, ja que no té bateria.");
@@ -132,11 +146,14 @@ public class Simulador {
                     }
 
                 } else
+
                     System.out.println("Cap conductor pot arribar a la petició " + peticio.obtenirId());
 
             }
         }
 
+        //peticions no servides
+        estadistiques.registrarPeticionNoServida(peticionsAssignades.size());
         peticions.removeAll(peticionsAssignades);
     }
 
@@ -283,8 +300,11 @@ public class Simulador {
      */
     private void finalitzarSimulacio(ActionEvent e) {
         ((Timer) e.getSource()).stop();
-
+        
         System.out.println("------------------");
+        System.out.println("Estadistiques:");
+        this.estadistiques.toString();
+        mostrarDialogEstadistiques();
         System.out.println("Simulació finalitzada.");
     }
 
@@ -345,5 +365,72 @@ public class Simulador {
     public MapPanel getMapPanel() {
         return mapPanel;
     }
+
+
+    /**
+ * Mostra un diàleg amb les estadístiques de la simulació.
+ */
+private void mostrarDialogEstadistiques() {
+    // Crear un JDialog modal
+    JDialog dialog = new JDialog((Frame)null, "Estadístiques de la Simulació", true);
+    dialog.setLayout(new BorderLayout());
+    dialog.setSize(500, 400);
+    dialog.setLocationRelativeTo(null); // Centrar en pantalla
+    
+    // Crear panel principal con borde y margen
+    JPanel panel = new JPanel(new BorderLayout(10, 10));
+    panel.setBorder(createEmptyBorder(15, 15, 15, 15));
+    
+    // Título
+    JLabel titulo = new JLabel("Resum de la Simulació", JLabel.CENTER);
+    titulo.setFont(new Font("SansSerif", Font.BOLD, 18));
+    panel.add(titulo, BorderLayout.NORTH);
+    
+    // Panel de estadísticas
+    JTextArea areaEstadisticas = new JTextArea();
+    areaEstadisticas.setEditable(false);
+    areaEstadisticas.setFont(new Font("Monospaced", Font.PLAIN, 14));
+    areaEstadisticas.setText(obtenerTextoEstadisticas());
+    
+    // Añadir scroll por si hay muchas estadísticas
+    JScrollPane scrollPane = new JScrollPane(areaEstadisticas);
+    panel.add(scrollPane, BorderLayout.CENTER);
+    
+    // Botón de cierre
+    JButton cerrarBtn = new JButton("Tancar");
+    cerrarBtn.addActionListener(e -> dialog.dispose());
+    
+    JPanel panelBoton = new JPanel();
+    panelBoton.add(cerrarBtn);
+    panel.add(panelBoton, BorderLayout.SOUTH);
+    
+    dialog.add(panel);
+    dialog.setVisible(true);
+}
+
+/**
+ * Genera el texto formateado con las estadísticas.
+ * @return String con las estadísticas formateadas
+ */
+private String obtenerTextoEstadisticas() {
+    StringBuilder sb = new StringBuilder();
+    
+    // Aquí añades toda la información de las estadísticas
+    sb.append("--- Peticions ---\n");
+    sb.append("Nombre de peticions servides").append(estadistiques.getPeticionesServidas()).append("\n");
+    sb.append("Nombre de peticions no servides").append(estadistiques.getPeticionesNoServidas()).append("\n");
+    sb.append("Percentatge d'exit de peticions").append(estadistiques.getPorcentajeExito()).append("\n");
+
+    sb.append("--- Temps mig ---\n");
+    sb.append("Temps mig d'espera").append(estadistiques.getTiempoEsperaPromedio()).append("\n\n");
+    sb.append("Temps maxim d'espera").append(estadistiques.getTiempoMaximoEspera()).append("\n\n");
+
+    sb.append("--- Vehicles ---\n");
+    sb.append(String.format("Mitjana del percentatge d’ocupaci´o dels vehicles", estadistiques.getOcupacionPromedioVehiculos()));
+    sb.append(String.format("Mitjana del temps dels viatges", estadistiques.getTiempoViajePromedio()));
+    sb.append("\n");
+    
+    return sb.toString();
+}
 
 };
