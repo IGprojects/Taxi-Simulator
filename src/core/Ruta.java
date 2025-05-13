@@ -1,6 +1,7 @@
 package core;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,12 +14,15 @@ import java.util.List;
  * @version 2025.03.04
  */
 public class Ruta {
-    private List<Lloc> llocs; /// < Llista de llocs que formen la ruta.
-    private double distanciaTotal; /// < Distància total de la ruta.
-    private double tempsTotal; /// < Temps total de la ruta.
-    private LocalTime horaInici; /// < Hora d'inici de la ruta.
-    private Conductor conductor; /// < Conductor que realitza la ruta.
+    private List<Lloc> llocs; ///< Llista de llocs que formen la ruta.
+    private List<Cami> camins = new ArrayList<>();
+    private List<Peticio> peticions = new ArrayList<>();
+    private double distanciaTotal; ///< Distància total de la ruta.
+    private double tempsTotal; ///< Temps total de la ruta.
+    private LocalTime horaInici; ///< Hora d'inici de la ruta.
+    private Conductor conductor; ///< Conductor que realitza la ruta.
     private boolean esRutaCarrega; /// < Indica si la ruta és per una petició.
+
 
     public Ruta(List<Lloc> llocs, LocalTime horaInici, double distanciaTotal, double tempsTotal, Conductor conductor,
             boolean esRutaCarrega) {
@@ -64,6 +68,36 @@ public class Ruta {
     }
 
     /**
+     * @brief Afegeix una seqüència de trams a partir d’una llista de llocs consecutius.
+     * @pre cami.size() >= 2 && mapa != null
+     * @post Actualitza la ruta amb els camins entre llocs consecutius, i també actualitza distància i temps totals.
+     *
+     * @param cami Llista de llocs consecutius que defineixen el recorregut.
+     * @param mapa Mapa que permet calcular la distància i temps entre els llocs.
+     */
+        public void afegirTramDesDeLlocs(List<Lloc> cami, Mapa mapa) {
+            if (cami == null || cami.size() < 2) return;
+
+            for (int i = 0; i < cami.size() - 1; i++) {
+                Lloc origen = cami.get(i);
+                Lloc desti = cami.get(i + 1);
+                double dist = mapa.calcularDistancia(origen, desti);
+                double temps = mapa.calcularTemps(origen, desti);
+
+                camins.add(new Cami(origen, desti, dist, temps));
+
+                if (llocs.isEmpty() || !llocs.get(llocs.size() - 1).equals(origen)) {
+                    llocs.add(origen);
+                }
+                llocs.add(desti);
+
+                distanciaTotal += dist;
+                tempsTotal += temps;
+            }
+        }
+
+
+    /**
      * @pre Cert.
      * @post Retorna la distància acumulada de la ruta.
      *
@@ -101,6 +135,41 @@ public class Ruta {
      */
     public Conductor obtenirConductor() {
         return conductor;
+    }
+    /**
+     * @pre Cert.
+     * @post Retorna la llista de camins de la ruta.
+     *
+     * @return Llista de camins de la ruta.
+     */
+
+    public int obtenirNumPassatgers(Lloc desti) {
+        for (Peticio p : peticions) {
+            if (p.obtenirDesti().equals(desti)) {
+                return p.obtenirNumPassatgers();
+            }
+        }
+        return 0; // Si no es troba la petició, retorna 0 passatgers
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna la llista de camins de la ruta.
+     *
+     * @return Llista de camins de la ruta.
+     */
+    public List<Cami> obtenirTrams() {
+        return camins;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Afegeix una petició a la ruta.
+     *
+     * @param p Petició a afegir a la ruta.
+     */
+    public void afegirPeticio(Peticio p) {
+    if (p != null) peticions.add(p);
     }
 
     /**

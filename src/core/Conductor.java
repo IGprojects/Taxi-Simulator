@@ -6,7 +6,7 @@ import java.time.LocalTime;
  * @class Conductor
  * @brief Defineix la classe pare dels tipus de conductors
  *
- * @author Grup b9
+ * @author Anouar El Barkouki Hitach
  * @version 2025.03.04
  */
 public abstract class Conductor {

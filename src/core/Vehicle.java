@@ -4,7 +4,7 @@ package core;
  * @class Vehicle
  * @brief Defineix el vehicle i les seves característiques
  *
- * @author Grup b9
+ * @author Anouar El Barkouki Hitach
  * @version 2025.03.04
  */
 public class Vehicle {

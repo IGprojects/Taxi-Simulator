@@ -1,4 +1,6 @@
 package core;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @class Lloc
@@ -13,6 +15,10 @@ public class Lloc {
     protected int capacitatMaxima; /// < Capacitat màxima de vehicles en el lloc
     protected int id; /// < Identificador del lloc
     private int vehiclesActuals; /// < Nombre de vehicles actuals en el lloc
+    private boolean esPrivat; /// < Indica si el lloc és un carregador privat
+    private boolean esRecollida;
+    private boolean esDeixada;
+
 
     public Lloc(int id, int capacitatMaxima) {
         this.id = id;
@@ -84,5 +90,42 @@ public class Lloc {
     public int obtenirId() {
         return id;
     }
+
+        public boolean esCarregadorPrivat() {
+        return this.esPrivat;
+    }
+
+        /**
+     * @pre Cert.
+     * @post Retorna true si el lloc és punt de recollida.
+     */
+    public boolean esRecollida() {
+        return esRecollida;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna true si el lloc és punt de deixada.
+     */
+    public boolean esDeixada() {
+        return esDeixada;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Marca aquest lloc com a punt de recollida.
+     */
+    public void marcarComRecollida() {
+        this.esRecollida = true;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Marca aquest lloc com a punt de deixada.
+     */
+    public void marcarComDeixada() {
+        this.esDeixada = true;
+    }
+
 
 }

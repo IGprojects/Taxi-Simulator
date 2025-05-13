@@ -12,7 +12,7 @@ import events.MoureVehicleEvent;
  * @class ConductorVoraç
  * @brief Defineix un tipus de conductor (conductor voraç)
  *
- * @author Grup b9
+ * @author Anouar El Barkouki Hitach
  * @version 2025.03.04
  */
 public class ConductorVoraç extends Conductor {
