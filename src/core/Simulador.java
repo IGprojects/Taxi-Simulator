@@ -319,7 +319,7 @@ public class Simulador {
         boolean compartida = random.nextBoolean();
         int idRandom = 1 + random.nextInt(99); // entre 1 i 4 passatgers
 
-        Peticio peticio = new Peticio(idRandom, origen, desti, horaMinRecollida, horaMaxArribada, 0, compartida);
+        Peticio peticio = new Peticio(idRandom, origen, desti, horaMinRecollida, horaMaxArribada, numPassatgers, compartida);
         // Registrar la petició (pots tenir una llista de peticions al simulador)
         this.peticions.add(peticio);
 
@@ -438,7 +438,7 @@ public class Simulador {
             List<Cami> listCami = mapa.obtenirTotsElsCamins();
 
             if (guardarDades) {
-                escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.peticions, this.estadistiques, jsonFile.getAbsolutePath());
+                escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.peticions, this.estadistiques,  jsonFile.getAbsolutePath());
             }
             System.out.println("Simulació finalitzada.");
         } catch (IOException ex) {
