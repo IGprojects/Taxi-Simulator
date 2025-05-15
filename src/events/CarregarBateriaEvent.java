@@ -28,11 +28,13 @@ public class CarregarBateriaEvent extends Event {
 
     @Override
     public void executar(Simulador simulador) {
-        System.out.println("[" + temps + "] El vehicle " + vehicle.getId() + " comença a carregar la bateria.");
+        String missatge = "[" + temps + "] El vehicle " + vehicle.getId() + " comença a carregar la bateria.";
+        System.out.println(missatge);
+        simulador.pintarMissatge(missatge);
         vehicle.esCarregant();
         conductor.setOcupat(false);
         // Programem final de la càrrega
         LocalTime fiCarrega = temps.plusMinutes((long) duracioCarregaMinuts);
-        simulador.afegirEsdeveniment(new FiCarregaEvent(fiCarrega, vehicle));
+        simulador.afegirEsdeveniment(new FiCarregaEvent(fiCarrega, conductor));
     }
 }

@@ -8,8 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @class LectorCSV
+ * @brief Classe per llegir fitxers CSV i carregar dades a la simulació.
+ *
+ * @author Dídac Gros Labrador
+ * @version 2025.05.13
+ */
 public class LectorCSV {
 
+    /**
+     * @pre pathFitxer != null
+     * @post Carrega una llista de llocs des d'un fitxer CSV.
+     * @param pathFitxer
+     * @return Llista de llocs carregats
+     */
     public static List<Lloc> carregarLlocs(String pathFitxer) {
         List<Lloc> llocs = new ArrayList<>();
 
@@ -20,15 +33,15 @@ public class LectorCSV {
                 String[] camps = linia.split(",");
 
                 int id = Integer.parseInt(camps[0].trim());
-                int maxVehicles = Integer.parseInt(camps[1].trim());
-                char tipus = camps[2].trim().charAt(0);
+                char tipus = camps[1].trim().charAt(0);
 
                 if (tipus == 'L') {
                     // Localització normal
-                    llocs.add(new Lloc(id, maxVehicles));
+                    llocs.add(new Lloc(id));
                 } else if (tipus == 'P') {
-                    int nCarregadors = Integer.parseInt(camps[3].trim());
-                    int nCarregadorsPrivats = Integer.parseInt(camps[4].trim());
+                    int maxVehicles = Integer.parseInt(camps[4].trim());
+                    int nCarregadors = Integer.parseInt(camps[2].trim());
+                    int nCarregadorsPrivats = Integer.parseInt(camps[3].trim());
                     List<PuntCarrega> puntsCarregaPublics = new ArrayList<>();
                     List<PuntCarrega> puntsCarregaPrivats = new ArrayList<>();
 
@@ -95,6 +108,13 @@ public class LectorCSV {
         return camins;
     }
 
+    /**
+     * @pre pathFitxer != null && llocsPerId != null
+     * @post Carrega una llista de peticions des d'un fitxer CSV.
+     * @param pathFitxer
+     * @param llocsPerId
+     * @return Llista de peticions carregades
+     */
     public static List<Peticio> carregarPeticions(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
         List<Peticio> peticions = new ArrayList<>();
 
@@ -131,14 +151,14 @@ public class LectorCSV {
     }
 
     /**
-     * Llegeix un fitxer CSV i carrega una llista de conductors, associats a
-     * vehicles ja existents.
-     * 
+     * @pre pathFitxer != null && vehiclesPerId != null && llocsPerId != null
+     * @post Llegeix un fitxer CSV i carrega una llista de conductors, associats avehicles ja existents.
      * @param pathFitxer    Ruta del fitxer conductors.csv
      * @param vehiclesPerId Mapa d’ID -> Vehicle (vehicles ja carregats)
      * @return Llista de conductors
      */
-    public static List<Conductor> carregarConductors(String pathFitxer, Map<Integer, Vehicle> vehiclesPerId) {
+    public static List<Conductor> carregarConductors(String pathFitxer, Map<Integer, Vehicle> vehiclesPerId,
+            Map<Integer, Lloc> llocsPerId) {
         List<Conductor> conductors = new ArrayList<>();
 
         try (BufferedReader lector = new BufferedReader(new FileReader(pathFitxer))) {
@@ -163,7 +183,9 @@ public class LectorCSV {
                 if (tipus.equals("voraç")) {
                     conductor = new ConductorVoraç(id, nom, vehicle);
                 } else if (tipus.equals("planificador")) {
-                    conductor = new ConductorPlanificador(id, nom, vehicle);
+                    int idParquing = Integer.parseInt(camps[4].trim());
+                    Parquing parquing = (Parquing) llocsPerId.get(idParquing);
+                    conductor = new ConductorPlanificador(id, nom, vehicle, parquing);
                 } else {
                     System.err.println("Tipus de conductor desconegut: " + tipus);
                     continue;

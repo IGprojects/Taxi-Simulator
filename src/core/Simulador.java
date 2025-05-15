@@ -52,7 +52,7 @@ public class Simulador {
     private Mapa mapa; /// < Mapa de la ciutat.
     private PriorityQueue<Event> esdeveniments = new PriorityQueue<>(); /// < Esdeveniments programats.
     private MapPanel mapPanel; /// < Panell per mostrar el mapa i els vehicles.
-    private Estadistiques estadistiques=new Estadistiques();
+    private Estadistiques estadistiques = new Estadistiques();
 
     public Simulador(LocalTime horaInici, LocalTime horaFi, Mapa mapa, List<Vehicle> vehicles,
             List<Conductor> conductors, List<Peticio> peticions) {
@@ -67,10 +67,23 @@ public class Simulador {
         assignarPeticions();
     }
 
-
-    
-
-    public void assignarPeticions() {
+    /**
+     * @brief Assigna peticions pendents als conductors de tipus ConductorVoraç
+     *        utilitzant una estratègia voraça.
+     *
+     *        Aquesta funció recorre totes les peticions pendents i intenta
+     *        assignar-les
+     *        al conductor més proper (en distància fins a l'origen de la petició)
+     *        que pugui
+     *        atendre la petició (capacitat i bateria suficient), i que pugui
+     *        arribar abans de l'hora límit d'arribada.
+     *
+     * @pre El conjunt de peticions i conductors ha d’estar inicialitzat.
+     * @post Algunes peticions poden ser assignades a conductors i es generen
+     *       esdeveniments de moviment i inici de ruta.
+     * @post S'actualitzen les estadístiques de peticions servides i no servides.
+     */
+    public void assignarPeticionsVoraç() {
         List<Peticio> peticionsAssignades = new ArrayList<>();
 
         for (Peticio peticio : peticions) {
@@ -78,63 +91,70 @@ public class Simulador {
                 Lloc origenPeticio = peticio.obtenirOrigen();
                 Lloc destiPeticio = peticio.obtenirDesti();
 
-                Conductor millorConductor = null;
+                ConductorVoraç millorConductor = null;
                 double millorDistancia = Double.MAX_VALUE;
                 double millorTemps = Double.MAX_VALUE;
 
                 for (Conductor conductor : conductors) {
-                    if(conductor.getId() == 3) {
-                        System.out.println("Ocupat: " + conductor.isOcupat());
-                    }
-                    Vehicle vehicle = conductor.getVehicle();
-                    Lloc ubicacio = vehicle.getUbicacioActual();
+                    if (conductor instanceof ConductorVoraç) {
+                        Vehicle vehicle = conductor.getVehicle();
+                        Lloc ubicacio = vehicle.getUbicacioActual();
 
-                    List<Lloc> camiFinsOrigen = mapa.camiVoraç(ubicacio, origenPeticio);
-                    List<Lloc> camiFinsDesti = mapa.camiVoraç(origenPeticio, destiPeticio);
-                    List<Lloc> camiTotal = mapa.camiVoraç(ubicacio, destiPeticio);
+                        // Calcular camins per avaluar si pot fer la petició
+                        List<Lloc> camiFinsOrigen = mapa.camiVoraç(ubicacio, origenPeticio);
+                        List<Lloc> camiFinsDesti = mapa.camiVoraç(origenPeticio, destiPeticio);
+                        List<Lloc> camiTotal = mapa.camiVoraç(ubicacio, destiPeticio);
 
-                    if (camiFinsOrigen != null && camiFinsDesti != null && camiTotal != null) {
-                        double distanciaFinsOrigen = mapa.calcularDistanciaRuta(camiFinsOrigen);
-                        double distanciaFinsDesti = mapa.calcularDistanciaRuta(camiFinsDesti);
-                        double distanciaTotal = distanciaFinsDesti + distanciaFinsOrigen;
+                        if (camiFinsOrigen != null && camiFinsDesti != null && camiTotal != null) {
+                            double distanciaFinsOrigen = mapa.calcularDistanciaRuta(camiFinsOrigen);
+                            double distanciaFinsDesti = mapa.calcularDistanciaRuta(camiFinsDesti);
+                            double distanciaTotal = distanciaFinsOrigen + distanciaFinsDesti;
 
-                        //temps d espera fins arribar al client
-                        double tempsFinsOrigen = mapa.calcularTempsRuta(camiFinsOrigen);
+                            double tempsFinsOrigen = mapa.calcularTempsRuta(camiFinsOrigen);
+                            double tempsFinsDesti = mapa.calcularTempsRuta(camiFinsDesti);
 
-                        double tempsFinsDesti = mapa.calcularTempsRuta(camiFinsDesti);
+                            // Calcular hora d’arribada prevista al destí
+                            LocalTime horaArribadaPrevista = horaActual
+                                    .plusMinutes((long) (tempsFinsOrigen + tempsFinsDesti));
 
-                        LocalTime horaArribadaPrevista = horaActual
-                                .plusMinutes((long) (tempsFinsOrigen + tempsFinsDesti));
+                            if (horaArribadaPrevista.isBefore(peticio.obtenirHoraMaximaArribada())) {
+                                // Verificar capacitat i bateria
+                                if (conductor.potServirPeticio(peticio.obtenirNumPassatgers())) {
+                                    if (conductor.teBateria(distanciaTotal, this, mapa, horaInici, horaActual)) {
+                                        // Guardar el millor conductor (més proper a l'origen)
+                                        if (distanciaFinsOrigen < millorDistancia) {
+                                            millorDistancia = distanciaFinsOrigen;
+                                            millorConductor = (ConductorVoraç) conductor;
+                                            millorTemps = tempsFinsOrigen;
 
-                        if (horaArribadaPrevista.isBefore(peticio.obtenirHoraMaximaArribada())) {
-                            if (conductor.potServirPeticio(peticio.obtenirNumPassatgers())) {
-                                System.out.println("Conductoraaaaaaaaaaaaaaaaa" + conductor.getId());
-                                
-                                if (conductor.teBateria(distanciaTotal, this, mapa, horaInici, horaActual)) {
-                                    // Si el vehicle pot fer la petició, buscar el millor conductor
-                                    if (distanciaFinsOrigen < millorDistancia) {
-                                        millorDistancia = distanciaFinsOrigen;
-                                        millorConductor = conductor;
-                                        millorTemps = tempsFinsOrigen;
-                                        estadistiques.registrarOcupacionVehiculo(vehicle.getPassatgersActuals());
-                                        estadistiques.registrarPeticionServida(tempsFinsOrigen);
+                                            // Estadístiques
+                                            estadistiques.registrarOcupacionVehiculo(vehicle.getPassatgersActuals());
+                                            estadistiques.registrarPeticionServida(tempsFinsOrigen);
+                                        }
+                                    } else {
+                                        System.out.println("\nEl vehicle no pot fer la petició, ja que no té bateria.");
                                     }
-                                } else
-                                    System.out.println("\nEl vehicle no pot fer la petició, ja que no té bateria.");
-                            } else
-                                System.out.println("El vehicle no pot fer la petició.");
+                                } else {
+                                    System.out.println("El vehicle no pot fer la petició.");
+                                }
+                            }
+                        } else {
+                            System.out.println(
+                                    "El vehicle no pot fer la petició, ja que no hi ha camí entre vehicle i petició.");
                         }
                     }
                 }
 
                 if (millorConductor != null) {
-                    // Si el vehicle no es troba a l'origen de la petició, moure'l
+                    // Si el vehicle no està a l'origen, generar esdeveniment de moviment previ
                     if (millorConductor.getVehicle().getUbicacioActual() != origenPeticio) {
                         LocalTime horaSortida = peticio.obtenirHoraMinimaRecollida()
                                 .minusMinutes((long) millorTemps);
                         afegirEsdeveniment(new MoureVehicleEvent(horaSortida, millorConductor.getVehicle(),
                                 millorConductor.getVehicle().getUbicacioActual(), origenPeticio, millorDistancia));
                     }
+
+                    // Planificar i assignar la ruta
                     Ruta ruta = millorConductor.planificarRuta(peticio, mapa);
                     if (ruta != null) {
                         peticio.peticioEnProces();
@@ -144,21 +164,66 @@ public class Simulador {
                                     millorConductor.getVehicle(), ruta));
                             millorConductor.setOcupat(true);
                             peticionsAssignades.add(peticio);
-                        } else
-                            System.out
-                                    .println("No hi ha temps per fer la ruta de la petició " + peticio.obtenirId());
+                        } else {
+                            System.out.println("No hi ha temps per fer la ruta de la petició " + peticio.obtenirId());
+                        }
                     }
-
-                } else
-
+                } else {
                     System.out.println("Cap conductor pot arribar a la petició " + peticio.obtenirId());
-
+                }
             }
         }
 
-        //peticions no servides
+        // Registrar les peticions que no s’han pogut assignar
         estadistiques.registrarPeticionNoServida(peticionsAssignades.size());
         peticions.removeAll(peticionsAssignades);
+    }
+
+    /**
+     * @brief Assigna rutes planificades als conductors de tipus
+     *        ConductorPlanificador.
+     *
+     *        Aquesta funció demana a cada conductor planificador que intenti
+     *        generar una ruta
+     *        òptima tenint en compte totes les peticions disponibles. Si la ruta és
+     *        vàlida,
+     *        s’afegeix un esdeveniment d’inici de ruta a la simulació.
+     *
+     * @pre La llista de conductors i peticions ha d’estar inicialitzada i no ser
+     *      nul·la.
+     * @pre Cada ConductorPlanificador ha d’implementar correctament el mètode
+     *      planificarRuta.
+     * @post Alguns conductors poden iniciar una ruta planificada, i es generen
+     *       esdeveniments corresponents.
+     */
+    public void assignarPeticionsPlan() {
+        for (Conductor conductor : conductors) {
+            if (conductor instanceof ConductorPlanificador) {
+                ConductorPlanificador conductorPlani = (ConductorPlanificador) conductor;
+
+                // Es demana al conductor que planifiqui una ruta segons les peticions actuals
+                Ruta r = conductorPlani.planificarRuta(peticions, this, horaActual);
+
+                if (r != null) {
+                    // Si la ruta és vàlida, mostrar-la per consola per depuració
+                    System.out.println("Ruta planificada pel conductor " + conductorPlani.getId() + ":");
+                    for (Lloc l : r.getLlocs()) {
+                        System.out.print(l.obtenirId() + " --> ");
+                    }
+                    System.out.println();
+
+                    // Afegir un esdeveniment d’inici de ruta a la simulació
+                    afegirEsdeveniment(new IniciRutaEvent(
+                            r.getHoraInici(),
+                            conductorPlani,
+                            conductorPlani.getVehicle(),
+                            r));
+                } else {
+                    // Si no s’ha pogut planificar ruta, informar per consola
+                    System.out.println("No hi ha ruta per al conductor planificador " + conductorPlani.getId());
+                }
+            }
+        }
     }
 
     /**
@@ -167,7 +232,7 @@ public class Simulador {
      *
      */
     public void iniciar(File jsonFile) {
-        Timer timer = new Timer(1000, new ActionListener() {
+        Timer timer = new Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
@@ -175,7 +240,7 @@ public class Simulador {
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
                     System.out.println("Hora actual: " + horaActual);
-                  
+
                     event.executar(Simulador.this);
 
                 } else if (esdeveniments.isEmpty() && !peticions.isEmpty()) {
@@ -183,44 +248,12 @@ public class Simulador {
                     assignarPeticions();
 
                 } else {
-                    finalitzarSimulacio(e,jsonFile);
+                    finalitzarSimulacio(e, jsonFile);
                 }
             }
         });
         timer.start();
     }
-
-
-    /**
-     * @pre cert
-     * @post Inicia l'execució d'una simulacio guardada
-     *
-     */
-   public void executarSimulacioGuardada(List<Event> EventsGuardats,File jsonFile) {
-    Timer timer = new Timer(1000, new ActionListener() {
-        private Iterator<Event> eventIterator = EventsGuardats.iterator();
-        
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (eventIterator.hasNext() && horaActual.isBefore(horaFi)) {
-                Event event = eventIterator.next();
-                horaActual = event.getTemps();
-                mapPanel.setHoraActual(horaActual);
-                System.out.println("Hora actual: " + horaActual);
-              
-                event.executar(Simulador.this);
-                
-                // Si s'han acabat els events guardats, passar a les peticions pendents
-                if (!eventIterator.hasNext() && !peticions.isEmpty()) {
-                    assignarPeticions();
-                }
-            } else {
-                finalitzarSimulacio(e,jsonFile);
-            }
-        }
-    });
-    timer.start();
-}
 
     /**
      * @pre cert
@@ -257,15 +290,58 @@ public class Simulador {
 
         int numPassatgers = 1 + random.nextInt(4); // entre 1 i 4 passatgers
         boolean compartida = random.nextBoolean();
+        int idRandom = 1 + random.nextInt(99); // entre 1 i 4 passatgers
 
-        Peticio peticio = new Peticio(99, origen, desti, horaMinRecollida, horaMaxArribada, numPassatgers, compartida);
-
+        Peticio peticio = new Peticio(idRandom, origen, desti, horaMinRecollida, horaMaxArribada, 0, compartida);
+        System.out.println("peticioooooo: " + peticio.estatActual().toString());
         // Registrar la petició (pots tenir una llista de peticions al simulador)
         this.peticions.add(peticio);
         System.out.println("Afegida petició aleatòria: " + peticio.obtenirOrigen().obtenirId() + " -> "
                 + peticio.obtenirDesti().obtenirId()
                 + " (hora mínima recollida: " + peticio.obtenirHoraMinimaRecollida() + ", hora màxima arribada: "
                 + peticio.obtenirHoraMaximaArribada() + ", passatgers: " + peticio.obtenirNumPassatgers() + ")");
+
+        assignarPeticions();
+    }
+
+    /**
+     * @pre cert
+     * @post Assigna les peticions pendents als conductors disponibles.
+     */
+    public void assignarPeticions() {
+        assignarPeticionsPlan();
+        assignarPeticionsVoraç();
+    }
+
+    /**
+     * @pre cert
+     * @post Inicia l'execució d'una simulacio guardada
+     *
+     */
+    public void executarSimulacioGuardada(List<Event> EventsGuardats, File jsonFile) {
+        Timer timer = new Timer(1000, new ActionListener() {
+            private Iterator<Event> eventIterator = EventsGuardats.iterator();
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (eventIterator.hasNext() && horaActual.isBefore(horaFi)) {
+                    Event event = eventIterator.next();
+                    horaActual = event.getTemps();
+                    mapPanel.setHoraActual(horaActual);
+                    System.out.println("Hora actual: " + horaActual);
+
+                    event.executar(Simulador.this);
+
+                    // Si s'han acabat els events guardats, passar a les peticions pendents
+                    if (!eventIterator.hasNext() && !peticions.isEmpty()) {
+                        assignarPeticions();
+                    }
+                } else {
+                    finalitzarSimulacio(e, jsonFile);
+                }
+            }
+        });
+        timer.start();
     }
 
     /**
@@ -311,22 +387,12 @@ public class Simulador {
     }
 
     /**
-     * @pre !peticions.isEmpty()
-     * @post S'elimina la petició ja servida
-     *
+     * @pre peticions != null
+     * @post Comprova si queden peticions pendents.
+     * @return True si hi ha peticions pendents, false en cas contrari.
      */
-    private Peticio peticioActual() {
-        return peticions.get(0);
-
-    }
-
-    /**
-     * @pre !peticions.isEmpty()
-     * @post S'elimina la petició ja servida
-     *
-     */
-    private void peticioServida() {
-        peticions.remove(0);
+    public boolean hiHaPeticions() {
+        return !peticions.isEmpty();
     }
 
     /**
@@ -334,22 +400,22 @@ public class Simulador {
      * @pre cert
      * @post Tanca la simulació i mostra un resum dels resultats.
      */
-    private void finalitzarSimulacio(ActionEvent e,File jsonFile) {
+    private void finalitzarSimulacio(ActionEvent e, File jsonFile) {
         try {
             ((Timer) e.getSource()).stop();
-            
+
             System.out.println("------------------");
             System.out.println("Estadistiques:");
             System.out.println(this.estadistiques.toString());
             mostrarDialogEstadistiques();
-            LectorJSON escritorJSON=new LectorJSON();
-            //mapa.getLlocs().keySet().toArray()
+            LectorJSON escritorJSON = new LectorJSON();
+            // mapa.getLlocs().keySet().toArray()
             List<Lloc> listDeLlocs = new ArrayList<>(mapa.getLlocs().keySet());
-            
+
             Collection collectionGenerica = mapa.getLlocs().values();
             List<Cami> listCami = new ArrayList<Cami>(collectionGenerica);
-            
-            escritorJSON.writeJsonFile(conductors,vehicles,listDeLlocs,listCami,jsonFile.getAbsolutePath());
+
+            escritorJSON.writeJsonFile(conductors, vehicles, listDeLlocs, listCami, peticions, jsonFile.getAbsolutePath());
             System.out.println("Simulació finalitzada.");
         } catch (IOException ex) {
             System.err.println("ERROR AL FINALITZAR SIMULACIO");
@@ -414,71 +480,76 @@ public class Simulador {
         return mapPanel;
     }
 
+    public void pintarMissatge(String missatge) {
+        mapPanel.afegirMissatge(missatge);
+    }
 
     /**
- * Mostra un diàleg amb les estadístiques de la simulació.
- */
-private void mostrarDialogEstadistiques() {
-    // Crear un JDialog modal
-    JDialog dialog = new JDialog((Frame)null, "Estadístiques de la Simulació", true);
-    dialog.setLayout(new BorderLayout());
-    dialog.setSize(500, 400);
-    dialog.setLocationRelativeTo(null); // Centrar en pantalla
-    
-    // Crear panel principal con borde y margen
-    JPanel panel = new JPanel(new BorderLayout(10, 10));
-    panel.setBorder(createEmptyBorder(15, 15, 15, 15));
-    
-    // Título
-    JLabel titulo = new JLabel("Resum de la Simulació", JLabel.CENTER);
-    titulo.setFont(new Font("SansSerif", Font.BOLD, 18));
-    panel.add(titulo, BorderLayout.NORTH);
-    
-    // Panel de estadísticas
-    JTextArea areaEstadisticas = new JTextArea();
-    areaEstadisticas.setEditable(false);
-    areaEstadisticas.setFont(new Font("Monospaced", Font.PLAIN, 14));
-    areaEstadisticas.setText(obtenerTextoEstadisticas());
-    
-    // Añadir scroll por si hay muchas estadísticas
-    JScrollPane scrollPane = new JScrollPane(areaEstadisticas);
-    panel.add(scrollPane, BorderLayout.CENTER);
-    
-    // Botón de cierre
-    JButton cerrarBtn = new JButton("Tancar");
-    cerrarBtn.addActionListener(e -> dialog.dispose());
-    
-    JPanel panelBoton = new JPanel();
-    panelBoton.add(cerrarBtn);
-    panel.add(panelBoton, BorderLayout.SOUTH);
-    
-    dialog.add(panel);
-    dialog.setVisible(true);
-}
+     * Mostra un diàleg amb les estadístiques de la simulació.
+     */
+    private void mostrarDialogEstadistiques() {
+        // Crear un JDialog modal
+        JDialog dialog = new JDialog((Frame) null, "Estadístiques de la Simulació", true);
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(500, 400);
+        dialog.setLocationRelativeTo(null); // Centrar en pantalla
 
-/**
- * Genera el texto formateado con las estadísticas.
- * @return String con las estadísticas formateadas
- */
-private String obtenerTextoEstadisticas() {
-    StringBuilder sb = new StringBuilder();
-    
-    // Aquí añades toda la información de las estadísticas
-    sb.append("--- Peticions ---\n");
-    sb.append("Nombre de peticions servides -> ").append(estadistiques.getPeticionesServidas()).append("\n");
-    sb.append("Nombre de peticions no servides -> ").append(estadistiques.getPeticionesNoServidas()).append("\n");
-    sb.append("Percentatge d'exit de peticions -> ").append(estadistiques.getPorcentajeExito()).append("\n");
+        // Crear panel principal con borde y margen
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBorder(createEmptyBorder(15, 15, 15, 15));
 
-    sb.append("--- Temps mig ---\n");
-    sb.append("Temps mig d'espera -> ").append(estadistiques.getTiempoEsperaPromedio()).append("\n\n");
-    sb.append("Temps maxim d'espera -> ").append(estadistiques.getTiempoMaximoEspera()).append("\n\n");
+        // Título
+        JLabel titulo = new JLabel("Resum de la Simulació", JLabel.CENTER);
+        titulo.setFont(new Font("SansSerif", Font.BOLD, 18));
+        panel.add(titulo, BorderLayout.NORTH);
 
-    sb.append("--- Vehicles ---\n");
-    sb.append(String.format("Mitjana del percentatge d’ocupaci´o dels vehicles -> ", estadistiques.getOcupacionPromedioVehiculos()));
-    sb.append(String.format("Mitjana del temps dels viatges -> ", estadistiques.getTiempoViajePromedio()));
-    sb.append("\n");
-    
-    return sb.toString();
-}
+        // Panel de estadísticas
+        JTextArea areaEstadisticas = new JTextArea();
+        areaEstadisticas.setEditable(false);
+        areaEstadisticas.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        areaEstadisticas.setText(obtenerTextoEstadisticas());
+
+        // Añadir scroll por si hay muchas estadísticas
+        JScrollPane scrollPane = new JScrollPane(areaEstadisticas);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+        // Botón de cierre
+        JButton cerrarBtn = new JButton("Tancar");
+        cerrarBtn.addActionListener(e -> dialog.dispose());
+
+        JPanel panelBoton = new JPanel();
+        panelBoton.add(cerrarBtn);
+        panel.add(panelBoton, BorderLayout.SOUTH);
+
+        dialog.add(panel);
+        dialog.setVisible(true);
+    }
+
+    /**
+     * Genera el texto formateado con las estadísticas.
+     * 
+     * @return String con las estadísticas formateadas
+     */
+    private String obtenerTextoEstadisticas() {
+        StringBuilder sb = new StringBuilder();
+
+        // Aquí añades toda la información de las estadísticas
+        sb.append("--- Peticions ---\n");
+        sb.append("Nombre de peticions servides -> ").append(estadistiques.getPeticionesServidas()).append("\n");
+        sb.append("Nombre de peticions no servides -> ").append(estadistiques.getPeticionesNoServidas()).append("\n");
+        sb.append("Percentatge d'exit de peticions -> ").append(estadistiques.getPorcentajeExito()).append("\n");
+
+        sb.append("--- Temps mig ---\n");
+        sb.append("Temps mig d'espera -> ").append(estadistiques.getTiempoEsperaPromedio()).append("\n\n");
+        sb.append("Temps maxim d'espera -> ").append(estadistiques.getTiempoMaximoEspera()).append("\n\n");
+
+        sb.append("--- Vehicles ---\n");
+        sb.append(String.format("Mitjana del percentatge d’ocupaci´o dels vehicles -> ",
+                estadistiques.getOcupacionPromedioVehiculos()));
+        sb.append(String.format("Mitjana del temps dels viatges -> ", estadistiques.getTiempoViajePromedio()));
+        sb.append("\n");
+
+        return sb.toString();
+    }
 
 };

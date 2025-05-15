@@ -41,13 +41,16 @@ public class IniciRutaEvent extends Event {
             for (Lloc lloc : ruta.getLlocs()) {
                 System.out.print(lloc.obtenirId() + " --> ");
             }
-        }	
+        }
 
     }
 
     @Override
     public void executar(Simulador simulador) {
-        System.out.println("[" + temps + "] El conductor " + conductor.getId() + " inicia la ruta.");
+        String missatge = "[" + temps + "] El conductor " + conductor.getId() + " inicia la ruta.";
+        System.out.println(missatge);
+        simulador.pintarMissatge(missatge);
+
         conductor.setOcupat(true);
         conductor.executarRuta(ruta, vehicle, simulador); // <--- passem el simulador
     }

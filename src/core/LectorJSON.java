@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,23 +56,25 @@ public class LectorJSON {
         // Patró per extreure cada objecte lloc
         Pattern pattern = Pattern.compile(
                 "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                + "\\s*\"MAX_VEHICLES\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"TIPUS\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                + "\\s*\"N_CARREGADORS\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"N_CARREGADORS_PRIVATS\"\\s*:\\s*(\\d+)\\s*\\}");
+                        + "\\s*\"TIPUS\"\\s*:\\s*(\\d+)\\s*,"
+                        + "\\s*\"N_CARREGADORS\"\\s*:\\s*\"([^\"]+)\"\\s*,"
+                        + "\\s*\"N_CARREGADORS_PRIVATS\"\\s*:\\s*(\\d+)\\s*,"
+                        + "\\s*\"MAX_VEHICLES\"\\s*:\\s*(\\d+)\\s*\\}");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
         while (matcher.find()) {
             int id = Integer.parseInt(matcher.group(1));
-            int maxVehicles = Integer.parseInt(matcher.group(2));
-            String tipus = matcher.group(3);
-            int nCarregadors = Integer.parseInt(matcher.group(4));
-            int nCarregadorsPrivats = Integer.parseInt(matcher.group(5));
+            String tipus = matcher.group(2);
 
-            if (tipus.equals("ESTACIO")) {
-                llocs.add(new Lloc(id, maxVehicles));
-            } else if (tipus.equals("PARC")) {
+            if (tipus.equals("L")) {
+                llocs.add(new Lloc(id));
+            } else if (tipus.equals("P")) {
+
+                int maxVehicles = Integer.parseInt(matcher.group(5));
+                int nCarregadors = Integer.parseInt(matcher.group(3));
+                int nCarregadorsPrivats = Integer.parseInt(matcher.group(4));
+
                 List<PuntCarrega> puntsCarregaPublics = new ArrayList<>();
                 List<PuntCarrega> puntsCarregaPrivats = new ArrayList<>();
 
@@ -95,9 +98,9 @@ public class LectorJSON {
 
         Pattern pattern = Pattern.compile(
                 "\\{\\s*\"ORIGEN\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                + "\\s*\"DESTI\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                + "\\s*\"DISTANCIA_KM\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                + "\\s*\"TEMPS_MIN\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
+                        + "\\s*\"DESTI\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                        + "\\s*\"DISTANCIA_KM\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                        + "\\s*\"TEMPS_MIN\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
@@ -123,11 +126,11 @@ public class LectorJSON {
 
         Pattern pattern = Pattern.compile(
                 "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                + "\\s*\"ID_UBICACIO\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                + "\\s*\"AUTONOMIA_KM\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"MAX_PASSATGERS\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"TEMPS_CARGA_RAPIDA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                + "\\s*\"TEMPS_CARGA_LENTA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
+                        + "\\s*\"ID_UBICACIO\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                        + "\\s*\"AUTONOMIA_KM\"\\s*:\\s*(\\d+)\\s*,"
+                        + "\\s*\"MAX_PASSATGERS\"\\s*:\\s*(\\d+)\\s*,"
+                        + "\\s*\"TEMPS_CARGA_RAPIDA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                        + "\\s*\"TEMPS_CARGA_LENTA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
@@ -161,15 +164,17 @@ public class LectorJSON {
         return content.toString();
     }
 
-    public static List<Conductor> carregarConductors(String pathFitxer, Map<Integer, Vehicle> vehiclesPerId) {
+    public static List<Conductor> carregarConductors(String pathFitxer, Map<Integer, Vehicle> vehiclesPerId,
+            Map<Integer, Lloc> llocsPerId) {
         List<Conductor> conductors = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
 
         Pattern pattern = Pattern.compile(
-                "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                + "\\s*\"NOM\"\\s*:\\s*\"([^\"]*)\"\\s*,"
-                + "\\s*\"TIPUS\"\\s*:\\s*\"([^\"]*)\"\\s*,"
-                + "\\s*\"IDVEHICLE\"\\s*:\\s*\"?(\\d+)\"?\\s*\\}");
+                "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,\\s*"
+                        + "\"NOM\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
+                        + "\"TIPUS\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
+                        + "\"IDVEHICLE\"\\s*:\\s*\"?(\\d+)\"?\\s*,\\s*"
+                        + "\"ID_PARQUING_PRIVAT\"\\s*:\\s*\"?(\\d+)\"?\\s*\\}");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
@@ -178,6 +183,7 @@ public class LectorJSON {
             String nom = matcher.group(2);
             String tipus = matcher.group(3).toLowerCase();
             int idVehicle = Integer.parseInt(matcher.group(4));
+            int idParquing = Integer.parseInt(matcher.group(5));
 
             Vehicle vehicle = vehiclesPerId.get(idVehicle);
             if (vehicle == null) {
@@ -191,7 +197,9 @@ public class LectorJSON {
                     conductor = new ConductorVoraç(id, nom, vehicle);
                     break;
                 case "planificador":
-                    conductor = new ConductorPlanificador(id, nom, vehicle);
+                    Parquing parquing = (Parquing) llocsPerId.get(idParquing);
+
+                    conductor = new ConductorPlanificador(id, nom, vehicle, parquing);
                     break;
                 default:
                     System.err.println("Tipus de conductor desconegut: " + tipus);
@@ -207,8 +215,8 @@ public class LectorJSON {
 
         // Patró per extreure horaInici i horaFinal
         Pattern pattern = Pattern.compile(
-                "\"horaInici\"\\s*:\\s*\"([^\"]*)\"\\s*,"
-                + "\\s*\"horaFinal\"\\s*:\\s*\"([^\"]*)\"");
+                "\"horaInici\"\\s*:\\s*\"([^\"])\"\\s,"
+                        + "\\s*\"horaFinal\"\\s*:\\s*\"([^\"]*)\"");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
@@ -216,7 +224,7 @@ public class LectorJSON {
             try {
                 LocalTime horaInici = LocalTime.parse(matcher.group(1));
                 LocalTime horaFinal = LocalTime.parse(matcher.group(2));
-                return new LocalTime[]{horaInici, horaFinal};
+                return new LocalTime[] { horaInici, horaFinal };
             } catch (Exception e) {
                 System.err.println("Error parsejant hores: " + e.getMessage());
             }
@@ -234,8 +242,8 @@ public class LectorJSON {
         // Patró general per extreure events
         Pattern eventPattern = Pattern.compile(
                 "\\{\\s*\"type\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                + "\\s*\"temps\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                + "(.*?)\\s*\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)");
+                        + "\\s*\"temps\"\\s*:\\s*\"([^\"]+)\"\\s*,"
+                        + "(.?)\\s\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)");
 
         Matcher matcher = eventPattern.matcher(jsonContent);
 
@@ -271,7 +279,7 @@ public class LectorJSON {
                 case "FiRuta":
                     return parseFiRutaEvent(temps, eventData, conductorsPerId);
                 case "FiCarrega":
-                    return parseFiCarregaEvent(temps, eventData, vehiclesPerId);
+                    return parseFiCarregaEvent(temps, eventData, conductorsPerId);
                 case "CarregarBateria":
                     return parseCarregarBateriaEvent(temps, eventData, vehiclesPerId, conductorsPerId);
                 default:
@@ -284,15 +292,15 @@ public class LectorJSON {
         }
     }
 
-// Métodos de parseo para cada tipo de evento
+    // Métodos de parseo para cada tipo de evento
     private static Event parseMoureVehicleEvent(LocalTime temps, String data,
             Map<Integer, Vehicle> vehiclesPerId,
             Map<Integer, Lloc> llocsPerId) {
         Pattern p = Pattern.compile(
                 "\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"origenId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"destiId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"distancia\"\\s*:\\s*(\\d+\\.?\\d*)");
+                        + "\\s*\"origenId\"\\s*:\\s*(\\d+)\\s*,"
+                        + "\\s*\"destiId\"\\s*:\\s*(\\d+)\\s*,"
+                        + "\\s*\"distancia\"\\s*:\\s*(\\d+\\.?\\d*)");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
@@ -316,13 +324,13 @@ public class LectorJSON {
         // Patrón regex mejorado para capturar todos los campos
         Pattern p = Pattern.compile(
                 "\"conductorId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"ruta\"\\s*:\\s*\\{\\s*"
-                + "\"llocs\"\\s*:\\s*\\[(.*?)\\]\\s*,"
-                + "\\s*\"distanciaTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                + "\\s*\"tempsTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                + "\\s*\"horaInici\"\\s*:\\s*\"([^\"]*)\"\\s*,"
-                + "\\s*\"esRutaCarrega\"\\s*:\\s*(true|false)\\s*\\}");
+                        + "\\s*\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
+                        + "\\s*\"ruta\"\\s*:\\s*\\{\\s*"
+                        + "\"llocs\"\\s*:\\s*\\[(.?)\\]\\s,"
+                        + "\\s*\"distanciaTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                        + "\\s*\"tempsTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                        + "\\s*\"horaInici\"\\s*:\\s*\"([^\"])\"\\s,"
+                        + "\\s*\"esRutaCarrega\"\\s*:\\s*(true|false)\\s*\\}");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
@@ -380,7 +388,7 @@ public class LectorJSON {
             Conductor conductor = conductorsPerId.get(conductorId);
 
             if (conductor != null) {
-                return new FiRutaEvent(temps, conductor);
+                return new FiRutaEvent(temps, conductor, null);
             } else {
                 System.err.println("Conductor no trobat amb ID: " + conductorId);
             }
@@ -389,19 +397,19 @@ public class LectorJSON {
     }
 
     private static Event parseFiCarregaEvent(LocalTime temps, String data,
-            Map<Integer, Vehicle> vehiclesPerId) {
+            Map<Integer, Conductor> conductorsPerId) {
         Pattern p = Pattern.compile(
-                "\"vehicleId\"\\s*:\\s*(\\d+)");
+                "\"conductorId\"\\s*:\\s*(\\d+)");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
-            int vehicleId = Integer.parseInt(m.group(1));
-            Vehicle vehicle = vehiclesPerId.get(vehicleId);
+            int conductorId = Integer.parseInt(m.group(1));
+            Conductor conductor = conductorsPerId.get(conductorId);
 
-            if (vehicle != null) {
-                return new FiCarregaEvent(temps, vehicle);
+            if (conductor != null) {
+                return new FiCarregaEvent(temps, conductor);
             } else {
-                System.err.println("Vehicle no trobat amb ID: " + vehicleId);
+                System.err.println("Conductor no trobat amb ID: " + conductorId);
             }
         }
         return null;
@@ -412,8 +420,8 @@ public class LectorJSON {
             Map<Integer, Conductor> conductorsPerId) {
         Pattern p = Pattern.compile(
                 "\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"duracioCarregaMinuts\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                + "\\s*\"conductorId\"\\s*:\\s*(\\d+)");
+                        + "\\s*\"duracioCarregaMinuts\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                        + "\\s*\"conductorId\"\\s*:\\s*(\\d+)");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
@@ -438,8 +446,9 @@ public class LectorJSON {
         return null;
     }
 
-//METODES D ESCRIPTURA
-    public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs, List<Cami> connexions, String filePath) throws IOException {
+    // METODES D ESCRIPTURA
+    public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs,
+            List<Cami> connexions, List<Peticio> peticions, String filePath) throws IOException {
 
         StringBuilder jsonBuilder = new StringBuilder();
         jsonBuilder.append("{\n");
@@ -447,23 +456,19 @@ public class LectorJSON {
         // 1. Escribir "llocs"
         jsonBuilder.append("  \"llocs\": [\n");
         for (int i = 0; i < llocs.size(); i++) {
-
             Lloc lloc = llocs.get(i);
-
             jsonBuilder.append("    {\n");
             jsonBuilder.append("      \"ID\": ").append(lloc.obtenirId()).append(",\n");
             if (lloc instanceof Parquing) {
                 Parquing p = (Parquing) lloc;
-
                 jsonBuilder.append("      \"TIPUS\": \"").append("P").append("\",\n");
                 jsonBuilder.append("      \"N_CARREGADORS\": ").append(p.obtenirPuntsCarregaPublics()).append(",\n");
-                jsonBuilder.append("      \"N_CARREGADORS_PRIVATS\": ").append(p.obtenirPuntsCarregaPrivats()).append("\n");
-                jsonBuilder.append("      \"MAX_VEHICLES\": ").append(p.obtenirCapacitatMaxima()).append(",\n");
-
+                jsonBuilder.append("      \"N_CARREGADORS_PRIVATS\": ").append(p.obtenirPuntsCarregaPrivats())
+                        .append(",\n");
+                jsonBuilder.append("      \"MAX_VEHICLES\": ").append(p.obtenirCapacitatMaxima()).append("\n");
             } else {
-                jsonBuilder.append("      \"TIPUS\": \"").append("L").append("\",\n");
+                jsonBuilder.append("      \"TIPUS\": \"").append("L").append("\"\n");
             }
-
             jsonBuilder.append("    }").append(i < llocs.size() - 1 ? ",\n" : "\n");
         }
         jsonBuilder.append("  ],\n");
@@ -488,7 +493,7 @@ public class LectorJSON {
             jsonBuilder.append("    {\n");
             jsonBuilder.append("      \"ID\": ").append(vehicle.getId()).append(",\n");
             jsonBuilder.append("      \"ID_UBICACIO\": ").append(vehicle.getUbicacioActual().obtenirId()).append(",\n");
-            jsonBuilder.append("      \"AUTONOMIA_KM\": ").append(vehicle.getAutonomia()).append(",\n");
+            jsonBuilder.append("      \"AUTONOMIA_KM\": ").append(vehicle.AUTONOMIA).append(",\n");
             jsonBuilder.append("      \"MAX_PASSATGERS\": ").append(vehicle.getMaxPassatgers()).append(",\n");
             jsonBuilder.append("      \"TEMPS_CARGA_RAPIDA\": ").append(vehicle.TEMPSCARGARAPIDA).append(",\n");
             jsonBuilder.append("      \"TEMPS_CARGA_LENTA\": ").append(vehicle.TEMPSCARGALENTA).append("\n");
@@ -503,27 +508,43 @@ public class LectorJSON {
             jsonBuilder.append("    {\n");
             jsonBuilder.append("      \"ID\": ").append(conductor.getId()).append(",\n");
             jsonBuilder.append("      \"NOM\": \"").append(conductor.nom).append("\",\n");
-            if (conductor instanceof Conductor) {
+            if (conductor instanceof ConductorPlanificador) {
                 ConductorPlanificador conductorPlan = (ConductorPlanificador) conductor;
                 jsonBuilder.append("      \"TIPUS\": \"").append("planificador").append("\",\n");
-                jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append("\n");
-                jsonBuilder.append("      \"ID_PARQUING_PRIVAT\": ").append(conductorPlan.getIdParquing()).append("\n");
-
+                jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append(",\n");
+                jsonBuilder.append("      \"ID_PARQUING_PRIVAT\": ")
+                        .append(conductorPlan.getParquingPrivat().obtenirId()).append("\n");
             } else {
                 jsonBuilder.append("      \"TIPUS\": \"").append("voraç").append("\",\n");
                 jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append("\n");
-
             }
-
             jsonBuilder.append("    }").append(i < conductors.size() - 1 ? ",\n" : "\n");
         }
         jsonBuilder.append("  ],\n");
 
-        // 5. Escribir "horaInici" y "horaFinal" (valores fijos o personalizables)
+        // 5. Escribir "peticions" en el format especificat
+        jsonBuilder.append("  \"peticions\": [\n");
+        for (int i = 0; i < peticions.size(); i++) {
+            Peticio peticio = peticions.get(i);
+            jsonBuilder.append("    {\n");
+            jsonBuilder.append("      \"ID\": ").append(peticio.obtenirId()).append(",\n");
+            jsonBuilder.append("      \"ORIGEN\": ").append(peticio.obtenirOrigen().obtenirId()).append(",\n");
+            jsonBuilder.append("      \"DESTI\": ").append(peticio.obtenirDesti().obtenirId()).append(",\n");
+            jsonBuilder.append("      \"HORA_MIN_RECOLLIDA\": \"").append(peticio.obtenirHoraMinimaRecollida())
+                    .append("\",\n");
+            jsonBuilder.append("      \"HORA_MAX_ARRIBADA\": \"").append(peticio.obtenirHoraMaximaArribada())
+                    .append("\",\n");
+            jsonBuilder.append("      \"NUM_PASSATGERS\": ").append(peticio.obtenirNumPassatgers()).append(",\n");
+            jsonBuilder.append("      \"VEHICLE_COMPARTIT\": ").append(peticio.esVehicleCompartit()).append("\n");
+            jsonBuilder.append("    }").append(i < peticions.size() - 1 ? ",\n" : "\n");
+        }
+        jsonBuilder.append("  ],\n");
+
+        // 6. Escribir "horaInici" y "horaFinal" (valores fijos o personalizables)
         jsonBuilder.append("  \"horaInici\": \"08:00\",\n");
         jsonBuilder.append("  \"horaFinal\": \"20:00\",\n");
 
-        // 6. Escribir "events" (ejemplo básico, puedes adaptarlo)
+        // 7. Escribir "events" (ejemplo básico, puedes adaptarlo)
         jsonBuilder.append("  \"events\": [\n");
         jsonBuilder.append("    {\n");
         jsonBuilder.append("      \"type\": \"MoureVehicle\",\n");
@@ -541,6 +562,41 @@ public class LectorJSON {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(jsonBuilder.toString());
         }
+    }
+
+    public static List<Peticio> carregarPeticions(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
+        List<Peticio> peticions = new ArrayList<>();
+        String jsonContent = llegirFitxerComplet(pathFitxer);
+
+        Pattern pattern = Pattern.compile(
+                "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                        + "\\s*\"ORIGEN\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                        + "\\s*\"DESTI\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                        + "\\s*\"HORA_MIN_RECOLLIDA\"\\s*:\\s*\"([^\"]+)\"\\s*,"
+                        + "\\s*\"HORA_MAX_ARRIBADA\"\\s*:\\s*\"([^\"]+)\"\\s*,"
+                        + "\\s*\"NUM_PASSATGERS\"\\s*:\\s*(\\d+)\\s*,"
+                        + "\\s*\"VEHICLE_COMPARTIT\"\\s*:\\s*(true|false)\\s*\\}");
+
+        Matcher matcher = pattern.matcher(jsonContent);
+
+        while (matcher.find()) {
+            int id = Integer.parseInt(matcher.group(1));
+            int origenId = Integer.parseInt(matcher.group(2));
+            int destiId = Integer.parseInt(matcher.group(3));
+            LocalTime horaMinRecollida = LocalTime.parse(matcher.group(4));
+            LocalTime horaMaxArribada = LocalTime.parse(matcher.group(5));
+            int numPassatgers = Integer.parseInt(matcher.group(6));
+            boolean vehicleCompartit = Boolean.parseBoolean(matcher.group(7));
+
+            Lloc origen = llocsPerId.get(origenId);
+            Lloc desti = llocsPerId.get(destiId);
+
+            if (origen != null && desti != null) {
+                peticions.add(new Peticio(id, origen, desti, horaMinRecollida,
+                        horaMaxArribada, numPassatgers, vehicleCompartit));
+            }
+        }
+        return peticions;
     }
 
 }

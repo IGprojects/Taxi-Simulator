@@ -30,17 +30,15 @@ public class MoureVehicleEvent extends Event {
 
     @Override
     public void executar(Simulador simulador) {
-        System.out.println(
-                "[" + temps + "] Vehicle " + vehicle.getId() + " es mou de " + origen.obtenirId() + " a "
-                        + desti.obtenirId() + ".");
+        String missatge =   "[" + temps + "] Vehicle " + vehicle.getId() + " es mou de " + origen.obtenirId() + " a "
+                        + desti.obtenirId() + ".";
+        System.out.println(missatge);
+        simulador.pintarMissatge(missatge);
         vehicle.moure(desti, distancia);
 
         // Notificar al MapPanel per pintar aquest tram
         if (simulador.getMapPanel() != null) {
             simulador.getMapPanel().animarCami(new Cami(origen, desti, distancia, 0), vehicle);
-
-            // simulador.getMapPanel().afegirCamiPerVehicle(vehicle, new Cami(origen, desti,
-            // distancia, 0));
         }
     }
 

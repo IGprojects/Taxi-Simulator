@@ -2,27 +2,36 @@ package events;
 
 import java.time.LocalTime;
 
+import core.Conductor;
+import core.ConductorVoraç;
 import core.Simulador;
-import core.Vehicle;
 
 /**
  * @class FiCarregaEvent
- * @brief Representa un esdeveniment que indica el final de la càrrega d'un vehicle.
+ * @brief Representa un esdeveniment que indica el final de la càrrega d'un
+ *        vehicle.
  *
  * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class FiCarregaEvent extends Event {
-    private Vehicle vehicle;
+    private Conductor conductor;
 
-    public FiCarregaEvent(LocalTime temps, Vehicle vehicle) {
+    public FiCarregaEvent(LocalTime temps, Conductor conductor) {
         super(temps);
-        this.vehicle = vehicle;
+        this.conductor = conductor;
     }
 
     @Override
     public void executar(Simulador simulador) {
-        vehicle.carregarBateria(true); // carrega total
-        System.out.println("[" + temps + "] Càrrega finalitzada del vehicle " + vehicle.getId());
+        if (simulador.hiHaPeticions())
+            if (conductor instanceof ConductorVoraç)
+                simulador.assignarPeticionsVoraç();
+            else
+                simulador.assignarPeticionsPlan();
+        conductor.getVehicle().carregarBateria(true); // carrega total
+        String missatge = "[" + temps + "] Càrrega finalitzada del vehicle " + conductor.getVehicle().getId();
+        System.out.println(missatge);
+        simulador.pintarMissatge(missatge);
     }
 }

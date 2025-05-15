@@ -28,7 +28,6 @@ public class ConductorPlanificador extends Conductor {
         this.parquingPrivat = parquingPrivat;
     }
 
-
     public Ruta planificarRuta(List<Peticio> peticions, Simulador s, LocalTime horaIniciSimulacio) {
         List<Peticio> recollides = new ArrayList<>();
         List<Lloc> rutaLlocs = new ArrayList<>();
@@ -225,5 +224,9 @@ public class ConductorPlanificador extends Conductor {
 
     public Parquing getParquingPrivat() {
         return parquingPrivat;
+    }
+
+    public int getIdParquing() {
+        return parquingPrivat.obtenirId();
     }
 }

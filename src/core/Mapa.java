@@ -2,7 +2,6 @@ package core;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,23 +14,18 @@ import java.util.Set;
  * @brief Mapa dels diferents llocs i connexions
  * @details Definirà el mapa i les connexions entre llocs
  *
- * @author Grup b9
+ * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class Mapa {
 
     private Map<Lloc, List<Cami>> llocs; /// < Llista de llocs i les seves connexions
-    private int nLlocs; /// < Nombre de llocs del mapa
-    private int nConnexions; /// < Nombre de connexions del mapa
-    // private boolean esPrivat; /// < Indica si el lloc és un carregador privat
 
     /**
      * Constructor de la classe Mapa
      */
-    public Mapa(int nLlocs, int nConnexions) {
+    public Mapa() {
         llocs = new HashMap<>();
-        this.nLlocs = nLlocs;
-        this.nConnexions = nConnexions;
     }
 
     /**
@@ -189,15 +183,43 @@ public class Mapa {
         double millorTemps = Double.MAX_VALUE;
 
         for (Lloc lloc : llocs.keySet()) {
-            if (lloc instanceof Parquing && !lloc.estaPle()) {
-                List<Lloc> cami = camiVoraç(origen, lloc);
-                if (cami != null) {
-                    double tempsRuta = calcularTempsRuta(cami);
-                    if (tempsRuta < millorTemps) {
-                        millorTemps = tempsRuta;
-                        millorRuta = new Ruta(cami, horaInici, -1, tempsRuta, conductor, true);
+            if (lloc instanceof Parquing) {
+                Parquing parquing = (Parquing) lloc;
+                if (!parquing.estaPle()) {
+                    List<Lloc> cami = camiVoraç(origen, lloc);
+                    if (cami != null) {
+                        double tempsRuta = calcularTempsRuta(cami);
+                        if (tempsRuta < millorTemps) {
+                            millorTemps = tempsRuta;
+                            millorRuta = new Ruta(cami, horaInici, -1, tempsRuta, conductor, true);
+                        }
                     }
                 }
+
+            }
+        }
+
+        return millorRuta;
+    }
+
+    public Ruta rutaParquingPrivatMesProper(Lloc origen, LocalTime horaInici, ConductorPlanificador conductor) {
+        Ruta millorRuta = null;
+        double millorTemps = Double.MAX_VALUE;
+
+        for (Lloc lloc : llocs.keySet()) {
+            if (lloc instanceof Parquing) {
+                Parquing parquing = (Parquing) lloc;
+                if (!parquing.estaPle() && parquing.esCarregadorPrivat(conductor.getParquingPrivat().obtenirId())) {
+                    List<Lloc> cami = camiVoraç(origen, lloc);
+                    if (cami != null) {
+                        double tempsRuta = calcularTempsRuta(cami);
+                        if (tempsRuta < millorTemps) {
+                            millorTemps = tempsRuta;
+                            millorRuta = new Ruta(cami, horaInici, -1, tempsRuta, conductor, true);
+                        }
+                    }
+                }
+
             }
         }
 
@@ -205,38 +227,11 @@ public class Mapa {
     }
 
     /**
-     * 
-     * 
-     * 
-     * @param origen
-     * @param desti
-     * @return
+     * @pre Cert
+     * @post Retorna la llista de llocs i les seves connexions
+     * @return Llista de llocs i les seves connexions
      */
     public Map<Lloc, List<Cami>> getLlocs() {
         return llocs;
     }
-
-    /**
-     * 
-     * 
-     * 
-     * @param id
-     * @return
-     */
-    public Lloc getLlocPerId(int id) {
-        for (Lloc lloc : llocs.keySet()) {
-            if (lloc.obtenirId() == id)
-                return lloc;
-        }
-        return null;
-    }
-
-//   public Lloc getCarregadorPrivatPredeterminat() {
-//         for (Lloc lloc : llocs.keySet()) {
-//             if (lloc.esCarregadorPrivat())
-//                 return lloc;
-//         }
-//         return null;
-//     }
-
 }

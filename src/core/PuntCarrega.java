@@ -1,6 +1,12 @@
 package core;
 
-
+/**
+ * @class PuntCarrega
+ * @brief Classe que representa un punt de càrrega d'un vehicle elèctric.
+ *
+ * @author Dídac Gros Labrador
+ * @version 2025.05.13
+ */
 public class PuntCarrega {
     private TipusPuntCarrega tipusCarga;
     private boolean ocupat;

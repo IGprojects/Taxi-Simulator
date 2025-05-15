@@ -25,6 +25,7 @@ public class MapPanel extends JPanel {
     private final Map<Vehicle, List<Cami>> caminsPerVehicle = new HashMap<>();
     private final Map<Vehicle, Color> colorPerVehicle = new HashMap<>();
     private final Map<Lloc, Point> posicions = new HashMap<>();
+    private final List<String> missatges = new ArrayList<>();
     private Lloc llocSeleccionat = null;
     private Point offset = null;
     private String horaActual = "00:00";
@@ -36,9 +37,21 @@ public class MapPanel extends JPanel {
         configurarMouseListeners();
     }
 
+    private static final Color[] COLORS = {
+            new Color(0x1f77b4), // blau
+            new Color(0xff7f0e), // taronja
+            new Color(0x2ca02c), // verd
+            new Color(0xd62728), // vermell
+            new Color(0x9467bd), // lila
+            new Color(0x8c564b), // marró
+            new Color(0xe377c2), // rosa
+            new Color(0x7f7f7f), // gris
+            new Color(0xbcbd22), // oliva
+            new Color(0x17becf) // turquesa
+    };
+
     private Color generarColor(int index) {
-        float hue = (index * 0.6180339887f) % 1.0f; // nombre irracional per bona separació
-        return Color.getHSBColor(hue, 0.8f, 0.9f);
+        return COLORS[index % COLORS.length];
     }
 
     public void afegirCamiPerVehicle(Vehicle vehicle, Cami cami) {
@@ -87,10 +100,10 @@ public class MapPanel extends JPanel {
 
     public void animarCami(Cami cami, Vehicle vehicle) {
         final int[] progress = { 0 }; // 0 → 100
-        Timer timer = new Timer(100, null); // cada 100 ms
+        Timer timer = new Timer(80, null); // cada 100 ms
 
         timer.addActionListener(e -> {
-            progress[0] += 20; // puja un 20% cada cop
+            progress[0] += 2; // puja un 20% cada cop
 
             if (progress[0] >= 100) {
                 // Afegeix camí complet al final
@@ -151,6 +164,10 @@ public class MapPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
+        // Fons degradat vertical de blau clar a blanc
+        GradientPaint gradient = new GradientPaint(0, 0, new Color(230, 240, 255), 0, getHeight(), Color.WHITE);
+        g2.setPaint(gradient);
+        g2.fillRect(0, 0, getWidth(), getHeight());
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Dibuixar camins
@@ -193,10 +210,10 @@ public class MapPanel extends JPanel {
             int size = 50;
 
             if (lloc instanceof Parquing) {
-                g2.setColor(new Color(200, 0, 0));
+                g2.setColor(new Color(220, 60, 60)); // vermell suau
                 g2.fillRect(x, y, size, size);
             } else {
-                g2.setColor(new Color(30, 144, 255));
+                g2.setColor(new Color(80, 170, 255)); // blau suau
                 g2.fillOval(x, y, size, size);
             }
 
@@ -210,11 +227,63 @@ public class MapPanel extends JPanel {
         }
 
         // Dibuixar hora actual (dalt a la dreta)
-        g2.setColor(Color.BLACK);
-        g2.setFont(new Font("SansSerif", Font.BOLD, 18));
+        String text = "Hora: " + horaActual;
         FontMetrics fm = g2.getFontMetrics();
-        int textWidth = fm.stringWidth(horaActual);
-        g2.drawString("Hora: " + horaActual, getWidth() - textWidth - 60, 30);
+        int textWidth = fm.stringWidth(text);
+        int padding = 10;
+
+        int x = getWidth() - textWidth - 40;
+        int y = 30;
+
+        g2.setColor(new Color(0, 0, 0, 120)); // fons negre translúcid
+        g2.fillRoundRect(x - padding, y - 20, textWidth + padding * 2, 30, 10, 10);
+
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("SansSerif", Font.BOLD, 16));
+        g2.drawString(text, x, y);
+
+        // Dibuixar requadre informatiu a la dreta
+        // Requadre informatiu (estil modern)
+        int boxX = getWidth() - 450;
+        int boxY = getHeight() / 2 - 100;
+        int boxWidth = 400;
+        int boxHeight = 200;
+
+        // Fons blanc translúcid amb cantonades arrodonides
+        g2.setColor(new Color(255, 255, 255, 230));
+        g2.fillRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
+
+        // Ombra subtil (simulada com un segon rectangle gris clar)
+        g2.setColor(new Color(0, 0, 0, 30));
+        g2.drawRoundRect(boxX + 2, boxY + 2, boxWidth, boxHeight, 20, 20);
+
+        // Borde suau (gris clar)
+        g2.setColor(new Color(200, 200, 200));
+        g2.setStroke(new BasicStroke(1.5f));
+        g2.drawRoundRect(boxX, boxY, boxWidth, boxHeight, 20, 20);
+
+        // Dibuixar missatges
+        g2.setColor(Color.BLACK);
+        g2.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        FontMetrics metrics = g2.getFontMetrics();
+        int lineHeight = metrics.getHeight();
+        int textY = boxY + 30;
+
+        for (String missatge : missatges) {
+            int tancat = missatge.indexOf("]");
+            if (missatge.startsWith("[") && tancat > 0) {
+                String hora = missatge.substring(0, tancat + 1);
+                String cos = missatge.substring(tancat + 1).trim();
+                g2.setFont(new Font("SansSerif", Font.BOLD, 14));
+                g2.drawString(hora, boxX + 10, textY);
+                g2.setFont(new Font("SansSerif", Font.PLAIN, 14));
+                g2.drawString(" " + cos, boxX + 10 + metrics.stringWidth(hora), textY);
+            } else {
+                g2.drawString(missatge, boxX + 10, textY);
+            }
+            textY += lineHeight;
+        }
+
     }
 
     private void drawArrow(Graphics2D g2, int x1, int y1, int x2, int y2) {
@@ -277,6 +346,14 @@ public class MapPanel extends JPanel {
 
     public void setHoraActual(LocalTime hora) {
         this.horaActual = hora.toString();
+        repaint();
+    }
+
+    public void afegirMissatge(String missatge) {
+        missatges.add(missatge);
+        if (missatges.size() > 9) { // manté només els últims 5 missatges
+            missatges.remove(0);
+        }
         repaint();
     }
 

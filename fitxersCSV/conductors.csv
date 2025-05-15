@@ -1,5 +1,5 @@
-ID,NOM,TIPUS,IDVEHICLE
-1,Anna,voraç,101
-2,Marc,voraç,102
+ID,NOM,TIPUS,IDVEHICLE,ID_PARQUING_PRIVAT
+1,Anna,planificador,101,18
+2,Marc,planificador,102,19
 3,Clara,voraç,103
 4,Joan,voraç,104
