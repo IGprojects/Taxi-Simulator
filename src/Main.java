@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 
 import core.Cami;
 import core.Conductor;
+import core.Estadistiques;
 import core.LectorCSV;
 import core.LectorJSON;
 import core.Lloc;
@@ -29,6 +30,7 @@ import core.Peticio;
 import core.Simulador;
 import core.Vehicle;
 import events.Event;
+import views.EstadistiquesPanel;
 import views.LegendPanel;
 import views.MapPanel;
 import views.SelectorInicial;
@@ -203,8 +205,39 @@ public class Main {
                     List<Vehicle> vehiclesRedundants = optimitzador.obtenirVehiclesRedundants(simulacioJson, vehiclesTotals);
                     VehiclesComparisonPanel.mostrarComparacio(vehiclesTotals, vehiclesRedundants);
                 }
+
+                @Override
+                public void onVisualitzarEstadistiques(File simulacioJson) {
+                    try {
+                        IniciarVisualitzadorEstadistiques(simulacioJson);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Error carregant les estadistiques: " + e.getMessage());
+                    }
+                }
             });
         });
+    }
+
+
+    
+    private static void IniciarVisualitzadorEstadistiques(File estadistiquesJson) {
+
+        List<Estadistiques> lliEstadistiqueses = LectorJSON.carregarEstadistiques(estadistiquesJson.getAbsolutePath());
+
+        Map<String, Estadistiques> dades = new HashMap<>();
+        for (int i = 0; i < lliEstadistiqueses.size(); i++) {
+            dades.put("Simulació " + i + 1, lliEstadistiqueses.get(i));
+        }
+
+        JFrame f = new JFrame("Comparació Estadístiques");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.add(new EstadistiquesPanel(dades));
+        f.pack();
+        f.setLocationRelativeTo(null);
+        f.setVisible(true);
+
     }
 
     /**

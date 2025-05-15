@@ -162,6 +162,48 @@ public class LectorJSON {
         return vehicles;
     }
 
+    public static List<Estadistiques> carregarEstadistiques(String pathFitxer) {
+        List<Estadistiques> estadistiques = new ArrayList<>();
+        String jsonContent = llegirFitxerComplet(pathFitxer);
+
+        Pattern pattern = Pattern.compile(
+                "\\{\\s*\"peticionesServidas\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"peticionesNoServidas\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"tiempoTotalEspera\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"tiempoMaximoEspera\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"ocupacionTotalVehiculos\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"muestrasOcupacion\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"porcentajeBateriaPromedio\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"muestrasBateria\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"tiempoTotalViaje\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"muestrasViaje\"\\s*:\\s*(\\d+)\\s*\\}");
+
+        Matcher matcher = pattern.matcher(jsonContent);
+
+        while (matcher.find()) {
+            int peticionesServidas = Integer.parseInt(matcher.group(1));
+            int peticionesNoServidas = Integer.parseInt(matcher.group(2));
+            double tiempoTotalEspera = Double.parseDouble(matcher.group(3));
+            double tiempoMaximoEspera = Double.parseDouble(matcher.group(4));
+            double ocupacionTotalVehiculos = Double.parseDouble(matcher.group(5));
+            int muestrasOcupacion = Integer.parseInt(matcher.group(6));
+            double porcentajeBateriaPromedio = Double.parseDouble(matcher.group(7));
+            int muestrasBateria = Integer.parseInt(matcher.group(8));
+            double tiempoTotalViaje = Double.parseDouble(matcher.group(9));
+            int muestrasViaje = Integer.parseInt(matcher.group(10));
+
+            estadistiques.add(new Estadistiques(
+                    peticionesServidas, peticionesNoServidas,
+                    tiempoTotalEspera, tiempoMaximoEspera,
+                    ocupacionTotalVehiculos, muestrasOcupacion,
+                    porcentajeBateriaPromedio, muestrasBateria,
+                    tiempoTotalViaje, muestrasViaje
+            ));
+        }
+
+        return estadistiques;
+    }
+
     private static String llegirFitxerComplet(String pathFitxer) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(pathFitxer))) {
@@ -462,8 +504,7 @@ public class LectorJSON {
     }
 
     // METODES D ESCRIPTURA
-    public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs,
-            List<Cami> connexions, List<Peticio> peticions, String filePath) throws IOException {
+    public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs, List<Cami> connexions, List<Peticio> peticions, String filePath) throws IOException {
 
         StringBuilder jsonBuilder = new StringBuilder();
         jsonBuilder.append("{\n");
@@ -490,16 +531,24 @@ public class LectorJSON {
 
         // 2. Escribir "connexions"
         jsonBuilder.append("  \"connexions\": [\n");
-        for (int i = 0; i < connexions.size(); i++) {
-            Cami con = connexions.get(i);
-            jsonBuilder.append("    {\n");
-            jsonBuilder.append("      \"ORIGEN\": ").append(con.obtenirOrigen().obtenirId()).append(",\n");
-            jsonBuilder.append("      \"DESTI\": ").append(con.obtenirDesti().obtenirId()).append(",\n");
-            jsonBuilder.append("      \"DISTANCIA_KM\": ").append(con.obtenirDistancia()).append(",\n");
-            jsonBuilder.append("      \"TEMPS_MIN\": ").append(con.obtenirTemps()).append("\n");
-            jsonBuilder.append("    }").append(i < connexions.size() - 1 ? ",\n" : "\n");
+        boolean first = true;
+        for (Object obj : connexions) {
+            if (obj instanceof Cami con) {
+                if (!first) {
+                    jsonBuilder.append(",\n");
+                }
+                jsonBuilder.append("    {\n");
+                jsonBuilder.append("      \"ORIGEN\": ").append(con.obtenirOrigen().obtenirId()).append(",\n");
+                jsonBuilder.append("      \"DESTI\": ").append(con.obtenirDesti().obtenirId()).append(",\n");
+                jsonBuilder.append("      \"DISTANCIA_KM\": ").append(con.obtenirDistancia()).append(",\n");
+                jsonBuilder.append("      \"TEMPS_MIN\": ").append(con.obtenirTemps()).append("\n");
+                jsonBuilder.append("    }");
+                first = false;
+            } else {
+                System.err.println("⚠️ Objecte no vàlid dins la llista de connexions: " + obj.getClass());
+            }
         }
-        jsonBuilder.append("  ],\n");
+        jsonBuilder.append("\n  ],\n");
 
         // 3. Escribir "vehicles"
         jsonBuilder.append("  \"vehicles\": [\n");

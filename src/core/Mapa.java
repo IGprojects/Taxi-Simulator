@@ -19,7 +19,9 @@ import java.util.Set;
  */
 public class Mapa {
 
-    private Map<Lloc, List<Cami>> llocs; /// < Llista de llocs i les seves connexions
+    private Map<Lloc, List<Cami>> llocs;
+
+    /// < Llista de llocs i les seves connexions
 
     /**
      * Constructor de la classe Mapa
@@ -53,12 +55,15 @@ public class Mapa {
      */
     public Cami hihaCami(Lloc origen, Lloc desti) {
         List<Cami> camins = llocs.get(origen);
-        if (camins == null)
+        if (camins == null) {
             throw new IllegalArgumentException("Lloc origen no existeix");
+        }
 
-        for (Cami cami : camins)
-            if (cami.obtenirDesti().equals(desti))
+        for (Cami cami : camins) {
+            if (cami.obtenirDesti().equals(desti)) {
                 return cami;
+            }
+        }
 
         return null; // No s'ha trobat cap camí
     }
@@ -69,13 +74,16 @@ public class Mapa {
      * @post Retorna la distància en km que hi ha entre dos llocs
      */
     public double calcularDistancia(Lloc origen, Lloc desti) {
-        if (hihaCami(origen, desti) == null)
+        if (hihaCami(origen, desti) == null) {
             throw new IllegalArgumentException(
                     "No hi ha camí entre origen " + origen.obtenirId() + "i destí " + desti.obtenirId());
+        }
         List<Cami> camins = llocs.get(origen);
-        for (Cami cami : camins)
-            if (cami.obtenirDesti().obtenirId() == desti.obtenirId())
+        for (Cami cami : camins) {
+            if (cami.obtenirDesti().obtenirId() == desti.obtenirId()) {
                 return cami.obtenirDistancia();
+            }
+        }
         return -1;
     }
 
@@ -123,13 +131,16 @@ public class Mapa {
      * @post Retorna el temps en min que hi ha entre dos llocs
      */
     public double calcularTemps(Lloc origen, Lloc desti) {
-        if (hihaCami(origen, desti) == null)
+        if (hihaCami(origen, desti) == null) {
             throw new IllegalArgumentException("No hi ha camí entre origen i destí");
+        }
 
         List<Cami> camins = llocs.get(origen);
-        for (Cami cami : camins)
-            if (cami.obtenirDesti().equals(desti))
+        for (Cami cami : camins) {
+            if (cami.obtenirDesti().equals(desti)) {
                 return cami.obtenirTemps();
+            }
+        }
 
         return -1;
     }
@@ -139,7 +150,6 @@ public class Mapa {
      *
      * @post Retorna el camí més ràpid entre dos llocs
      */
-
     public List<Lloc> camiVoraç(Lloc origen, Lloc desti) {
         Set<Lloc> visitats = new HashSet<>();
         List<Lloc> millorCami = new ArrayList<>();
@@ -169,8 +179,10 @@ public class Mapa {
             Lloc seguent = cami.obtenirDesti();
             if (!visitats.contains(seguent)) {
                 boolean trobat = trobarCamiVoraç(seguent, desti, visitats, camiActual, millorCami);
-                if (trobat)
+                if (trobat) {
                     return true; // sortim tan bon punt trobem el destí
+
+                }
             }
         }
 
@@ -234,4 +246,20 @@ public class Mapa {
     public Map<Lloc, List<Cami>> getLlocs() {
         return llocs;
     }
+
+    /**
+     * @pre Cert
+     * @post Retorna la llista de connexions
+     * @return Llista de connexions
+     */
+    public List<Cami> obtenirTotsElsCamins() {
+        List<Cami> totsElsCamins = new ArrayList<>();
+
+        for (List<Cami> caminsPerLloc : llocs.values()) {
+            totsElsCamins.addAll(caminsPerLloc);
+        }
+
+        return totsElsCamins;
+    }
+
 }

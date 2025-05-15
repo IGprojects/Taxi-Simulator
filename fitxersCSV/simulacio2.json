@@ -1,0 +1,25 @@
+{
+  "llocs": [
+  ],
+  "connexions": [
+
+  ],
+  "vehicles": [
+  ],
+  "conductors": [
+  ],
+  "peticions": [
+  ],
+  "horaInici": "08:00",
+  "horaFinal": "20:00",
+  "events": [
+    {
+      "type": "MoureVehicle",
+      "temps": "08:00",
+      "vehicleId": 1,
+      "origenId": 101,
+      "destiId": 102,
+      "distancia": 5.2
+    }
+  ]
+}

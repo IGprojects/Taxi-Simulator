@@ -18,17 +18,19 @@ public class SelectorInicial {
 
     public interface DadesIniciListener {
         void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions, File JsonFile,
-                LocalTime horaInici, LocalTime horaFinal);
-        
+                                LocalTime horaInici, LocalTime horaFinal);
+
         void onSimulacioJsonSeleccionat(File simulacioJson);
-        
+
         void onOptimitzarSimulacio(File simulacioJson);
+
+        void onVisualitzarEstadistiques(File estadistiquesJson); // Nou mètode
     }
 
     public static void mostrar(DadesIniciListener listener) {
         JFrame frame = new JFrame("Selecció d'arxius i horaris");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 600); // Augmentem la mida per afegir més botons
+        frame.setSize(500, 700); // Augmentem la mida
         frame.setLocationRelativeTo(null); // centrat
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -42,13 +44,14 @@ public class SelectorInicial {
                 new JLabel("Vehicles.csv:"),
                 new JLabel("Conductors.csv:"),
                 new JLabel("Peticions.csv:"),
-                new JLabel("Simulacio.json:")
+                new JLabel("Simulacio.json:"),
+                new JLabel("Estadistiques.json:") // Nou label
         };
 
-        JButton[] fileButtons = new JButton[6];
-        File[] selectedFiles = new File[6];
+        JButton[] fileButtons = new JButton[7];
+        File[] selectedFiles = new File[7]; // Índex 6 per Estadistiques.json
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < labels.length; i++) {
             int idx = i;
             fileButtons[i] = new JButton("Selecciona fitxer...");
             fileButtons[i].addActionListener(e -> {
@@ -71,64 +74,60 @@ public class SelectorInicial {
         JTextField horaFinalField = new JTextField();
 
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         panel.add(horaIniciLabel, gbc);
         gbc.gridx = 1;
         panel.add(horaIniciField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         panel.add(horaFinalLabel, gbc);
         gbc.gridx = 1;
         panel.add(horaFinalField, gbc);
 
         JButton startBtn = new JButton("Iniciar simulació");
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         gbc.gridwidth = 2;
         panel.add(startBtn, gbc);
 
         JButton testBtn = new JButton("Mode proves");
-        gbc.gridy = 9;
-        panel.add(testBtn, gbc);
-        
-        JButton jsonBtn = new JButton("Carregar Simulació");
         gbc.gridy = 10;
-        panel.add(jsonBtn, gbc);
-        
-        // Nou botó per optimitzar simulació
-        JButton optimitzarBtn = new JButton("Optimitzar Simulació");
+        panel.add(testBtn, gbc);
+
+        JButton jsonBtn = new JButton("Carregar Simulació");
         gbc.gridy = 11;
+        panel.add(jsonBtn, gbc);
+
+        JButton optimitzarBtn = new JButton("Optimitzar Simulació");
+        gbc.gridy = 12;
         panel.add(optimitzarBtn, gbc);
 
-        // Botó de proves amb valors hardcoded
+        JButton veureEstadistiquesBtn = new JButton("Visualització d'Estadístiques"); // Nou botó
+        gbc.gridy = 13;
+        panel.add(veureEstadistiquesBtn, gbc);
+
         testBtn.addActionListener(e -> {
             try {
-                selectedFiles[0] = new File(
-                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\llocs.csv");
-                selectedFiles[1] = new File(
-                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\camins.csv");
-                selectedFiles[2] = new File(
-                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\vehicles.csv");
-                selectedFiles[3] = new File(
-                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\conductors.csv");
-                selectedFiles[4] = new File(
-                        "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\peticions.csv");
+                selectedFiles[0] = new File("C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\llocs.csv");
+                selectedFiles[1] = new File("C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\camins.csv");
+                selectedFiles[2] = new File("C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\vehicles.csv");
+                selectedFiles[3] = new File("C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\conductors.csv");
+                selectedFiles[4] = new File("C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\peticions.csv");
 
                 LocalTime horaInici = LocalTime.parse("08:00");
-                LocalTime horaFinal = LocalTime.parse("20:00");
+                LocalTime horaFinal = LocalTime.parse("12:00");
 
                 frame.dispose();
                 listener.onDadesCompletades(
-                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4], selectedFiles[5],
-                        horaInici, horaFinal);
+                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],
+                        selectedFiles[5], horaInici, horaFinal);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Error al mode de proves: " + ex.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        // Acció per al botó de carregar simulació
         jsonBtn.addActionListener(e -> {
             if (selectedFiles[5] == null) {
                 JOptionPane.showMessageDialog(frame, "Selecciona el fitxer simulacio.json!", "Error",
@@ -138,8 +137,7 @@ public class SelectorInicial {
             frame.dispose();
             listener.onSimulacioJsonSeleccionat(selectedFiles[5]);
         });
-        
-        // Acció per al botó d'optimitzar simulació
+
         optimitzarBtn.addActionListener(e -> {
             if (selectedFiles[5] == null) {
                 JOptionPane.showMessageDialog(frame, "Selecciona el fitxer simulacio.json!", "Error",
@@ -148,6 +146,16 @@ public class SelectorInicial {
             }
             frame.dispose();
             listener.onOptimitzarSimulacio(selectedFiles[5]);
+        });
+
+        veureEstadistiquesBtn.addActionListener(e -> {
+            if (selectedFiles[6] == null) {
+                JOptionPane.showMessageDialog(frame, "Selecciona el fitxer Estadistiques.json!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            frame.dispose();
+            listener.onVisualitzarEstadistiques(selectedFiles[6]);
         });
 
         startBtn.addActionListener(e -> {
@@ -164,8 +172,8 @@ public class SelectorInicial {
 
                 frame.dispose();
                 listener.onDadesCompletades(
-                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4], selectedFiles[5],
-                        horaInici, horaFinal);
+                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],
+                        selectedFiles[5], horaInici, horaFinal);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Format d'hora incorrecte. Usa HH:mm", "Error",
                         JOptionPane.ERROR_MESSAGE);
