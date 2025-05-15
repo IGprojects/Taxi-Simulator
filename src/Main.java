@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -41,6 +42,7 @@ import views.VehiclesComparisonPanel;
  * @version 2025.05.13
  */
 public class Main {
+
     /**
      * @pre llocs != null && camins != null
      * @post Afegim tots els llocs i camins al mapa
@@ -77,8 +79,9 @@ public class Main {
             File peticionsFile, File jsonFile, LocalTime horaInici, LocalTime horaFinal) {
         List<Lloc> llocs = LectorCSV.carregarLlocs(llocsFile.getAbsolutePath());
         Map<Integer, Lloc> llocsPerId = new HashMap<>();
-        for (Lloc l : llocs)
+        for (Lloc l : llocs) {
             llocsPerId.put(l.obtenirId(), l);
+        }
 
         List<Cami> camins = LectorCSV.carregarCamins(connexionsFile.getAbsolutePath(), llocsPerId);
         Mapa mapa = carregarMapa(llocs, camins);
@@ -86,8 +89,9 @@ public class Main {
         List<Vehicle> vehicles = LectorCSV.carregarVehicles(vehiclesFile.getAbsolutePath(),
                 llocsPerId);
         Map<Integer, Vehicle> vehiclesPerId = new HashMap<>();
-        for (Vehicle v : vehicles)
+        for (Vehicle v : vehicles) {
             vehiclesPerId.put(v.getId(), v);
+        }
 
         List<Conductor> conductors = LectorCSV.carregarConductors(conductorsFile.getAbsolutePath(),
                 vehiclesPerId, llocsPerId);
@@ -109,25 +113,34 @@ public class Main {
      * @post Inicialitza la simulació a partir d'una simulació guardada
      */
     public static void inicialitzarSimulacioGuardada(File SimulacioFile) {
+        System.out.println(SimulacioFile.getAbsolutePath());
+
         List<Lloc> llocs = LectorJSON.carregarLlocs(SimulacioFile.getAbsolutePath());
-        System.out.println(llocs.size()+"--------------------------------------------------");
+        System.out.println(llocs.size() + "--------------------------------------------------");
 
         Map<Integer, Lloc> llocsPerId = new HashMap<>();
-        for (Lloc l : llocs)
+        for (Lloc l : llocs) {
             llocsPerId.put(l.obtenirId(), l);
+        }
 
         List<Cami> camins = LectorJSON.carregarCamins(SimulacioFile.getAbsolutePath(), llocsPerId);
         Mapa mapa = carregarMapa(llocs, camins);
-        System.out.println(camins.size()+"--------------------------------------------------");
+        System.out.println(camins.size() + "--------------------------------------------------");
         List<Vehicle> vehicles = LectorJSON.carregarVehicles(SimulacioFile.getAbsolutePath(),
                 llocsPerId);
+        System.out.println(vehicles.size() + "--------------------------------------------------");
+
         Map<Integer, Vehicle> vehiclesPerId = new HashMap<>();
-        for (Vehicle v : vehicles)
+        for (Vehicle v : vehicles) {
             vehiclesPerId.put(v.getId(), v);
+        }
 
         List<Conductor> conductors = LectorJSON.carregarConductors(SimulacioFile.getAbsolutePath(), vehiclesPerId,
                 llocsPerId);
+        System.out.println(conductors.size() + "--------------------------------------------------");
+
         LocalTime[] hores = LectorJSON.carregarHorari(SimulacioFile.getAbsolutePath());
+        System.out.println(hores.length + "--------------------------------------------------");
 
         LocalTime horaInici = hores[0];
         LocalTime horaFinal = hores[1];
@@ -182,12 +195,12 @@ public class Main {
                     }
                 }
 
-                 @Override
+                @Override
                 public void onOptimitzarSimulacio(File simulacioJson) {
 
                     Optimitzador optimitzador = new Optimitzador();
                     List<Vehicle> vehiclesTotals = LectorJSON.carregarVehicles(simulacioJson.getAbsolutePath(), LectorJSON.convertirLlistaAMap_Llocs(LectorJSON.carregarLlocs(simulacioJson.getAbsolutePath())));
-                    List<Vehicle> vehiclesRedundants = optimitzador.obtenirVehiclesRedundants(simulacioJson,vehiclesTotals);
+                    List<Vehicle> vehiclesRedundants = optimitzador.obtenirVehiclesRedundants(simulacioJson, vehiclesTotals);
                     VehiclesComparisonPanel.mostrarComparacio(vehiclesTotals, vehiclesRedundants);
                 }
             });

@@ -52,28 +52,35 @@ public class LectorJSON {
         List<Lloc> llocs = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
 
-        // Patró per extreure cada objecte lloc
-        Pattern pattern = Pattern.compile(
-                "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                        + "\\s*\"TIPUS\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"N_CARREGADORS\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                        + "\\s*\"N_CARREGADORS_PRIVATS\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"MAX_VEHICLES\"\\s*:\\s*(\\d+)\\s*\\}");
+        // Primero extraemos el array completo de llocs
+        Pattern arrayPattern = Pattern.compile("\"llocs\"\\s*:\\s*\\[(.*?)\\]", Pattern.DOTALL);
+        Matcher arrayMatcher = arrayPattern.matcher(jsonContent);
 
-        Matcher matcher = pattern.matcher(jsonContent);
+        if (!arrayMatcher.find()) {
+            System.out.println("No se encontró el array de llocs en el JSON");
+            return llocs;
+        }
+
+        String llocsContent = arrayMatcher.group(1);
+
+        // Patrón para cada objeto lloc dentro del array
+        Pattern pattern = Pattern.compile(
+                "\\{\\s*\"ID\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"MAX_VEHICLES\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"TIPUS\"\\s*:\\s*\"([^\"]+)\"\\s*,"
+                + "\\s*\"N_CARREGADORS\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"N_CARREGADORS_PRIVATS\"\\s*:\\s*(\\d+)\\s*\\}");
+
+        Matcher matcher = pattern.matcher(llocsContent);
 
         while (matcher.find()) {
             int id = Integer.parseInt(matcher.group(1));
-            String tipus = matcher.group(2);
+            int maxVehicles = Integer.parseInt(matcher.group(2));
+            String tipus = matcher.group(3);
+            int nCarregadors = Integer.parseInt(matcher.group(4));
+            int nCarregadorsPrivats = Integer.parseInt(matcher.group(5));
 
-            if (tipus.equals("L")) {
-                llocs.add(new Lloc(id));
-            } else if (tipus.equals("P")) {
-
-                int maxVehicles = Integer.parseInt(matcher.group(5));
-                int nCarregadors = Integer.parseInt(matcher.group(3));
-                int nCarregadorsPrivats = Integer.parseInt(matcher.group(4));
-
+            if (tipus.equals("ESTACIO") || tipus.equals("PARC")) {
                 List<PuntCarrega> puntsCarregaPublics = new ArrayList<>();
                 List<PuntCarrega> puntsCarregaPrivats = new ArrayList<>();
 
@@ -86,8 +93,13 @@ public class LectorJSON {
                             j % 2 == 0 ? TipusPuntCarrega.CARGA_RAPIDA : TipusPuntCarrega.CARGA_LENTA));
                 }
                 llocs.add(new Parquing(id, maxVehicles, puntsCarregaPublics, puntsCarregaPrivats));
+            } else {
+                // Si no es ESTACIO ni PARC, lo consideramos un Lloc simple
+                llocs.add(new Lloc(id));
             }
         }
+
+        System.out.println("Llocs carregats: " + llocs.size());
         return llocs;
     }
 
@@ -97,9 +109,9 @@ public class LectorJSON {
 
         Pattern pattern = Pattern.compile(
                 "\\{\\s*\"ORIGEN\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                        + "\\s*\"DESTI\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                        + "\\s*\"DISTANCIA_KM\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                        + "\\s*\"TEMPS_MIN\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
+                + "\\s*\"DESTI\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                + "\\s*\"DISTANCIA_KM\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"TEMPS_MIN\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
@@ -125,11 +137,11 @@ public class LectorJSON {
 
         Pattern pattern = Pattern.compile(
                 "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                        + "\\s*\"ID_UBICACIO\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                        + "\\s*\"AUTONOMIA_KM\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"MAX_PASSATGERS\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"TEMPS_CARGA_RAPIDA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                        + "\\s*\"TEMPS_CARGA_LENTA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
+                + "\\s*\"ID_UBICACIO\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                + "\\s*\"AUTONOMIA_KM\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"MAX_PASSATGERS\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"TEMPS_CARGA_RAPIDA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"TEMPS_CARGA_LENTA\"\\s*:\\s*(\\d+\\.?\\d*)\\s*\\}");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
@@ -170,10 +182,10 @@ public class LectorJSON {
 
         Pattern pattern = Pattern.compile(
                 "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,\\s*"
-                        + "\"NOM\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
-                        + "\"TIPUS\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
-                        + "\"IDVEHICLE\"\\s*:\\s*\"?(\\d+)\"?\\s*,\\s*"
-                        + "\"ID_PARQUING_PRIVAT\"\\s*:\\s*\"?(\\d+)\"?\\s*\\}");
+                + "\"NOM\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
+                + "\"TIPUS\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
+                + "\"IDVEHICLE\"\\s*:\\s*\"?(\\d+)\"?\\s*,\\s*"
+                + "\"ID_PARQUING_PRIVAT\"\\s*:\\s*\"?(\\d+)\"?\\s*\\}");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
@@ -212,10 +224,10 @@ public class LectorJSON {
     public static LocalTime[] carregarHorari(String pathFitxer) {
         String jsonContent = llegirFitxerComplet(pathFitxer);
 
-        // Patró per extreure horaInici i horaFinal
+        // Patró corregit per extreure horaInici i horaFinal
         Pattern pattern = Pattern.compile(
-                "\"horaInici\"\\s*:\\s*\"([^\"])\"\\s,"
-                        + "\\s*\"horaFinal\"\\s*:\\s*\"([^\"]*)\"");
+                "\"horaInici\"\\s*:\\s*\"([^\"]*)\"\\s*," // Nota: [^\"]* per capturar tot el temps
+                + "\\s*\"horaFinal\"\\s*:\\s*\"([^\"]*)\"");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
@@ -223,10 +235,14 @@ public class LectorJSON {
             try {
                 LocalTime horaInici = LocalTime.parse(matcher.group(1));
                 LocalTime horaFinal = LocalTime.parse(matcher.group(2));
-                return new LocalTime[] { horaInici, horaFinal };
+                return new LocalTime[]{horaInici, horaFinal};
             } catch (Exception e) {
                 System.err.println("Error parsejant hores: " + e.getMessage());
+                e.printStackTrace();
             }
+        } else {
+            System.err.println("No s'ha trobat el patró d'horari al JSON");
+            System.err.println("Contingut buscat: " + jsonContent);
         }
         return null;
     }
@@ -241,8 +257,8 @@ public class LectorJSON {
         // Patró general per extreure events
         Pattern eventPattern = Pattern.compile(
                 "\\{\\s*\"type\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                        + "\\s*\"temps\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                        + "(.?)\\s\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)");
+                + "\\s*\"temps\"\\s*:\\s*\"([^\"]+)\"\\s*,"
+                + "(.?)\\s\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)");
 
         Matcher matcher = eventPattern.matcher(jsonContent);
 
@@ -297,9 +313,9 @@ public class LectorJSON {
             Map<Integer, Lloc> llocsPerId) {
         Pattern p = Pattern.compile(
                 "\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"origenId\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"destiId\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"distancia\"\\s*:\\s*(\\d+\\.?\\d*)");
+                + "\\s*\"origenId\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"destiId\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"distancia\"\\s*:\\s*(\\d+\\.?\\d*)");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
@@ -323,13 +339,13 @@ public class LectorJSON {
         // Patrón regex mejorado para capturar todos los campos
         Pattern p = Pattern.compile(
                 "\"conductorId\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"ruta\"\\s*:\\s*\\{\\s*"
-                        + "\"llocs\"\\s*:\\s*\\[(.?)\\]\\s,"
-                        + "\\s*\"distanciaTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                        + "\\s*\"tempsTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                        + "\\s*\"horaInici\"\\s*:\\s*\"([^\"])\"\\s,"
-                        + "\\s*\"esRutaCarrega\"\\s*:\\s*(true|false)\\s*\\}");
+                + "\\s*\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"ruta\"\\s*:\\s*\\{\\s*"
+                + "\"llocs\"\\s*:\\s*\\[(.?)\\]\\s,"
+                + "\\s*\"distanciaTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"tempsTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"horaInici\"\\s*:\\s*\"([^\"])\"\\s,"
+                + "\\s*\"esRutaCarrega\"\\s*:\\s*(true|false)\\s*\\}");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
@@ -419,8 +435,8 @@ public class LectorJSON {
             Map<Integer, Conductor> conductorsPerId) {
         Pattern p = Pattern.compile(
                 "\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"duracioCarregaMinuts\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                        + "\\s*\"conductorId\"\\s*:\\s*(\\d+)");
+                + "\\s*\"duracioCarregaMinuts\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
+                + "\\s*\"conductorId\"\\s*:\\s*(\\d+)");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
@@ -569,12 +585,12 @@ public class LectorJSON {
 
         Pattern pattern = Pattern.compile(
                 "\\{\\s*\"ID\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                        + "\\s*\"ORIGEN\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                        + "\\s*\"DESTI\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
-                        + "\\s*\"HORA_MIN_RECOLLIDA\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                        + "\\s*\"HORA_MAX_ARRIBADA\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                        + "\\s*\"NUM_PASSATGERS\"\\s*:\\s*(\\d+)\\s*,"
-                        + "\\s*\"VEHICLE_COMPARTIT\"\\s*:\\s*(true|false)\\s*\\}");
+                + "\\s*\"ORIGEN\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                + "\\s*\"DESTI\"\\s*:\\s*\"?(\\d+)\"?\\s*,"
+                + "\\s*\"HORA_MIN_RECOLLIDA\"\\s*:\\s*\"([^\"]+)\"\\s*,"
+                + "\\s*\"HORA_MAX_ARRIBADA\"\\s*:\\s*\"([^\"]+)\"\\s*,"
+                + "\\s*\"NUM_PASSATGERS\"\\s*:\\s*(\\d+)\\s*,"
+                + "\\s*\"VEHICLE_COMPARTIT\"\\s*:\\s*(true|false)\\s*\\}");
 
         Matcher matcher = pattern.matcher(jsonContent);
 
