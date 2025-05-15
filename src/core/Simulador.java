@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 import javax.swing.JButton;
@@ -66,6 +67,33 @@ public class Simulador {
         esdeveniments = new PriorityQueue<>();
         assignarPeticions();
     }
+
+     public Simulador(File JsonFile,List<Vehicle>vehiclesSimulacio) {
+        //CONSTRUCTOR PER L OPTIMITZADOR
+        List<Lloc> llocs = LectorJSON.carregarLlocs(JsonFile.getAbsolutePath());
+        Map<Integer,Lloc>llocs_ID=LectorJSON.convertirLlistaAMap_Llocs(llocs);
+        List<Cami> camins = LectorJSON.carregarCamins(JsonFile.getAbsolutePath(), llocs_ID);
+        this.vehicles = vehiclesSimulacio;
+        this.conductors=LectorJSON.carregarConductors(JsonFile.getAbsolutePath(), LectorJSON.convertirLlistaAMap_Vehicles(vehicles), llocs_ID);
+        this.peticions = LectorJSON.carregarPeticions(JsonFile.getAbsolutePath(),llocs_ID);
+        this.horaInici = LectorJSON.carregarHorari(JsonFile.getAbsolutePath())[0];
+        this.horaFi = LectorJSON.carregarHorari(JsonFile.getAbsolutePath())[1];
+        Mapa mapa_Nou = new Mapa();
+
+        for (Lloc lloc : llocs) {
+            mapa.afegirLloc(lloc);
+        }
+
+        for (Cami cami : camins) {
+            mapa.afegirCami(cami);
+        }
+
+        this.mapa = mapa_Nou;
+        this.horaActual = horaInici;
+        esdeveniments = new PriorityQueue<>();
+    }
+
+
 
     /**
      * @brief Assigna peticions pendents als conductors de tipus ConductorVoraç
@@ -550,6 +578,11 @@ public class Simulador {
         sb.append("\n");
 
         return sb.toString();
+    }
+
+
+    public boolean peticionsServides() {
+        return peticions.isEmpty();
     }
 
 };

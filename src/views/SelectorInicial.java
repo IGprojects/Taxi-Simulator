@@ -17,16 +17,18 @@ import javax.swing.JTextField;
 public class SelectorInicial {
 
     public interface DadesIniciListener {
-        void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions,File JsonFile,
+        void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions, File JsonFile,
                 LocalTime horaInici, LocalTime horaFinal);
         
         void onSimulacioJsonSeleccionat(File simulacioJson);
+        
+        void onOptimitzarSimulacio(File simulacioJson);
     }
 
     public static void mostrar(DadesIniciListener listener) {
         JFrame frame = new JFrame("Selecció d'arxius i horaris");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 500); // Augmentem una mida la finestra
+        frame.setSize(500, 600); // Augmentem la mida per afegir més botons
         frame.setLocationRelativeTo(null); // centrat
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -40,13 +42,13 @@ public class SelectorInicial {
                 new JLabel("Vehicles.csv:"),
                 new JLabel("Conductors.csv:"),
                 new JLabel("Peticions.csv:"),
-                new JLabel("Simulacio.json:") // Nou label pel json
+                new JLabel("Simulacio.json:")
         };
 
-        JButton[] fileButtons = new JButton[6]; // Ara són 6 botons
-        File[] selectedFiles = new File[6]; // Ara són 6 fitxers
+        JButton[] fileButtons = new JButton[6];
+        File[] selectedFiles = new File[6];
 
-        for (int i = 0; i < 6; i++) { // Ara iterem 6 vegades
+        for (int i = 0; i < 6; i++) {
             int idx = i;
             fileButtons[i] = new JButton("Selecciona fitxer...");
             fileButtons[i].addActionListener(e -> {
@@ -69,7 +71,7 @@ public class SelectorInicial {
         JTextField horaFinalField = new JTextField();
 
         gbc.gridx = 0;
-        gbc.gridy = 6; // Ara comença a la fila 6
+        gbc.gridy = 6;
         panel.add(horaIniciLabel, gbc);
         gbc.gridx = 1;
         panel.add(horaIniciField, gbc);
@@ -90,10 +92,14 @@ public class SelectorInicial {
         gbc.gridy = 9;
         panel.add(testBtn, gbc);
         
-        // Nou botó per carregar només el json
         JButton jsonBtn = new JButton("Carregar Simulació");
         gbc.gridy = 10;
         panel.add(jsonBtn, gbc);
+        
+        // Nou botó per optimitzar simulació
+        JButton optimitzarBtn = new JButton("Optimitzar Simulació");
+        gbc.gridy = 11;
+        panel.add(optimitzarBtn, gbc);
 
         // Botó de proves amb valors hardcoded
         testBtn.addActionListener(e -> {
@@ -114,7 +120,7 @@ public class SelectorInicial {
 
                 frame.dispose();
                 listener.onDadesCompletades(
-                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],selectedFiles[5],
+                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4], selectedFiles[5],
                         horaInici, horaFinal);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Error al mode de proves: " + ex.getMessage(), "Error",
@@ -132,9 +138,20 @@ public class SelectorInicial {
             frame.dispose();
             listener.onSimulacioJsonSeleccionat(selectedFiles[5]);
         });
+        
+        // Acció per al botó d'optimitzar simulació
+        optimitzarBtn.addActionListener(e -> {
+            if (selectedFiles[5] == null) {
+                JOptionPane.showMessageDialog(frame, "Selecciona el fitxer simulacio.json!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            frame.dispose();
+            listener.onOptimitzarSimulacio(selectedFiles[5]);
+        });
 
         startBtn.addActionListener(e -> {
-            for (int i = 0; i < 5; i++) { // Comprovem només els 5 primers fitxers
+            for (int i = 0; i < 5; i++) {
                 if (selectedFiles[i] == null) {
                     JOptionPane.showMessageDialog(frame, "Selecciona tots els fitxers!", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -147,7 +164,7 @@ public class SelectorInicial {
 
                 frame.dispose();
                 listener.onDadesCompletades(
-                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],selectedFiles[5],
+                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4], selectedFiles[5],
                         horaInici, horaFinal);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Format d'hora incorrecte. Usa HH:mm", "Error",

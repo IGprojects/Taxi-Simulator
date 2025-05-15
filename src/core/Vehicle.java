@@ -216,4 +216,14 @@ public class Vehicle {
     public int getPassatgersActuals() {
         return this.numPassatgers;
     }
+
+
+    /**
+     * @pre Cert.
+     * @post Retorna El nombre d'AUTONOMIA vehicle..
+     * @return El nombre d'AUTONOMIA vehicle.
+     */
+    public int getAutonomia() {
+        return this.AUTONOMIA;
+    }
 }

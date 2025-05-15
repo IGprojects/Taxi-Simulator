@@ -61,6 +61,35 @@
       "IDVEHICLE": 2
     }
   ],
+  "peticions": [
+    {
+      "ID": 1,
+      "ORIGEN": 1,
+      "DESTI": 2,
+      "HORA_MIN_RECOLLIDA": "08:30",
+      "HORA_MAX_ARRIBADA": "09:00",
+      "NUM_PASSATGERS": 2,
+      "VEHICLE_COMPARTIT": true
+    },
+    {
+      "ID": 2,
+      "ORIGEN": 2,
+      "DESTI": 1,
+      "HORA_MIN_RECOLLIDA": "09:15",
+      "HORA_MAX_ARRIBADA": "10:00",
+      "NUM_PASSATGERS": 3,
+      "VEHICLE_COMPARTIT": false
+    },
+    {
+      "ID": 3,
+      "ORIGEN": 1,
+      "DESTI": 2,
+      "HORA_MIN_RECOLLIDA": "10:30",
+      "HORA_MAX_ARRIBADA": "11:15",
+      "NUM_PASSATGERS": 1,
+      "VEHICLE_COMPARTIT": true
+    }
+  ],
   "horaInici": "08:00",
   "horaFinal": "20:00",
   "events": [
