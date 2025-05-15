@@ -12,7 +12,6 @@ import java.util.Random;
 import javax.swing.Timer;
 
 import events.Event;
-import events.FiRutaEvent;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
 import views.MapPanel;
@@ -68,14 +67,15 @@ public class Simulador {
         assignarPeticions();
     }
 
-     public Simulador(File JsonFile,List<Vehicle>vehiclesSimulacio) {
-        //CONSTRUCTOR PER L OPTIMITZADOR
+    public Simulador(File JsonFile, List<Vehicle> vehiclesSimulacio) {
+        // CONSTRUCTOR PER L OPTIMITZADOR
         List<Lloc> llocs = LectorJSON.carregarLlocs(JsonFile.getAbsolutePath());
-        Map<Integer,Lloc>llocs_ID=LectorJSON.convertirLlistaAMap_Llocs(llocs);
+        Map<Integer, Lloc> llocs_ID = LectorJSON.convertirLlistaAMap_Llocs(llocs);
         List<Cami> camins = LectorJSON.carregarCamins(JsonFile.getAbsolutePath(), llocs_ID);
         this.vehicles = vehiclesSimulacio;
-        this.conductors=LectorJSON.carregarConductors(JsonFile.getAbsolutePath(), LectorJSON.convertirLlistaAMap_Vehicles(vehicles), llocs_ID);
-        this.peticions = LectorJSON.carregarPeticions(JsonFile.getAbsolutePath(),llocs_ID);
+        this.conductors = LectorJSON.carregarConductors(JsonFile.getAbsolutePath(),
+                LectorJSON.convertirLlistaAMap_Vehicles(vehicles), llocs_ID);
+        this.peticions = LectorJSON.carregarPeticions(JsonFile.getAbsolutePath(), llocs_ID);
         this.horaInici = LectorJSON.carregarHorari(JsonFile.getAbsolutePath())[0];
         this.horaFi = LectorJSON.carregarHorari(JsonFile.getAbsolutePath())[1];
         Mapa mapa_Nou = new Mapa();
@@ -92,8 +92,6 @@ public class Simulador {
         this.horaActual = horaInici;
         esdeveniments = new PriorityQueue<>();
     }
-
-
 
     /**
      * @brief Assigna peticions pendents als conductors de tipus ConductorVoraç
@@ -178,7 +176,7 @@ public class Simulador {
                     if (millorConductor.getVehicle().getUbicacioActual() != origenPeticio) {
                         LocalTime horaSortida = peticio.obtenirHoraMinimaRecollida()
                                 .minusMinutes((long) millorTemps);
-                        afegirEsdeveniment(new MoureVehicleEvent(horaSortida, millorConductor.getVehicle(),
+                        afegirEsdeveniment(new MoureVehicleEvent(horaActual, millorConductor.getVehicle(),
                                 millorConductor.getVehicle().getUbicacioActual(), origenPeticio, millorDistancia));
                     }
 
@@ -212,15 +210,12 @@ public class Simulador {
      *        ConductorPlanificador.
      *
      *        Aquesta funció demana a cada conductor planificador que intenti
-     *        generar una ruta
-     *        òptima tenint en compte totes les peticions disponibles. Si la ruta és
-     *        vàlida,
+     *        generar una ruta òptima tenint en compte totes les peticions
+     *        disponibles. Si la ruta és vàlida,
      *        s’afegeix un esdeveniment d’inici de ruta a la simulació.
      *
      * @pre La llista de conductors i peticions ha d’estar inicialitzada i no ser
      *      nul·la.
-     * @pre Cada ConductorPlanificador ha d’implementar correctament el mètode
-     *      planificarRuta.
      * @post Alguns conductors poden iniciar una ruta planificada, i es generen
      *       esdeveniments corresponents.
      */
@@ -233,14 +228,6 @@ public class Simulador {
                 Ruta r = conductorPlani.planificarRuta(peticions, this, horaActual);
 
                 if (r != null) {
-                    // Si la ruta és vàlida, mostrar-la per consola per depuració
-                    System.out.println("Ruta planificada pel conductor " + conductorPlani.getId() + ":");
-                    for (Lloc l : r.getLlocs()) {
-                        System.out.print(l.obtenirId() + " --> ");
-                    }
-                    System.out.println();
-
-                    // Afegir un esdeveniment d’inici de ruta a la simulació
                     afegirEsdeveniment(new IniciRutaEvent(
                             r.getHoraInici(),
                             conductorPlani,
@@ -260,22 +247,23 @@ public class Simulador {
      *
      */
     public void iniciar(File jsonFile) {
-        Timer timer = new Timer(5000, new ActionListener() {
+        Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
                     Event event = esdeveniments.poll();
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
-                    System.out.println("Hora actual: " + horaActual);
 
                     event.executar(Simulador.this);
 
-                } else if (esdeveniments.isEmpty() && !peticions.isEmpty()) {
-                    // Si no hi ha esdeveniments però hi ha peticions, reintenta
-                    assignarPeticions();
+                }
+                // else if (esdeveniments.isEmpty() && !peticions.isEmpty()) {
+                // // Si no hi ha esdeveniments però hi ha peticions, reintenta
+                // assignarPeticions();
 
-                } else {
+                // }
+                else {
                     finalitzarSimulacio(e, jsonFile);
                 }
             }
@@ -321,14 +309,15 @@ public class Simulador {
         int idRandom = 1 + random.nextInt(99); // entre 1 i 4 passatgers
 
         Peticio peticio = new Peticio(idRandom, origen, desti, horaMinRecollida, horaMaxArribada, 0, compartida);
-        System.out.println("peticioooooo: " + peticio.estatActual().toString());
         // Registrar la petició (pots tenir una llista de peticions al simulador)
         this.peticions.add(peticio);
-        System.out.println("Afegida petició aleatòria: " + peticio.obtenirOrigen().obtenirId() + " -> "
-                + peticio.obtenirDesti().obtenirId()
-                + " (hora mínima recollida: " + peticio.obtenirHoraMinimaRecollida() + ", hora màxima arribada: "
-                + peticio.obtenirHoraMaximaArribada() + ", passatgers: " + peticio.obtenirNumPassatgers() + ")");
 
+        String missatge = "Afegida petició aleatòria: " + peticio.obtenirOrigen().obtenirId() + " -> "
+                + peticio.obtenirDesti().obtenirId()
+                + " ( recollida: " + peticio.obtenirHoraMinimaRecollida() + ", arribada: "
+                + peticio.obtenirHoraMaximaArribada() + ")";
+        System.out.println(missatge);
+        pintarMissatge(missatge);
         assignarPeticions();
     }
 
@@ -356,7 +345,6 @@ public class Simulador {
                     Event event = eventIterator.next();
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
-                    System.out.println("Hora actual: " + horaActual);
 
                     event.executar(Simulador.this);
 
@@ -443,7 +431,8 @@ public class Simulador {
             Collection collectionGenerica = mapa.getLlocs().values();
             List<Cami> listCami = new ArrayList<Cami>(collectionGenerica);
 
-            escritorJSON.writeJsonFile(conductors, vehicles, listDeLlocs, listCami, peticions, jsonFile.getAbsolutePath());
+            escritorJSON.writeJsonFile(conductors, vehicles, listDeLlocs, listCami, peticions,
+                    jsonFile.getAbsolutePath());
             System.out.println("Simulació finalitzada.");
         } catch (IOException ex) {
             System.err.println("ERROR AL FINALITZAR SIMULACIO");
@@ -579,7 +568,6 @@ public class Simulador {
 
         return sb.toString();
     }
-
 
     public boolean peticionsServides() {
         return peticions.isEmpty();

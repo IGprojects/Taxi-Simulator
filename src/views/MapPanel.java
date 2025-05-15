@@ -100,10 +100,10 @@ public class MapPanel extends JPanel {
 
     public void animarCami(Cami cami, Vehicle vehicle) {
         final int[] progress = { 0 }; // 0 → 100
-        Timer timer = new Timer(80, null); // cada 100 ms
+        Timer timer = new Timer(100, null); // cada 100 ms
 
         timer.addActionListener(e -> {
-            progress[0] += 2; // puja un 20% cada cop
+            progress[0] += 20; // puja un 20% cada cop
 
             if (progress[0] >= 100) {
                 // Afegeix camí complet al final
@@ -244,9 +244,9 @@ public class MapPanel extends JPanel {
 
         // Dibuixar requadre informatiu a la dreta
         // Requadre informatiu (estil modern)
-        int boxX = getWidth() - 450;
+        int boxX = getWidth() - 500;
         int boxY = getHeight() / 2 - 100;
-        int boxWidth = 400;
+        int boxWidth = 450;
         int boxHeight = 200;
 
         // Fons blanc translúcid amb cantonades arrodonides

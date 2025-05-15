@@ -125,11 +125,10 @@ public class Vehicle {
      *                    100]).
      */
     public void carregarBateria(boolean voraç) {
-        bateria = voraç ? 80 : 100; // Carrega ràpida al 80% o lenta al 100%
-        percentatgeCarrega = voraç ? 80 : 100; // Carrega ràpida al 80% o lenta al 100%
-
+        bateria = voraç ? 80 : 100;
+        percentatgeCarrega = voraç ? 80 : 100;
+        System.out.println("----------- Carregant bateria -----------: " + percentatgeCarrega);
         carregant = false; // El vehicle ja no està carregant
-
     }
 
     /**

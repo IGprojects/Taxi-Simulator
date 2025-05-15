@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import events.CarregarBateriaEvent;
+import events.DeixarPassatgersEvent;
 import events.FiRutaEvent;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
+import events.RecollirPassatgersEvent;
 
 /**
  * @class ConductorPlanificador
@@ -31,6 +33,9 @@ public class ConductorPlanificador extends Conductor {
     public Ruta planificarRuta(List<Peticio> peticions, Simulador s, LocalTime horaIniciSimulacio) {
         List<Peticio> recollides = new ArrayList<>();
         List<Lloc> rutaLlocs = new ArrayList<>();
+        List<Lloc> ultimCami = new ArrayList<>();
+        List<Pair<Integer, Integer>> rutaLlocsOrigenPeticions = new ArrayList<>();
+        List<Pair<Integer, Integer>> rutaLlocsDestiPeticions = new ArrayList<>();
         Vehicle vehicle = getVehicle();
         Lloc ubicacio = vehicle.getUbicacioActual();
         LocalTime horaActual = horaIniciSimulacio;
@@ -38,8 +43,9 @@ public class ConductorPlanificador extends Conductor {
         double tempsFinsPrimerOrigen = 0;
         double autonomiaRestant = vehicle.obtenirBateria();
         double distTotal = 0;
+        boolean rutaCarrega = false;
         rutaLlocs.add(ubicacio);
-
+        int passatgersActuals = vehicle.getPassatgersActuals();
         System.out.println("Inici planificació ruta del conductor " + this.getId() + " a les " + horaIniciSimulacio);
         System.out.println(
                 "Ubicació inicial: " + ubicacio.obtenirId() + ", bateria: " + autonomiaRestant + " passatgers: "
@@ -59,8 +65,12 @@ public class ConductorPlanificador extends Conductor {
                 }
 
                 List<Lloc> cami = s.getMapa().camiVoraç(ubicacio, p.obtenirOrigen());
-                if (cami == null || cami.isEmpty()) {
-                    System.out.println("Petició " + p.obtenirId() + " descartada: no hi ha camí a origen.");
+                Ruta rutaFinsCarregador = s.getMapa().rutaParquingPrivatMesProper(p.obtenirDesti(),
+                        p.obtenirHoraMaximaArribada(), this);
+                if (cami == null || cami.isEmpty() || rutaFinsCarregador == null
+                        || rutaFinsCarregador.getLlocs().isEmpty()) {
+                    System.out.println("Petició " + p.obtenirId()
+                            + " descartada: no hi ha camí a origen o no hi ha camí a carregador.");
                     continue;
                 }
 
@@ -78,33 +88,28 @@ public class ConductorPlanificador extends Conductor {
                     continue;
                 }
 
-                List<Lloc> camiFinsDesti = s.getMapa().camiVoraç(p.obtenirOrigen(), p.obtenirDesti());
-                if (camiFinsDesti == null || camiFinsDesti.isEmpty()) {
+                ultimCami = s.getMapa().camiVoraç(p.obtenirOrigen(), p.obtenirDesti());
+                if (ultimCami == null || ultimCami.isEmpty()) {
                     System.out.println("Petició " + p.obtenirId() + " descartada: no hi ha camí a destí.");
                     continue;
                 }
 
-                double tempsDesti = tempsOrigen + s.getMapa().calcularTempsRuta(camiFinsDesti);
-                double distDesti = distOrigen + s.getMapa().calcularDistanciaRuta(camiFinsDesti);
+                double tempsDesti = tempsOrigen + s.getMapa().calcularTempsRuta(ultimCami);
+                double distDesti = distOrigen + s.getMapa().calcularDistanciaRuta(ultimCami);
 
                 LocalTime horaFinal = horaActual.plusMinutes((long) tempsDesti);
                 if (horaFinal.isAfter(p.obtenirHoraMaximaArribada())) {
                     System.out.println("Petició " + p.obtenirId() + " descartada: arribada massa tard a destí.");
                     continue;
                 }
-                if (!teBateria(distOrigen, s, s.getMapa(), horaActual, horaActual)) {
-                    System.out
-                            .println("Petició " + p.obtenirId() + " descartada: no hi ha bateria per arribar a destí.");
-                    break bucle;
-                }
 
-                if (vehicle.passatgersActuals() + p.obtenirNumPassatgers() <= vehicle.MAXPASSATGERS) {
+                if (passatgersActuals + p.obtenirNumPassatgers() <= vehicle.MAXPASSATGERS) {
                     if (tempsDesti < millorTemps) {
                         millorTemps = tempsDesti;
                         millorPeticio = p;
                         millorCami = new ArrayList<>();
                         millorCami.addAll(cami);
-                        millorCami.addAll(camiFinsDesti.subList(1, camiFinsDesti.size()));
+                        millorCami.addAll(ultimCami.subList(1, ultimCami.size()));
                         distTotal = distOrigen + distDesti;
                         // Només guardem si és la primera
                         if (primeraPeticio == null) {
@@ -123,17 +128,42 @@ public class ConductorPlanificador extends Conductor {
                 break;
             }
 
-            System.out.println("Afegida petició " + millorPeticio.obtenirId() + " a la ruta.");
-            recollides.add(millorPeticio);
-            millorPeticio.peticioEnProces();
-            vehicle.afegirPassatgers(millorPeticio.obtenirNumPassatgers());
+            // Comprovar si la bateria és suficient per fer la ruta
+            double distanciaRuta = s.getMapa().calcularDistanciaRuta(millorCami);
+            int consumPercentatge = (int) Math.ceil((distanciaRuta / vehicle.AUTONOMIA) * 100);
+
+            Ruta rutaFinsCarregador = s.getMapa().rutaParquingPrivatMesProper(millorPeticio.obtenirDesti(),
+                    millorPeticio.obtenirHoraMaximaArribada(), this);
+            for (Lloc l : rutaFinsCarregador.getLlocs()) {
+                System.out.println("El vehicle " + vehicle.getId() + " ha arribat al parquing "
+                        + l.obtenirId() + ".");
+
+            }
+            double distanciaFinsCarregador = s.getMapa().calcularDistanciaRuta(rutaFinsCarregador.getLlocs());
+            int consumFinsCarregador = (int) Math.ceil((distanciaFinsCarregador / vehicle.AUTONOMIA) * 100);
+
+            // Comprovar si la bateria és suficient per arribar al carregador
+            if ((autonomiaRestant - consumPercentatge) - consumFinsCarregador < 0) {
+                rutaCarrega = true;
+                rutaFinsCarregador.getLlocs().remove(0);
+                millorCami.removeAll(ultimCami);
+                millorCami.addAll(rutaFinsCarregador.getLlocs());
+            } else { // S'afegeix la peticio
+                System.out.println("Afegida petició " + millorPeticio.obtenirId() + " a la ruta.");
+                rutaLlocsOrigenPeticions.add(new Pair<>(millorPeticio.obtenirOrigen().obtenirId(),
+                        millorPeticio.obtenirNumPassatgers()));
+                rutaLlocsDestiPeticions.add(new Pair<>(millorPeticio.obtenirDesti().obtenirId(),
+                        millorPeticio.obtenirNumPassatgers()));
+                recollides.add(millorPeticio);
+                millorPeticio.peticioEnProces();
+                passatgersActuals += millorPeticio.obtenirNumPassatgers();
+            }
 
             for (Lloc l : millorCami.subList(1, millorCami.size())) {
                 rutaLlocs.add(l);
             }
 
-            double consum = s.getMapa().calcularDistanciaRuta(millorCami);
-            autonomiaRestant -= consum;
+            autonomiaRestant -= consumPercentatge;
             horaActual = horaActual.plusMinutes((long) millorTemps);
             ubicacio = rutaLlocs.get(rutaLlocs.size() - 1);
         }
@@ -142,7 +172,7 @@ public class ConductorPlanificador extends Conductor {
             System.out.println("Cap ruta planificada.");
             return null;
         }
-
+        // rutaLlocs.addAll(rutaFinsCarregador.getLlocs());
         peticions.removeAll(recollides);
 
         LocalTime horaSortidaReal = primeraPeticio.obtenirHoraMinimaRecollida()
@@ -150,8 +180,13 @@ public class ConductorPlanificador extends Conductor {
         System.out.println("Ruta final planificada amb " + recollides.size() + " peticions. Hora de sortida real: "
                 + horaSortidaReal);
 
-        return new Ruta(rutaLlocs, horaSortidaReal, distTotal, s.getMapa().calcularTempsRuta(rutaLlocs), this,
-                false);
+        Ruta rutaCompleta = new Ruta(rutaLlocs, horaSortidaReal, distTotal, s.getMapa().calcularTempsRuta(rutaLlocs),
+                this,
+                rutaCarrega);
+        rutaCompleta.assignarLlocsOrigenPeticions(rutaLlocsOrigenPeticions);
+        rutaCompleta.assignarLlocsDestiPeticions(rutaLlocsDestiPeticions);
+
+        return rutaCompleta;
     }
 
     public boolean teBateria(double distancia, Simulador simulador, Mapa mapa, LocalTime horaInici,
@@ -194,8 +229,23 @@ public class ConductorPlanificador extends Conductor {
 
             horaActual = horaActual.plusMinutes((long) temps);
 
+            int passatgersOrigen = ruta.trobarOrigenId(origen.obtenirId());
+            if (passatgersOrigen != -1) {
+                RecollirPassatgersEvent recollir = new RecollirPassatgersEvent(horaActual, this, origen,
+                        passatgersOrigen);
+                simulador.afegirEsdeveniment(recollir);
+            }
+
             MoureVehicleEvent moure = new MoureVehicleEvent(horaActual, vehicle, origen, desti, distancia);
             simulador.afegirEsdeveniment(moure);
+
+            int passatgersDesti = ruta.trobarDestiId(desti.obtenirId());
+            if (passatgersDesti != -1) {
+                DeixarPassatgersEvent recollir = new DeixarPassatgersEvent(horaActual, this, origen,
+                        passatgersDesti);
+                simulador.afegirEsdeveniment(recollir);
+            }
+
         }
         if (ruta.isRutaCarrega()) {
             if (ruta.getLlocs().get(ruta.getLlocs().size() - 1) instanceof Parquing) {

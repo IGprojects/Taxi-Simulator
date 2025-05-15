@@ -42,12 +42,22 @@ public class IniciRutaEvent extends Event {
                 System.out.print(lloc.obtenirId() + " --> ");
             }
         }
+        System.out.println();
 
     }
 
     @Override
     public void executar(Simulador simulador) {
-        String missatge = "[" + temps + "] El conductor " + conductor.getId() + " inicia la ruta.";
+        String missatge = "";
+        if (ruta.isRutaCarrega()) {
+            missatge = "[" + temps + "] El conductor " + conductor.getId()
+                    + " inicia la ruta per anar a carregar.";
+
+        } else {
+            missatge = "[" + temps + "] El conductor " + conductor.getId()
+                    + " inicia la ruta per fer la petició.";
+
+        }
         System.out.println(missatge);
         simulador.pintarMissatge(missatge);
 

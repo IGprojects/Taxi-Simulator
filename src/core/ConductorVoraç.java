@@ -4,9 +4,11 @@ import java.time.LocalTime;
 import java.util.List;
 
 import events.CarregarBateriaEvent;
+import events.DeixarPassatgersEvent;
 import events.FiRutaEvent;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
+import events.RecollirPassatgersEvent;
 
 /**
  * @class ConductorVoraç
@@ -25,7 +27,8 @@ public class ConductorVoraç extends Conductor {
     public void executarRuta(Ruta ruta, Vehicle vehicle, Simulador simulador) {
         List<Lloc> llocs = ruta.getLlocs();
         LocalTime horaActual = ruta.obtenirHoraInici();
-
+        horaActual = horaActual.plusMinutes((long) 1);
+        
         for (int i = 0; i < llocs.size() - 1; i++) {
             Lloc origen = llocs.get(i);
             Lloc desti = llocs.get(i + 1);
@@ -35,22 +38,31 @@ public class ConductorVoraç extends Conductor {
 
             horaActual = horaActual.plusMinutes((long) temps);
 
+            if (!ruta.isRutaCarrega() && i == 0) {
+                RecollirPassatgersEvent recollir = new RecollirPassatgersEvent(horaActual, this, origen,
+                        ruta.obtenirPassatgersPeticio());
+                simulador.afegirEsdeveniment(recollir);
+            }
+            horaActual = horaActual.plusMinutes((long) 1);
             MoureVehicleEvent moure = new MoureVehicleEvent(horaActual, vehicle, origen, desti, distancia);
             simulador.afegirEsdeveniment(moure);
+
+            if (!ruta.isRutaCarrega() && (i == llocs.size() - 2)) {
+                DeixarPassatgersEvent recollir = new DeixarPassatgersEvent(horaActual, this, desti,
+                        ruta.obtenirPassatgersPeticio());
+                simulador.afegirEsdeveniment(recollir);
+            }
+
         }
         if (ruta.isRutaCarrega()) {
             if (ruta.getLlocs().get(ruta.getLlocs().size() - 1) instanceof Parquing) {
                 Parquing parquing = (Parquing) ruta.getLlocs().get(ruta.getLlocs().size() - 1);
                 PuntCarrega pc = parquing.puntCarregaPublicDisponible();
                 if (pc != null) {
-                    System.out.println("El vehicle " + vehicle.getId() + " ha arribat al punt de càrrega "
-                            + " del parquing " + parquing.obtenirId() + ".");
                     double duracio = 0;
                     duracio = pc.getTipusCarga() == TipusPuntCarrega.CARGA_LENTA ? vehicle.TEMPSCARGALENTA
                             : vehicle.TEMPSCARGARAPIDA;
-
-                    LocalTime horaIniciCarrega = horaActual;
-                    simulador.afegirEsdeveniment(new CarregarBateriaEvent(horaIniciCarrega, vehicle, duracio, this));
+                    simulador.afegirEsdeveniment(new CarregarBateriaEvent(horaActual, vehicle, duracio, this));
 
                 } else {
                     System.out.println("No hi ha punts de càrrega disponibles.");
@@ -58,6 +70,7 @@ public class ConductorVoraç extends Conductor {
             }
 
         } else {
+            horaActual = horaActual.plusMinutes((long) 1);
             simulador.afegirEsdeveniment(new FiRutaEvent(horaActual, this, ruta));
 
         }
@@ -74,7 +87,9 @@ public class ConductorVoraç extends Conductor {
             distanciaTotal += mapa.calcularDistancia(origen, desti);
             tempsTotal += mapa.calcularTemps(origen, desti);
         }
-        return new Ruta(cami, peticio.obtenirHoraMinimaRecollida(), distanciaTotal, tempsTotal, this, false);
+        Ruta ruta = new Ruta(cami, peticio.obtenirHoraMinimaRecollida(), distanciaTotal, tempsTotal, this, false);
+        ruta.assignarPassatgersPeticio(peticio.obtenirNumPassatgers());
+        return ruta;
     }
 
     @Override
@@ -84,7 +99,7 @@ public class ConductorVoraç extends Conductor {
         if (vehicle.teBateria(distancia, true)) {
             return true;
         } else {
-            Ruta r = mapa.rutaParquingMesProper(vehicle.getUbicacioActual(), horaInici, this);
+            Ruta r = mapa.rutaParquingMesProper(vehicle.getUbicacioActual(), horaActual, this);
 
             if (r != null) {
                 ocupat = true;
@@ -105,4 +120,3 @@ public class ConductorVoraç extends Conductor {
     }
 
 }
-

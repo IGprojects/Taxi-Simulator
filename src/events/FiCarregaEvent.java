@@ -24,14 +24,16 @@ public class FiCarregaEvent extends Event {
 
     @Override
     public void executar(Simulador simulador) {
+
+        conductor.getVehicle().carregarBateria(true); // carrega total
+        String missatge = "[" + temps + "] Càrrega finalitzada del vehicle " + conductor.getVehicle().getId();
+        System.out.println(missatge);
+        simulador.pintarMissatge(missatge);
+
         if (simulador.hiHaPeticions())
             if (conductor instanceof ConductorVoraç)
                 simulador.assignarPeticionsVoraç();
             else
                 simulador.assignarPeticionsPlan();
-        conductor.getVehicle().carregarBateria(true); // carrega total
-        String missatge = "[" + temps + "] Càrrega finalitzada del vehicle " + conductor.getVehicle().getId();
-        System.out.println(missatge);
-        simulador.pintarMissatge(missatge);
     }
 }

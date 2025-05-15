@@ -116,7 +116,7 @@ public class SelectorInicial {
                         "C:\\Users\\didac\\OneDrive\\Documentos\\UDG\\2n Curs\\2n SEMESTRE\\PROPRO\\PROJECTE FINAL\\fitxersCSV\\peticions.csv");
 
                 LocalTime horaInici = LocalTime.parse("08:00");
-                LocalTime horaFinal = LocalTime.parse("12:00");
+                LocalTime horaFinal = LocalTime.parse("20:00");
 
                 frame.dispose();
                 listener.onDadesCompletades(
