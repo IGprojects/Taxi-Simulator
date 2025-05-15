@@ -114,6 +114,18 @@ public class Estadistiques {
         return total > 0 ? (peticionesServidas * 100.0) / total : 0;
     }
 
+    public int getMuestrasOcupacion() {
+        return this.muestrasOcupacion;
+    }
+
+    public int getMuestrasBateria() {
+        return this.muestrasBateria;
+    }
+
+    public int getMuestrasViaje() {
+        return this.muestrasViaje;
+    }
+
     // Métodos estáticos para estadísticas agregadas
     public static double getPorcentajeExitoAgregado() {
         if (historialSimulaciones.isEmpty()) {

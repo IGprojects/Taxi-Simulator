@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import core.Optimitzador;
 import core.Peticio;
 import core.Simulador;
 import core.Vehicle;
-import events.Event;
 import views.EstadistiquesPanel;
 import views.LegendPanel;
 import views.MapPanel;
@@ -107,7 +105,7 @@ public class Main {
         Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors,
                 peticions);
 
-        mostrarMapa(mapa, simulador, vehicles, llocs, true, null, jsonFile);
+        mostrarMapa(mapa, simulador, vehicles, llocs, true, jsonFile);
     }
 
     /**
@@ -115,11 +113,7 @@ public class Main {
      * @post Inicialitza la simulació a partir d'una simulació guardada
      */
     public static void inicialitzarSimulacioGuardada(File SimulacioFile) {
-        System.out.println(SimulacioFile.getAbsolutePath());
-
         List<Lloc> llocs = LectorJSON.carregarLlocs(SimulacioFile.getAbsolutePath());
-        System.out.println(llocs.size() + "--------------------------------------------------");
-
         Map<Integer, Lloc> llocsPerId = new HashMap<>();
         for (Lloc l : llocs) {
             llocsPerId.put(l.obtenirId(), l);
@@ -127,10 +121,8 @@ public class Main {
 
         List<Cami> camins = LectorJSON.carregarCamins(SimulacioFile.getAbsolutePath(), llocsPerId);
         Mapa mapa = carregarMapa(llocs, camins);
-        System.out.println(camins.size() + "--------------------------------------------------");
         List<Vehicle> vehicles = LectorJSON.carregarVehicles(SimulacioFile.getAbsolutePath(),
                 llocsPerId);
-        System.out.println(vehicles.size() + "--------------------------------------------------");
 
         Map<Integer, Vehicle> vehiclesPerId = new HashMap<>();
         for (Vehicle v : vehicles) {
@@ -139,17 +131,14 @@ public class Main {
 
         List<Conductor> conductors = LectorJSON.carregarConductors(SimulacioFile.getAbsolutePath(), vehiclesPerId,
                 llocsPerId);
-        System.out.println(conductors.size() + "--------------------------------------------------");
 
         LocalTime[] hores = LectorJSON.carregarHorari(SimulacioFile.getAbsolutePath());
-        System.out.println(hores.length + "--------------------------------------------------");
 
         LocalTime horaInici = hores[0];
         LocalTime horaFinal = hores[1];
+        List<Estadistiques> estadistiqueses_Llegides = LectorJSON.carregarEstadistiques(SimulacioFile.getAbsolutePath());
 
-        List<Event> eventsProgramats = LectorJSON.carregarEvents(SimulacioFile.getAbsolutePath(), vehiclesPerId,
-                LectorJSON.convertirLlistaAMap_Conductors(conductors), llocsPerId);
-
+        //List<Event> eventsProgramats = LectorJSON.carregarEvents(SimulacioFile.getAbsolutePath(), vehiclesPerId,LectorJSON.convertirLlistaAMap_Conductors(conductors), llocsPerId);
         System.out.println("Dades carregades correctament.");
         System.out.println("Hora d'inici: " + horaInici);
         System.out.println("Hora final: " + horaFinal);
@@ -160,9 +149,11 @@ public class Main {
 
         // CONSTRUCTOR PER SIMULADOR PER AFEGIR DES DE EL INICI TOTS ELS EVENTS QUE HA
         // DE FER
-        List<Peticio> peticions = new ArrayList<Peticio>();
+        List<Peticio> peticions = LectorJSON.carregarPeticions(SimulacioFile.getAbsolutePath(), llocsPerId);
+        System.out.println(".()"+peticions.size()+"---------------------------------------------");
         Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors, peticions);
-        mostrarMapa(mapa, simulador, vehicles, llocs, false, eventsProgramats, SimulacioFile);
+        simulador.setEstadistiques(estadistiqueses_Llegides.get(0));
+        mostrarMapa(mapa, simulador, vehicles, llocs, false, SimulacioFile);
     }
 
     /**
@@ -220,8 +211,6 @@ public class Main {
         });
     }
 
-
-    
     private static void IniciarVisualitzadorEstadistiques(File estadistiquesJson) {
 
         List<Estadistiques> lliEstadistiqueses = LectorJSON.carregarEstadistiques(estadistiquesJson.getAbsolutePath());
@@ -249,7 +238,7 @@ public class Main {
      * @param llocs
      */
     private static void mostrarMapa(Mapa mapa, Simulador simulador, List<Vehicle> vehicles, List<Lloc> llocs,
-            boolean simulacioReal, List<Event> eventsSimulacioGuardada, File jsonFile) {
+            boolean simulacioReal, File jsonFile) {
         JFrame frame = new JFrame("Visualització del Mapa");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -301,7 +290,7 @@ public class Main {
             });
         } else {
             startButton.addActionListener(e -> {
-                simulador.executarSimulacioGuardada(eventsSimulacioGuardada, jsonFile);
+                simulador.executarSimulacioGuardada(jsonFile);
             });
         }
         frame.setVisible(true);

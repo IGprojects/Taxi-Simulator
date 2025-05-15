@@ -1,65 +1,14 @@
 {
   "llocs": [
-    {
-      "ID": 1,
-      "MAX_VEHICLES": 5,
-      "TIPUS": "ESTACIO",
-      "N_CARREGADORS": 3,
-      "N_CARREGADORS_PRIVATS": 1
-    },
-    {
-      "ID": 2,
-      "MAX_VEHICLES": 3,
-      "TIPUS": "PARC",
-      "N_CARREGADORS": 2,
-      "N_CARREGADORS_PRIVATS": 0
-    }
   ],
   "connexions": [
-    {
-      "ORIGEN": 1,
-      "DESTI": 2,
-      "DISTANCIA_KM": 10.5,
-      "TEMPS_MIN": 15
-    },
-    {
-      "ORIGEN": 2,
-      "DESTI": 1,
-      "DISTANCIA_KM": 10.5,
-      "TEMPS_MIN": 15
-    }
+
   ],
   "vehicles": [
-    {
-      "ID": 1,
-      "ID_UBICACIO": 1,
-      "AUTONOMIA_KM": 120,
-      "MAX_PASSATGERS": 4,
-      "TEMPS_CARGA_RAPIDA": 30,
-      "TEMPS_CARGA_LENTA": 120
-    },
-    {
-      "ID": 2,
-      "ID_UBICACIO": 2,
-      "AUTONOMIA_KM": 150,
-      "MAX_PASSATGERS": 6,
-      "TEMPS_CARGA_RAPIDA": 45,
-      "TEMPS_CARGA_LENTA": 180
-    }
   ],
   "conductors": [
-    {
-      "ID": 1,
-      "NOM": "Pere Garcia",
-      "TIPUS": "voraç",
-      "IDVEHICLE": 1
-    },
-    {
-      "ID": 2,
-      "NOM": "Anna Martinez",
-      "TIPUS": "voraç",
-      "IDVEHICLE": 2
-    }
+  ],
+  "peticions": [
   ],
   "horaInici": "08:00",
   "horaFinal": "20:00",
@@ -71,98 +20,6 @@
       "origenId": 101,
       "destiId": 102,
       "distancia": 5.2
-    },
-    {
-      "type": "CarregarBateria",
-      "temps": "08:30",
-      "vehicleId": 1,
-      "duracioCarregaMinuts": 45,
-      "conductorId": 501
-    },
-    {
-      "type": "IniciRuta",
-      "temps": "09:00",
-      "conductorId": 101,
-      "vehicleId": 202,
-      "ruta": {
-        "llocs": [
-          101,
-          102,
-          103
-        ],
-        "distanciaTotal": 15.5,
-        "tempsTotal": 30.0,
-        "horaInici": "08:00",
-        "esRutaCarrega": true
-      }
-    },
-    {
-      "type": "IniciRuta",
-      "temps": "09:15",
-      "conductorId": 501,
-      "vehicleId": 1,
-      "rutaId": 201
-    }
-  ],
-  "estadisticas": [
-    {
-      "peticionesServidas": 120,
-      "peticionesNoServidas": 5,
-      "tiempoTotalEspera": 3200.5,
-      "tiempoMaximoEspera": 120.0,
-      "ocupacionTotalVehiculos": 78.4,
-      "muestrasOcupacion": 25,
-      "porcentajeBateriaPromedio": 63.2,
-      "muestrasBateria": 25,
-      "tiempoTotalViaje": 5400.75,
-      "muestrasViaje": 30
-    }
-  ],
-  "peticions": [
-    {
-      "id": 1,
-      "origen": 11,
-      "desti": 14,
-      "hora_min_recollida": "09:35",
-      "hora_max_arribada": "10:50",
-      "num_passatgers": 2,
-      "vehicle_compartit": true
-    },
-    {
-      "id": 2,
-      "origen": 6,
-      "desti": 5,
-      "hora_min_recollida": "11:35",
-      "hora_max_arribada": "12:30",
-      "num_passatgers": 2,
-      "vehicle_compartit": true
-    },
-    {
-      "id": 3,
-      "origen": 4,
-      "desti": 5,
-      "hora_min_recollida": "12:30",
-      "hora_max_arribada": "13:00",
-      "num_passatgers": 2,
-      "vehicle_compartit": true
-    },
-    {
-      "id": 4,
-      "origen": 17,
-      "desti": 3,
-      "hora_min_recollida": "10:30",
-      "hora_max_arribada": "11:00",
-      "num_passatgers": 2,
-      "vehicle_compartit": true
-    },
-    {
-      "id": 5,
-      "origen": 6,
-      "desti": 5,
-      "hora_min_recollida": "14:30",
-      "hora_max_arribada": "15:00",
-      "num_passatgers": 2,
-      "vehicle_compartit": true
     }
   ]
 }

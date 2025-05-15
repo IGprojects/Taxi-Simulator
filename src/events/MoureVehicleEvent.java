@@ -2,10 +2,10 @@ package events;
 
 import java.time.LocalTime;
 
-import core.Simulador;
-import core.Vehicle;
 import core.Cami;
 import core.Lloc;
+import core.Simulador;
+import core.Vehicle;
 
 /**
  * @class MoureVehicleEvent
@@ -15,6 +15,7 @@ import core.Lloc;
  * @version 2025.03.04
  */
 public class MoureVehicleEvent extends Event {
+
     private Vehicle vehicle;
     private Lloc origen;
     private Lloc desti;
@@ -30,8 +31,8 @@ public class MoureVehicleEvent extends Event {
 
     @Override
     public void executar(Simulador simulador) {
-        String missatge =   "[" + temps + "] Vehicle " + vehicle.getId() + " es mou de " + origen.obtenirId() + " a "
-                        + desti.obtenirId() + ".";
+        String missatge = "[" + temps + "] Vehicle " + vehicle.getId() + " es mou de " + origen.obtenirId() + " a "
+                + desti.obtenirId() + ".";
         System.out.println(missatge);
         simulador.pintarMissatge(missatge);
         vehicle.moure(desti, distancia);
@@ -40,6 +41,22 @@ public class MoureVehicleEvent extends Event {
         if (simulador.getMapPanel() != null) {
             simulador.getMapPanel().animarCami(new Cami(origen, desti, distancia, 0), vehicle);
         }
+    }
+
+    public Vehicle getVehicle() {
+        return this.vehicle;
+    }
+
+    public Lloc getOrigen() {
+        return this.origen;
+    }
+
+    public Lloc getDesti() {
+        return this.desti;
+    }
+
+    public double getDistancia() {
+        return this.distancia;
     }
 
 }
