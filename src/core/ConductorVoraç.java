@@ -58,7 +58,7 @@ public class ConductorVoraç extends Conductor {
             }
 
         } else {
-            simulador.afegirEsdeveniment(new FiRutaEvent(horaActual, this));
+            simulador.afegirEsdeveniment(new FiRutaEvent(horaActual, this, ruta));
 
         }
     }
@@ -77,6 +77,7 @@ public class ConductorVoraç extends Conductor {
         return new Ruta(cami, peticio.obtenirHoraMinimaRecollida(), distanciaTotal, tempsTotal, this, false);
     }
 
+    @Override
     public boolean teBateria(double distancia, Simulador simulador, Mapa mapa, LocalTime horaInici,
             LocalTime horaActual) {
         // Comprovar si el vehicle pot fer la petició
@@ -104,3 +105,4 @@ public class ConductorVoraç extends Conductor {
     }
 
 }
+

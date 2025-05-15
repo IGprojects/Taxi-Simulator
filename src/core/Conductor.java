@@ -12,10 +12,9 @@ import java.time.LocalTime;
 public abstract class Conductor {
     protected int id; /// < Identificador del conductor.
     protected String nom; /// < Nom del conductor.
-    private Peticio peticio;// Peticio actual del contuctor
     protected Vehicle vehicle;/// < Vehicle que condueix el conductor
     protected boolean ocupat; /// < Indica si el conductor està ocupat o no.
-
+    
     public Conductor(int id, String nom, Vehicle vehicle) {
         this.id = id;
         this.nom = nom;
@@ -45,10 +44,9 @@ public abstract class Conductor {
         this.ocupat = ocupat;
     }
 
-    public abstract Ruta planificarRuta(Peticio peticio, Mapa mapa);
-
     public abstract boolean teBateria(double distancia, Simulador simulador, Mapa mapa, LocalTime horaInici,
             LocalTime horaActual);
 
     public abstract boolean potServirPeticio(int nombrePassatgers);
 }
+

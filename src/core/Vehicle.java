@@ -38,7 +38,6 @@ public class Vehicle {
         this.TEMPSCARGARAPIDA = tempsCargaRapida;
         this.carregant = false; // El vehicle no està carregant inicialment
         this.percentatgeCarrega = 100; // Bateria al 100% inicialment
-        percentatgeCarrega = 25;
     }
 
     public int getId() {
@@ -54,8 +53,11 @@ public class Vehicle {
         if (voraç) {
             double batBaixar = (int) ((km / AUTONOMIA) * 100);
             return percentatgeCarrega - batBaixar > 20;
+        } else {
+            double batBaixar = (int) ((km / AUTONOMIA) * 100);
+            return percentatgeCarrega - batBaixar > 0;
+
         }
-        return true;
         // return this.bateria > km;
     }
 
@@ -66,15 +68,6 @@ public class Vehicle {
      */
     public Lloc getUbicacioActual() {
         return this.ubicacio;
-    }
-
-    /**
-     * @pre Cert.
-     * @post Retorna autonomia del vehicle
-     * @return autonomia del vehicle
-     */
-    public int getAutonomia() {
-        return this.AUTONOMIA;
     }
 
     /**
@@ -133,8 +126,8 @@ public class Vehicle {
      */
     public void carregarBateria(boolean voraç) {
         bateria = voraç ? 80 : 100; // Carrega ràpida al 80% o lenta al 100%
-                percentatgeCarrega = voraç ? 80 : 100; // Carrega ràpida al 80% o lenta al 100%
- 
+        percentatgeCarrega = voraç ? 80 : 100; // Carrega ràpida al 80% o lenta al 100%
+
         carregant = false; // El vehicle ja no està carregant
 
     }
@@ -147,17 +140,18 @@ public class Vehicle {
      */
     public boolean consumirBateria(double distancia) {
         System.out.println("-----------");
-        System.out.println("Distancia: " + distancia);
-        double bat = 0;
-        if (distancia >= 0) {
-            System.out.println("Bateria abans: " + percentatgeCarrega);
-            // Fórmula per reduir la bateria segons l'autonomia màxima
-            bateria -= distancia;
-            percentatgeCarrega -= (int) ((distancia / AUTONOMIA) * 100);
-            System.out.println("Bateria ara: " + percentatgeCarrega);
-            System.out.println("-----------");
-        }
-        return false;
+        System.out.println("Distància: " + distancia);
+
+        // Calculem el percentatge necessari per aquesta distància
+        int consumPercentatge = (int) Math.ceil((distancia / AUTONOMIA) * 100);
+
+        System.out.println("Bateria abans: " + percentatgeCarrega);
+        bateria -= distancia;
+        percentatgeCarrega -= consumPercentatge;
+        System.out.println("Bateria després: " + percentatgeCarrega);
+        System.out.println("-----------");
+        return true;
+
     }
 
     /**
@@ -214,10 +208,9 @@ public class Vehicle {
         return MAXPASSATGERS;
     }
 
-    
-/**
+    /**
      * @pre Cert.
-     * @post Retorna el nombre de passatgers que  transporta el vehicle..
+     * @post Retorna el nombre de passatgers que transporta el vehicle..
      * @return El nombre de passatgers que transporta el vehicle.
      */
     public int getPassatgersActuals() {
