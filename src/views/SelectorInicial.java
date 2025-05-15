@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 public class SelectorInicial {
 
     public interface DadesIniciListener {
-        void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions,
+        void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions,File JsonFile,
                 LocalTime horaInici, LocalTime horaFinal);
         
         void onSimulacioJsonSeleccionat(File simulacioJson);
@@ -114,7 +114,7 @@ public class SelectorInicial {
 
                 frame.dispose();
                 listener.onDadesCompletades(
-                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],
+                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],selectedFiles[5],
                         horaInici, horaFinal);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Error al mode de proves: " + ex.getMessage(), "Error",
@@ -147,7 +147,7 @@ public class SelectorInicial {
 
                 frame.dispose();
                 listener.onDadesCompletades(
-                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],
+                        selectedFiles[0], selectedFiles[1], selectedFiles[2], selectedFiles[3], selectedFiles[4],selectedFiles[5],
                         horaInici, horaFinal);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Format d'hora incorrecte. Usa HH:mm", "Error",

@@ -19,6 +19,10 @@ import views.MapPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 
 import static javax.swing.BorderFactory.createEmptyBorder;
 import javax.swing.JButton;
@@ -162,7 +166,7 @@ public class Simulador {
      * @post Inicia l'execució de la simulació.
      *
      */
-    public void iniciar() {
+    public void iniciar(File jsonFile) {
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -179,12 +183,44 @@ public class Simulador {
                     assignarPeticions();
 
                 } else {
-                    finalitzarSimulacio(e);
+                    finalitzarSimulacio(e,jsonFile);
                 }
             }
         });
         timer.start();
     }
+
+
+    /**
+     * @pre cert
+     * @post Inicia l'execució d'una simulacio guardada
+     *
+     */
+   public void executarSimulacioGuardada(List<Event> EventsGuardats,File jsonFile) {
+    Timer timer = new Timer(1000, new ActionListener() {
+        private Iterator<Event> eventIterator = EventsGuardats.iterator();
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (eventIterator.hasNext() && horaActual.isBefore(horaFi)) {
+                Event event = eventIterator.next();
+                horaActual = event.getTemps();
+                mapPanel.setHoraActual(horaActual);
+                System.out.println("Hora actual: " + horaActual);
+              
+                event.executar(Simulador.this);
+                
+                // Si s'han acabat els events guardats, passar a les peticions pendents
+                if (!eventIterator.hasNext() && !peticions.isEmpty()) {
+                    assignarPeticions();
+                }
+            } else {
+                finalitzarSimulacio(e,jsonFile);
+            }
+        }
+    });
+    timer.start();
+}
 
     /**
      * @pre cert
@@ -298,14 +334,26 @@ public class Simulador {
      * @pre cert
      * @post Tanca la simulació i mostra un resum dels resultats.
      */
-    private void finalitzarSimulacio(ActionEvent e) {
-        ((Timer) e.getSource()).stop();
-        
-        System.out.println("------------------");
-        System.out.println("Estadistiques:");
-        this.estadistiques.toString();
-        mostrarDialogEstadistiques();
-        System.out.println("Simulació finalitzada.");
+    private void finalitzarSimulacio(ActionEvent e,File jsonFile) {
+        try {
+            ((Timer) e.getSource()).stop();
+            
+            System.out.println("------------------");
+            System.out.println("Estadistiques:");
+            System.out.println(this.estadistiques.toString());
+            mostrarDialogEstadistiques();
+            LectorJSON escritorJSON=new LectorJSON();
+            //mapa.getLlocs().keySet().toArray()
+            List<Lloc> listDeLlocs = new ArrayList<>(mapa.getLlocs().keySet());
+            
+            Collection collectionGenerica = mapa.getLlocs().values();
+            List<Cami> listCami = new ArrayList<Cami>(collectionGenerica);
+            
+            escritorJSON.writeJsonFile(conductors,vehicles,listDeLlocs,listCami,jsonFile.getAbsolutePath());
+            System.out.println("Simulació finalitzada.");
+        } catch (IOException ex) {
+            System.err.println("ERROR AL FINALITZAR SIMULACIO");
+        }
     }
 
     /**
@@ -417,17 +465,17 @@ private String obtenerTextoEstadisticas() {
     
     // Aquí añades toda la información de las estadísticas
     sb.append("--- Peticions ---\n");
-    sb.append("Nombre de peticions servides").append(estadistiques.getPeticionesServidas()).append("\n");
-    sb.append("Nombre de peticions no servides").append(estadistiques.getPeticionesNoServidas()).append("\n");
-    sb.append("Percentatge d'exit de peticions").append(estadistiques.getPorcentajeExito()).append("\n");
+    sb.append("Nombre de peticions servides -> ").append(estadistiques.getPeticionesServidas()).append("\n");
+    sb.append("Nombre de peticions no servides -> ").append(estadistiques.getPeticionesNoServidas()).append("\n");
+    sb.append("Percentatge d'exit de peticions -> ").append(estadistiques.getPorcentajeExito()).append("\n");
 
     sb.append("--- Temps mig ---\n");
-    sb.append("Temps mig d'espera").append(estadistiques.getTiempoEsperaPromedio()).append("\n\n");
-    sb.append("Temps maxim d'espera").append(estadistiques.getTiempoMaximoEspera()).append("\n\n");
+    sb.append("Temps mig d'espera -> ").append(estadistiques.getTiempoEsperaPromedio()).append("\n\n");
+    sb.append("Temps maxim d'espera -> ").append(estadistiques.getTiempoMaximoEspera()).append("\n\n");
 
     sb.append("--- Vehicles ---\n");
-    sb.append(String.format("Mitjana del percentatge d’ocupaci´o dels vehicles", estadistiques.getOcupacionPromedioVehiculos()));
-    sb.append(String.format("Mitjana del temps dels viatges", estadistiques.getTiempoViajePromedio()));
+    sb.append(String.format("Mitjana del percentatge d’ocupaci´o dels vehicles -> ", estadistiques.getOcupacionPromedioVehiculos()));
+    sb.append(String.format("Mitjana del temps dels viatges -> ", estadistiques.getTiempoViajePromedio()));
     sb.append("\n");
     
     return sb.toString();

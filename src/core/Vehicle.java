@@ -70,6 +70,15 @@ public class Vehicle {
 
     /**
      * @pre Cert.
+     * @post Retorna autonomia del vehicle
+     * @return autonomia del vehicle
+     */
+    public int getAutonomia() {
+        return this.AUTONOMIA;
+    }
+
+    /**
+     * @pre Cert.
      * @post Retorna true si el vehicle està ple, altrament false.
      */
     public boolean esPle() {

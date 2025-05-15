@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +45,7 @@ public class Main {
     }
 
     public static void inicialitzar(File llocsFile, File connexionsFile, File vehiclesFile, File conductorsFile,
-            File peticionsFile,
-            LocalTime horaInici, LocalTime horaFinal) {
+            File peticionsFile,File jsonFile,LocalTime horaInici, LocalTime horaFinal) {
         List<Lloc> llocs = LectorCSV.carregarLlocs(llocsFile.getAbsolutePath());
         Map<Integer, Lloc> llocsPerId = new HashMap<>();
         for (Lloc l : llocs)
@@ -72,7 +72,7 @@ public class Main {
         Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors,
                 peticions);
 
-        mostrarMapa(mapa, simulador, vehicles, llocs);
+        mostrarMapa(mapa, simulador, vehicles, llocs,true,null,jsonFile);
     }
 
 
@@ -104,12 +104,16 @@ public class Main {
         System.out.println("Dades carregades correctament.");
         System.out.println("Hora d'inici: " + horaInici);
         System.out.println("Hora final: " + horaFinal);
+        System.out.println("CAMINS: " + camins.size());
+        System.out.println("CONDUCTORS: " + conductors.size());
+        System.out.println("VEHICLES: " + vehicles.size());
         System.out.println("--------------------------------");
 
 
         //CONSTRUCTOR PER SIMULADOR PER AFEGIR DES DE EL INICI TOTS ELS EVENTS QUE HA DE FER
-        Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors,null);
-        mostrarMapa(mapa, simulador, vehicles, llocs);
+        List<Peticio> peticions=new ArrayList<Peticio>();
+        Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors,peticions);
+        mostrarMapa(mapa, simulador, vehicles, llocs,false,eventsProgramats,SimulacioFile);
     }
 
     public static void main(String[] args) {
@@ -117,11 +121,10 @@ public class Main {
         SelectorInicial.mostrar(new SelectorInicial.DadesIniciListener() {
             @Override
             public void onDadesCompletades(File llocsFile, File connexionsFile, File vehiclesFile, 
-                                         File conductorsFile, File peticionsFile,
+                                         File conductorsFile, File peticionsFile,File JsonFile,
                                          LocalTime horaInici, LocalTime horaFinal) {
                 try {
-                    inicialitzar(llocsFile, connexionsFile, vehiclesFile, conductorsFile, peticionsFile,
-                            horaInici, horaFinal);
+                    inicialitzar(llocsFile, connexionsFile, vehiclesFile, conductorsFile, peticionsFile,JsonFile,horaInici, horaFinal);
                 } catch (Exception e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Error carregant fitxers: " + e.getMessage());
@@ -188,7 +191,9 @@ public class Main {
         // }
     }
 
-    private static void mostrarMapa(Mapa mapa, Simulador simulador, List<Vehicle> vehicles, List<Lloc> llocs) {
+    
+
+    private static void mostrarMapa(Mapa mapa, Simulador simulador, List<Vehicle> vehicles, List<Lloc> llocs,boolean simulacioReal,List<Event> eventsSimulacioGuardada,File jsonFile) {
         JFrame frame = new JFrame("Visualització del Mapa");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -214,10 +219,20 @@ public class Main {
         for (Vehicle vehicle : vehicles) {
             mapPanel.assignarColorVehicle(vehicle);
         }
-        startButton.addActionListener(e -> {
-            simulador.iniciar();
-        });
-
+        if(simulacioReal){
+            startButton.addActionListener(e -> {
+                simulador.iniciar(jsonFile);
+            });
+        }else{
+            startButton.addActionListener(e -> {
+                simulador.executarSimulacioGuardada(eventsSimulacioGuardada,jsonFile);
+            });
+        }
         frame.setVisible(true);
     }
+
+    
+
 }
+
+

@@ -37,6 +37,10 @@ public class Lloc {
         return capacitatMaxima;
     }
 
+   
+
+    
+
     /**
      * @pre Cert
      * @post Si hi ha espai, el nombre de passatgers augmenta.
