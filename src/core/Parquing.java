@@ -24,8 +24,12 @@ public class Parquing extends Lloc {
         this.vehiclesActuals = 0;
     }
 
+    /**
+     * @pre Cert.
+     * @post Retorna un punt de càrrega public disponible.
+     * @return PuntCarrega si hi ha un punt de càrrega disponible, null en cas contrari.
+     */
     public PuntCarrega puntCarregaPublicDisponible() {
-
         for (PuntCarrega punt : puntsCargaPublics) {
             if (!punt.isOcupat()) {
                 return punt;
@@ -34,6 +38,10 @@ public class Parquing extends Lloc {
         return null; // No hi ha punts de càrrega disponibles
     }
 
+    /**
+     * @pre Cert.
+     * @post Retorna si el punt de càrrega és privat.
+     */
     public boolean esCarregadorPrivat(int id) {
         return id == this.id;
     }
@@ -123,6 +131,12 @@ public class Parquing extends Lloc {
         return capacitatMaxima;
     }
 
+    /**
+     * @pre Cert.
+     * @post Retorna la id del pàrquing.
+     *
+     * @return id del pàrquing.
+     */
     public int obtenirId() {
         return id;
     }

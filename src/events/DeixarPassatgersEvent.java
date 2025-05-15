@@ -16,9 +16,9 @@ import core.Simulador;
  */
 public class DeixarPassatgersEvent extends Event {
 
-    private Conductor conductor;
-    private Lloc desti;
-    private int passatgersDeixats;
+    private Conductor conductor; /// < Conductor que realitza l'esdeveniment
+    private Lloc desti; /// < Lloc on es deixaran els passatgers
+    private int passatgersDeixats; /// < Nombre de passatgers deixats
 
     public DeixarPassatgersEvent(LocalTime temps, Conductor conductor, Lloc desti, int passatgersDeixats) {
         super(temps);
@@ -27,6 +27,11 @@ public class DeixarPassatgersEvent extends Event {
         this.passatgersDeixats = passatgersDeixats;
     }
 
+    /**
+     * @pre Cert.
+     * @post El vehicle del conductor deixa els passatgers especificats i pinta el missatge per pantalla.
+     * @param simulador Simulador on es realitza l'esdeveniment
+     */
     @Override
     public void executar(Simulador simulador) {
         conductor.getVehicle().alliberarPassatgersConcret(passatgersDeixats);

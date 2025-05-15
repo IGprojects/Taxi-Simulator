@@ -15,9 +15,9 @@ import core.Vehicle;
  */
 public class CarregarBateriaEvent extends Event {
 
-    private Vehicle vehicle;
-    private double duracioCarregaMinuts;
-    private Conductor conductor;
+    private Vehicle vehicle; /// < Vehicle que es carrega
+    private double duracioCarregaMinuts; /// < Duració de la càrrega en minuts
+    private Conductor conductor; /// < Conductor que realitza l'esdeveniment
 
     public CarregarBateriaEvent(LocalTime temps, Vehicle vehicle, double duracioCarregaMinuts, Conductor conductor) {
         super(temps);
@@ -26,13 +26,19 @@ public class CarregarBateriaEvent extends Event {
         this.conductor = conductor;
     }
 
+    /**
+     * @pre Cert.
+     * @post El vehicle del conductor comença a carregar la bateria i es pinta el missatge per
+     *       pantalla. El vehicle queda ocupat durant la càrrega. Es crea un nou esdeveniment 
+     *       FiCarregaEvent per indicar el final de la càrrega.
+     * @param simulador Simulador on es realitza l'esdeveniment
+     */
     @Override
     public void executar(Simulador simulador) {
         String missatge = "[" + temps + "] El vehicle " + vehicle.getId() + " comença a carregar la bateria.";
         System.out.println(missatge);
         simulador.pintarMissatge(missatge);
         vehicle.esCarregant();
-        conductor.setOcupat(false);
         // Programem final de la càrrega
         LocalTime fiCarrega = temps.plusMinutes((long) duracioCarregaMinuts);
         simulador.afegirEsdeveniment(new FiCarregaEvent(fiCarrega, conductor));

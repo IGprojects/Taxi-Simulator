@@ -16,10 +16,10 @@ import core.Vehicle;
  */
 public class MoureVehicleEvent extends Event {
 
-    private Vehicle vehicle;
-    private Lloc origen;
-    private Lloc desti;
-    private double distancia; // Distància entre origen i destí
+    private Vehicle vehicle; /// < Vehicle que es mou
+    private Lloc origen; /// < Lloc d'origen del vehicle
+    private Lloc desti; /// < Lloc de destí del vehicle
+    private double distancia; /// < Distància entre l'origen i el destí
 
     public MoureVehicleEvent(LocalTime temps, Vehicle vehicle, Lloc origen, Lloc desti, double distancia) {
         super(temps);
@@ -29,6 +29,11 @@ public class MoureVehicleEvent extends Event {
         this.distancia = distancia;
     }
 
+    /**
+     * @pre Cert.
+     * @post El vehicle es mou de l'origen al destí, es pinta el camí i es pinta el missatge per pantalla.
+     * @param simulador Simulador on es realitza l'esdeveniment
+     */
     @Override
     public void executar(Simulador simulador) {
         String missatge = "[" + temps + "] Vehicle " + vehicle.getId() + " es mou de " + origen.obtenirId() + " a "

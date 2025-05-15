@@ -16,9 +16,9 @@ import core.Ruta;
  * @version 2025.03.04
  */
 public class IniciRutaEvent extends Event {
-    private Conductor conductor;
-    private Ruta ruta;
-    private Vehicle vehicle;
+    private Conductor conductor; /// < Conductor que realitza l'esdeveniment
+    private Ruta ruta; /// < Ruta que es realitza
+    private Vehicle vehicle; /// < Vehicle que es fa servir per realitzar la ruta
 
     public IniciRutaEvent(LocalTime temps, Conductor conductor, Vehicle vehicle, Ruta ruta) {
         super(temps);
@@ -46,6 +46,12 @@ public class IniciRutaEvent extends Event {
 
     }
 
+    /**
+     * @pre Cert.
+     * @post El vehicle del conductor inicia la ruta i es pinta el missatge per
+     *       pantalla. El conductor queda ocupat durant la ruta.
+     * @param simulador Simulador on es realitza l'esdeveniment
+     */
     @Override
     public void executar(Simulador simulador) {
         String missatge = "";
@@ -56,13 +62,12 @@ public class IniciRutaEvent extends Event {
         } else {
             missatge = "[" + temps + "] El conductor " + conductor.getId()
                     + " inicia la ruta per fer la petició.";
-
         }
         System.out.println(missatge);
         simulador.pintarMissatge(missatge);
 
         conductor.setOcupat(true);
-        conductor.executarRuta(ruta, vehicle, simulador); // <--- passem el simulador
+        conductor.executarRuta(ruta, vehicle, simulador);
     }
 
 }

@@ -4,9 +4,7 @@ import java.time.LocalTime;
 
 import core.Conductor;
 import core.Lloc;
-import core.Peticio;
 import core.Simulador;
-import core.Vehicle;
 
 /**
  * @class RecollirPassatgersEvent
@@ -18,9 +16,9 @@ import core.Vehicle;
  */
 public class RecollirPassatgersEvent extends Event {
 
-    private Conductor conductor;
-    private Lloc desti;
-    private int passatgersRecollits = 0;
+    private Conductor conductor; /// < Conductor que realitza l'esdeveniment
+    private Lloc desti; /// < Lloc on es recolliran els passatgers
+    private int passatgersRecollits = 0; /// < Nombre de passatgers recollits
 
     public RecollirPassatgersEvent(LocalTime temps, Conductor conductor, Lloc desti, int passatgersRecollits) {
         super(temps);
@@ -29,6 +27,10 @@ public class RecollirPassatgersEvent extends Event {
         this.passatgersRecollits = passatgersRecollits;
     }
 
+    /**
+     * @pre Cert.
+     * @post El vehicle del conductor recull els passatgers especificats i pinta el missatge per pantalla.
+     */
     @Override
     public void executar(Simulador simulador) {
         conductor.getVehicle().afegirPassatgers(passatgersRecollits);

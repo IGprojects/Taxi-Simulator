@@ -15,24 +15,14 @@ import java.time.LocalTime;
 public class Peticio {
 
     private int id; /// < Identificador de la petició.
-    private Lloc origen;
-    /// < Lloc on el client vol ser recollit.
-    private Lloc desti;
-    /// < Lloc on el client vol arribar.
-    private LocalTime horaMinimaRecollida;
+    private Lloc origen; /// < Lloc on el client vol ser recollit.
+    private Lloc desti; /// < Lloc on el client vol arribar.
+    private LocalTime horaMinimaRecollida;/// < Hora mínima en què el client vol ser recollit.
+    private LocalTime horaMaximaArribada; /// < Hora màxima en què el client vol arribar al destí.
+    private int numPassatgers; /// < Nombre de passatgers que han de viatjar.
+    private boolean vehicleCompartit;/// < Indica si el client vol un vehicle compartit.
+    private EstatPeticio estat;/// < Estat actual de la petició.
 
-    /// < Hora mínima en què el client vol ser recollit.
-    private LocalTime horaMaximaArribada;
-
-    /// < Hora màxima en què el client vol arribar al destí.
-    private int numPassatgers;
-    /// < Nombre de passatgers que han de viatjar.
-    private boolean vehicleCompartit;
-    /// < Indica si el client vol un vehicle compartit.
-    private EstatPeticio estat;
-
-    /// < Estat actual de la petició.
-    ///
     public Peticio(int id, Lloc origen, Lloc desti, LocalTime horaMinimaRecollida, LocalTime horaMaximaArribada,
             int numPassatgers, boolean vehicleCompartit) {
         this.id = id;
@@ -45,6 +35,11 @@ public class Peticio {
         this.estat = EstatPeticio.PENDENT; // L'estat inicial podria ser "pendent"
     }
 
+    /**
+     * @pre Cert.
+     * @post Retorna l'estat actual de la petició.
+     *
+     */
     public EstatPeticio estatActual() {
         return estat;
     }

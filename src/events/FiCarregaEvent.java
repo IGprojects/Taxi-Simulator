@@ -15,17 +15,22 @@ import core.Simulador;
  * @version 2025.03.04
  */
 public class FiCarregaEvent extends Event {
-    private Conductor conductor;
+    private Conductor conductor; /// < Conductor que realitza l'esdeveniment
 
     public FiCarregaEvent(LocalTime temps, Conductor conductor) {
         super(temps);
         this.conductor = conductor;
     }
 
+    /**
+     * @pre Cert.
+     * @post El vehicle del conductor acaba la càrrega i es pinta el missatge per
+     *       pantalla. El conductor queda lliure i s'intenten assignar les peticions
+     */
     @Override
     public void executar(Simulador simulador) {
-
-        conductor.getVehicle().carregarBateria(true); // carrega total
+        conductor.getVehicle().carregarBateria(true);
+        conductor.setOcupat(false);
         String missatge = "[" + temps + "] Càrrega finalitzada del vehicle " + conductor.getVehicle().getId();
         System.out.println(missatge);
         simulador.pintarMissatge(missatge);

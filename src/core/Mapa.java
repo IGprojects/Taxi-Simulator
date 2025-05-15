@@ -31,7 +31,7 @@ public class Mapa {
     }
 
     /**
-     * @pre id>0
+     * @pre Cert
      *
      * @post Afegeix un nou lloc a la llista de llocs
      */
@@ -40,9 +40,9 @@ public class Mapa {
     }
 
     /**
-     * @pre Origen i desti existents
+     * @pre Cert
+     * @post Afegeix un nou camí a la llista de connexions
      *
-     * @post Afegeix una nova connexio a la llista de connexions
      */
     public void afegirCami(Cami cami) {
         llocs.get(cami.obtenirOrigen()).add(cami);
@@ -87,6 +87,12 @@ public class Mapa {
         return -1;
     }
 
+    /**
+     * @pre Cert
+     *
+     * @post Retorna el temps en minuts que dura la ruta.
+     * @return El temps total de la ruta en minuts.
+     */
     public double calcularTempsRuta(List<Lloc> ruta) {
         double tempsTotal = 0.0;
 
@@ -106,6 +112,12 @@ public class Mapa {
         return tempsTotal;
     }
 
+    /**
+     * @pre Cert
+     *
+     * @post Retorna el temps en km que dura la ruta.
+     * @return El temps total de la ruta en km.
+     */
     public double calcularDistanciaRuta(List<Lloc> ruta) {
         double distanciaTotal = 0.0;
 
@@ -161,6 +173,22 @@ public class Mapa {
 
     }
 
+    /**
+     * @brief Funció recursiva per trobar el camí més ràpid entre dos llocs,
+     *        utilitzant
+     *        un enfocament voraç.
+     * @details Aquesta funció explora els camins disponibles a partir del lloc
+     *          actual
+     *          i selecciona el camí amb el temps més curt per continuar la cerca.
+     * @pre Cert
+     * @post Retorna el camí més ràpid entre dos llocs
+     * @param actual
+     * @param desti
+     * @param visitats
+     * @param camiActual
+     * @param millorCami
+     * @return true si s'ha trobat un camí, false en cas contrari
+     */
     private boolean trobarCamiVoraç(Lloc actual, Lloc desti, Set<Lloc> visitats,
             List<Lloc> camiActual, List<Lloc> millorCami) {
         visitats.add(actual);

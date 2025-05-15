@@ -21,8 +21,10 @@ public class Ruta {
     private LocalTime horaInici; /// < Hora d'inici de la ruta.
     private Conductor conductor; /// < Conductor que realitza la ruta.
     private boolean esRutaCarrega; /// < Indica si la ruta és per una petició.
-    private List<Pair<Integer, Integer>> llocsOrigenPeticioId; /// < Llista de llocs dels orígens de les peticions.
-    private List<Pair<Integer, Integer>> llocsDestiPeticioId; /// < Llista de llocs dels destins de les peticions.
+    private List<Pair<Integer, Integer>> llocsOrigenPeticioId; /// < Llista de parells que guardaran cada origen d'una
+                                                               /// petició amb el seu nombre de passatgers.
+    private List<Pair<Integer, Integer>> llocsDestiPeticioId; /// < Llista de parells que guardaran cada destí d'una
+                                                              /// petició amb el seu nombre de passatgers.
     private int passatgersPeticio; /// < Nombre de passatgers de la petició.
 
     public Ruta(List<Lloc> llocs, LocalTime horaInici, double distanciaTotal, double tempsTotal, Conductor conductor,
@@ -45,7 +47,6 @@ public class Ruta {
         this.horaInici = null; // O LocalTime.MIN si prefereixes un valor per defecte
         this.conductor = null;
         this.esRutaCarrega = false; // Valor per defecte més lògic
-
     }
 
     /**
@@ -59,72 +60,49 @@ public class Ruta {
     }
 
     /**
-     * @pre cami != null
-     * @post Afegeix el destí del camí a la ruta i actualitza la distància i el
-     *       temps total.
-     *
-     * @param cami Camí a afegir a la ruta.
+     * @pre Cert.
+     * @post Assigna el nombre de passatgers a la ruta.
+     * @param passatgers
      */
-    public void afegirCami(Cami cami) {
-        llocs.add(cami.obtenirOrigen());
-        llocs.add(cami.obtenirDesti());
-        distanciaTotal += cami.obtenirDistancia();
-        tempsTotal += cami.obtenirTemps();
-    }
-
-    /**
-     * @brief Afegeix una seqüència de trams a partir d’una llista de llocs
-     *        consecutius.
-     * @pre cami.size() >= 2 && mapa != null
-     * @post Actualitza la ruta amb els camins entre llocs consecutius, i també
-     *       actualitza distància i temps totals.
-     *
-     * @param cami Llista de llocs consecutius que defineixen el recorregut.
-     * @param mapa Mapa que permet calcular la distància i temps entre els llocs.
-     */
-    public void afegirTramDesDeLlocs(List<Lloc> cami, Mapa mapa) {
-        if (cami == null || cami.size() < 2)
-            return;
-
-        for (int i = 0; i < cami.size() - 1; i++) {
-            Lloc origen = cami.get(i);
-            Lloc desti = cami.get(i + 1);
-            double dist = mapa.calcularDistancia(origen, desti);
-            double temps = mapa.calcularTemps(origen, desti);
-
-            camins.add(new Cami(origen, desti, dist, temps));
-
-            if (llocs.isEmpty() || !llocs.get(llocs.size() - 1).equals(origen)) {
-                llocs.add(origen);
-            }
-            llocs.add(desti);
-
-            distanciaTotal += dist;
-            tempsTotal += temps;
-        }
-    }
-
     public void assignarPassatgersPeticio(int passatgers) {
         this.passatgersPeticio = passatgers;
     }
 
+    /**
+     * @pre Cert.
+     * @post Retorna el nombre de passatgers assignats a la ruta.
+     *
+     * @return Nombre de passatgers assignats a la ruta.
+     */
     public int obtenirPassatgersPeticio() {
         return passatgersPeticio;
     }
 
+    /**
+     * @pre Cert.
+     * @post Assigna la llista de parells de llocs d'origen i passatgers.
+     *
+     * @param llocs Llista de parells que contenen l'ID del lloc i el nombre de
+     *              passatgers.
+     */
     public void assignarLlocsOrigenPeticions(List<Pair<Integer, Integer>> llocs) {
         llocsOrigenPeticioId = llocs;
     }
 
+    /**
+     * @pre Cert.
+     * @post Assigna la llista de parells de llocs de destí i passatgers.
+     *
+     * @param llocs Llista de parells que contenen l'ID del lloc i el nombre de
+     *              passatgers.
+     */
     public void assignarLlocsDestiPeticions(List<Pair<Integer, Integer>> llocs) {
         llocsDestiPeticioId = llocs;
     }
 
     /**
-     * @pre La llista llocsOrigenPeticioId ha d’estar inicialitzada (pot estar
-     *      buida).
-     * @post No es modifica la llista. Només es retorna el primer element que
-     *       compleixi la condició.
+     * @pre Cert
+     * @post Es retorna el primer element que compleixi la condició.
      * @param valor El valor que es vol cercar com a clau (first) dins la llista de
      *              parells.
      * @return El primer Pair que té la clau igual al valor donat, o null si no es
@@ -141,6 +119,14 @@ public class Ruta {
         return -1; // No s'ha trobat cap coincidència
     }
 
+    /**
+     * @pre Cert
+     * @post Es retorna el primer element que compleixi la condició.
+     * @param valor El valor que es vol cercar com a clau (first) dins la llista de
+     *              parells.
+     * @return El primer Pair que té la clau igual al valor donat, o null si no es
+     *         troba cap coincidència.
+     */
     public int trobarDestiId(int valor) {
         for (Pair<Integer, Integer> pair : llocsDestiPeticioId) {
             if (pair.getKey().equals(valor)) {
@@ -259,23 +245,7 @@ public class Ruta {
         this.esRutaCarrega = esRutaCarrega;
     }
 
-    public double getDistanciaTotal() {
-        return distanciaTotal;
-    }
-
-    public double getTempsTotal() {
-        return tempsTotal;
-    }
-
     public LocalTime getHoraInici() {
         return horaInici;
-    }
-
-    public Conductor getConductor() {
-        return conductor;
-    }
-
-    public boolean isEsRutaCarrega() {
-        return esRutaCarrega;
     }
 }
