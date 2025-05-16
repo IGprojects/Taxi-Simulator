@@ -32,13 +32,13 @@ import java.util.stream.Collectors;
  * @version 2025.05.13
  */
 public class LectorJSON {
+    
     /**
-     * @brief Llegeix un fitxer JSON i retorna el contingut com a cadena de text.
+     * Converteix una llista de Llocs a un mapa on la clau és l'ID del lloc i el valor és el propi objecte Lloc.
      *
-     * @param pathFitxer Ruta del fitxer JSON a llegir.
-     * @return Contingut del fitxer com a cadena de text.
+     * @param llocs Llista de llocs a convertir.
+     * @return Un mapa amb les parelles ID -> Lloc corresponents.
      */
-
     public static Map<Integer, Lloc> convertirLlistaAMap_Llocs(List<Lloc> llocs) {
         return llocs.stream()
                 .collect(Collectors.toMap(
@@ -46,7 +46,12 @@ public class LectorJSON {
                         lloc -> lloc // Función para el valor (el objeto mismo)
                 ));
     }
-
+    /**
+     * Converteix una llista de Vehicles a un mapa on la clau és l'ID del vehicle i el valor és el propi objecte Vehicle.
+     *
+     * @param vehicles Llista de vehicles a convertir.
+     * @return Un mapa amb les parelles ID -> Vehicle corresponents.
+     */
     public static Map<Integer, Vehicle> convertirLlistaAMap_Vehicles(List<Vehicle> vehicles) {
         return vehicles.stream()
                 .collect(Collectors.toMap(
@@ -54,6 +59,12 @@ public class LectorJSON {
                         Vehicle -> Vehicle // Función para el valor (el objeto mismo)
                 ));
     }
+    /**
+     * Converteix una llista de Conductors a un mapa on la clau és l'ID del conductor i el valor és el propi objecte Conductor.
+     *
+     * @param conductors Llista de conductors a convertir.
+     * @return Un mapa amb les parelles ID -> Conductor corresponents.
+     */
     public static Map<Integer, Conductor> convertirLlistaAMap_Conductors(List<Conductor> conductors) {
         return conductors.stream()
                 .collect(Collectors.toMap(
@@ -61,6 +72,19 @@ public class LectorJSON {
                         Conductor -> Conductor // Función para el valor (el objeto mismo)
                 ));
     }
+    /**
+     * Carrega una llista de llocs a partir d’un fitxer JSON amb estructura parcialment lliure.
+     *
+     * El JSON ha de contenir un array sota la clau "llocs", on cada element pot ser un objecte
+     * de tipus Lloc o Parquing. La detecció es fa mitjançant el camp "TIPUS": "L" per Lloc i "P" per Parquing.
+     *
+     * En el cas dels parquings, també es processen els camps opcionals "MAX_VEHICLES",
+     * "N_CARREGADORS" i "N_CARREGADORS_PRIVATS", utilitzats per generar punts de càrrega
+     * públics i privats amb tipus alternatius (ràpida/lenta).
+     *
+     * @param pathFitxer Ruta del fitxer JSON que conté les dades dels llocs.
+     * @return Una llista de Llocs i Parquings carregats des del fitxer.
+     */
 
     public static List<Lloc> carregarLlocs(String pathFitxer) {
         List<Lloc> llocs = new ArrayList<>();
@@ -122,6 +146,17 @@ public class LectorJSON {
         System.out.println("Llocs carregats: " + llocs.size());
         return llocs;
     }
+
+    /**
+     * Carrega una llista de camins a partir d’un fitxer JSON amb estructura parcialment lliure.
+     *
+     * El JSON ha de contenir un array sota la clau "camins", on cada element és un objecte
+     * amb els camps "ORIGEN", "DESTI", "DISTANCIA_KM" i "TEMPS_MIN".
+     *
+     * @param pathFitxer Ruta del fitxer JSON que conté les dades dels camins.
+     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes Lloc.
+     * @return Una llista de camins carregats des del fitxer.
+     */
     
     public static List<Cami> carregarCamins(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
         List<Cami> camins = new ArrayList<>();
@@ -150,6 +185,18 @@ public class LectorJSON {
         }
         return camins;
     }
+
+    /**
+     * Carrega una llista de vehicles a partir d’un fitxer JSON amb estructura parcialment lliure.
+     *
+     * El JSON ha de contenir un array sota la clau "vehicles", on cada element és un objecte
+     * amb els camps "ID", "ID_UBICACIO", "AUTONOMIA_KM", "MAX_PASSATGERS",
+     * "TEMPS_CARGA_RAPIDA" i "TEMPS_CARGA_LENTA".
+     *
+     * @param pathFitxer Ruta del fitxer JSON que conté les dades dels vehicles.
+     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes Lloc.
+     * @return Una llista de vehicles carregats des del fitxer.
+     */
 
     public static List<Vehicle> carregarVehicles(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
         List<Vehicle> vehicles = new ArrayList<>();
@@ -181,6 +228,18 @@ public class LectorJSON {
         }
         return vehicles;
     }
+
+    /**
+     * Carrega una llista d'estadístiques a partir d’un fitxer JSON amb estructura parcialment lliure.
+     *
+     * El JSON ha de contenir un array sota la clau "estadistiques", on cada element és un objecte
+     * amb els camps "peticionsServides", "peticionsNoServides", "tiempoTotalEspera",
+     * "tiempoMaximoEspera", "ocupacionTotalVehiculos", "muestrasOcupacion",
+     * "porcentajeBateriaPromedio", "muestrasBateria", "tiempoTotalViaje" i "muestrasViaje".
+     *
+     * @param pathFitxer Ruta del fitxer JSON que conté les estadístiques.
+     * @return Una llista d'estadístiques carregades des del fitxer.
+     */
 
     public static List<Estadistiques> carregarEstadistiques(String pathFitxer) {
         List<Estadistiques> estadistiques = new ArrayList<>();
@@ -224,6 +283,13 @@ public class LectorJSON {
         return estadistiques;
     }
 
+    /**
+     * Llegeix el contingut d'un fitxer JSON i retorna una cadena de text amb el seu contingut.
+     *
+     * @param pathFitxer Ruta del fitxer JSON a llegir.
+     * @return Contingut del fitxer com a cadena de text.
+     */
+
     private static String llegirFitxerComplet(String pathFitxer) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(pathFitxer))) {
@@ -236,6 +302,18 @@ public class LectorJSON {
         }
         return content.toString();
     }
+
+    /**
+     * Carrega una llista de conductors a partir d’un fitxer JSON amb estructura parcialment lliure.
+     *
+     * El JSON ha de contenir un array sota la clau "conductors", on cada element és un objecte
+     * amb els camps "ID", "NOM", "TIPUS", "IDVEHICLE" i opcionalment "ID_PARQUING_PRIVAT".
+     *
+     * @param pathFitxer Ruta del fitxer JSON que conté les dades dels conductors.
+     * @param vehiclesPerId Mapa que relaciona ID de vehicles amb els seus objectes Vehicle.
+     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes Lloc.
+     * @return Una llista de conductors carregats des del fitxer.
+     */
 
     public static List<Conductor> carregarConductors(String pathFitxer,
             Map<Integer, Vehicle> vehiclesPerId, Map<Integer, Lloc> llocsPerId) {
@@ -307,6 +385,16 @@ public class LectorJSON {
         return conductors;
     }
 
+    /**
+     * Carrega l'horari d'inici i final a partir d'un fitxer JSON.
+     * 
+     * El fitxer ha de contenir els camps "horaInici" i "horaFinal" amb format d'hora (HH:mm).
+     * 
+     * @param pathFitxer Ruta del fitxer JSON que conté l'horari.
+     * @return Un array de dos valors LocalTime: [horaInici, horaFinal], o null si hi ha error.
+     */
+
+
     public static LocalTime[] carregarHorari(String pathFitxer) {
         String jsonContent = llegirFitxerComplet(pathFitxer);
 
@@ -332,6 +420,21 @@ public class LectorJSON {
         }
         return null;
     }
+
+    /**
+     * Carrega una llista d'esdeveniments a partir d'un fitxer JSON i crea objectes Event corresponents.
+     * 
+     * El fitxer ha de contenir un array sota la clau "events", i cada element ha de tenir els camps
+     * "temps", "type" i la informació específica segons el tipus d'event.
+     * 
+     * Utilitza els mapes de vehicles, conductors i llocs per instanciar correctament cada Event.
+     * 
+     * @param pathFitxer Ruta del fitxer JSON que conté els esdeveniments.
+     * @param vehiclesPerId Mapa de vehicles indexats pel seu ID.
+     * @param conductorsPerId Mapa de conductors indexats pel seu ID.
+     * @param llocsPerId Mapa de llocs indexats pel seu ID.
+     * @return Una llista d'objectes Event carregats i instanciats des del fitxer.
+     */
 
     public static List<Event> carregarEvents(String pathFitxer,
             Map<Integer, Vehicle> vehiclesPerId,
@@ -382,6 +485,18 @@ public class LectorJSON {
         System.out.println("Total eventos leídos: " + events.size());
         return events;
     }
+    
+    /**
+     * Crea un objecte Event a partir de les dades extretes del JSON.
+     * 
+     * @param eventType Tipus d'event (MoureVehicle, DeixarPassatgers, etc.).
+     * @param temps Hora de l'esdeveniment.
+     * @param eventData Dades específiques de l'esdeveniment.
+     * @param vehiclesPerId Mapa de vehicles indexats pel seu ID.
+     * @param conductorsPerId Mapa de conductors indexats pel seu ID.
+     * @param llocsPerId Mapa de llocs indexats pel seu ID.
+     * @return Un objecte Event corresponent al tipus d'esdeveniment.
+     */
 
     private static Event crearEventFromData(String eventType, LocalTime temps, String eventData,
             Map<Integer, Vehicle> vehiclesPerId,
@@ -409,6 +524,17 @@ public class LectorJSON {
     }
 
 //METODES PEL PARSEIG D EVENTS------------------------------------------------------------------
+
+    /**
+     * Parsea un event de tipus RecollirPassatgers a partir de les dades extretes del JSON.
+     * 
+     * @param temps Hora de l'esdeveniment.
+     * @param data Dades específiques de l'esdeveniment.
+     * @param conductorsPerId Mapa de conductors indexats pel seu ID.
+     * @param llocsPerId Mapa de llocs indexats pel seu ID.
+     * @return Un objecte RecollirPassatgersEvent corresponent a les dades.
+     */
+
     private static Event parseRecollirPassatgersEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId,
             Map<Integer, Lloc> llocsPerId) {
@@ -437,6 +563,16 @@ public class LectorJSON {
         return null;
     }
 
+    /**
+     * Parsea un event de tipus DeixarPassatgers a partir de les dades extretes del JSON.
+     * 
+     * @param temps Hora de l'esdeveniment.
+     * @param data Dades específiques de l'esdeveniment.
+     * @param conductorsPerId Mapa de conductors indexats pel seu ID.
+     * @param llocsPerId Mapa de llocs indexats pel seu ID.
+     * @return Un objecte DeixarPassatgersEvent corresponent a les dades.
+     */
+
     private static Event parseDeixarPassatgersEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId,
             Map<Integer, Lloc> llocsPerId) {
@@ -462,6 +598,17 @@ public class LectorJSON {
 
 // [Els mètodes existents parseMoureVehicleEvent, parseIniciRutaEvent, etc. es mantenen iguals]
     // Métodos de parseo para cada tipo de evento
+
+    /**
+     * Parsea un event de tipus MoureVehicle a partir de les dades extretes del JSON.
+     * 
+     * @param temps Hora de l'esdeveniment.
+     * @param data Dades específiques de l'esdeveniment.
+     * @param vehiclesPerId Mapa de vehicles indexats pel seu ID.
+     * @param llocsPerId Mapa de llocs indexats pel seu ID.
+     * @return Un objecte MoureVehicleEvent corresponent a les dades.
+     */
+
     private static Event parseMoureVehicleEvent(LocalTime temps, String data,
             Map<Integer, Vehicle> vehiclesPerId,
             Map<Integer, Lloc> llocsPerId) {
@@ -486,6 +633,17 @@ public class LectorJSON {
         }
         return null;
     }
+
+    /**
+     * Parsea un event de tipus IniciRuta a partir de les dades extretes del JSON.
+     * 
+     * @param temps Hora de l'esdeveniment.
+     * @param data Dades específiques de l'esdeveniment.
+     * @param conductorsPerId Mapa de conductors indexats pel seu ID.
+     * @param vehiclesPerId Mapa de vehicles indexats pel seu ID.
+     * @param llocsPerId Mapa de llocs indexats pel seu ID.
+     * @return Un objecte IniciRutaEvent corresponent a les dades.
+     */
 
     private static Event parseIniciRutaEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId,
@@ -549,6 +707,15 @@ public class LectorJSON {
         return null;
     }
 
+    /**
+     * Parsea un event de tipus FiRuta a partir de les dades extretes del JSON.
+     * 
+     * @param temps Hora de l'esdeveniment.
+     * @param data Dades específiques de l'esdeveniment.
+     * @param conductorsPerId Mapa de conductors indexats pel seu ID.
+     * @return Un objecte FiRutaEvent corresponent a les dades.
+     */
+
     private static Event parseFiRutaEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId) {
         Pattern p = Pattern.compile(
@@ -565,6 +732,15 @@ public class LectorJSON {
         }
         return null;
     }
+
+    /**
+     * Parsea un event de tipus FiCarrega a partir de les dades extretes del JSON.
+     * 
+     * @param temps Hora de l'esdeveniment.
+     * @param data Dades específiques de l'esdeveniment.
+     * @param conductorsPerId Mapa de conductors indexats pel seu ID.
+     * @return Un objecte FiCarregaEvent corresponent a les dades.
+     */
 
     private static Event parseFiCarregaEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId) {
@@ -585,6 +761,15 @@ public class LectorJSON {
         return null;
     }
 
+    /**
+     * Parsea un event de tipus CarregarBateria a partir de les dades extretes del JSON.
+     * 
+     * @param temps Hora de l'esdeveniment.
+     * @param data Dades específiques de l'esdeveniment.
+     * @param vehiclesPerId Mapa de vehicles indexats pel seu ID.
+     * @param conductorsPerId Mapa de conductors indexats pel seu ID.
+     * @return Un objecte CarregarBateriaEvent corresponent a les dades.
+     */
     private static Event parseCarregarBateriaEvent(LocalTime temps, String data,
             Map<Integer, Vehicle> vehiclesPerId,
             Map<Integer, Conductor> conductorsPerId) {
@@ -615,6 +800,20 @@ public class LectorJSON {
         }
         return null;
     }
+
+    /**
+     * Escribe un fitxer JSON amb la informació dels vehicles, conductors, llocs, connexions i peticions.
+     * 
+     * @param conductors Llista de conductors a escriure al fitxer.
+     * @param vehicles Llista de vehicles a escriure al fitxer.
+     * @param llocs Llista de llocs a escriure al fitxer.
+     * @param connexions Llista de connexions a escriure al fitxer.
+     * @param peticions Llista de peticions a escriure al fitxer.
+     * @param estadistiques Estadístiques a escriure al fitxer.
+     * @param events Llista d'esdeveniments a escriure al fitxer.
+     * @param filePath Ruta del fitxer JSON on s'escriurà la informació.
+     * @throws IOException Si hi ha un error d'entrada/sortida durant l'escriptura del fitxer.
+     */
 
     // METODES D ESCRIPTURA
     public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs,
@@ -804,6 +1003,18 @@ public class LectorJSON {
         }
     }
 
+    /**
+     * Carrega les peticions des d’un fitxer JSON amb format específic.
+     *
+     * Cada petició ha de contenir els camps: ID, ORIGEN, DESTI, HORA_MIN_RECOLLIDA,
+     * HORA_MAX_ARRIBADA, NUM_PASSATGERS i VEHICLE_COMPARTIT.
+     *
+     * Els camps d'ORIGEN i DESTI són IDs que es resolen a objectes Lloc mitjançant el mapa proporcionat.
+     *
+     * @param pathFitxer Ruta del fitxer JSON que conté les peticions.
+     * @param llocsPerId Mapa d'objectes Lloc indexats pel seu ID.
+     * @return Una llista de Peticions carregades correctament.
+     */
     public static List<Peticio> carregarPeticions(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
         List<Peticio> peticions = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
@@ -839,7 +1050,15 @@ public class LectorJSON {
         return peticions;
     }
 
-    //ESCRIPTOR PER ESTADISTIQUES
+    /**
+     * Escriu un bloc d’estadístiques dins d’un fitxer JSON. Si el fitxer ja existeix, 
+     * afegeix la nova entrada a l’array existent. Si no existeix, el crea.
+     *
+     * El bloc s'afegeix dins d'una clau \"estadisticas\", que conté una llista de registres.
+     *
+     * @param absolutePath Ruta absoluta del fitxer JSON on s’escriuran les estadístiques.
+     * @param estadistiques Objecte Estadistiques que es vol serialitzar i escriure.
+     */
     public static void writeEstadistiques(String absolutePath, Estadistiques estadistiques) {
         try {
             Path path;
@@ -892,6 +1111,16 @@ public class LectorJSON {
     }
 
 // Mètode auxiliar per crear el bloc JSON d'estadístiques
+
+    /**
+     * Genera un bloc de text en format JSON amb les dades d’estadístiques proporcionades.
+     *
+     * Aquest bloc representa un registre d’estadístiques que pot ser afegit dins
+     * d’un array JSON sota la clau "estadisticas".
+     *
+     * @param estadistiques Objecte Estadistiques amb les dades a serialitzar.
+     * @return Una cadena de text formatada com a bloc JSON amb les estadístiques.
+     */
     private static String crearBloqueEstadisticas(Estadistiques estadistiques) {
         return String.format(
                 "  {\n"
