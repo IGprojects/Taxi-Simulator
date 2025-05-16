@@ -75,8 +75,7 @@ public class Mapa {
      */
     public double calcularDistancia(Lloc origen, Lloc desti) {
         if (hihaCami(origen, desti) == null) {
-            throw new IllegalArgumentException(
-                    "No hi ha camí entre origen " + origen.obtenirId() + "i destí " + desti.obtenirId());
+            return 0;
         }
         List<Cami> camins = llocs.get(origen);
         for (Cami cami : camins) {
@@ -144,7 +143,7 @@ public class Mapa {
      */
     public double calcularTemps(Lloc origen, Lloc desti) {
         if (hihaCami(origen, desti) == null) {
-            throw new IllegalArgumentException("No hi ha camí entre origen i destí");
+            return 0;
         }
 
         List<Cami> camins = llocs.get(origen);
@@ -271,8 +270,12 @@ public class Mapa {
                 }
 
             }
+        }System.out.println();
+        System.out.println("mapaaaaaa");
+        for(Lloc l : millorRuta.getLlocs()){
+            System.out.print(l.obtenirId() + " -- ");
         }
-
+        System.out.println("\n");
         return millorRuta;
     }
 

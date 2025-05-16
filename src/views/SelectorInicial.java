@@ -159,14 +159,14 @@ public class SelectorInicial {
         // Mode de proves amb fitxers predefinits
         testBtn.addActionListener(e -> {
             try {
-                selectedFiles[0] = new File("fitxersCSV/llocs.csv");
-                selectedFiles[1] = new File("fitxersCSV/camins.csv");
-                selectedFiles[2] = new File("fitxersCSV/vehicles.csv");
-                selectedFiles[3] = new File("fitxersCSV/conductors.csv");
-                selectedFiles[4] = new File("fitxersCSV/peticions.csv");
+                selectedFiles[0] = new File("fitxersCSV/test3/llocs.csv");
+                selectedFiles[1] = new File("fitxersCSV/test3/camins.csv");
+                selectedFiles[2] = new File("fitxersCSV/test3/vehicles.csv");
+                selectedFiles[3] = new File("fitxersCSV/test3/conductors.csv");
+                selectedFiles[4] = new File("fitxersCSV/test3/peticions.csv");
 
                 LocalTime horaInici = LocalTime.parse("08:00");
-                LocalTime horaFinal = LocalTime.parse("12:00");
+                LocalTime horaFinal = LocalTime.parse("20:00");
 
                 frame.dispose();
                 listener.onDadesCompletades(selectedFiles[0], selectedFiles[1], selectedFiles[2],

@@ -9,7 +9,7 @@ import core.Simulador;
 /**
  * @class DeixarPassatgersEvent
  * @brief Representa un esdeveniment que indica que un vehicle comença a deixar
- * passatgers.
+ *        passatgers.
  *
  * @author Dídac Gros Labrador
  * @version 2025.05.15
@@ -34,21 +34,25 @@ public class DeixarPassatgersEvent extends Event {
     /**
      * @pre Cert.
      * @post El vehicle del conductor deixa els passatgers especificats i pinta
-     * el missatge per pantalla.
+     *       el missatge per pantalla.
      * @param simulador Simulador on es realitza l'esdeveniment
      */
     @Override
     public void executar(Simulador simulador) {
-        conductor.getVehicle().alliberarPassatgersConcret(passatgersDeixats);
-        String missatge = "[" + temps + "] El conductor " + conductor.getId() + " ha deixat els passatgers al destí: "
-                + desti.obtenirId();
-        String missatge2 = " (Passatgers actuals: " + conductor.getVehicle().getPassatgersActuals() + ")";
-        System.out.println(missatge);
-        simulador.pintarMissatge(missatge);
-        simulador.pintarMissatge(missatge2);
+        if ((conductor.getVehicle().passatgersActuals() - passatgersDeixats) >= 0) {
+            conductor.getVehicle().alliberarPassatgersConcret(passatgersDeixats);
+            String missatge = "[" + temps + "] El conductor " + conductor.getId()
+                    + " ha deixat els passatgers al destí: "
+                    + desti.obtenirId();
+            String missatge2 = " (Passatgers actuals: " + conductor.getVehicle().getPassatgersActuals() + ")";
+            System.out.println(missatge);
+            simulador.pintarMissatge(missatge);
+            simulador.pintarMissatge(missatge2);
+        }
+
     }
 
-    //GETTERS
+    // GETTERS
     /**
      * Obté el conductor associat a l'esdeveniment de deixar passatgers
      *

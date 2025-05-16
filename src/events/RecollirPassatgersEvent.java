@@ -9,7 +9,7 @@ import core.Simulador;
 /**
  * @class RecollirPassatgersEvent
  * @brief Representa un esdeveniment que indica que un vehicle comença a
- * recollir passatgers.
+ *        recollir passatgers.
  *
  * @author Dídac Gros Labrador
  * @version 2025.05.15
@@ -34,22 +34,25 @@ public class RecollirPassatgersEvent extends Event {
     /**
      * @pre Cert.
      * @post El vehicle del conductor recull els passatgers especificats i pinta
-     * el missatge per pantalla.
+     *       el missatge per pantalla.
      */
     @Override
     public void executar(Simulador simulador) {
-        conductor.getVehicle().afegirPassatgers(passatgersRecollits);
-        String missatge = "[" + temps + "] El conductor " + conductor.getId() + " ha recollit passatgers al lloc: "
-                + desti.obtenirId();
-        String missatge2 = "(Passatgers actuals: " + conductor.getVehicle().getPassatgersActuals() + ")";
+        if ((conductor.getVehicle().passatgersActuals() + passatgersRecollits) <= conductor.getVehicle()
+                .getMaxPassatgers()) {
+            conductor.getVehicle().afegirPassatgers(passatgersRecollits);
+            String missatge = "[" + temps + "] El conductor " + conductor.getId() + " ha recollit passatgers al lloc "
+                    + desti.obtenirId();
+            String missatge2 = "(Passatgers actuals: " + conductor.getVehicle().getPassatgersActuals() + ")";
 
-        System.out.println(missatge);
-        simulador.pintarMissatge(missatge);
-        simulador.pintarMissatge(missatge2);
+            System.out.println(missatge);
+            simulador.pintarMissatge(missatge);
+            simulador.pintarMissatge(missatge2);
+        }
 
     }
 
-    //GETTERS
+    // GETTERS
     /**
      * Obté el conductor associat a l'esdeveniment de recollida de passatgers
      *
