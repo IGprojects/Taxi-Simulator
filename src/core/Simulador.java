@@ -65,7 +65,7 @@ public class Simulador {
     private List<Peticio> TotesPeticions = new ArrayList<Peticio>();
     /// < Llista on es guarden totes el esdeveniments executats durant la simulacio per poder guardarlos al final al .json.
     private PriorityQueue<Event> esdevenimentsExecutats = new PriorityQueue<>(Comparator.comparing(Event::getTemps));
-
+  
     public Simulador(LocalTime horaInici, LocalTime horaFi, Mapa mapa, List<Vehicle> vehicles,
             List<Conductor> conductors, List<Peticio> peticions_) {
         this.vehicles = vehicles;
@@ -275,8 +275,7 @@ public class Simulador {
      * @post Inicia l'execució de la simulació.
      *
      */
-    public void iniciar(File jsonFile,File estadisticFile) {
-
+    public void iniciar(File jsonFile, File estadisticFile) {
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -294,7 +293,8 @@ public class Simulador {
                 // assignarPeticions();
                 // }
                 else {
-                    finalitzarSimulacio(e, jsonFile,estadisticFile ,true);
+
+                    finalitzarSimulacio(e, jsonFile, estadisticFile, true);
 
                 }
             }
@@ -381,7 +381,7 @@ public class Simulador {
                     event.executar(Simulador.this);
 
                 } else {
-                    finalitzarSimulacio(e, jsonFile, null,false);
+                    finalitzarSimulacio(e, jsonFile, null, false);
 
                 }
             }
@@ -445,8 +445,10 @@ public class Simulador {
      * @pre cert
      * @post Tanca la simulació i mostra un resum dels resultats.
      */
-    private void finalitzarSimulacio(ActionEvent e, File jsonFile, File EstadisriquFile, boolean guardarDades) {
+    private void finalitzarSimulacio(ActionEvent e, File jsonFile, File EstadisticsFile_, boolean guardarDades) {
         try {
+            System.out.println("DEBUG4 - estadistiquesFile: " + EstadisticsFile_); // <-- Aquí
+
             ((Timer) e.getSource()).stop();
 
             System.out.println("------------------");
@@ -461,8 +463,10 @@ public class Simulador {
                 System.out.println(".(                 qwdqw )" + this.esdevenimentsExecutats.size());
 
                 escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.TotesPeticions, this.estadistiques, this.esdevenimentsExecutats, jsonFile.getAbsolutePath());
-                if (EstadisriquFile != null && EstadisriquFile.getAbsoluteFile() != null) {
-                    LectorJSON.writeEstadistiques(EstadisriquFile.getAbsolutePath(),this.estadistiques);
+
+                if (EstadisticsFile_ != null) {
+
+                    LectorJSON.writeEstadistiques(EstadisticsFile_.getAbsolutePath(), this.estadistiques);
                 }
 
             }
@@ -601,9 +605,9 @@ public class Simulador {
         sb.append("Temps maxim d'espera -> ").append(this.estadistiques.getTiempoMaximoEspera()).append("\n\n");
 
         sb.append("--- Vehicles ---\n");
-        sb.append(String.format("Mitjana del percentatge d’ocupació dels vehicles -> \n", this.estadistiques.getOcupacionPromedioVehiculos()) + "\n\n");
-        sb.append(String.format("Mitjana del temps dels viatges -> \n", this.estadistiques.getTiempoViajePromedio()));
-        sb.append(String.format("Bateria Promig -> ", this.estadistiques.getPorcentajeBateriaPromedio()));
+        sb.append("Mitjana del percentatge d’ocupació dels vehicles -> \n").append(this.estadistiques.getOcupacionPromedioVehiculos()).append("\n");
+        sb.append("Mitjana del temps dels viatges -> \n").append(this.estadistiques.getTiempoViajePromedio()).append("\n");
+        sb.append("Bateria Promig -> ").append(this.estadistiques.getPorcentajeBateriaPromedio()).append("\n");
 
         sb.append("\n");
 
@@ -666,7 +670,7 @@ public class Simulador {
                     // assignarPeticions();
                     // }
                     else {
-                        finalitzarSimulacio(e, JsonFile,null ,true);
+                        finalitzarSimulacio(e, JsonFile, null, true);
 
                     }
                 }

@@ -40,7 +40,7 @@ public class SelectorInicial {
          * la simulació.
          */
         void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions, File JsonFile,
-                LocalTime horaInici, LocalTime horaFinal,File EstadisticsFile);
+                LocalTime horaInici, LocalTime horaFinal, File EstadisticsFile);
 
         /**
          * @brief Cridat quan l'usuari selecciona un fitxer de simulació JSON.
@@ -164,13 +164,14 @@ public class SelectorInicial {
                 selectedFiles[2] = new File("fitxersCSV/test3/vehicles.csv");
                 selectedFiles[3] = new File("fitxersCSV/test3/conductors.csv");
                 selectedFiles[4] = new File("fitxersCSV/test3/peticions.csv");
+                selectedFiles[6] = new File("fitxersCSV/test3/Estadistiques.json"); // <-- Afegit
 
                 LocalTime horaInici = LocalTime.parse("08:00");
                 LocalTime horaFinal = LocalTime.parse("20:00");
 
                 frame.dispose();
                 listener.onDadesCompletades(selectedFiles[0], selectedFiles[1], selectedFiles[2],
-                        selectedFiles[3], selectedFiles[4], selectedFiles[5], horaInici, horaFinal,selectedFiles[6]);
+                        selectedFiles[3], selectedFiles[4], selectedFiles[5], horaInici, horaFinal, selectedFiles[6]);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Error al mode de proves: " + ex.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -223,23 +224,36 @@ public class SelectorInicial {
 
         // Inici de la simulació manual
         startBtn.addActionListener(e -> {
+            // Verifiquem els 5 fitxers obligatoris (índexs 0-4)
             for (int i = 0; i < 5; i++) {
                 if (selectedFiles[i] == null) {
-                    JOptionPane.showMessageDialog(frame, "Selecciona tots els fitxers!", "Error",
-                            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame,
+                            "Error: Falten fitxers obligatoris (Llocs, Connexions, Vehicles, Conductors o Peticions).",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
+
             try {
                 LocalTime horaInici = LocalTime.parse(horaIniciField.getText().trim());
                 LocalTime horaFinal = LocalTime.parse(horaFinalField.getText().trim());
 
                 frame.dispose();
-                listener.onDadesCompletades(selectedFiles[0], selectedFiles[1], selectedFiles[2],
-                        selectedFiles[3], selectedFiles[4], selectedFiles[5], horaInici, horaFinal,selectedFiles[6]);
+                listener.onDadesCompletades(
+                        selectedFiles[0], // llocs.csv
+                        selectedFiles[1], // connexions.csv
+                        selectedFiles[2], // vehicles.csv
+                        selectedFiles[3], // conductors.csv
+                        selectedFiles[4], // peticions.csv
+                        selectedFiles[5], // simulacio.json (opcional)
+                        horaInici,
+                        horaFinal,
+                        selectedFiles[6] // Estadistiques.json (opcional)
+                );
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(frame, "Format d'hora incorrecte. Usa HH:mm", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame,
+                        "Format d'hora incorrecte. Ha de ser HH:mm (ex: 08:00)",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
