@@ -8,11 +8,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.time.chrono.ThaiBuddhistChronology;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -63,17 +61,23 @@ public class Simulador {
     private MapPanel mapPanel;
     /// < Panell per mostrar el mapa i els vehicles.
     private Estadistiques estadistiques = new Estadistiques();
+    /// < Llista on es guarden totes les peticions al inici per poder guardarles al final al .json.
+    private List<Peticio> TotesPeticions = new ArrayList<Peticio>();
+    /// < Llista on es guarden totes el esdeveniments executats durant la simulacio per poder guardarlos al final al .json.
+    private PriorityQueue<Event> esdevenimentsExecutats = new PriorityQueue<>(Comparator.comparing(Event::getTemps));
 
     public Simulador(LocalTime horaInici, LocalTime horaFi, Mapa mapa, List<Vehicle> vehicles,
-            List<Conductor> conductors, List<Peticio> peticions) {
+            List<Conductor> conductors, List<Peticio> peticions_) {
         this.vehicles = vehicles;
         this.conductors = conductors;
-        this.peticions = peticions;
+        this.peticions = peticions_;
+        this.TotesPeticions = new ArrayList<>(peticions_); // Còpia independent
         this.horaInici = horaInici;
         this.horaFi = horaFi;
         this.mapa = mapa;
         this.horaActual = horaInici;
         esdeveniments = new PriorityQueue<>();
+
         assignarPeticions();
     }
 
@@ -106,6 +110,7 @@ public class Simulador {
         this.mapa = mapa_Nou;
         this.horaActual = horaInici;
         esdeveniments = new PriorityQueue<>();
+
     }
 
     /**
@@ -167,9 +172,6 @@ public class Simulador {
                                             millorConductor = (ConductorVorac) conductor;
                                             millorTemps = tempsFinsOrigen;
 
-                                            // Estadístiques
-                                            this.estadistiques.registrarOcupacionVehiculo(vehicle.getPassatgersActuals());
-                                            this.estadistiques.registrarPeticionServida(tempsFinsOrigen);
                                         }
                                     } else {
                                         System.out.println("\nEl vehicle no pot fer la petició, ja que no té bateria.");
@@ -273,12 +275,15 @@ public class Simulador {
      * @post Inicia l'execució de la simulació.
      *
      */
-    public void iniciar(File jsonFile) {
+    public void iniciar(File jsonFile,File estadisticFile) {
+
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
                     Event event = esdeveniments.poll();
+                    esdevenimentsExecutats.add(event); // Registrar abans d'executar
+
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
 
@@ -289,7 +294,7 @@ public class Simulador {
                 // assignarPeticions();
                 // }
                 else {
-                    finalitzarSimulacio(e, jsonFile, true);
+                    finalitzarSimulacio(e, jsonFile,estadisticFile ,true);
 
                 }
             }
@@ -376,7 +381,7 @@ public class Simulador {
                     event.executar(Simulador.this);
 
                 } else {
-                    finalitzarSimulacio(e, jsonFile, false);
+                    finalitzarSimulacio(e, jsonFile, null,false);
 
                 }
             }
@@ -440,7 +445,7 @@ public class Simulador {
      * @pre cert
      * @post Tanca la simulació i mostra un resum dels resultats.
      */
-    private void finalitzarSimulacio(ActionEvent e, File jsonFile, boolean guardarDades) {
+    private void finalitzarSimulacio(ActionEvent e, File jsonFile, File EstadisriquFile, boolean guardarDades) {
         try {
             ((Timer) e.getSource()).stop();
 
@@ -450,14 +455,16 @@ public class Simulador {
 
             mostrarDialogEstadistiques(!horaActual.isBefore(horaFi));
             LectorJSON escritorJSON = new LectorJSON();
-
             List<Lloc> listDeLlocs = new ArrayList<>(mapa.getLlocs().keySet());
             List<Cami> listCami = mapa.obtenirTotsElsCamins();
+            if (jsonFile != null && jsonFile.getAbsoluteFile() != null) {
+                System.out.println(".(                 qwdqw )" + this.esdevenimentsExecutats.size());
 
-            if (guardarDades) {
-                if (jsonFile != null) {
-                    escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.peticions, this.estadistiques, this.esdeveniments, jsonFile.getAbsolutePath());
+                escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.TotesPeticions, this.estadistiques, this.esdevenimentsExecutats, jsonFile.getAbsolutePath());
+                if (EstadisriquFile != null && EstadisriquFile.getAbsoluteFile() != null) {
+                    LectorJSON.writeEstadistiques(EstadisriquFile.getAbsolutePath(),this.estadistiques);
                 }
+
             }
             System.out.println("Simulació finalitzada.");
         } catch (IOException ex) {
@@ -594,8 +601,8 @@ public class Simulador {
         sb.append("Temps maxim d'espera -> ").append(this.estadistiques.getTiempoMaximoEspera()).append("\n\n");
 
         sb.append("--- Vehicles ---\n");
-        sb.append(String.format("Mitjana del percentatge d’ocupació dels vehicles -> ", this.estadistiques.getOcupacionPromedioVehiculos()) + "\n\n");
-        sb.append(String.format("Mitjana del temps dels viatges -> ", this.estadistiques.getTiempoViajePromedio()));
+        sb.append(String.format("Mitjana del percentatge d’ocupació dels vehicles -> \n", this.estadistiques.getOcupacionPromedioVehiculos()) + "\n\n");
+        sb.append(String.format("Mitjana del temps dels viatges -> \n", this.estadistiques.getTiempoViajePromedio()));
         sb.append(String.format("Bateria Promig -> ", this.estadistiques.getPorcentajeBateriaPromedio()));
 
         sb.append("\n");
@@ -623,7 +630,6 @@ public class Simulador {
     }
 
     public Map<Integer, Integer> iniciarOptimitzacioPuntsCarrega(File JsonFile) {
-        System.out.println("DUNSSS0");
 
         Map<Integer, Integer> vegadesUsat = new HashMap<Integer, Integer>();
         Map<Lloc, List<Cami>> llocsMapa = mapa.getLlocs();
@@ -631,7 +637,6 @@ public class Simulador {
         for (int i = 0; i < llistaLlocs.size(); i++) {
             System.out.println("DUNSSS2");
             if (llistaLlocs.get(i) instanceof Parquing) {
-                System.out.println("DUNSSS");
 
                 Parquing parquingExistent = (Parquing) llistaLlocs.get(i);
 
@@ -661,7 +666,7 @@ public class Simulador {
                     // assignarPeticions();
                     // }
                     else {
-                        finalitzarSimulacio(e, JsonFile, true);
+                        finalitzarSimulacio(e, JsonFile,null ,true);
 
                     }
                 }

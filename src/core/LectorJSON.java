@@ -5,6 +5,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,6 @@ import events.FiRutaEvent;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
 import events.RecollirPassatgersEvent;
-
 
 /**
  * @class LectorJSon
@@ -60,25 +62,28 @@ public class LectorJSON {
         List<Lloc> llocs = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
 
-        // Extraer el array de llocs
+        // Buscar el contingut del array "llocs"
         Pattern arrayPattern = Pattern.compile("\"llocs\"\\s*:\\s*\\[(.*?)\\]", Pattern.DOTALL);
         Matcher arrayMatcher = arrayPattern.matcher(jsonContent);
 
         if (!arrayMatcher.find()) {
-            System.out.println("No se encontró el array de llocs en el JSON");
+            System.out.println("No s'ha trobat l'array 'llocs' al JSON.");
             return llocs;
         }
 
         String llocsContent = arrayMatcher.group(1);
 
-        // Patrón mejorado que maneja ambos tipos de llocs
+        // Patró que tolera ordre variable dels camps dins de cada objecte
         Pattern pattern = Pattern.compile(
-                "\\{\\s*\"ID\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"TIPUS\"\\s*:\\s*\"([PL])\""
-                + "(?:\\s*,\\s*\"MAX_VEHICLES\"\\s*:\\s*(\\d+))?"
-                + "(?:\\s*,\\s*\"N_CARREGADORS\"\\s*:\\s*(\\d+))?"
-                + "(?:\\s*,\\s*\"N_CARREGADORS_PRIVATS\"\\s*:\\s*(\\d+))?"
-                + "\\s*\\}");
+                "\\{[^}]*?"
+                + "\"ID\"\\s*:\\s*(\\d+)[^}]*?"
+                + "\"TIPUS\"\\s*:\\s*\"([PL])\"[^}]*?"
+                + "(?:\"MAX_VEHICLES\"\\s*:\\s*(\\d+)[^}]*?)?"
+                + "(?:\"N_CARREGADORS\"\\s*:\\s*(\\d+)[^}]*?)?"
+                + "(?:\"N_CARREGADORS_PRIVATS\"\\s*:\\s*(\\d+)[^}]*?)?"
+                + "\\}",
+                Pattern.DOTALL
+        );
 
         Matcher matcher = pattern.matcher(llocsContent);
 
@@ -87,25 +92,25 @@ public class LectorJSON {
             String tipus = matcher.group(2);
 
             if (tipus.equals("P")) {
-                // Es un Parquing (campos obligatorios)
-                int maxVehicles = Integer.parseInt(matcher.group(3));
-                int nCarregadors = Integer.parseInt(matcher.group(4));
-                int nCarregadorsPrivats = Integer.parseInt(matcher.group(5));
+                int maxVehicles = matcher.group(3) != null ? Integer.parseInt(matcher.group(3)) : 0;
+                int nCarregadors = matcher.group(4) != null ? Integer.parseInt(matcher.group(4)) : 0;
+                int nCarregadorsPrivats = matcher.group(5) != null ? Integer.parseInt(matcher.group(5)) : 0;
 
-                List<PuntCarrega> puntsCarregaPublics = new ArrayList<>();
-                List<PuntCarrega> puntsCarregaPrivats = new ArrayList<>();
+                List<PuntCarrega> puntsPublics = new ArrayList<>();
+                List<PuntCarrega> puntsPrivats = new ArrayList<>();
 
-                for (int j = 0; j < nCarregadors; j++) {
-                    puntsCarregaPublics.add(new PuntCarrega(
-                            j % 2 == 0 ? TipusPuntCarrega.CARGA_RAPIDA : TipusPuntCarrega.CARGA_LENTA));
+                for (int i = 0; i < nCarregadors; i++) {
+                    puntsPublics.add(new PuntCarrega(
+                            i % 2 == 0 ? TipusPuntCarrega.CARGA_RAPIDA : TipusPuntCarrega.CARGA_LENTA));
                 }
-                for (int j = 0; j < nCarregadorsPrivats; j++) {
-                    puntsCarregaPrivats.add(new PuntCarrega(
-                            j % 2 == 0 ? TipusPuntCarrega.CARGA_RAPIDA : TipusPuntCarrega.CARGA_LENTA));
+
+                for (int i = 0; i < nCarregadorsPrivats; i++) {
+                    puntsPrivats.add(new PuntCarrega(
+                            i % 2 == 0 ? TipusPuntCarrega.CARGA_RAPIDA : TipusPuntCarrega.CARGA_LENTA));
                 }
-                llocs.add(new Parquing(id, maxVehicles, puntsCarregaPublics, puntsCarregaPrivats));
+
+                llocs.add(new Parquing(id, maxVehicles, puntsPublics, puntsPrivats));
             } else {
-                // Es un Lloc simple
                 llocs.add(new Lloc(id));
             }
         }
@@ -828,6 +833,86 @@ public class LectorJSON {
             }
         }
         return peticions;
+    }
+
+    //ESCRIPTOR PER ESTADISTIQUES
+    public static void writeEstadistiques(String absolutePath, Estadistiques estadistiques) {
+        try {
+            Path path;
+            path = Paths.get(absolutePath);
+            String jsonContent;
+
+            // Comprovem si el fitxer existeix
+            boolean fileExists = Files.exists(path);
+
+            if (fileExists) {
+                // Llegim el contingut existent
+                jsonContent = new String(Files.readAllBytes(path));
+
+                // Patró per trobar l'array d'estadístiques
+                Pattern pattern = Pattern.compile("(\"estadisticas\"\\s*:\\s*\\[)(.*?)(\\])", Pattern.DOTALL);
+                Matcher matcher = pattern.matcher(jsonContent);
+
+                if (matcher.find()) {
+                    // Preparem el nou bloc d'estadístiques
+                    String newStat = crearBloqueEstadisticas(estadistiques);
+
+                    // Afegim la nova estadística a l'array existent
+                    String updatedContent;
+                    if (matcher.group(2).trim().isEmpty()) {
+                        updatedContent = matcher.group(1) + newStat + matcher.group(3);
+                    } else {
+                        updatedContent = matcher.group(1) + matcher.group(2) + ",\n" + newStat + matcher.group(3);
+                    }
+
+                    jsonContent = matcher.replaceFirst(updatedContent);
+                } else {
+                    // Si no existeix la secció d'estadístiques, la creem
+                    jsonContent = jsonContent.replaceFirst(
+                            "\\}",
+                            ",\n\"estadisticas\": [\n" + crearBloqueEstadisticas(estadistiques) + "\n]\n}"
+                    );
+                }
+            } else {
+                // Creem un nou fitxer JSON amb les estadístiques
+                jsonContent = "{\n\"estadisticas\": [\n" + crearBloqueEstadisticas(estadistiques) + "\n]\n}";
+            }
+
+            // Escrivim el contingut actualitzat al fitxer
+            Files.write(path, jsonContent.getBytes());
+
+        } catch (IOException e) {
+            System.err.println("Error en escriure les estadístiques: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+// Mètode auxiliar per crear el bloc JSON d'estadístiques
+    private static String crearBloqueEstadisticas(Estadistiques estadistiques) {
+        return String.format(
+                "  {\n"
+                + "    \"peticionesServidas\": %d,\n"
+                + "    \"peticionesNoServidas\": %d,\n"
+                + "    \"tiempoTotalEspera\": %.1f,\n"
+                + "    \"tiempoMaximoEspera\": %.1f,\n"
+                + "    \"ocupacionTotalVehiculos\": %.1f,\n"
+                + "    \"muestrasOcupacion\": %d,\n"
+                + "    \"porcentajeBateriaPromedio\": %.1f,\n"
+                + "    \"muestrasBateria\": %d,\n"
+                + "    \"tiempoTotalViaje\": %.2f,\n"
+                + "    \"muestrasViaje\": %d\n"
+                + "  }",
+                estadistiques.getPeticionesServidas(),
+                estadistiques.getPeticionesNoServidas(),
+                estadistiques.getTiempoEsperaPromedio(),
+                estadistiques.getTiempoMaximoEspera(),
+                estadistiques.getOcupacionPromedioVehiculos(),
+                estadistiques.getMuestrasOcupacion(),
+                estadistiques.getPorcentajeBateriaPromedio(),
+                estadistiques.getMuestrasBateria(),
+                estadistiques.getTiempoViajePromedio(),
+                estadistiques.getMuestrasViaje()
+        );
     }
 
 }

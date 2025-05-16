@@ -40,7 +40,7 @@ public class Optimitzador {
 
         // 1. Obtenir el nombre base de peticions no servides amb tots els vehicles
         Simulador simuladorCompleto = new Simulador(jsonFile, new ArrayList<>(vehiclesTotals));
-        simuladorCompleto.iniciar(jsonFile);
+        simuladorCompleto.iniciar(jsonFile,null);
         int peticionsNoServidesCompletes = simuladorCompleto.obtenirPeticionsNoServides();
 
         // 2. Avaluar cada vehicle individualment
@@ -49,7 +49,7 @@ public class Optimitzador {
             vehiclesProva.remove(vehicle);
 
             Simulador simuladorProva = new Simulador(jsonFile, vehiclesProva);
-            simuladorProva.iniciar(jsonFile);
+            simuladorProva.iniciar(jsonFile,null);
             int peticionsNoServidesProva = simuladorProva.obtenirPeticionsNoServides();
 
             // Si eliminar el vehicle no empitjora el servei, és redundant

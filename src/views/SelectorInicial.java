@@ -40,7 +40,7 @@ public class SelectorInicial {
          * la simulació.
          */
         void onDadesCompletades(File mapa, File connexions, File vehicles, File conductors, File peticions, File JsonFile,
-                LocalTime horaInici, LocalTime horaFinal);
+                LocalTime horaInici, LocalTime horaFinal,File EstadisticsFile);
 
         /**
          * @brief Cridat quan l'usuari selecciona un fitxer de simulació JSON.
@@ -170,7 +170,7 @@ public class SelectorInicial {
 
                 frame.dispose();
                 listener.onDadesCompletades(selectedFiles[0], selectedFiles[1], selectedFiles[2],
-                        selectedFiles[3], selectedFiles[4], selectedFiles[5], horaInici, horaFinal);
+                        selectedFiles[3], selectedFiles[4], selectedFiles[5], horaInici, horaFinal,selectedFiles[6]);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Error al mode de proves: " + ex.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);
@@ -236,7 +236,7 @@ public class SelectorInicial {
 
                 frame.dispose();
                 listener.onDadesCompletades(selectedFiles[0], selectedFiles[1], selectedFiles[2],
-                        selectedFiles[3], selectedFiles[4], selectedFiles[5], horaInici, horaFinal);
+                        selectedFiles[3], selectedFiles[4], selectedFiles[5], horaInici, horaFinal,selectedFiles[6]);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(frame, "Format d'hora incorrecte. Usa HH:mm", "Error",
                         JOptionPane.ERROR_MESSAGE);
