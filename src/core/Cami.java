@@ -16,6 +16,16 @@ public class Cami {
     double distancia; /// < Distància en quilòmetres.
     double temps; /// < Temps estimat en minuts.
 
+    /**
+     * @pre Cert.
+     * @post Crea un camí entre dos llocs amb la distància i el temps estimat
+     *       especificats.
+     *
+     * @param origen    Punt d'origen del camí.
+     * @param desti     Punt de destí del camí.
+     * @param distancia Distància en quilòmetres.
+     * @param temps     Temps estimat en minuts.
+     */
     public Cami(Lloc origen, Lloc desti, double distancia, double temps) {
         this.origen = origen;
         this.desti = desti;

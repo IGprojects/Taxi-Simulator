@@ -1,5 +1,13 @@
 package core;
 
+import events.CarregarBateriaEvent;
+import events.DeixarPassatgersEvent;
+import events.Event;
+import events.FiCarregaEvent;
+import events.FiRutaEvent;
+import events.IniciRutaEvent;
+import events.MoureVehicleEvent;
+import events.RecollirPassatgersEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -17,15 +25,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import events.CarregarBateriaEvent;
-import events.DeixarPassatgersEvent;
-import events.Event;
-import events.FiCarregaEvent;
-import events.FiRutaEvent;
-import events.IniciRutaEvent;
-import events.MoureVehicleEvent;
-import events.RecollirPassatgersEvent;
-
 /**
  * @class LectorJSon
  * @brief Classe per carregar i llegir simulacions en json.
@@ -33,6 +32,12 @@ import events.RecollirPassatgersEvent;
  * @version 2025.05.13
  */
 public class LectorJSON {
+    /**
+     * @brief Llegeix un fitxer JSON i retorna el contingut com a cadena de text.
+     *
+     * @param pathFitxer Ruta del fitxer JSON a llegir.
+     * @return Contingut del fitxer com a cadena de text.
+     */
 
     public static Map<Integer, Lloc> convertirLlistaAMap_Llocs(List<Lloc> llocs) {
         return llocs.stream()
@@ -49,7 +54,6 @@ public class LectorJSON {
                         Vehicle -> Vehicle // Función para el valor (el objeto mismo)
                 ));
     }
-
     public static Map<Integer, Conductor> convertirLlistaAMap_Conductors(List<Conductor> conductors) {
         return conductors.stream()
                 .collect(Collectors.toMap(
@@ -118,7 +122,7 @@ public class LectorJSON {
         System.out.println("Llocs carregats: " + llocs.size());
         return llocs;
     }
-
+    
     public static List<Cami> carregarCamins(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
         List<Cami> camins = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);

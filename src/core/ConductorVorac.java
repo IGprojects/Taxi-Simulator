@@ -1,14 +1,13 @@
 package core;
 
-import java.time.LocalTime;
-import java.util.List;
-
 import events.CarregarBateriaEvent;
 import events.DeixarPassatgersEvent;
 import events.FiRutaEvent;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
 import events.RecollirPassatgersEvent;
+import java.time.LocalTime;
+import java.util.List;
 
 /**
  * @class ConductorVorac
@@ -152,6 +151,27 @@ public class ConductorVorac extends Conductor {
         return ruta;
     }
 
+    /**
+     * @brief Comprova si el vehicle té bateria suficient per fer la distància
+     *        indicada. Si no en té, intenta planificar una ruta cap al pàrquing més
+     *        proper per carregar.
+     *
+     * @param distancia  La distància que s’ha de recórrer per completar la petició.
+     * @param simulador  El simulador on s'afegiran esdeveniments si cal carregar.
+     * @param mapa       El mapa que permet calcular rutes i distàncies.
+     * @param horaInici  L’hora d’inici de la simulació (referència per calcular
+     *                   horaris).
+     * @param horaActual L’hora actual del simulador, per planificar nous
+     *                   esdeveniments.
+     * @return true si el vehicle té bateria suficient per fer el trajecte, false si
+     *         no i ha de carregar.
+     *
+     * @pre El vehicle ha d’estar inicialitzat i ubicat a un lloc vàlid dins el
+     *      mapa.
+     * @post Si no té bateria, pot iniciar una ruta cap a un pàrquing privat per
+     *       carregar. Si no hi ha pàrquing, es mostra un missatge.
+     */
+
     @Override
     public boolean teBateria(double distancia, Simulador simulador, Mapa mapa, LocalTime horaInici,
             LocalTime horaActual) {
@@ -173,6 +193,17 @@ public class ConductorVorac extends Conductor {
         return false;
 
     }
+
+    /**
+     * @brief Comprova si el vehicle pot servir la petició de passatgers.
+     *
+     * @param nombrePassatgers Nombre de passatgers que es volen recollir.
+     * @return true si el vehicle pot servir la petició, false en cas contrari.
+     *
+     * @pre El vehicle ha d'estar inicialitzat i ubicat a un lloc vàlid dins el mapa.
+     * @post Retorna true si el vehicle pot servir la petició, false en cas
+     *       contrari.
+     */
 
     @Override
     public boolean potServirPeticio(int nombrePassatgers) {

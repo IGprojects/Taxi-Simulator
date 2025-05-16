@@ -15,6 +15,15 @@ public abstract class Conductor {
     protected Vehicle vehicle;/// < Vehicle que condueix el conductor
     protected boolean ocupat; /// < Indica si el conductor està ocupat o no.
 
+    /**
+     * @pre Cert.
+     * @post Crea un conductor amb un id, nom i vehicle especificats.
+     *
+     * @param id      Identificador del conductor.
+     * @param nom     Nom del conductor.
+     * @param vehicle Vehicle que condueix el conductor.
+     */
+
     public Conductor(int id, String nom, Vehicle vehicle) {
         this.id = id;
         this.nom = nom;

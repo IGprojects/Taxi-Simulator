@@ -1,15 +1,14 @@
 package core;
 
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import events.CarregarBateriaEvent;
 import events.DeixarPassatgersEvent;
 import events.FiRutaEvent;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
 import events.RecollirPassatgersEvent;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @class ConductorPlanificador
@@ -22,6 +21,15 @@ public class ConductorPlanificador extends Conductor {
     private final Vehicle vehicle; /// < Vehicle que condueix el conductor.
     private Parquing parquingPrivat; /// < Pàrquing privat assignat al conductor.
 
+    /**
+     * @brief Constructor de la classe ConductorPlanificador.
+     *
+     * @param id           Identificador del conductor.
+     * @param nom          Nom del conductor.
+     * @param vehicle      Vehicle que condueix el conductor.
+     * @param parquingPrivat Pàrquing privat assignat al conductor.
+     */
+
     public ConductorPlanificador(int id, String nom, Vehicle vehicle, Parquing parquingPrivat) {
         super(id, nom, vehicle);
         this.id = id;
@@ -29,6 +37,20 @@ public class ConductorPlanificador extends Conductor {
         this.vehicle = vehicle;
         this.parquingPrivat = parquingPrivat;
     }
+
+    /**
+     * @brief Planifica una ruta per recollir i deixar passatgers, tenint en compte
+     *        l'autonomia del vehicle i les peticions pendents.
+     *
+     * @param peticions       Llista de peticions pendents a recollir.
+     * @param s              Simulador on es realitza la planificació.
+     * @param horaIniciSimulacio Hora d'inici de la simulació.
+     * @return Ruta planificada amb els llocs d'origen i destí, així com l'hora de
+     *         sortida real.
+     *
+     * @pre El vehicle ha d'estar inicialitzat i ubicat a un lloc vàlid dins el mapa.
+     * @post Retorna una ruta planificada amb les peticions assignades.
+     */
 
     public Ruta planificarRuta(List<Peticio> peticions, Simulador s, LocalTime horaIniciSimulacio) {
         List<Peticio> recollides = new ArrayList<>(); /// < Peticions recollides durant la ruta.
@@ -225,6 +247,26 @@ public class ConductorPlanificador extends Conductor {
         return rutaCompleta;
     }
 
+    /**
+     * @brief Comprova si el vehicle té bateria suficient per fer la distància
+     *        indicada. Si no en té, intenta planificar una ruta cap al pàrquing més
+     *        proper per carregar.
+     *
+     * @param distancia  La distància que s’ha de recórrer per completar la petició.
+     * @param simulador  El simulador on s'afegiran esdeveniments si cal carregar.
+     * @param mapa       El mapa que permet calcular rutes i distàncies.
+     * @param horaInici  L’hora d’inici de la simulació (referència per calcular
+     *                   horaris).
+     * @param horaActual L’hora actual del simulador, per planificar nous
+     *                   esdeveniments.
+     * @return true si el vehicle té bateria suficient per fer el trajecte, false si
+     *         no i ha de carregar.
+     *
+     * @pre El vehicle ha d’estar inicialitzat i ubicat a un lloc vàlid dins el
+     *      mapa.
+     * @post Si no té bateria, pot iniciar una ruta cap a un pàrquing privat per
+     *       carregar. Si no hi ha pàrquing, es mostra un missatge.
+     */
     public boolean teBateria(double distancia, Simulador simulador, Mapa mapa, LocalTime horaInici,
             LocalTime horaActual) {
         // Cas 1: el vehicle té bateria suficient → pot continuar
@@ -249,6 +291,16 @@ public class ConductorPlanificador extends Conductor {
             return false;
         }
     }
+    /**
+     * @brief Comprova si el vehicle pot servir una petició de passatgers.
+     *
+     * @param nombrePassatgers Nombre de passatgers a recollir.
+     * @return true si el vehicle pot servir la petició, false en cas contrari.
+     *
+     * @pre El vehicle ha d'estar inicialitzat i no estar ocupat.
+     * @post Retorna true si el vehicle pot servir la petició, false en cas
+     *       contrari.
+     */
 
     @Override
     public boolean potServirPeticio(int nombrePassatgers) {
