@@ -1,24 +1,30 @@
 package events;
 
 import java.time.LocalTime;
-import core.Simulador;
-import core.Vehicle;
+
 import core.Conductor;
 import core.Lloc;
 import core.Ruta;
+import core.Simulador;
+import core.Vehicle;
 
 /**
  * @class IniciRutaEvent
  * @brief Representa un esdeveniment que indica l'inici d'una ruta per un
- *        conductor.
+ * conductor.
  *
  * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class IniciRutaEvent extends Event {
-    private Conductor conductor; /// < Conductor que realitza l'esdeveniment
-    private Ruta ruta; /// < Ruta que es realitza
-    private Vehicle vehicle; /// < Vehicle que es fa servir per realitzar la ruta
+
+    private Conductor conductor;
+    /// < Conductor que realitza l'esdeveniment
+    private Ruta ruta;
+    /// < Ruta que es realitza
+    private Vehicle vehicle;
+
+    /// < Vehicle que es fa servir per realitzar la ruta
 
     public IniciRutaEvent(LocalTime temps, Conductor conductor, Vehicle vehicle, Ruta ruta) {
         super(temps);
@@ -49,7 +55,7 @@ public class IniciRutaEvent extends Event {
     /**
      * @pre Cert.
      * @post El vehicle del conductor inicia la ruta i es pinta el missatge per
-     *       pantalla. El conductor queda ocupat durant la ruta.
+     * pantalla. El conductor queda ocupat durant la ruta.
      * @param simulador Simulador on es realitza l'esdeveniment
      */
     @Override
@@ -70,4 +76,16 @@ public class IniciRutaEvent extends Event {
         conductor.executarRuta(ruta, vehicle, simulador);
     }
 
+    //GETTERS
+    public Conductor getConductor() {
+        return this.conductor;
+    }
+
+    public Ruta getRuta() {
+        return this.ruta;
+    }
+
+    public Vehicle getVehicle() {
+        return this.vehicle;
+    }
 }

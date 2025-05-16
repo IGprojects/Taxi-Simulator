@@ -8,7 +8,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalTime;
+import java.time.chrono.ThaiBuddhistChronology;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
+import events.CarregarBateriaEvent;
 import events.Event;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
@@ -78,7 +82,12 @@ public class Simulador {
         List<Lloc> llocs = LectorJSON.carregarLlocs(JsonFile.getAbsolutePath());
         Map<Integer, Lloc> llocs_ID = LectorJSON.convertirLlistaAMap_Llocs(llocs);
         List<Cami> camins = LectorJSON.carregarCamins(JsonFile.getAbsolutePath(), llocs_ID);
-        this.vehicles = vehiclesSimulacio;
+        if (vehiclesSimulacio == null) {
+            this.vehicles = LectorJSON.carregarVehicles(JsonFile.getAbsolutePath(), llocs_ID);
+        } else {
+            this.vehicles = vehiclesSimulacio;
+
+        }
         this.conductors = LectorJSON.carregarConductors(JsonFile.getAbsolutePath(),
                 LectorJSON.convertirLlistaAMap_Vehicles(vehicles), llocs_ID);
         this.peticions = LectorJSON.carregarPeticions(JsonFile.getAbsolutePath(), llocs_ID);
@@ -87,11 +96,11 @@ public class Simulador {
         Mapa mapa_Nou = new Mapa();
 
         for (Lloc lloc : llocs) {
-            mapa.afegirLloc(lloc);
+            mapa_Nou.afegirLloc(lloc);
         }
 
         for (Cami cami : camins) {
-            mapa.afegirCami(cami);
+            mapa_Nou.afegirCami(cami);
         }
 
         this.mapa = mapa_Nou;
@@ -358,8 +367,7 @@ public class Simulador {
 
                     event.executar(Simulador.this);
 
-                } 
-                else {
+                } else {
                     finalitzarSimulacio(e, jsonFile, false);
 
                 }
@@ -438,7 +446,7 @@ public class Simulador {
             List<Cami> listCami = mapa.obtenirTotsElsCamins();
 
             if (guardarDades) {
-                escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.peticions, this.estadistiques,  jsonFile.getAbsolutePath());
+                escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.peticions, this.estadistiques, this.esdeveniments, jsonFile.getAbsolutePath());
             }
             System.out.println("Simulació finalitzada.");
         } catch (IOException ex) {
@@ -580,8 +588,70 @@ public class Simulador {
         return peticions.isEmpty();
     }
 
-    public void setEstadistiques(Estadistiques estadistiques){
-            this.estadistiques=estadistiques;
+    public void setEstadistiques(Estadistiques estadistiques) {
+        this.estadistiques = estadistiques;
+    }
+
+    public void setEsdeviments(List<Event> events) {
+        // Crear una PriorityQueue con un comparador que ordene por tiempo
+        PriorityQueue<Event> eventsQueue = new PriorityQueue<>(
+                Comparator.comparing(Event::getTemps)
+        );
+
+        // Añadir todos los eventos de la lista a la cola
+        eventsQueue.addAll(events);
+        esdeveniments = eventsQueue;
+    }
+
+    public Map<Integer, Integer> iniciarOptimitzacioPuntsCarrega(File JsonFile) {
+        System.out.println("DUNSSS0");
+
+        Map<Integer, Integer> vegadesUsat = new HashMap<Integer, Integer>();
+        Map<Lloc, List<Cami>> llocsMapa = mapa.getLlocs();
+        List<Lloc> llistaLlocs = new ArrayList<>(llocsMapa.keySet());
+        for (int i = 0; i < llistaLlocs.size(); i++) {
+            System.out.println("DUNSSS2");
+            if (llistaLlocs.get(i) instanceof Parquing) {
+                System.out.println("DUNSSS");
+
+                Parquing parquingExistent = (Parquing) llistaLlocs.get(i);
+
+                if (parquingExistent.obtenirPuntsCarregaPublics() > 1 || parquingExistent.obtenirPuntsCarregaPrivats() > 1) {
+                    vegadesUsat.put(parquingExistent.obtenirId(), 0);
+                    System.out.println("DUNSSS");
+                }
+
+            }
+        }
+
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
+                    Event event = esdeveniments.poll();
+                    horaActual = event.getTemps();
+                    mapPanel.setHoraActual(horaActual);
+                    if (event instanceof CarregarBateriaEvent) {
+                        // Fem un casting a CarregaBateria
+                        CarregarBateriaEvent carregaEvent = (CarregarBateriaEvent) event;
+                        event.executar(Simulador.this);
+                        Integer idCarregaador = carregaEvent.getConductor().getVehicle().getUbicacioActual().obtenirId();
+                        vegadesUsat.merge(idCarregaador, 1, Integer::sum);
+                    } // else if (esdeveniments.isEmpty() && !peticions.isEmpty()) {
+                    // // Si no hi ha esdeveniments però hi ha peticions, reintenta
+                    // assignarPeticions();
+                    // }
+                    else {
+                        finalitzarSimulacio(e, JsonFile, true);
+
+                    }
+                }
+            }
+
+        });
+        timer.start();
+
+        return vegadesUsat;
     }
 
 };

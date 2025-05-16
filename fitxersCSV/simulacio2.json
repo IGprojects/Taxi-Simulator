@@ -1,11 +1,11 @@
 {
   "llocs": [
     {
-      "ID": 9,
+      "ID": 10,
       "TIPUS": "L"
     },
     {
-      "ID": 3,
+      "ID": 15,
       "TIPUS": "L"
     },
     {
@@ -17,18 +17,7 @@
       "TIPUS": "L"
     },
     {
-      "ID": 6,
-      "TIPUS": "L"
-    },
-    {
-      "ID": 18,
-      "TIPUS": "P",
-      "N_CARREGADORS": 5,
-      "N_CARREGADORS_PRIVATS": 0,
-      "MAX_VEHICLES": 10
-    },
-    {
-      "ID": 14,
+      "ID": 5,
       "TIPUS": "L"
     },
     {
@@ -36,7 +25,7 @@
       "TIPUS": "L"
     },
     {
-      "ID": 17,
+      "ID": 6,
       "TIPUS": "L"
     },
     {
@@ -44,7 +33,11 @@
       "TIPUS": "L"
     },
     {
-      "ID": 15,
+      "ID": 2,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 3,
       "TIPUS": "L"
     },
     {
@@ -56,11 +49,11 @@
       "TIPUS": "L"
     },
     {
-      "ID": 5,
+      "ID": 4,
       "TIPUS": "L"
     },
     {
-      "ID": 2,
+      "ID": 14,
       "TIPUS": "L"
     },
     {
@@ -68,34 +61,22 @@
       "TIPUS": "L"
     },
     {
-      "ID": 19,
-      "TIPUS": "P",
-      "N_CARREGADORS": 5,
-      "N_CARREGADORS_PRIVATS": 0,
-      "MAX_VEHICLES": 10
-    },
-    {
-      "ID": 4,
+      "ID": 9,
       "TIPUS": "L"
     },
     {
-      "ID": 10,
+      "ID": 23,
+      "TIPUS": "P",
+      "MAX_VEHICLES": 8,
+      "N_CARREGADORS": 3,
+      "N_CARREGADORS_PRIVATS": 4
+    },
+    {
+      "ID": 17,
       "TIPUS": "L"
     }
   ],
   "connexions": [
-    {
-      "ORIGEN": 9,
-      "DESTI": 18,
-      "DISTANCIA_KM": 2.0,
-      "TEMPS_MIN": 4.0
-    },
-    {
-      "ORIGEN": 3,
-      "DESTI": 2,
-      "DISTANCIA_KM": 2.0,
-      "TEMPS_MIN": 15.0
-    },
     {
       "ORIGEN": 7,
       "DESTI": 9,
@@ -109,40 +90,16 @@
       "TEMPS_MIN": 5.0
     },
     {
-      "ORIGEN": 6,
-      "DESTI": 4,
-      "DISTANCIA_KM": 4.0,
-      "TEMPS_MIN": 35.0
-    },
-    {
-      "ORIGEN": 18,
-      "DESTI": 13,
-      "DISTANCIA_KM": 5.0,
-      "TEMPS_MIN": 12.0
-    },
-    {
-      "ORIGEN": 18,
-      "DESTI": 14,
-      "DISTANCIA_KM": 5.0,
-      "TEMPS_MIN": 12.0
-    },
-    {
-      "ORIGEN": 14,
-      "DESTI": 15,
-      "DISTANCIA_KM": 5.0,
-      "TEMPS_MIN": 1.0
-    },
-    {
       "ORIGEN": 8,
       "DESTI": 7,
       "DISTANCIA_KM": 2.0,
       "TEMPS_MIN": 5.0
     },
     {
-      "ORIGEN": 17,
-      "DESTI": 16,
-      "DISTANCIA_KM": 5.0,
-      "TEMPS_MIN": 12.0
+      "ORIGEN": 6,
+      "DESTI": 4,
+      "DISTANCIA_KM": 4.0,
+      "TEMPS_MIN": 35.0
     },
     {
       "ORIGEN": 13,
@@ -151,10 +108,10 @@
       "TEMPS_MIN": 10.0
     },
     {
-      "ORIGEN": 15,
-      "DESTI": 19,
-      "DISTANCIA_KM": 5.0,
-      "TEMPS_MIN": 12.0
+      "ORIGEN": 3,
+      "DESTI": 2,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 15.0
     },
     {
       "ORIGEN": 16,
@@ -169,16 +126,16 @@
       "TEMPS_MIN": 43.0
     },
     {
-      "ORIGEN": 5,
-      "DESTI": 19,
+      "ORIGEN": 4,
+      "DESTI": 5,
       "DISTANCIA_KM": 2.0,
-      "TEMPS_MIN": 8.0
+      "TEMPS_MIN": 3.0
     },
     {
-      "ORIGEN": 2,
-      "DESTI": 19,
-      "DISTANCIA_KM": 2.0,
-      "TEMPS_MIN": 10.0
+      "ORIGEN": 14,
+      "DESTI": 15,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 1.0
     },
     {
       "ORIGEN": 12,
@@ -187,33 +144,9 @@
       "TEMPS_MIN": 23.0
     },
     {
-      "ORIGEN": 19,
-      "DESTI": 6,
+      "ORIGEN": 17,
+      "DESTI": 16,
       "DISTANCIA_KM": 5.0,
-      "TEMPS_MIN": 12.0
-    },
-    {
-      "ORIGEN": 19,
-      "DESTI": 17,
-      "DISTANCIA_KM": 5.0,
-      "TEMPS_MIN": 12.0
-    },
-    {
-      "ORIGEN": 19,
-      "DESTI": 18,
-      "DISTANCIA_KM": 5.0,
-      "TEMPS_MIN": 12.0
-    },
-    {
-      "ORIGEN": 4,
-      "DESTI": 5,
-      "DISTANCIA_KM": 2.0,
-      "TEMPS_MIN": 3.0
-    },
-    {
-      "ORIGEN": 10,
-      "DESTI": 18,
-      "DISTANCIA_KM": 2.0,
       "TEMPS_MIN": 12.0
     }
   ],
@@ -223,14 +156,6 @@
       "ID_UBICACIO": 10,
       "AUTONOMIA_KM": 50,
       "MAX_PASSATGERS": 8,
-      "TEMPS_CARGA_RAPIDA": 35.0,
-      "TEMPS_CARGA_LENTA": 70.0
-    },
-    {
-      "ID": 102,
-      "ID_UBICACIO": 19,
-      "AUTONOMIA_KM": 100,
-      "MAX_PASSATGERS": 5,
       "TEMPS_CARGA_RAPIDA": 35.0,
       "TEMPS_CARGA_LENTA": 70.0
     },
@@ -249,13 +174,6 @@
       "NOM": "Anna",
       "TIPUS": "voraç",
       "IDVEHICLE": 101
-    },
-    {
-      "ID": 2,
-      "NOM": "Marc",
-      "TIPUS": "planificador",
-      "IDVEHICLE": 102,
-      "ID_PARQUING_PRIVAT": 19
     },
     {
       "ID": 3,
@@ -277,15 +195,5 @@
   ],
   "horaInici": "08:00",
   "horaFinal": "20:00",
-  "estadisticas": {
-      "peticionesServidas": 2,
-      "peticionesNoServidas": 2,
-      "tiempoTotalEspera": 11.0,
-      "tiempoMaximoEspera": 22.0,
-      "ocupacionTotalVehiculos": 0.0,
-      "muestrasOcupacion": 4,
-      "porcentajeBateriaPromedio": 0.0,
-      "muestrasBateria": 0,
-      "tiempoTotalViaje": 0.0,
-      "muestrasViaje": 0
-  }}
+  "events": []
+}

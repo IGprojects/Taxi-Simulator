@@ -1,5 +1,5 @@
+package views;
 
-package  views;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -19,8 +19,22 @@ import javax.swing.SwingConstants;
 
 import core.Vehicle;
 
+/**
+ * @class VehiclesComparisonPanel
+ * @brief Panell gràfic que mostra una comparació entre tots els vehicles i els vehicles redundants.
+ * @details Permet veure quins vehicles són considerats innecessaris segons la seva contribució al servei.
+ * 
+ * @author Grup b9
+ * @version 2025.03.04
+ */
 public class VehiclesComparisonPanel extends JPanel {
 
+    /**
+     * @brief Constructor del panell de comparació de vehicles.
+     * 
+     * @param vehiclesTotals Llista de tots els vehicles disponibles.
+     * @param vehiclesRedundants Llista de vehicles identificats com a redundants.
+     */
     public VehiclesComparisonPanel(List<Vehicle> vehiclesTotals, List<Vehicle> vehiclesRedundants) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -36,21 +50,21 @@ public class VehiclesComparisonPanel extends JPanel {
         add(titleLabel, gbc);
         gbc.gridwidth = 1;
 
-        // Subtítol per a vehicles totals
+        // Subtítol per a la llista de tots els vehicles
         gbc.gridx = 0;
         gbc.gridy = 1;
         JLabel totalLabel = new JLabel("Tots els Vehicles", SwingConstants.CENTER);
         totalLabel.setFont(new Font("Arial", Font.BOLD, 14));
         add(totalLabel, gbc);
 
-        // Subtítol per a vehicles redundants
+        // Subtítol per a la llista de vehicles redundants
         gbc.gridx = 1;
         gbc.gridy = 1;
         JLabel redundantLabel = new JLabel("Vehicles Redundants", SwingConstants.CENTER);
         redundantLabel.setFont(new Font("Arial", Font.BOLD, 14));
         add(redundantLabel, gbc);
 
-        // Llista de vehicles totals
+        // Llista de tots els vehicles
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.5;
@@ -71,7 +85,7 @@ public class VehiclesComparisonPanel extends JPanel {
         redundantScrollPane.setPreferredSize(new Dimension(300, 400));
         add(redundantScrollPane, gbc);
 
-        // Informació de comptadors
+        // Informació resumida amb comptadors
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
@@ -86,11 +100,14 @@ public class VehiclesComparisonPanel extends JPanel {
         add(countLabel, gbc);
     }
 
-    // Renderer personalitzat per mostrar bé els vehicles a les llistes
+    /**
+     * @class VehicleListRenderer
+     * @brief Renderer personalitzat per mostrar informació detallada dels vehicles a les llistes.
+     */
     private static class VehicleListRenderer extends DefaultListCellRenderer {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, 
-                                                    boolean isSelected, boolean cellHasFocus) {
+                                                      boolean isSelected, boolean cellHasFocus) {
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             if (value instanceof Vehicle) {
                 Vehicle vehicle = (Vehicle) value;
@@ -103,7 +120,12 @@ public class VehiclesComparisonPanel extends JPanel {
         }
     }
 
-    // Mètode per mostrar el panell en un JFrame
+    /**
+     * @brief Mètode per mostrar la comparació de vehicles en una finestra separada.
+     * 
+     * @param vehiclesTotals Llista de tots els vehicles.
+     * @param vehiclesRedundants Llista de vehicles considerats com a redundants.
+     */
     public static void mostrarComparacio(List<Vehicle> vehiclesTotals, List<Vehicle> vehiclesRedundants) {
         JFrame frame = new JFrame("Comparació de Vehicles");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

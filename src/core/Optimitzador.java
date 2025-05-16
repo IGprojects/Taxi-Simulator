@@ -3,73 +3,84 @@ package core;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @class Optimitzador
- * @brief Classe que fa les operacions per optimitzar la simulació.
- * @details Processa els vehicles i punts de carrega que no siguin necessaris
+ * @brief Classe encarregada d’optimitzar la simulació.
+ * @details Processa els vehicles i punts de càrrega per identificar-ne aquells
+ * que no són necessaris
  *
- * @author Grup b9
- * @version 2025.03.04
+ * @author Ignasi Ferrés Iglesias
+ * @version 2025.05.13
  */
 public class Optimitzador {
 
+    /**
+     * @brief Constructor per defecte.
+     */
     public Optimitzador() {
     }
 
     /**
-     * @brief Determina quins vehicles es poden suprimir sense afectar les
-     * peticions.
+     * @brief Determina quins vehicles es poden eliminar sense augmentar les
+     * peticions no servides.
      *
      * @pre El simulador està inicialitzat i conté una llista de vehicles.
-     * @post Retorna una llista amb els vehicles que es poden eliminar sense
-     * afectar el servei de peticions.
+     * @post Retorna una llista amb els vehicles que poden ser eliminats sense
+     * empitjorar el servei.
      *
-     * @return Llista de vehicles redundants.
+     * @param jsonFile Fitxer JSON amb la configuració de la simulació.
+     * @param vehiclesTotals Llista completa de vehicles.
+     * @return Llista de vehicles considerats redundants.
      */
-    public List<Vehicle> obtenirVehiclesRedundants(File jsonFile,List<Vehicle>vehiclesTotals) {
+    public List<Vehicle> obtenirVehiclesRedundants(File jsonFile, List<Vehicle> vehiclesTotals) {
         List<Vehicle> redundants = new ArrayList<>();
+        List<Vehicle> copiaOriginal = new ArrayList<>(vehiclesTotals); // Còpia de seguretat
 
-        for (Vehicle v : vehiclesTotals) {
-            //comprobar si la simulacio es pot fer sense aquest vehicle
-            vehiclesTotals.remove(v);
-            Simulador simulador_Actual = new Simulador(jsonFile,vehiclesTotals);
-            simulador_Actual.iniciar(jsonFile);
-            //FALTA COMPROBAR SI LA CONDICIO ES CORRECTA AL FINALITZAR LA SIMULACIO
-            
-            if (!simulador_Actual.peticionsServides()) {
-                //es torna a afegir el vehicle a la llista ja que sense ell no es pot completar la simulacio
-                vehiclesTotals.add(v);                
-            } else {
-                redundants.add(v);
+        // 1. Obtenir el nombre base de peticions no servides amb tots els vehicles
+        Simulador simuladorCompleto = new Simulador(jsonFile, new ArrayList<>(vehiclesTotals));
+        simuladorCompleto.iniciar(jsonFile);
+        int peticionsNoServidesCompletes = simuladorCompleto.obtenirPeticionsNoServides();
+
+        // 2. Avaluar cada vehicle individualment
+        for (Vehicle vehicle : copiaOriginal) {
+            List<Vehicle> vehiclesProva = new ArrayList<>(copiaOriginal);
+            vehiclesProva.remove(vehicle);
+
+            Simulador simuladorProva = new Simulador(jsonFile, vehiclesProva);
+            simuladorProva.iniciar(jsonFile);
+            int peticionsNoServidesProva = simuladorProva.obtenirPeticionsNoServides();
+
+            // Si eliminar el vehicle no empitjora el servei, és redundant
+            if (peticionsNoServidesProva <= peticionsNoServidesCompletes) {
+                redundants.add(vehicle);
             }
         }
+
         return redundants;
     }
+
+    /**
+     * @brief Determina quins punts de càrrega són redundants basant-se en el
+     * seu ús.
+     *
+     * @pre El mapa de punts de càrrega i el registre d'ús han d'estar
+     * inicialitzats.
+     * @post Retorna un mapa amb els identificadors dels punts de càrrega i el
+     * seu nombre d'usos.
+     *
+     * @param JsonFile Fitxer JSON amb la configuració de la simulació.
+     * @return Map amb identificadors de punts de càrrega i el nombre de vegades
+     * que s'han utilitzat.
+     */
+    public Map<Integer, Integer> obtenirPuntsCarregaRedundants(File JsonFile) {
+        Map<Integer, Integer> vegadesUsat;
+
+        Simulador simuladorComplet = new Simulador(JsonFile, null);
+        vegadesUsat = simuladorComplet.iniciarOptimitzacioPuntsCarrega(JsonFile);
+
+        return vegadesUsat;
+    }
+
 }
-/**
- * @brief Determina quins punts de càrrega es poden eliminar sense afectar el
- * servei.
- *
- * @pre El simulador està inicialitzat i conté un mapa amb punts de càrrega.
- * @post Retorna una llista amb els punts de càrrega que es poden eliminar sense
- * afectar el servei de peticions.
- *
- * @return Llista de punts de càrrega redundants.
- */
-/*   public List<PuntCarga> obtenirPuntsCarregaRedundants() {
-        List<PuntCarga> redundants = new ArrayList<>();
-
-       /* List<PuntCarrega> puntsCarrega = simulador.getMapa().getPuntsCarrega();
-
-
-        for (PuntCarrega p : puntsCarrega) {
-            simulador.getMapa().eliminarPuntCarrega(p);
-            if (!simulador.potServirTotesLesPeticions()) {
-                simulador.getMapa().afegirPuntCarrega(p);
-            } else {
-                redundants.add(p);
-            }
-        }
-        return redundants;
-    }*/

@@ -9,13 +9,16 @@ import core.Simulador;
 /**
  * @class FiCarregaEvent
  * @brief Representa un esdeveniment que indica el final de la càrrega d'un
- *        vehicle.
+ * vehicle.
  *
  * @author Dídac Gros Labrador
  * @version 2025.03.04
  */
 public class FiCarregaEvent extends Event {
-    private Conductor conductor; /// < Conductor que realitza l'esdeveniment
+
+    private Conductor conductor;
+
+    /// < Conductor que realitza l'esdeveniment
 
     public FiCarregaEvent(LocalTime temps, Conductor conductor) {
         super(temps);
@@ -24,8 +27,9 @@ public class FiCarregaEvent extends Event {
 
     /**
      * @pre Cert.
-     * @post El vehicle del conductor acaba la càrrega i es pinta el missatge per
-     *       pantalla. El conductor queda lliure i s'intenten assignar les peticions
+     * @post El vehicle del conductor acaba la càrrega i es pinta el missatge
+     * per pantalla. El conductor queda lliure i s'intenten assignar les
+     * peticions
      */
     @Override
     public void executar(Simulador simulador) {
@@ -35,10 +39,25 @@ public class FiCarregaEvent extends Event {
         System.out.println(missatge);
         simulador.pintarMissatge(missatge);
 
-        if (simulador.hiHaPeticions())
-            if (conductor instanceof ConductorVoraç)
-                simulador.assignarPeticionsVoraç();
-            else
+        if (simulador.hiHaPeticions()) {
+            if (conductor instanceof ConductorVoraç) {
+                simulador.assignarPeticionsVoraç(); 
+            }else {
                 simulador.assignarPeticionsPlan();
+            }
+        }
+    }
+
+    /**
+     * Obtiene el conductor asociado al evento
+     *
+     * @return Objeto Conductor que realiza la acción
+     * @throws IllegalStateException si el conductor no está asignado
+     */
+    public Conductor getConductor() {
+        if (this.conductor == null) {
+            throw new IllegalStateException("No hay conductor asignado al evento");
+        }
+        return this.conductor;
     }
 }

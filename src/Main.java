@@ -33,6 +33,7 @@ import views.LegendPanel;
 import views.MapPanel;
 import views.SelectorInicial;
 import views.VehiclesComparisonPanel;
+import views.VistaPuntsCarrega;
 
 /**
  * @class Main
@@ -150,10 +151,23 @@ public class Main {
         // CONSTRUCTOR PER SIMULADOR PER AFEGIR DES DE EL INICI TOTS ELS EVENTS QUE HA
         // DE FER
         List<Peticio> peticions = LectorJSON.carregarPeticions(SimulacioFile.getAbsolutePath(), llocsPerId);
-        System.out.println(".()"+peticions.size()+"---------------------------------------------");
+        System.out.println(".()" + vehiclesPerId.size() + "--------------------------dwqdwq-------------------");
+        System.out.println(".()" + peticions.size() + "--------------------------PET-------------------");
+        Map<Integer, Conductor> conductorsID = LectorJSON.convertirLlistaAMap_Conductors(conductors);
+        System.out.println(".()" + conductorsID.size() + "--------------------------dwqdwq-------------------");
+
+        //List<Event> llistaEvents = LectorJSON.carregarEvents(SimulacioFile.getAbsolutePath(), vehiclesPerId, conductorsID, llocsPerId);
+        //System.out.println(".()" + llistaEvents.size() + "--------------------------ever-------------------");
         Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors, peticions);
-        simulador.setEstadistiques(estadistiqueses_Llegides.get(0));
-        mostrarMapa(mapa, simulador, vehicles, llocs, false, SimulacioFile);
+        //simulador.setEsdeviments(llistaEvents);
+        if (estadistiqueses_Llegides.isEmpty()) {
+            simulador.setEstadistiques(new Estadistiques());
+
+        } else {
+            simulador.setEstadistiques(estadistiqueses_Llegides.get(0));
+
+        }
+        mostrarMapa(mapa, simulador, vehicles, llocs, true, SimulacioFile);
     }
 
     /**
@@ -195,6 +209,14 @@ public class Main {
                     List<Vehicle> vehiclesTotals = LectorJSON.carregarVehicles(simulacioJson.getAbsolutePath(), LectorJSON.convertirLlistaAMap_Llocs(LectorJSON.carregarLlocs(simulacioJson.getAbsolutePath())));
                     List<Vehicle> vehiclesRedundants = optimitzador.obtenirVehiclesRedundants(simulacioJson, vehiclesTotals);
                     VehiclesComparisonPanel.mostrarComparacio(vehiclesTotals, vehiclesRedundants);
+                }
+
+                @Override
+                public void onOptimitzarSimulacioPuntsCarrega(File simulacioJson) {
+
+                    Optimitzador optimitzador = new Optimitzador();
+                    Map<Integer, Integer> PuntsCarregaRedundants = optimitzador.obtenirPuntsCarregaRedundants(simulacioJson);
+                    VistaPuntsCarrega.mostrar(PuntsCarregaRedundants);
                 }
 
                 @Override

@@ -7,21 +7,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import events.CarregarBateriaEvent;
+import events.DeixarPassatgersEvent;
 import events.Event;
 import events.FiCarregaEvent;
 import events.FiRutaEvent;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
+import events.RecollirPassatgersEvent;
 
+
+/**
+ * @class LectorJSon
+ * @brief Classe per carregar i llegir simulacions en json.
+ * @author Ignasi Ferrés Iglesias
+ * @version 2025.05.13
+ */
 public class LectorJSON {
 
     public static Map<Integer, Lloc> convertirLlistaAMap_Llocs(List<Lloc> llocs) {
@@ -323,19 +331,33 @@ public class LectorJSON {
         List<Event> events = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
 
-        // Patró general per extreure events
-        Pattern eventPattern = Pattern.compile(
-                "\\{\\s*\"type\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                + "\\s*\"temps\"\\s*:\\s*\"([^\"]+)\"\\s*,"
-                + "(.?)\\s\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)");
+        // Patrón mejorado para extraer el array de eventos completo
+        Pattern arrayPattern = Pattern.compile("\"events\"\\s*:\\s*\\[(.*?)\\]", Pattern.DOTALL);
+        Matcher arrayMatcher = arrayPattern.matcher(jsonContent);
 
-        Matcher matcher = eventPattern.matcher(jsonContent);
+        if (!arrayMatcher.find()) {
+            System.out.println("No se encontró el array de eventos en el JSON");
+            return events;
+        }
+
+        String eventsContent = arrayMatcher.group(1);
+
+        // Patrón para cada evento individual
+        Pattern eventPattern = Pattern.compile(
+                "\\{\\s*\"temps\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
+                + "\"type\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
+                + "(.*?)\\s*\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)",
+                Pattern.DOTALL);
+
+        Matcher matcher = eventPattern.matcher(eventsContent);
 
         while (matcher.find()) {
             try {
-                String eventType = matcher.group(1);
-                LocalTime temps = LocalTime.parse(matcher.group(2));
-                String eventData = matcher.group(3);
+                LocalTime temps = LocalTime.parse(matcher.group(1));
+                String eventType = matcher.group(2);
+                String eventData = matcher.group(3).trim();
+
+                System.out.println("Procesando evento tipo: " + eventType + " con datos: " + eventData);
 
                 Event event = crearEventFromData(eventType, temps, eventData,
                         vehiclesPerId, conductorsPerId, llocsPerId);
@@ -344,9 +366,11 @@ public class LectorJSON {
                 }
             } catch (Exception e) {
                 System.err.println("Error parsejant event: " + e.getMessage());
+                e.printStackTrace();
             }
         }
 
+        System.out.println("Total eventos leídos: " + events.size());
         return events;
     }
 
@@ -358,33 +382,85 @@ public class LectorJSON {
             switch (eventType) {
                 case "MoureVehicle":
                     return parseMoureVehicleEvent(temps, eventData, vehiclesPerId, llocsPerId);
-                case "IniciRuta":
-                    return parseIniciRutaEvent(temps, eventData, conductorsPerId, vehiclesPerId, llocsPerId);
+                case "DeixarPassatgers":
+                    return parseDeixarPassatgersEvent(temps, eventData, conductorsPerId, llocsPerId);
                 case "FiRuta":
                     return parseFiRutaEvent(temps, eventData, conductorsPerId);
-                case "FiCarrega":
-                    return parseFiCarregaEvent(temps, eventData, conductorsPerId);
-                case "CarregarBateria":
-                    return parseCarregarBateriaEvent(temps, eventData, vehiclesPerId, conductorsPerId);
+                case "IniciRuta":
+                    return parseIniciRutaEvent(temps, eventData, conductorsPerId, vehiclesPerId, llocsPerId);
                 default:
                     System.err.println("Tipus d'event desconegut: " + eventType);
                     return null;
             }
         } catch (Exception e) {
             System.err.println("Error creant event " + eventType + ": " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
 
+//METODES PEL PARSEIG D EVENTS------------------------------------------------------------------
+    private static Event parseRecollirPassatgersEvent(LocalTime temps, String data,
+            Map<Integer, Conductor> conductorsPerId,
+            Map<Integer, Lloc> llocsPerId) {
+        Pattern p = Pattern.compile(
+                "\"conductorId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"destiId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"passatgersRecollits\"\\s*:\\s*(\\d+)");
+
+        Matcher m = p.matcher(data);
+        if (m.find()) {
+            Conductor conductor = conductorsPerId.get(Integer.parseInt(m.group(1)));
+            Lloc desti = llocsPerId.get(Integer.parseInt(m.group(2)));
+            int passatgers = Integer.parseInt(m.group(3));
+
+            if (conductor != null && desti != null) {
+                return new RecollirPassatgersEvent(temps, conductor, desti, passatgers);
+            } else {
+                if (conductor == null) {
+                    System.err.println("Conductor no trobat amb ID: " + m.group(1));
+                }
+                if (desti == null) {
+                    System.err.println("Lloc destí no trobat amb ID: " + m.group(2));
+                }
+            }
+        }
+        return null;
+    }
+
+    private static Event parseDeixarPassatgersEvent(LocalTime temps, String data,
+            Map<Integer, Conductor> conductorsPerId,
+            Map<Integer, Lloc> llocsPerId) {
+        Pattern p = Pattern.compile(
+                "\"conductorId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"destiId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"passatgersDeixats\"\\s*:\\s*(\\d+)");
+
+        Matcher m = p.matcher(data);
+        if (m.find()) {
+            Conductor conductor = conductorsPerId.get(Integer.parseInt(m.group(1)));
+            Lloc desti = llocsPerId.get(Integer.parseInt(m.group(2)));
+            int passatgers = Integer.parseInt(m.group(3));
+
+            if (conductor != null && desti != null) {
+                return new DeixarPassatgersEvent(temps, conductor, desti, passatgers);
+            } else {
+                System.err.println("Datos incompletos para DeixarPassatgersEvent");
+            }
+        }
+        return null;
+    }
+
+// [Els mètodes existents parseMoureVehicleEvent, parseIniciRutaEvent, etc. es mantenen iguals]
     // Métodos de parseo para cada tipo de evento
     private static Event parseMoureVehicleEvent(LocalTime temps, String data,
             Map<Integer, Vehicle> vehiclesPerId,
             Map<Integer, Lloc> llocsPerId) {
         Pattern p = Pattern.compile(
-                "\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"origenId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"destiId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"distancia\"\\s*:\\s*(\\d+\\.?\\d*)");
+                "\"vehicleId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"origenId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"destiId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"distancia\"\\s*:\\s*(\\d+\\.?\\d*)");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
@@ -395,6 +471,8 @@ public class LectorJSON {
 
             if (vehicle != null && origen != null && desti != null) {
                 return new MoureVehicleEvent(temps, vehicle, origen, desti, distancia);
+            } else {
+                System.err.println("Datos incompletos para MoureVehicleEvent");
             }
         }
         return null;
@@ -404,58 +482,59 @@ public class LectorJSON {
             Map<Integer, Conductor> conductorsPerId,
             Map<Integer, Vehicle> vehiclesPerId,
             Map<Integer, Lloc> llocsPerId) {
-
-        // Patrón regex mejorado para capturar todos los campos
         Pattern p = Pattern.compile(
-                "\"conductorId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"vehicleId\"\\s*:\\s*(\\d+)\\s*,"
-                + "\\s*\"ruta\"\\s*:\\s*\\{\\s*"
-                + "\"llocs\"\\s*:\\s*\\[(.?)\\]\\s,"
-                + "\\s*\"distanciaTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                + "\\s*\"tempsTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,"
-                + "\\s*\"horaInici\"\\s*:\\s*\"([^\"])\"\\s,"
-                + "\\s*\"esRutaCarrega\"\\s*:\\s*(true|false)\\s*\\}");
+                "\"conductorId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"vehicleId\"\\s*:\\s*(\\d+)\\s*,\\s*"
+                + "\"ruta\"\\s*:\\s*\\{\\s*"
+                + "\"llocs\"\\s*:\\s*\\[(.*?)\\]\\s*,\\s*"
+                + "\"distanciaTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,\\s*"
+                + "\"tempsTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,\\s*"
+                + "\"horaInici\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
+                + "\"esRutaCarrega\"\\s*:\\s*(true|false)\\s*\\}");
 
         Matcher m = p.matcher(data);
         if (m.find()) {
             try {
-                // Parsear datos básicos
                 Conductor conductor = conductorsPerId.get(Integer.parseInt(m.group(1)));
                 Vehicle vehicle = vehiclesPerId.get(Integer.parseInt(m.group(2)));
 
-                // Parsear lista de ubicaciones
-                List<Lloc> llocsRuta = Arrays.stream(m.group(3).split("\\s*,\\s*"))
-                        .map(Integer::parseInt)
-                        .map(llocsPerId::get)
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.toList());
-
-                // Validar que todos los puntos existen
-                if (llocsRuta.size() != m.group(3).split(",").length) {
-                    System.err.println("Algunos llocs de la ruta no existen");
-                    return null;
+                // Procesar lista de ubicaciones
+                String[] llocsArray = m.group(3).split("\\s*,\\s*");
+                List<Lloc> llocsRuta = new ArrayList<>();
+                for (String idStr : llocsArray) {
+                    try {
+                        int id = Integer.parseInt(idStr.trim());
+                        Lloc lloc = llocsPerId.get(id);
+                        if (lloc != null) {
+                            llocsRuta.add(lloc);
+                        } else {
+                            System.err.println("Lloc no encontrado con ID: " + id);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.err.println("Error parsejant ID de lloc: " + idStr);
+                    }
                 }
 
-                // Parsear resto de campos de la ruta
                 double distanciaTotal = Double.parseDouble(m.group(4));
                 double tempsTotal = Double.parseDouble(m.group(5));
                 LocalTime horaInici = LocalTime.parse(m.group(6));
                 boolean esRutaCarrega = Boolean.parseBoolean(m.group(7));
 
                 if (conductor != null && vehicle != null && !llocsRuta.isEmpty()) {
-                    // Crear la ruta completa
                     Ruta ruta = new Ruta();
                     ruta.setLlocs(llocsRuta);
                     ruta.setDistanciaTotal(distanciaTotal);
                     ruta.setTempsTotal(tempsTotal);
                     ruta.setHoraInici(horaInici);
-                    ruta.setConductor(conductor);
                     ruta.setEsRutaCarrega(esRutaCarrega);
 
                     return new IniciRutaEvent(temps, conductor, vehicle, ruta);
+                } else {
+                    System.err.println("Datos incompletos para IniciRutaEvent");
                 }
             } catch (Exception e) {
                 System.err.println("Error parsejant IniciRutaEvent: " + e.getMessage());
+                e.printStackTrace();
             }
         }
         return null;
@@ -468,13 +547,11 @@ public class LectorJSON {
 
         Matcher m = p.matcher(data);
         if (m.find()) {
-            int conductorId = Integer.parseInt(m.group(1));
-            Conductor conductor = conductorsPerId.get(conductorId);
-
+            Conductor conductor = conductorsPerId.get(Integer.parseInt(m.group(1)));
             if (conductor != null) {
                 return new FiRutaEvent(temps, conductor, null);
             } else {
-                System.err.println("Conductor no trobat amb ID: " + conductorId);
+                System.err.println("Conductor no encontrado para FiRutaEvent");
             }
         }
         return null;
@@ -533,7 +610,7 @@ public class LectorJSON {
     // METODES D ESCRIPTURA
     public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs,
             List<Cami> connexions, List<Peticio> peticions,
-            Estadistiques estadistiques, List<Event> events, String filePath) throws IOException {
+            Estadistiques estadistiques, PriorityQueue<Event> events, String filePath) throws IOException {
 
         StringBuilder jsonBuilder = new StringBuilder();
         jsonBuilder.append("{\n");
@@ -637,24 +714,17 @@ public class LectorJSON {
         jsonBuilder.append("  \"horaInici\": \"08:00\",\n");
         jsonBuilder.append("  \"horaFinal\": \"20:00\",\n");
 
-        // 7. Escribir "estadisticas" (se mantiene igual)
-        jsonBuilder.append("  \"estadisticas\": {\n");
-        jsonBuilder.append("      \"peticionesServidas\": ").append(estadistiques.getPeticionesServidas()).append(",\n");
-        jsonBuilder.append("      \"peticionesNoServidas\": ").append(estadistiques.getPeticionesNoServidas()).append(",\n");
-        jsonBuilder.append("      \"tiempoTotalEspera\": ").append(estadistiques.getTiempoEsperaPromedio()).append(",\n");
-        jsonBuilder.append("      \"tiempoMaximoEspera\": ").append(estadistiques.getTiempoMaximoEspera()).append(",\n");
-        jsonBuilder.append("      \"ocupacionTotalVehiculos\": ").append(estadistiques.getOcupacionPromedioVehiculos()).append(",\n");
-        jsonBuilder.append("      \"muestrasOcupacion\": ").append(estadistiques.getMuestrasOcupacion()).append(",\n");
-        jsonBuilder.append("      \"porcentajeBateriaPromedio\": ").append(estadistiques.getPorcentajeBateriaPromedio()).append(",\n");
-        jsonBuilder.append("      \"muestrasBateria\": ").append(estadistiques.getMuestrasBateria()).append(",\n");
-        jsonBuilder.append("      \"tiempoTotalViaje\": ").append(estadistiques.getTiempoViajePromedio()).append(",\n");
-        jsonBuilder.append("      \"muestrasViaje\": ").append(estadistiques.getMuestrasViaje()).append("\n");
-        jsonBuilder.append("  },\n");  // Nota la coma al final para continuar con events
-
         // 8. Escribir "events"
         jsonBuilder.append("  \"events\": [\n");
-        for (int i = 0; i < events.size(); i++) {
-            Event event = events.get(i);
+
+// Convert PriorityQueue to a list while preserving order
+        List<Event> eventsList = new ArrayList<>();
+        while (!events.isEmpty()) {
+            eventsList.add(events.poll());
+        }
+
+        for (int i = 0; i < eventsList.size(); i++) {
+            Event event = eventsList.get(i);
             jsonBuilder.append("    {\n");
             jsonBuilder.append("      \"temps\": \"").append(event.getTemps()).append("\"");
 
@@ -681,10 +751,10 @@ public class LectorJSON {
                     }
                 }
                 jsonBuilder.append("],\n");
-                jsonBuilder.append("        \"distanciaTotal\": ").append(ire.getRuta().getDistanciaTotal()).append(",\n");
-                jsonBuilder.append("        \"tempsTotal\": ").append(ire.getRuta().getTempsTotal()).append(",\n");
+                jsonBuilder.append("        \"distanciaTotal\": ").append(ire.getRuta().obtenirDistanciaTotal()).append(",\n");
+                jsonBuilder.append("        \"tempsTotal\": ").append(ire.getRuta().obtenirTempsTotal()).append(",\n");
                 jsonBuilder.append("        \"horaInici\": \"").append(ire.getRuta().getHoraInici()).append("\",\n");
-                jsonBuilder.append("        \"esRutaCarrega\": ").append(ire.getRuta().isEsRutaCarrega()).append("\n");
+                jsonBuilder.append("        \"esRutaCarrega\": ").append(ire.getRuta().isRutaCarrega()).append("\n");
                 jsonBuilder.append("      }");
             } else if (event instanceof FiRutaEvent) {
                 FiRutaEvent fre = (FiRutaEvent) event;
@@ -700,14 +770,26 @@ public class LectorJSON {
                 jsonBuilder.append(",\n      \"vehicleId\": ").append(cbe.getVehicle().getId());
                 jsonBuilder.append(",\n      \"duracioCarregaMinuts\": ").append(cbe.getDuracioCarregaMinuts());
                 jsonBuilder.append(",\n      \"conductorId\": ").append(cbe.getConductor().getId());
+            } else if (event instanceof RecollirPassatgersEvent) {
+                RecollirPassatgersEvent rpe = (RecollirPassatgersEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"RecollirPassatgers\"");
+                jsonBuilder.append(",\n      \"conductorId\": ").append(rpe.getConductor().getId());
+                jsonBuilder.append(",\n      \"destiId\": ").append(rpe.getDesti().obtenirId());
+                jsonBuilder.append(",\n      \"passatgersRecollits\": ").append(rpe.getPassatgersRecollits());
+            } else if (event instanceof DeixarPassatgersEvent) {
+                DeixarPassatgersEvent dpe = (DeixarPassatgersEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"DeixarPassatgers\"");
+                jsonBuilder.append(",\n      \"conductorId\": ").append(dpe.getConductor().getId());
+                jsonBuilder.append(",\n      \"destiId\": ").append(dpe.getDesti().obtenirId());
+                jsonBuilder.append(",\n      \"passatgersDeixats\": ").append(dpe.getPassatgersDeixats());
             }
 
-            jsonBuilder.append("\n    }").append(i < events.size() - 1 ? ",\n" : "\n");
+            jsonBuilder.append("\n    }").append(i < eventsList.size() - 1 ? ",\n" : "\n");
         }
         jsonBuilder.append("  ]\n");  // Cierre del array events
         jsonBuilder.append("}\n");    // Cierre del objeto JSON principal
 
-        // Escribir en el archivo
+// Escribir en el archivo
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(jsonBuilder.toString());
         }
