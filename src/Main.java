@@ -151,10 +151,10 @@ public class Main {
         // CONSTRUCTOR PER SIMULADOR PER AFEGIR DES DE EL INICI TOTS ELS EVENTS QUE HA
         // DE FER
         List<Peticio> peticions = LectorJSON.carregarPeticions(SimulacioFile.getAbsolutePath(), llocsPerId);
-        System.out.println(".()" + vehiclesPerId.size() + "--------------------------dwqdwq-------------------");
-        System.out.println(".()" + peticions.size() + "--------------------------PET-------------------");
+    //    System.out.println(".()" + vehiclesPerId.size() + "--------------------------dwqdwq-------------------");
+  //      System.out.println(".()" + peticions.size() + "--------------------------PET-------------------");
         Map<Integer, Conductor> conductorsID = LectorJSON.convertirLlistaAMap_Conductors(conductors);
-        System.out.println(".()" + conductorsID.size() + "--------------------------dwqdwq-------------------");
+//        System.out.println(".()" + conductorsID.size() + "--------------------------dwqdwq-------------------");
 
         //List<Event> llistaEvents = LectorJSON.carregarEvents(SimulacioFile.getAbsolutePath(), vehiclesPerId, conductorsID, llocsPerId);
         //System.out.println(".()" + llistaEvents.size() + "--------------------------ever-------------------");

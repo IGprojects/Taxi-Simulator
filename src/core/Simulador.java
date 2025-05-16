@@ -207,7 +207,10 @@ public class Simulador {
                                     millorConductor.getVehicle(), ruta));
                             millorConductor.setOcupat(true);
                             peticionsAssignades.add(peticio);
-                            this.estadistiques.registrarOcupacionVehiculo(millorConductor.getVehicle().getPassatgersActuals());
+                            this.estadistiques.registrarEstadoBateria(millorConductor.getVehicle().obtenirBateria());
+                            this.estadistiques.registrarPeticionServida(calcularTempsEsperaMitja());
+                            this.estadistiques.registrarOcupacionVehiculo(ruta.obtenirPassatgersPeticio());
+                            this.estadistiques.registrarTiempoViaje(ruta.obtenirTempsTotal());
 
                         } else {
                             System.out.println("No hi ha temps per fer la ruta de la petició " + peticio.obtenirId());
@@ -247,6 +250,11 @@ public class Simulador {
                 Ruta r = conductorPlani.planificarRuta(peticions, this, horaActual);
 
                 if (r != null) {
+                    this.estadistiques.registrarEstadoBateria(conductorPlani.getVehicle().obtenirBateria());
+                    this.estadistiques.registrarPeticionServida(calcularTempsEsperaMitja());
+                    this.estadistiques.registrarOcupacionVehiculo(r.obtenirPassatgersPeticio());
+                    this.estadistiques.registrarTiempoViaje(r.obtenirTempsTotal());
+
                     afegirEsdeveniment(new IniciRutaEvent(
                             r.getHoraInici(),
                             conductorPlani,
