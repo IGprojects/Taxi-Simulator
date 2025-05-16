@@ -3,7 +3,7 @@ package events;
 import java.time.LocalTime;
 
 import core.Conductor;
-import core.ConductorVoraç;
+import core.ConductorVorac;
 import core.Ruta;
 import core.Simulador;
 
@@ -44,8 +44,8 @@ public class FiRutaEvent extends Event {
         conductor.setOcupat(false);
 
         if (simulador.hiHaPeticions()) {
-            if (conductor instanceof ConductorVoraç) {
-                simulador.assignarPeticionsVoraç(); 
+            if (conductor instanceof ConductorVorac) {
+                simulador.assignarPeticionsvorac(); 
             }else {
                 simulador.assignarPeticionsPlan();
             }

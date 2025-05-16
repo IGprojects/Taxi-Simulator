@@ -49,8 +49,8 @@ public class Vehicle {
      * @post Retorna true si el vehicle té bateria (>0%), altrament false.
      * @return true si el vehicle té bateria disponible, false si està esgotada.
      */
-    public boolean teBateria(double km, boolean voraç) {
-        if (voraç) {
+    public boolean teBateria(double km, boolean vorac) {
+        if (vorac) {
             double batBaixar = (int) ((km / AUTONOMIA) * 100);
             return percentatgeCarrega - batBaixar > 20;
         } else {
@@ -124,9 +124,9 @@ public class Vehicle {
      * @param percentatge Percentatge a carregar (ha d'estar en l'interval [0,
      *                    100]).
      */
-    public void carregarBateria(boolean voraç) {
-        bateria = voraç ? 80 : 100;
-        percentatgeCarrega = voraç ? 80 : 100;
+    public void carregarBateria(boolean vorac) {
+        bateria = vorac ? 80 : 100;
+        percentatgeCarrega = vorac ? 80 : 100;
         System.out.println("----------- Carregant bateria -----------: " + percentatgeCarrega);
         carregant = false; // El vehicle ja no està carregant
     }

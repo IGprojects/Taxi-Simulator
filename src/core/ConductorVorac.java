@@ -11,15 +11,15 @@ import events.MoureVehicleEvent;
 import events.RecollirPassatgersEvent;
 
 /**
- * @class ConductorVoraç
- * @brief Defineix un tipus de conductor (conductor voraç)
+ * @class ConductorVorac
+ * @brief Defineix un tipus de conductor (conductor vorac)
  *
  * @author Anouar El Barkouki Hitach
  * @version 2025.03.04
  */
-public class ConductorVoraç extends Conductor {
+public class ConductorVorac extends Conductor {
 
-    public ConductorVoraç(int id, String nom, Vehicle vehicle) {
+    public ConductorVorac(int id, String nom, Vehicle vehicle) {
         super(id, nom, vehicle);
     }
 
@@ -101,9 +101,9 @@ public class ConductorVoraç extends Conductor {
 
     /**
      * @brief Planifica una ruta directa des de l'origen fins al destí de la petició
-     *        utilitzant un camí voraç.
+     *        utilitzant un camí vorac.
      *
-     *        Es calcula la ruta més ràpida (segons l'algorisme voraç del mapa)
+     *        Es calcula la ruta més ràpida (segons l'algorisme vorac del mapa)
      *        entre l’origen i el destí de la petició.
      *        A partir del camí, es calcula la distància i temps totals, i es
      *        construeix l’objecte Ruta associat al conductor.
@@ -121,8 +121,8 @@ public class ConductorVoraç extends Conductor {
      *       totals, i nombre de passatgers assignat.
      */
     public Ruta planificarRuta(Peticio peticio, Mapa mapa) {
-        // Obtenim el camí voraç entre l'origen i el destí de la petició
-        List<Lloc> cami = mapa.camiVoraç(peticio.obtenirOrigen(), peticio.obtenirDesti());
+        // Obtenim el camí vorac entre l'origen i el destí de la petició
+        List<Lloc> cami = mapa.camivorac(peticio.obtenirOrigen(), peticio.obtenirDesti());
 
         double distanciaTotal = 0;
         double tempsTotal = 0;

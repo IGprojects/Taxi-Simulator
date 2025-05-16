@@ -109,7 +109,7 @@ public class Simulador {
     }
 
     /**
-     * @brief Assigna peticions pendents als conductors de tipus ConductorVoraç
+     * @brief Assigna peticions pendents als conductors de tipus ConductorVorac
      * utilitzant una estratègia voraça.
      *
      * Aquesta funció recorre totes les peticions pendents i intenta
@@ -123,7 +123,7 @@ public class Simulador {
      * @post S'actualitzen les estadístiques de peticions servides i no
      * servides.
      */
-    public void assignarPeticionsVoraç() {
+    public void assignarPeticionsvorac() {
         List<Peticio> peticionsAssignades = new ArrayList<>();
 
         for (Peticio peticio : peticions) {
@@ -131,19 +131,19 @@ public class Simulador {
                 Lloc origenPeticio = peticio.obtenirOrigen();
                 Lloc destiPeticio = peticio.obtenirDesti();
 
-                ConductorVoraç millorConductor = null;
+                ConductorVorac millorConductor = null;
                 double millorDistancia = Double.MAX_VALUE;
                 double millorTemps = Double.MAX_VALUE;
 
                 for (Conductor conductor : conductors) {
-                    if (conductor instanceof ConductorVoraç) {
+                    if (conductor instanceof ConductorVorac) {
                         Vehicle vehicle = conductor.getVehicle();
                         Lloc ubicacio = vehicle.getUbicacioActual();
 
                         // Calcular camins per avaluar si pot fer la petició
-                        List<Lloc> camiFinsOrigen = mapa.camiVoraç(ubicacio, origenPeticio);
-                        List<Lloc> camiFinsDesti = mapa.camiVoraç(origenPeticio, destiPeticio);
-                        List<Lloc> camiTotal = mapa.camiVoraç(ubicacio, destiPeticio);
+                        List<Lloc> camiFinsOrigen = mapa.camivorac(ubicacio, origenPeticio);
+                        List<Lloc> camiFinsDesti = mapa.camivorac(origenPeticio, destiPeticio);
+                        List<Lloc> camiTotal = mapa.camivorac(ubicacio, destiPeticio);
 
                         if (camiFinsOrigen != null && camiFinsDesti != null && camiTotal != null) {
                             double distanciaFinsOrigen = mapa.calcularDistanciaRuta(camiFinsOrigen);
@@ -164,7 +164,7 @@ public class Simulador {
                                         // Guardar el millor conductor (més proper a l'origen)
                                         if (distanciaFinsOrigen < millorDistancia) {
                                             millorDistancia = distanciaFinsOrigen;
-                                            millorConductor = (ConductorVoraç) conductor;
+                                            millorConductor = (ConductorVorac) conductor;
                                             millorTemps = tempsFinsOrigen;
 
                                             // Estadístiques
@@ -347,7 +347,7 @@ public class Simulador {
      */
     public void assignarPeticions() {
         assignarPeticionsPlan();
-        assignarPeticionsVoraç();
+        assignarPeticionsvorac();
     }
 
     /**

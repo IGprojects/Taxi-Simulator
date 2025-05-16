@@ -162,10 +162,10 @@ public class Mapa {
      *
      * @post Retorna el camí més ràpid entre dos llocs
      */
-    public List<Lloc> camiVoraç(Lloc origen, Lloc desti) {
+    public List<Lloc> camivorac(Lloc origen, Lloc desti) {
         Set<Lloc> visitats = new HashSet<>();
         List<Lloc> millorCami = new ArrayList<>();
-        if (trobarCamiVoraç(origen, desti, visitats, new ArrayList<>(), millorCami)) {
+        if (trobarCamivorac(origen, desti, visitats, new ArrayList<>(), millorCami)) {
             return millorCami;
         } else {
             return null;
@@ -176,7 +176,7 @@ public class Mapa {
     /**
      * @brief Funció recursiva per trobar el camí més ràpid entre dos llocs,
      *        utilitzant
-     *        un enfocament voraç.
+     *        un enfocament vorac.
      * @details Aquesta funció explora els camins disponibles a partir del lloc
      *          actual
      *          i selecciona el camí amb el temps més curt per continuar la cerca.
@@ -189,7 +189,7 @@ public class Mapa {
      * @param millorCami
      * @return true si s'ha trobat un camí, false en cas contrari
      */
-    private boolean trobarCamiVoraç(Lloc actual, Lloc desti, Set<Lloc> visitats,
+    private boolean trobarCamivorac(Lloc actual, Lloc desti, Set<Lloc> visitats,
             List<Lloc> camiActual, List<Lloc> millorCami) {
         visitats.add(actual);
         camiActual.add(actual);
@@ -206,7 +206,7 @@ public class Mapa {
         for (Cami cami : camins) {
             Lloc seguent = cami.obtenirDesti();
             if (!visitats.contains(seguent)) {
-                boolean trobat = trobarCamiVoraç(seguent, desti, visitats, camiActual, millorCami);
+                boolean trobat = trobarCamivorac(seguent, desti, visitats, camiActual, millorCami);
                 if (trobat) {
                     return true; // sortim tan bon punt trobem el destí
 
@@ -231,7 +231,7 @@ public class Mapa {
             if (lloc instanceof Parquing) {
                 Parquing parquing = (Parquing) lloc;
                 if (!parquing.publicPle()) {
-                    List<Lloc> cami = camiVoraç(origen, lloc);
+                    List<Lloc> cami = camivorac(origen, lloc);
                     if (cami != null) {
                         double tempsRuta = calcularTempsRuta(cami);
                         if (tempsRuta < millorTemps) {
@@ -260,7 +260,7 @@ public class Mapa {
             if (lloc instanceof Parquing) {
                 Parquing parquing = (Parquing) lloc;
                 if (!parquing.estaPle() && parquing.esCarregadorPrivat(conductor.getParquingPrivat().obtenirId())) {
-                    List<Lloc> cami = camiVoraç(origen, lloc);
+                    List<Lloc> cami = camivorac(origen, lloc);
                     if (cami != null) {
                         double tempsRuta = calcularTempsRuta(cami);
                         if (tempsRuta < millorTemps) {

@@ -270,8 +270,8 @@ public class LectorJSON {
             try {
                 Conductor conductor;
                 switch (tipus) {
-                    case "voraç":
-                        conductor = new ConductorVoraç(id, nom, vehicle);
+                    case "vorac":
+                        conductor = new ConductorVorac(id, nom, vehicle);
                         break;
                     case "planificador":
                         if (matcher.group(5) == null) {
@@ -685,7 +685,7 @@ public class LectorJSON {
                 jsonBuilder.append("      \"ID_PARQUING_PRIVAT\": ")
                         .append(conductorPlan.getParquingPrivat().obtenirId()).append("\n");
             } else {
-                jsonBuilder.append("      \"TIPUS\": \"").append("voraç").append("\",\n");
+                jsonBuilder.append("      \"TIPUS\": \"").append("vorac").append("\",\n");
                 jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append("\n");
             }
             jsonBuilder.append("    }").append(i < conductors.size() - 1 ? ",\n" : "\n");

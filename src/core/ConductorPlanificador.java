@@ -72,7 +72,7 @@ public class ConductorPlanificador extends Conductor {
                     }
 
                     // Intentar trobar camí fins a l’origen i del destí fins a un carregador
-                    List<Lloc> cami = s.getMapa().camiVoraç(ubicacio, p.obtenirOrigen());
+                    List<Lloc> cami = s.getMapa().camivorac(ubicacio, p.obtenirOrigen());
                     Ruta rutaFinsCarregador = s.getMapa().rutaParquingPrivatMesProper(p.obtenirDesti(),
                             p.obtenirHoraMaximaArribada(), this);
                     if (cami == null || cami.isEmpty() || rutaFinsCarregador == null
@@ -101,7 +101,7 @@ public class ConductorPlanificador extends Conductor {
                     }
 
                     // Intentar trobar camí des de l’origen fins al destí
-                    ultimCami = s.getMapa().camiVoraç(p.obtenirOrigen(), p.obtenirDesti());
+                    ultimCami = s.getMapa().camivorac(p.obtenirOrigen(), p.obtenirDesti());
                     if (ultimCami == null || ultimCami.isEmpty()) {
                         System.out.println("Petició " + p.obtenirId() + " descartada: no hi ha camí a destí.");
                         continue;

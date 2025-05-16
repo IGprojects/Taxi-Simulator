@@ -172,13 +172,13 @@
     {
       "ID": 1,
       "NOM": "Anna",
-      "TIPUS": "voraç",
+      "TIPUS": "vorac",
       "IDVEHICLE": 101
     },
     {
       "ID": 3,
       "NOM": "Clara",
-      "TIPUS": "voraç",
+      "TIPUS": "vorac",
       "IDVEHICLE": 103
     }
   ],

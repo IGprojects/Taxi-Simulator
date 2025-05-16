@@ -180,8 +180,8 @@ public class LectorCSV {
                 }
 
                 Conductor conductor;
-                if (tipus.equals("voraç")) {
-                    conductor = new ConductorVoraç(id, nom, vehicle);
+                if (tipus.equals("vorac")) {
+                    conductor = new ConductorVorac(id, nom, vehicle);
                 } else if (tipus.equals("planificador")) {
                     int idParquing = Integer.parseInt(camps[4].trim());
                     Parquing parquing = (Parquing) llocsPerId.get(idParquing);
