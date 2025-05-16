@@ -32,6 +32,11 @@ public class Cami {
         return origen;
     }
 
+    /**
+     * @pre Cert.
+     * @post Retorna true si el camí és igual a l'altre, false en cas contrari.
+     *
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -43,6 +48,11 @@ public class Cami {
         return origen.equals(altre.origen) && desti.equals(altre.desti);
     }
 
+    /**
+     * @pre Cert.
+     * @post Retorna un enter que representa el hash del camí.
+     *
+     */
     @Override
     public int hashCode() {
         return origen.hashCode() * 31 + desti.hashCode();

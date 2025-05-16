@@ -27,7 +27,8 @@ public class Parquing extends Lloc {
     /**
      * @pre Cert.
      * @post Retorna un punt de càrrega public disponible.
-     * @return PuntCarrega si hi ha un punt de càrrega disponible, null en cas contrari.
+     * @return PuntCarrega si hi ha un punt de càrrega disponible, null en cas
+     *         contrari.
      */
     public PuntCarrega puntCarregaPublicDisponible() {
         for (PuntCarrega punt : puntsCargaPublics) {
@@ -99,6 +100,23 @@ public class Parquing extends Lloc {
      */
     boolean estaPle() {
         return vehiclesActuals == capacitatMaxima;
+    }
+
+    /**
+     * @pre Cert.
+     * @post Retorna true si tots els punts de càrrega públics estan ocupats, false
+     *       en cas contrari.
+     * 
+     * @return true si el lloc està ple, false en cas contrari.
+     */
+    boolean publicPle() {
+        for (PuntCarrega punt : puntsCargaPublics) {
+            if (!punt.isOcupat()) {
+                return false; // Hi ha un punt de càrrega públic disponible
+            }
+        }
+
+        return true;
     }
 
     /**

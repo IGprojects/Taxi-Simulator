@@ -218,6 +218,11 @@ public class Mapa {
         return false;
     }
 
+    /**
+     * @pre Cert
+     * @post Retorna la ruta més ràpida per arribar a un parquing públic
+     * @return Ruta més ràpida per arribar a un parquing públic
+     */
     public Ruta rutaParquingMesProper(Lloc origen, LocalTime horaInici, Conductor conductor) {
         Ruta millorRuta = null;
         double millorTemps = Double.MAX_VALUE;
@@ -225,7 +230,7 @@ public class Mapa {
         for (Lloc lloc : llocs.keySet()) {
             if (lloc instanceof Parquing) {
                 Parquing parquing = (Parquing) lloc;
-                if (!parquing.estaPle()) {
+                if (!parquing.publicPle()) {
                     List<Lloc> cami = camiVoraç(origen, lloc);
                     if (cami != null) {
                         double tempsRuta = calcularTempsRuta(cami);
@@ -242,6 +247,11 @@ public class Mapa {
         return millorRuta;
     }
 
+    /**
+     * @pre Cert
+     * @post Retorna la ruta més ràpida per arribar a un parquing privat
+     * @return Ruta més ràpida per arribar a un parquing privat
+     */
     public Ruta rutaParquingPrivatMesProper(Lloc origen, LocalTime horaInici, ConductorPlanificador conductor) {
         Ruta millorRuta = null;
         double millorTemps = Double.MAX_VALUE;
