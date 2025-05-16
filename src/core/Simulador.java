@@ -65,7 +65,7 @@ public class Simulador {
     private List<Peticio> TotesPeticions = new ArrayList<Peticio>();
     /// < Llista on es guarden totes el esdeveniments executats durant la simulacio per poder guardarlos al final al .json.
     private PriorityQueue<Event> esdevenimentsExecutats = new PriorityQueue<>(Comparator.comparing(Event::getTemps));
-  
+
     public Simulador(LocalTime horaInici, LocalTime horaFi, Mapa mapa, List<Vehicle> vehicles,
             List<Conductor> conductors, List<Peticio> peticions_) {
         this.vehicles = vehicles;
@@ -285,7 +285,7 @@ public class Simulador {
 
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
-
+                    //System.out.println("[DEBUG0] Finalitzant - Events executats: "+ esdevenimentsExecutats.size());
                     event.executar(Simulador.this);
 
                 } // else if (esdeveniments.isEmpty() && !peticions.isEmpty()) {
@@ -293,7 +293,7 @@ public class Simulador {
                 // assignarPeticions();
                 // }
                 else {
-
+                    //System.out.println("[DEBUG] Finalitzant - Events executats: "      + esdevenimentsExecutats.size());
                     finalitzarSimulacio(e, jsonFile, estadisticFile, true);
 
                 }
@@ -373,8 +373,8 @@ public class Simulador {
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
-                    Event event = esdeveniments.poll();
+                if (!esdevenimentsExecutats.isEmpty() && horaActual.isBefore(horaFi)) {
+                    Event event = esdevenimentsExecutats.poll();
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
 
@@ -419,6 +419,7 @@ public class Simulador {
      */
     public void afegirEsdeveniment(Event e) {
         esdeveniments.add(e);
+        this.esdevenimentsExecutats.add(e);
     }
 
     /**
@@ -447,7 +448,7 @@ public class Simulador {
      */
     private void finalitzarSimulacio(ActionEvent e, File jsonFile, File EstadisticsFile_, boolean guardarDades) {
         try {
-            System.out.println("DEBUG4 - estadistiquesFile: " + EstadisticsFile_); // <-- Aquí
+            //System.out.println("DEBUG4 - estadistiquesFile: " + EstadisticsFile_); // <-- Aquí
 
             ((Timer) e.getSource()).stop();
 
@@ -630,6 +631,7 @@ public class Simulador {
 
         // Añadir todos los eventos de la lista a la cola
         eventsQueue.addAll(events);
+        this.esdevenimentsExecutats.addAll(events);
         esdeveniments = eventsQueue;
     }
 

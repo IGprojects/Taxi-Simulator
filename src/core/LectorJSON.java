@@ -1,13 +1,5 @@
 package core;
 
-import events.CarregarBateriaEvent;
-import events.DeixarPassatgersEvent;
-import events.Event;
-import events.FiCarregaEvent;
-import events.FiRutaEvent;
-import events.IniciRutaEvent;
-import events.MoureVehicleEvent;
-import events.RecollirPassatgersEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -16,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +18,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import events.CarregarBateriaEvent;
+import events.DeixarPassatgersEvent;
+import events.Event;
+import events.FiCarregaEvent;
+import events.FiRutaEvent;
+import events.IniciRutaEvent;
+import events.MoureVehicleEvent;
+import events.RecollirPassatgersEvent;
+
 /**
  * @class LectorJSon
  * @brief Classe per carregar i llegir simulacions en json.
@@ -32,9 +34,10 @@ import java.util.stream.Collectors;
  * @version 2025.05.13
  */
 public class LectorJSON {
-    
+
     /**
-     * Converteix una llista de Llocs a un mapa on la clau és l'ID del lloc i el valor és el propi objecte Lloc.
+     * Converteix una llista de Llocs a un mapa on la clau és l'ID del lloc i el
+     * valor és el propi objecte Lloc.
      *
      * @param llocs Llista de llocs a convertir.
      * @return Un mapa amb les parelles ID -> Lloc corresponents.
@@ -46,8 +49,10 @@ public class LectorJSON {
                         lloc -> lloc // Función para el valor (el objeto mismo)
                 ));
     }
+
     /**
-     * Converteix una llista de Vehicles a un mapa on la clau és l'ID del vehicle i el valor és el propi objecte Vehicle.
+     * Converteix una llista de Vehicles a un mapa on la clau és l'ID del
+     * vehicle i el valor és el propi objecte Vehicle.
      *
      * @param vehicles Llista de vehicles a convertir.
      * @return Un mapa amb les parelles ID -> Vehicle corresponents.
@@ -59,8 +64,10 @@ public class LectorJSON {
                         Vehicle -> Vehicle // Función para el valor (el objeto mismo)
                 ));
     }
+
     /**
-     * Converteix una llista de Conductors a un mapa on la clau és l'ID del conductor i el valor és el propi objecte Conductor.
+     * Converteix una llista de Conductors a un mapa on la clau és l'ID del
+     * conductor i el valor és el propi objecte Conductor.
      *
      * @param conductors Llista de conductors a convertir.
      * @return Un mapa amb les parelles ID -> Conductor corresponents.
@@ -72,20 +79,23 @@ public class LectorJSON {
                         Conductor -> Conductor // Función para el valor (el objeto mismo)
                 ));
     }
+
     /**
-     * Carrega una llista de llocs a partir d’un fitxer JSON amb estructura parcialment lliure.
+     * Carrega una llista de llocs a partir d’un fitxer JSON amb estructura
+     * parcialment lliure.
      *
-     * El JSON ha de contenir un array sota la clau "llocs", on cada element pot ser un objecte
-     * de tipus Lloc o Parquing. La detecció es fa mitjançant el camp "TIPUS": "L" per Lloc i "P" per Parquing.
+     * El JSON ha de contenir un array sota la clau "llocs", on cada element pot
+     * ser un objecte de tipus Lloc o Parquing. La detecció es fa mitjançant el
+     * camp "TIPUS": "L" per Lloc i "P" per Parquing.
      *
-     * En el cas dels parquings, també es processen els camps opcionals "MAX_VEHICLES",
-     * "N_CARREGADORS" i "N_CARREGADORS_PRIVATS", utilitzats per generar punts de càrrega
-     * públics i privats amb tipus alternatius (ràpida/lenta).
+     * En el cas dels parquings, també es processen els camps opcionals
+     * "MAX_VEHICLES", "N_CARREGADORS" i "N_CARREGADORS_PRIVATS", utilitzats per
+     * generar punts de càrrega públics i privats amb tipus alternatius
+     * (ràpida/lenta).
      *
      * @param pathFitxer Ruta del fitxer JSON que conté les dades dels llocs.
      * @return Una llista de Llocs i Parquings carregats des del fitxer.
      */
-
     public static List<Lloc> carregarLlocs(String pathFitxer) {
         List<Lloc> llocs = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
@@ -148,16 +158,17 @@ public class LectorJSON {
     }
 
     /**
-     * Carrega una llista de camins a partir d’un fitxer JSON amb estructura parcialment lliure.
+     * Carrega una llista de camins a partir d’un fitxer JSON amb estructura
+     * parcialment lliure.
      *
-     * El JSON ha de contenir un array sota la clau "camins", on cada element és un objecte
-     * amb els camps "ORIGEN", "DESTI", "DISTANCIA_KM" i "TEMPS_MIN".
+     * El JSON ha de contenir un array sota la clau "camins", on cada element és
+     * un objecte amb els camps "ORIGEN", "DESTI", "DISTANCIA_KM" i "TEMPS_MIN".
      *
      * @param pathFitxer Ruta del fitxer JSON que conté les dades dels camins.
-     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes Lloc.
+     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes
+     * Lloc.
      * @return Una llista de camins carregats des del fitxer.
      */
-    
     public static List<Cami> carregarCamins(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
         List<Cami> camins = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
@@ -187,17 +198,18 @@ public class LectorJSON {
     }
 
     /**
-     * Carrega una llista de vehicles a partir d’un fitxer JSON amb estructura parcialment lliure.
+     * Carrega una llista de vehicles a partir d’un fitxer JSON amb estructura
+     * parcialment lliure.
      *
-     * El JSON ha de contenir un array sota la clau "vehicles", on cada element és un objecte
-     * amb els camps "ID", "ID_UBICACIO", "AUTONOMIA_KM", "MAX_PASSATGERS",
-     * "TEMPS_CARGA_RAPIDA" i "TEMPS_CARGA_LENTA".
+     * El JSON ha de contenir un array sota la clau "vehicles", on cada element
+     * és un objecte amb els camps "ID", "ID_UBICACIO", "AUTONOMIA_KM",
+     * "MAX_PASSATGERS", "TEMPS_CARGA_RAPIDA" i "TEMPS_CARGA_LENTA".
      *
      * @param pathFitxer Ruta del fitxer JSON que conté les dades dels vehicles.
-     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes Lloc.
+     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes
+     * Lloc.
      * @return Una llista de vehicles carregats des del fitxer.
      */
-
     public static List<Vehicle> carregarVehicles(String pathFitxer, Map<Integer, Lloc> llocsPerId) {
         List<Vehicle> vehicles = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
@@ -230,17 +242,19 @@ public class LectorJSON {
     }
 
     /**
-     * Carrega una llista d'estadístiques a partir d’un fitxer JSON amb estructura parcialment lliure.
+     * Carrega una llista d'estadístiques a partir d’un fitxer JSON amb
+     * estructura parcialment lliure.
      *
-     * El JSON ha de contenir un array sota la clau "estadistiques", on cada element és un objecte
-     * amb els camps "peticionsServides", "peticionsNoServides", "tiempoTotalEspera",
-     * "tiempoMaximoEspera", "ocupacionTotalVehiculos", "muestrasOcupacion",
-     * "porcentajeBateriaPromedio", "muestrasBateria", "tiempoTotalViaje" i "muestrasViaje".
+     * El JSON ha de contenir un array sota la clau "estadistiques", on cada
+     * element és un objecte amb els camps "peticionsServides",
+     * "peticionsNoServides", "tiempoTotalEspera", "tiempoMaximoEspera",
+     * "ocupacionTotalVehiculos", "muestrasOcupacion",
+     * "porcentajeBateriaPromedio", "muestrasBateria", "tiempoTotalViaje" i
+     * "muestrasViaje".
      *
      * @param pathFitxer Ruta del fitxer JSON que conté les estadístiques.
      * @return Una llista d'estadístiques carregades des del fitxer.
      */
-
     public static List<Estadistiques> carregarEstadistiques(String pathFitxer) {
         List<Estadistiques> estadistiques = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
@@ -284,12 +298,12 @@ public class LectorJSON {
     }
 
     /**
-     * Llegeix el contingut d'un fitxer JSON i retorna una cadena de text amb el seu contingut.
+     * Llegeix el contingut d'un fitxer JSON i retorna una cadena de text amb el
+     * seu contingut.
      *
      * @param pathFitxer Ruta del fitxer JSON a llegir.
      * @return Contingut del fitxer com a cadena de text.
      */
-
     private static String llegirFitxerComplet(String pathFitxer) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(pathFitxer))) {
@@ -304,17 +318,21 @@ public class LectorJSON {
     }
 
     /**
-     * Carrega una llista de conductors a partir d’un fitxer JSON amb estructura parcialment lliure.
+     * Carrega una llista de conductors a partir d’un fitxer JSON amb estructura
+     * parcialment lliure.
      *
-     * El JSON ha de contenir un array sota la clau "conductors", on cada element és un objecte
-     * amb els camps "ID", "NOM", "TIPUS", "IDVEHICLE" i opcionalment "ID_PARQUING_PRIVAT".
+     * El JSON ha de contenir un array sota la clau "conductors", on cada
+     * element és un objecte amb els camps "ID", "NOM", "TIPUS", "IDVEHICLE" i
+     * opcionalment "ID_PARQUING_PRIVAT".
      *
-     * @param pathFitxer Ruta del fitxer JSON que conté les dades dels conductors.
-     * @param vehiclesPerId Mapa que relaciona ID de vehicles amb els seus objectes Vehicle.
-     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes Lloc.
+     * @param pathFitxer Ruta del fitxer JSON que conté les dades dels
+     * conductors.
+     * @param vehiclesPerId Mapa que relaciona ID de vehicles amb els seus
+     * objectes Vehicle.
+     * @param llocsPerId Mapa que relaciona ID de llocs amb els seus objectes
+     * Lloc.
      * @return Una llista de conductors carregats des del fitxer.
      */
-
     public static List<Conductor> carregarConductors(String pathFitxer,
             Map<Integer, Vehicle> vehiclesPerId, Map<Integer, Lloc> llocsPerId) {
         List<Conductor> conductors = new ArrayList<>();
@@ -387,14 +405,14 @@ public class LectorJSON {
 
     /**
      * Carrega l'horari d'inici i final a partir d'un fitxer JSON.
-     * 
-     * El fitxer ha de contenir els camps "horaInici" i "horaFinal" amb format d'hora (HH:mm).
-     * 
+     *
+     * El fitxer ha de contenir els camps "horaInici" i "horaFinal" amb format
+     * d'hora (HH:mm).
+     *
      * @param pathFitxer Ruta del fitxer JSON que conté l'horari.
-     * @return Un array de dos valors LocalTime: [horaInici, horaFinal], o null si hi ha error.
+     * @return Un array de dos valors LocalTime: [horaInici, horaFinal], o null
+     * si hi ha error.
      */
-
-
     public static LocalTime[] carregarHorari(String pathFitxer) {
         String jsonContent = llegirFitxerComplet(pathFitxer);
 
@@ -422,20 +440,23 @@ public class LectorJSON {
     }
 
     /**
-     * Carrega una llista d'esdeveniments a partir d'un fitxer JSON i crea objectes Event corresponents.
-     * 
-     * El fitxer ha de contenir un array sota la clau "events", i cada element ha de tenir els camps
-     * "temps", "type" i la informació específica segons el tipus d'event.
-     * 
-     * Utilitza els mapes de vehicles, conductors i llocs per instanciar correctament cada Event.
-     * 
+     * Carrega una llista d'esdeveniments a partir d'un fitxer JSON i crea
+     * objectes Event corresponents.
+     *
+     * El fitxer ha de contenir un array sota la clau "events", i cada element
+     * ha de tenir els camps "temps", "type" i la informació específica segons
+     * el tipus d'event.
+     *
+     * Utilitza els mapes de vehicles, conductors i llocs per instanciar
+     * correctament cada Event.
+     *
      * @param pathFitxer Ruta del fitxer JSON que conté els esdeveniments.
      * @param vehiclesPerId Mapa de vehicles indexats pel seu ID.
      * @param conductorsPerId Mapa de conductors indexats pel seu ID.
      * @param llocsPerId Mapa de llocs indexats pel seu ID.
-     * @return Una llista d'objectes Event carregats i instanciats des del fitxer.
+     * @return Una llista d'objectes Event carregats i instanciats des del
+     * fitxer.
      */
-
     public static List<Event> carregarEvents(String pathFitxer,
             Map<Integer, Vehicle> vehiclesPerId,
             Map<Integer, Conductor> conductorsPerId,
@@ -485,10 +506,10 @@ public class LectorJSON {
         System.out.println("Total eventos leídos: " + events.size());
         return events;
     }
-    
+
     /**
      * Crea un objecte Event a partir de les dades extretes del JSON.
-     * 
+     *
      * @param eventType Tipus d'event (MoureVehicle, DeixarPassatgers, etc.).
      * @param temps Hora de l'esdeveniment.
      * @param eventData Dades específiques de l'esdeveniment.
@@ -497,7 +518,6 @@ public class LectorJSON {
      * @param llocsPerId Mapa de llocs indexats pel seu ID.
      * @return Un objecte Event corresponent al tipus d'esdeveniment.
      */
-
     private static Event crearEventFromData(String eventType, LocalTime temps, String eventData,
             Map<Integer, Vehicle> vehiclesPerId,
             Map<Integer, Conductor> conductorsPerId,
@@ -512,6 +532,12 @@ public class LectorJSON {
                     return parseFiRutaEvent(temps, eventData, conductorsPerId);
                 case "IniciRuta":
                     return parseIniciRutaEvent(temps, eventData, conductorsPerId, vehiclesPerId, llocsPerId);
+                case "RecollirPassatgers":
+                    return parseRecollirPassatgersEvent(temps, eventData, conductorsPerId, llocsPerId);
+                case "CarregarBateria":
+                    return parseCarregarBateriaEvent(temps, eventData, vehiclesPerId, conductorsPerId);
+                case "FiCarrega":
+                    return parseFiCarregaEvent(temps, eventData, conductorsPerId);
                 default:
                     System.err.println("Tipus d'event desconegut: " + eventType);
                     return null;
@@ -524,17 +550,16 @@ public class LectorJSON {
     }
 
 //METODES PEL PARSEIG D EVENTS------------------------------------------------------------------
-
     /**
-     * Parsea un event de tipus RecollirPassatgers a partir de les dades extretes del JSON.
-     * 
+     * Parsea un event de tipus RecollirPassatgers a partir de les dades
+     * extretes del JSON.
+     *
      * @param temps Hora de l'esdeveniment.
      * @param data Dades específiques de l'esdeveniment.
      * @param conductorsPerId Mapa de conductors indexats pel seu ID.
      * @param llocsPerId Mapa de llocs indexats pel seu ID.
      * @return Un objecte RecollirPassatgersEvent corresponent a les dades.
      */
-
     private static Event parseRecollirPassatgersEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId,
             Map<Integer, Lloc> llocsPerId) {
@@ -564,15 +589,15 @@ public class LectorJSON {
     }
 
     /**
-     * Parsea un event de tipus DeixarPassatgers a partir de les dades extretes del JSON.
-     * 
+     * Parsea un event de tipus DeixarPassatgers a partir de les dades extretes
+     * del JSON.
+     *
      * @param temps Hora de l'esdeveniment.
      * @param data Dades específiques de l'esdeveniment.
      * @param conductorsPerId Mapa de conductors indexats pel seu ID.
      * @param llocsPerId Mapa de llocs indexats pel seu ID.
      * @return Un objecte DeixarPassatgersEvent corresponent a les dades.
      */
-
     private static Event parseDeixarPassatgersEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId,
             Map<Integer, Lloc> llocsPerId) {
@@ -598,17 +623,16 @@ public class LectorJSON {
 
 // [Els mètodes existents parseMoureVehicleEvent, parseIniciRutaEvent, etc. es mantenen iguals]
     // Métodos de parseo para cada tipo de evento
-
     /**
-     * Parsea un event de tipus MoureVehicle a partir de les dades extretes del JSON.
-     * 
+     * Parsea un event de tipus MoureVehicle a partir de les dades extretes del
+     * JSON.
+     *
      * @param temps Hora de l'esdeveniment.
      * @param data Dades específiques de l'esdeveniment.
      * @param vehiclesPerId Mapa de vehicles indexats pel seu ID.
      * @param llocsPerId Mapa de llocs indexats pel seu ID.
      * @return Un objecte MoureVehicleEvent corresponent a les dades.
      */
-
     private static Event parseMoureVehicleEvent(LocalTime temps, String data,
             Map<Integer, Vehicle> vehiclesPerId,
             Map<Integer, Lloc> llocsPerId) {
@@ -635,8 +659,9 @@ public class LectorJSON {
     }
 
     /**
-     * Parsea un event de tipus IniciRuta a partir de les dades extretes del JSON.
-     * 
+     * Parsea un event de tipus IniciRuta a partir de les dades extretes del
+     * JSON.
+     *
      * @param temps Hora de l'esdeveniment.
      * @param data Dades específiques de l'esdeveniment.
      * @param conductorsPerId Mapa de conductors indexats pel seu ID.
@@ -644,7 +669,6 @@ public class LectorJSON {
      * @param llocsPerId Mapa de llocs indexats pel seu ID.
      * @return Un objecte IniciRutaEvent corresponent a les dades.
      */
-
     private static Event parseIniciRutaEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId,
             Map<Integer, Vehicle> vehiclesPerId,
@@ -709,13 +733,12 @@ public class LectorJSON {
 
     /**
      * Parsea un event de tipus FiRuta a partir de les dades extretes del JSON.
-     * 
+     *
      * @param temps Hora de l'esdeveniment.
      * @param data Dades específiques de l'esdeveniment.
      * @param conductorsPerId Mapa de conductors indexats pel seu ID.
      * @return Un objecte FiRutaEvent corresponent a les dades.
      */
-
     private static Event parseFiRutaEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId) {
         Pattern p = Pattern.compile(
@@ -734,14 +757,14 @@ public class LectorJSON {
     }
 
     /**
-     * Parsea un event de tipus FiCarrega a partir de les dades extretes del JSON.
-     * 
+     * Parsea un event de tipus FiCarrega a partir de les dades extretes del
+     * JSON.
+     *
      * @param temps Hora de l'esdeveniment.
      * @param data Dades específiques de l'esdeveniment.
      * @param conductorsPerId Mapa de conductors indexats pel seu ID.
      * @return Un objecte FiCarregaEvent corresponent a les dades.
      */
-
     private static Event parseFiCarregaEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId) {
         Pattern p = Pattern.compile(
@@ -762,8 +785,9 @@ public class LectorJSON {
     }
 
     /**
-     * Parsea un event de tipus CarregarBateria a partir de les dades extretes del JSON.
-     * 
+     * Parsea un event de tipus CarregarBateria a partir de les dades extretes
+     * del JSON.
+     *
      * @param temps Hora de l'esdeveniment.
      * @param data Dades específiques de l'esdeveniment.
      * @param vehiclesPerId Mapa de vehicles indexats pel seu ID.
@@ -802,8 +826,9 @@ public class LectorJSON {
     }
 
     /**
-     * Escribe un fitxer JSON amb la informació dels vehicles, conductors, llocs, connexions i peticions.
-     * 
+     * Escribe un fitxer JSON amb la informació dels vehicles, conductors,
+     * llocs, connexions i peticions.
+     *
      * @param conductors Llista de conductors a escriure al fitxer.
      * @param vehicles Llista de vehicles a escriure al fitxer.
      * @param llocs Llista de llocs a escriure al fitxer.
@@ -812,204 +837,212 @@ public class LectorJSON {
      * @param estadistiques Estadístiques a escriure al fitxer.
      * @param events Llista d'esdeveniments a escriure al fitxer.
      * @param filePath Ruta del fitxer JSON on s'escriurà la informació.
-     * @throws IOException Si hi ha un error d'entrada/sortida durant l'escriptura del fitxer.
+     * @throws IOException Si hi ha un error d'entrada/sortida durant
+     * l'escriptura del fitxer.
      */
-
     // METODES D ESCRIPTURA
-    public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs,
-            List<Cami> connexions, List<Peticio> peticions,
-            Estadistiques estadistiques, PriorityQueue<Event> events, String filePath) throws IOException {
+public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs,
+        List<Cami> connexions, List<Peticio> peticions,
+        Estadistiques estadistiques, PriorityQueue<Event> events, String filePath) throws IOException {
+    
+    StringBuilder jsonBuilder = new StringBuilder();
+    jsonBuilder.append("{\n");
 
-        StringBuilder jsonBuilder = new StringBuilder();
-        jsonBuilder.append("{\n");
+    // 1. Escribir "llocs" (se mantiene igual)
+    jsonBuilder.append("  \"llocs\": [\n");
+    for (int i = 0; i < llocs.size(); i++) {
+        Lloc lloc = llocs.get(i);
+        jsonBuilder.append("    {\n");
+        jsonBuilder.append("      \"ID\": ").append(lloc.obtenirId()).append(",\n");
+        if (lloc instanceof Parquing) {
+            Parquing p = (Parquing) lloc;
+            jsonBuilder.append("      \"TIPUS\": \"").append("P").append("\",\n");
+            jsonBuilder.append("      \"N_CARREGADORS\": ").append(p.obtenirPuntsCarregaPublics()).append(",\n");
+            jsonBuilder.append("      \"N_CARREGADORS_PRIVATS\": ").append(p.obtenirPuntsCarregaPrivats())
+                    .append(",\n");
+            jsonBuilder.append("      \"MAX_VEHICLES\": ").append(p.obtenirCapacitatMaxima()).append("\n");
+        } else {
+            jsonBuilder.append("      \"TIPUS\": \"").append("L").append("\"\n");
+        }
+        jsonBuilder.append("    }").append(i < llocs.size() - 1 ? ",\n" : "\n");
+    }
+    jsonBuilder.append("  ],\n");
 
-        // 1. Escribir "llocs" (se mantiene igual)
-        jsonBuilder.append("  \"llocs\": [\n");
-        for (int i = 0; i < llocs.size(); i++) {
-            Lloc lloc = llocs.get(i);
-            jsonBuilder.append("    {\n");
-            jsonBuilder.append("      \"ID\": ").append(lloc.obtenirId()).append(",\n");
-            if (lloc instanceof Parquing) {
-                Parquing p = (Parquing) lloc;
-                jsonBuilder.append("      \"TIPUS\": \"").append("P").append("\",\n");
-                jsonBuilder.append("      \"N_CARREGADORS\": ").append(p.obtenirPuntsCarregaPublics()).append(",\n");
-                jsonBuilder.append("      \"N_CARREGADORS_PRIVATS\": ").append(p.obtenirPuntsCarregaPrivats())
-                        .append(",\n");
-                jsonBuilder.append("      \"MAX_VEHICLES\": ").append(p.obtenirCapacitatMaxima()).append("\n");
-            } else {
-                jsonBuilder.append("      \"TIPUS\": \"").append("L").append("\"\n");
+    // 2. Escribir "connexions" (se mantiene igual)
+    jsonBuilder.append("  \"connexions\": [\n");
+    boolean first = true;
+    for (Object obj : connexions) {
+        if (obj instanceof Cami con) {
+            if (!first) {
+                jsonBuilder.append(",\n");
             }
-            jsonBuilder.append("    }").append(i < llocs.size() - 1 ? ",\n" : "\n");
-        }
-        jsonBuilder.append("  ],\n");
-
-        // 2. Escribir "connexions" (se mantiene igual)
-        jsonBuilder.append("  \"connexions\": [\n");
-        boolean first = true;
-        for (Object obj : connexions) {
-            if (obj instanceof Cami con) {
-                if (!first) {
-                    jsonBuilder.append(",\n");
-                }
-                jsonBuilder.append("    {\n");
-                jsonBuilder.append("      \"ORIGEN\": ").append(con.obtenirOrigen().obtenirId()).append(",\n");
-                jsonBuilder.append("      \"DESTI\": ").append(con.obtenirDesti().obtenirId()).append(",\n");
-                jsonBuilder.append("      \"DISTANCIA_KM\": ").append(con.obtenirDistancia()).append(",\n");
-                jsonBuilder.append("      \"TEMPS_MIN\": ").append(con.obtenirTemps()).append("\n");
-                jsonBuilder.append("    }");
-                first = false;
-            } else {
-                System.err.println("⚠️ Objecte no vàlid dins la llista de connexions: " + obj.getClass());
-            }
-        }
-        jsonBuilder.append("\n  ],\n");
-
-        // 3. Escribir "vehicles" (se mantiene igual)
-        jsonBuilder.append("  \"vehicles\": [\n");
-        for (int i = 0; i < vehicles.size(); i++) {
-            Vehicle vehicle = vehicles.get(i);
             jsonBuilder.append("    {\n");
-            jsonBuilder.append("      \"ID\": ").append(vehicle.getId()).append(",\n");
-            jsonBuilder.append("      \"ID_UBICACIO\": ").append(vehicle.getUbicacioActual().obtenirId()).append(",\n");
-            jsonBuilder.append("      \"AUTONOMIA_KM\": ").append(vehicle.AUTONOMIA).append(",\n");
-            jsonBuilder.append("      \"MAX_PASSATGERS\": ").append(vehicle.getMaxPassatgers()).append(",\n");
-            jsonBuilder.append("      \"TEMPS_CARGA_RAPIDA\": ").append(vehicle.TEMPSCARGARAPIDA).append(",\n");
-            jsonBuilder.append("      \"TEMPS_CARGA_LENTA\": ").append(vehicle.TEMPSCARGALENTA).append("\n");
-            jsonBuilder.append("    }").append(i < vehicles.size() - 1 ? ",\n" : "\n");
-        }
-        jsonBuilder.append("  ],\n");
-
-        // 4. Escribir "conductors" (se mantiene igual)
-        jsonBuilder.append("  \"conductors\": [\n");
-        for (int i = 0; i < conductors.size(); i++) {
-            Conductor conductor = conductors.get(i);
-            jsonBuilder.append("    {\n");
-            jsonBuilder.append("      \"ID\": ").append(conductor.getId()).append(",\n");
-            jsonBuilder.append("      \"NOM\": \"").append(conductor.nom).append("\",\n");
-            if (conductor instanceof ConductorPlanificador) {
-                ConductorPlanificador conductorPlan = (ConductorPlanificador) conductor;
-                jsonBuilder.append("      \"TIPUS\": \"").append("planificador").append("\",\n");
-                jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append(",\n");
-                jsonBuilder.append("      \"ID_PARQUING_PRIVAT\": ")
-                        .append(conductorPlan.getParquingPrivat().obtenirId()).append("\n");
-            } else {
-                jsonBuilder.append("      \"TIPUS\": \"").append("vorac").append("\",\n");
-                jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append("\n");
-            }
-            jsonBuilder.append("    }").append(i < conductors.size() - 1 ? ",\n" : "\n");
-        }
-        jsonBuilder.append("  ],\n");
-
-        // 5. Escribir "peticions" (se mantiene igual)
-        jsonBuilder.append("  \"peticions\": [\n");
-        for (int i = 0; i < peticions.size(); i++) {
-            Peticio peticio = peticions.get(i);
-            jsonBuilder.append("    {\n");
-            jsonBuilder.append("      \"ID\": ").append(peticio.obtenirId()).append(",\n");
-            jsonBuilder.append("      \"ORIGEN\": ").append(peticio.obtenirOrigen().obtenirId()).append(",\n");
-            jsonBuilder.append("      \"DESTI\": ").append(peticio.obtenirDesti().obtenirId()).append(",\n");
-            jsonBuilder.append("      \"HORA_MIN_RECOLLIDA\": \"").append(peticio.obtenirHoraMinimaRecollida())
-                    .append("\",\n");
-            jsonBuilder.append("      \"HORA_MAX_ARRIBADA\": \"").append(peticio.obtenirHoraMaximaArribada())
-                    .append("\",\n");
-            jsonBuilder.append("      \"NUM_PASSATGERS\": ").append(peticio.obtenirNumPassatgers()).append(",\n");
-            jsonBuilder.append("      \"VEHICLE_COMPARTIT\": ").append(peticio.esVehicleCompartit()).append("\n");
-            jsonBuilder.append("    }").append(i < peticions.size() - 1 ? ",\n" : "\n");
-        }
-        jsonBuilder.append("  ],\n");
-
-        // 6. Escribir "horaInici" y "horaFinal" (se mantiene igual)
-        jsonBuilder.append("  \"horaInici\": \"08:00\",\n");
-        jsonBuilder.append("  \"horaFinal\": \"20:00\",\n");
-
-        // 8. Escribir "events"
-        jsonBuilder.append("  \"events\": [\n");
-
-// Convert PriorityQueue to a list while preserving order
-        List<Event> eventsList = new ArrayList<>();
-        while (!events.isEmpty()) {
-            eventsList.add(events.poll());
-        }
-
-        for (int i = 0; i < eventsList.size(); i++) {
-            Event event = eventsList.get(i);
-            jsonBuilder.append("    {\n");
-            jsonBuilder.append("      \"temps\": \"").append(event.getTemps()).append("\"");
-
-            // Determinar el tipo de evento y sus campos específicos
-            if (event instanceof MoureVehicleEvent) {
-                MoureVehicleEvent mve = (MoureVehicleEvent) event;
-                jsonBuilder.append(",\n      \"type\": \"MoureVehicle\"");
-                jsonBuilder.append(",\n      \"vehicleId\": ").append(mve.getVehicle().getId());
-                jsonBuilder.append(",\n      \"origenId\": ").append(mve.getOrigen().obtenirId());
-                jsonBuilder.append(",\n      \"destiId\": ").append(mve.getDesti().obtenirId());
-                jsonBuilder.append(",\n      \"distancia\": ").append(mve.getDistancia());
-            } else if (event instanceof IniciRutaEvent) {
-                IniciRutaEvent ire = (IniciRutaEvent) event;
-                jsonBuilder.append(",\n      \"type\": \"IniciRuta\"");
-                jsonBuilder.append(",\n      \"conductorId\": ").append(ire.getConductor().getId());
-                jsonBuilder.append(",\n      \"vehicleId\": ").append(ire.getVehicle().getId());
-                jsonBuilder.append(",\n      \"ruta\": {\n");
-                jsonBuilder.append("        \"llocs\": [");
-                List<Lloc> llocsRuta = ire.getRuta().getLlocs();
-                for (int j = 0; j < llocsRuta.size(); j++) {
-                    jsonBuilder.append(llocsRuta.get(j).obtenirId());
-                    if (j < llocsRuta.size() - 1) {
-                        jsonBuilder.append(", ");
-                    }
-                }
-                jsonBuilder.append("],\n");
-                jsonBuilder.append("        \"distanciaTotal\": ").append(ire.getRuta().obtenirDistanciaTotal()).append(",\n");
-                jsonBuilder.append("        \"tempsTotal\": ").append(ire.getRuta().obtenirTempsTotal()).append(",\n");
-                jsonBuilder.append("        \"horaInici\": \"").append(ire.getRuta().getHoraInici()).append("\",\n");
-                jsonBuilder.append("        \"esRutaCarrega\": ").append(ire.getRuta().isRutaCarrega()).append("\n");
-                jsonBuilder.append("      }");
-            } else if (event instanceof FiRutaEvent) {
-                FiRutaEvent fre = (FiRutaEvent) event;
-                jsonBuilder.append(",\n      \"type\": \"FiRuta\"");
-                jsonBuilder.append(",\n      \"conductorId\": ").append(fre.getConductor().getId());
-            } else if (event instanceof FiCarregaEvent) {
-                FiCarregaEvent fce = (FiCarregaEvent) event;
-                jsonBuilder.append(",\n      \"type\": \"FiCarrega\"");
-                jsonBuilder.append(",\n      \"conductorId\": ").append(fce.getConductor().getId());
-            } else if (event instanceof CarregarBateriaEvent) {
-                CarregarBateriaEvent cbe = (CarregarBateriaEvent) event;
-                jsonBuilder.append(",\n      \"type\": \"CarregarBateria\"");
-                jsonBuilder.append(",\n      \"vehicleId\": ").append(cbe.getVehicle().getId());
-                jsonBuilder.append(",\n      \"duracioCarregaMinuts\": ").append(cbe.getDuracioCarregaMinuts());
-                jsonBuilder.append(",\n      \"conductorId\": ").append(cbe.getConductor().getId());
-            } else if (event instanceof RecollirPassatgersEvent) {
-                RecollirPassatgersEvent rpe = (RecollirPassatgersEvent) event;
-                jsonBuilder.append(",\n      \"type\": \"RecollirPassatgers\"");
-                jsonBuilder.append(",\n      \"conductorId\": ").append(rpe.getConductor().getId());
-                jsonBuilder.append(",\n      \"destiId\": ").append(rpe.getDesti().obtenirId());
-                jsonBuilder.append(",\n      \"passatgersRecollits\": ").append(rpe.getPassatgersRecollits());
-            } else if (event instanceof DeixarPassatgersEvent) {
-                DeixarPassatgersEvent dpe = (DeixarPassatgersEvent) event;
-                jsonBuilder.append(",\n      \"type\": \"DeixarPassatgers\"");
-                jsonBuilder.append(",\n      \"conductorId\": ").append(dpe.getConductor().getId());
-                jsonBuilder.append(",\n      \"destiId\": ").append(dpe.getDesti().obtenirId());
-                jsonBuilder.append(",\n      \"passatgersDeixats\": ").append(dpe.getPassatgersDeixats());
-            }
-
-            jsonBuilder.append("\n    }").append(i < eventsList.size() - 1 ? ",\n" : "\n");
-        }
-        jsonBuilder.append("  ]\n");  // Cierre del array events
-        jsonBuilder.append("}\n");    // Cierre del objeto JSON principal
-
-// Escribir en el archivo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(jsonBuilder.toString());
+            jsonBuilder.append("      \"ORIGEN\": ").append(con.obtenirOrigen().obtenirId()).append(",\n");
+            jsonBuilder.append("      \"DESTI\": ").append(con.obtenirDesti().obtenirId()).append(",\n");
+            jsonBuilder.append("      \"DISTANCIA_KM\": ").append(con.obtenirDistancia()).append(",\n");
+            jsonBuilder.append("      \"TEMPS_MIN\": ").append(con.obtenirTemps()).append("\n");
+            jsonBuilder.append("    }");
+            first = false;
+        } else {
+            System.err.println("⚠️ Objecte no vàlid dins la llista de connexions: " + obj.getClass());
         }
     }
+    jsonBuilder.append("\n  ],\n");
+
+    // 3. Escribir "vehicles" (se mantiene igual)
+    jsonBuilder.append("  \"vehicles\": [\n");
+    for (int i = 0; i < vehicles.size(); i++) {
+        Vehicle vehicle = vehicles.get(i);
+        jsonBuilder.append("    {\n");
+        jsonBuilder.append("      \"ID\": ").append(vehicle.getId()).append(",\n");
+        jsonBuilder.append("      \"ID_UBICACIO\": ").append(vehicle.getUbicacioActual().obtenirId()).append(",\n");
+        jsonBuilder.append("      \"AUTONOMIA_KM\": ").append(vehicle.AUTONOMIA).append(",\n");
+        jsonBuilder.append("      \"MAX_PASSATGERS\": ").append(vehicle.getMaxPassatgers()).append(",\n");
+        jsonBuilder.append("      \"TEMPS_CARGA_RAPIDA\": ").append(vehicle.TEMPSCARGARAPIDA).append(",\n");
+        jsonBuilder.append("      \"TEMPS_CARGA_LENTA\": ").append(vehicle.TEMPSCARGALENTA).append("\n");
+        jsonBuilder.append("    }").append(i < vehicles.size() - 1 ? ",\n" : "\n");
+    }
+    jsonBuilder.append("  ],\n");
+
+    // 4. Escribir "conductors" (se mantiene igual)
+    jsonBuilder.append("  \"conductors\": [\n");
+    for (int i = 0; i < conductors.size(); i++) {
+        Conductor conductor = conductors.get(i);
+        jsonBuilder.append("    {\n");
+        jsonBuilder.append("      \"ID\": ").append(conductor.getId()).append(",\n");
+        jsonBuilder.append("      \"NOM\": \"").append(conductor.nom).append("\",\n");
+        if (conductor instanceof ConductorPlanificador) {
+            ConductorPlanificador conductorPlan = (ConductorPlanificador) conductor;
+            jsonBuilder.append("      \"TIPUS\": \"").append("planificador").append("\",\n");
+            jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append(",\n");
+            jsonBuilder.append("      \"ID_PARQUING_PRIVAT\": ")
+                    .append(conductorPlan.getParquingPrivat().obtenirId()).append("\n");
+        } else {
+            jsonBuilder.append("      \"TIPUS\": \"").append("vorac").append("\",\n");
+            jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append("\n");
+        }
+        jsonBuilder.append("    }").append(i < conductors.size() - 1 ? ",\n" : "\n");
+    }
+    jsonBuilder.append("  ],\n");
+
+    // 5. Escribir "peticions" (se mantiene igual)
+    jsonBuilder.append("  \"peticions\": [\n");
+    for (int i = 0; i < peticions.size(); i++) {
+        Peticio peticio = peticions.get(i);
+        jsonBuilder.append("    {\n");
+        jsonBuilder.append("      \"ID\": ").append(peticio.obtenirId()).append(",\n");
+        jsonBuilder.append("      \"ORIGEN\": ").append(peticio.obtenirOrigen().obtenirId()).append(",\n");
+        jsonBuilder.append("      \"DESTI\": ").append(peticio.obtenirDesti().obtenirId()).append(",\n");
+        jsonBuilder.append("      \"HORA_MIN_RECOLLIDA\": \"").append(peticio.obtenirHoraMinimaRecollida())
+                .append("\",\n");
+        jsonBuilder.append("      \"HORA_MAX_ARRIBADA\": \"").append(peticio.obtenirHoraMaximaArribada())
+                .append("\",\n");
+        jsonBuilder.append("      \"NUM_PASSATGERS\": ").append(peticio.obtenirNumPassatgers()).append(",\n");
+        jsonBuilder.append("      \"VEHICLE_COMPARTIT\": ").append(peticio.esVehicleCompartit()).append("\n");
+        jsonBuilder.append("    }").append(i < peticions.size() - 1 ? ",\n" : "\n");
+    }
+    jsonBuilder.append("  ],\n");
+
+    // 6. Escribir "horaInici" y "horaFinal" (se mantiene igual)
+    jsonBuilder.append("  \"horaInici\": \"08:00\",\n");
+    jsonBuilder.append("  \"horaFinal\": \"20:00\",\n");
+
+    // 7. Escribir "events"
+    jsonBuilder.append("  \"events\": [\n");
+
+    // Convert PriorityQueue to a list while preserving order
+    List<Event> eventsList = new ArrayList<>();
+    while (!events.isEmpty()) {
+        eventsList.add(events.poll());
+    }
+
+    for (int i = 0; i < eventsList.size(); i++) {
+        Event event = eventsList.get(i);
+        jsonBuilder.append("    {\n");
+        jsonBuilder.append("      \"temps\": \"").append(event.getTemps()).append("\"");
+
+        // Determinar el tipo de evento y sus campos específicos
+        if (event instanceof MoureVehicleEvent) {
+            MoureVehicleEvent mve = (MoureVehicleEvent) event;
+            jsonBuilder.append(",\n      \"type\": \"MoureVehicle\"");
+            jsonBuilder.append(",\n      \"vehicleId\": ").append(mve.getVehicle().getId());
+            jsonBuilder.append(",\n      \"origenId\": ").append(mve.getOrigen().obtenirId());
+            jsonBuilder.append(",\n      \"destiId\": ").append(mve.getDesti().obtenirId());
+            jsonBuilder.append(",\n      \"distancia\": ").append(mve.getDistancia());
+        } else if (event instanceof IniciRutaEvent) {
+            IniciRutaEvent ire = (IniciRutaEvent) event;
+            jsonBuilder.append(",\n      \"type\": \"IniciRuta\"");
+            jsonBuilder.append(",\n      \"conductorId\": ").append(ire.getConductor().getId());
+            jsonBuilder.append(",\n      \"vehicleId\": ").append(ire.getVehicle().getId());
+            jsonBuilder.append(",\n      \"ruta\": {\n");
+            jsonBuilder.append("        \"llocs\": [");
+            List<Lloc> llocsRuta = ire.getRuta().getLlocs();
+            for (int j = 0; j < llocsRuta.size(); j++) {
+                jsonBuilder.append(llocsRuta.get(j).obtenirId());
+                if (j < llocsRuta.size() - 1) {
+                    jsonBuilder.append(", ");
+                }
+            }
+            jsonBuilder.append("],\n");
+            jsonBuilder.append("        \"distanciaTotal\": ").append(ire.getRuta().obtenirDistanciaTotal()).append(",\n");
+            jsonBuilder.append("        \"tempsTotal\": ").append(ire.getRuta().obtenirTempsTotal()).append(",\n");
+            jsonBuilder.append("        \"horaInici\": \"").append(ire.getRuta().getHoraInici()).append("\",\n");
+            jsonBuilder.append("        \"esRutaCarrega\": ").append(ire.getRuta().isRutaCarrega()).append("\n");
+            jsonBuilder.append("      }");
+        } else if (event instanceof FiRutaEvent) {
+            FiRutaEvent fre = (FiRutaEvent) event;
+            jsonBuilder.append(",\n      \"type\": \"FiRuta\"");
+            jsonBuilder.append(",\n      \"conductorId\": ").append(fre.getConductor().getId());
+        } else if (event instanceof FiCarregaEvent) {
+            FiCarregaEvent fce = (FiCarregaEvent) event;
+            jsonBuilder.append(",\n      \"type\": \"FiCarrega\"");
+            jsonBuilder.append(",\n      \"conductorId\": ").append(fce.getConductor().getId());
+        } else if (event instanceof CarregarBateriaEvent) {
+            CarregarBateriaEvent cbe = (CarregarBateriaEvent) event;
+            jsonBuilder.append(",\n      \"type\": \"CarregarBateria\"");
+            jsonBuilder.append(",\n      \"vehicleId\": ").append(cbe.getVehicle().getId());
+            jsonBuilder.append(",\n      \"duracioCarregaMinuts\": ").append(cbe.getDuracioCarregaMinuts());
+            jsonBuilder.append(",\n      \"conductorId\": ").append(cbe.getConductor().getId());
+        } else if (event instanceof RecollirPassatgersEvent) {
+            RecollirPassatgersEvent rpe = (RecollirPassatgersEvent) event;
+            jsonBuilder.append(",\n      \"type\": \"RecollirPassatgers\"");
+            jsonBuilder.append(",\n      \"conductorId\": ").append(rpe.getConductor().getId());
+            jsonBuilder.append(",\n      \"destiId\": ").append(rpe.getDesti().obtenirId());
+            jsonBuilder.append(",\n      \"passatgersRecollits\": ").append(rpe.getPassatgersRecollits());
+        } else if (event instanceof DeixarPassatgersEvent) {
+            DeixarPassatgersEvent dpe = (DeixarPassatgersEvent) event;
+            jsonBuilder.append(",\n      \"type\": \"DeixarPassatgers\"");
+            jsonBuilder.append(",\n      \"conductorId\": ").append(dpe.getConductor().getId());
+            jsonBuilder.append(",\n      \"destiId\": ").append(dpe.getDesti().obtenirId());
+            jsonBuilder.append(",\n      \"passatgersDeixats\": ").append(dpe.getPassatgersDeixats());
+        }
+
+        jsonBuilder.append("\n    }").append(i < eventsList.size() - 1 ? ",\n" : "\n");
+    }
+    jsonBuilder.append("  ],\n");  // Cierre del array events
+    
+    // 8. Escribir estadísticas
+    jsonBuilder.append("  \"estadisticas\": [\n");
+    jsonBuilder.append(crearBloqueEstadisticas(estadistiques));
+    jsonBuilder.append("\n  ]\n"); // Cierre del array estadisticas
+    
+    jsonBuilder.append("}\n");    // Cierre del objeto JSON principal
+
+    // Escribir en el archivo
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+        writer.write(jsonBuilder.toString());
+    }
+}
 
     /**
      * Carrega les peticions des d’un fitxer JSON amb format específic.
      *
-     * Cada petició ha de contenir els camps: ID, ORIGEN, DESTI, HORA_MIN_RECOLLIDA,
-     * HORA_MAX_ARRIBADA, NUM_PASSATGERS i VEHICLE_COMPARTIT.
+     * Cada petició ha de contenir els camps: ID, ORIGEN, DESTI,
+     * HORA_MIN_RECOLLIDA, HORA_MAX_ARRIBADA, NUM_PASSATGERS i
+     * VEHICLE_COMPARTIT.
      *
-     * Els camps d'ORIGEN i DESTI són IDs que es resolen a objectes Lloc mitjançant el mapa proporcionat.
+     * Els camps d'ORIGEN i DESTI són IDs que es resolen a objectes Lloc
+     * mitjançant el mapa proporcionat.
      *
      * @param pathFitxer Ruta del fitxer JSON que conté les peticions.
      * @param llocsPerId Mapa d'objectes Lloc indexats pel seu ID.
@@ -1051,58 +1084,56 @@ public class LectorJSON {
     }
 
     /**
-     * Escriu un bloc d’estadístiques dins d’un fitxer JSON. Si el fitxer ja existeix, 
-     * afegeix la nova entrada a l’array existent. Si no existeix, el crea.
+     * Escriu un bloc d’estadístiques dins d’un fitxer JSON. Si el fitxer ja
+     * existeix, afegeix la nova entrada a l’array existent. Si no existeix, el
+     * crea.
      *
-     * El bloc s'afegeix dins d'una clau \"estadisticas\", que conté una llista de registres.
+     * El bloc s'afegeix dins d'una clau \"estadisticas\", que conté una llista
+     * de registres.
      *
-     * @param absolutePath Ruta absoluta del fitxer JSON on s’escriuran les estadístiques.
-     * @param estadistiques Objecte Estadistiques que es vol serialitzar i escriure.
+     * @param absolutePath Ruta absoluta del fitxer JSON on s’escriuran les
+     * estadístiques.
+     * @param estadistiques Objecte Estadistiques que es vol serialitzar i
+     * escriure.
      */
     public static void writeEstadistiques(String absolutePath, Estadistiques estadistiques) {
         try {
-            Path path;
-            path = Paths.get(absolutePath);
+            Path path = Paths.get(absolutePath);
             String jsonContent;
 
-            // Comprovem si el fitxer existeix
+            // 1. Comprovem si el fitxer existeix
             boolean fileExists = Files.exists(path);
 
             if (fileExists) {
-                // Llegim el contingut existent
                 jsonContent = new String(Files.readAllBytes(path));
 
-                // Patró per trobar l'array d'estadístiques
-                Pattern pattern = Pattern.compile("(\"estadisticas\"\\s*:\\s*\\[)(.*?)(\\])", Pattern.DOTALL);
-                Matcher matcher = pattern.matcher(jsonContent);
-
-                if (matcher.find()) {
-                    // Preparem el nou bloc d'estadístiques
-                    String newStat = crearBloqueEstadisticas(estadistiques);
-
-                    // Afegim la nova estadística a l'array existent
-                    String updatedContent;
-                    if (matcher.group(2).trim().isEmpty()) {
-                        updatedContent = matcher.group(1) + newStat + matcher.group(3);
-                    } else {
-                        updatedContent = matcher.group(1) + matcher.group(2) + ",\n" + newStat + matcher.group(3);
-                    }
-
-                    jsonContent = matcher.replaceFirst(updatedContent);
-                } else {
-                    // Si no existeix la secció d'estadístiques, la creem
-                    jsonContent = jsonContent.replaceFirst(
-                            "\\}",
-                            ",\n\"estadisticas\": [\n" + crearBloqueEstadisticas(estadistiques) + "\n]\n}"
-                    );
-                }
+                // 2. Neteja del JSON existent (elimina possibles estadístiques mal ubicades)
+                jsonContent = jsonContent.replaceAll(
+                        "(?s)\"estadisticas\"\\s*:\\s*\\[.*?\\](,?)",
+                        ""
+                );
             } else {
-                // Creem un nou fitxer JSON amb les estadístiques
-                jsonContent = "{\n\"estadisticas\": [\n" + crearBloqueEstadisticas(estadistiques) + "\n]\n}";
+                jsonContent = "{}"; // JSON buit si no existeix
             }
 
-            // Escrivim el contingut actualitzat al fitxer
-            Files.write(path, jsonContent.getBytes());
+            // 3. Preparem el nou bloc d'estadístiques
+            String newStatsBlock = "\"estadisticas\": [\n"
+                    + crearBloqueEstadisticas(estadistiques) + "\n]";
+
+            // 4. Inserció al lloc correcte (arrel del JSON)
+            if (jsonContent.trim().equals("{}")) {
+                jsonContent = "{\n" + newStatsBlock + "\n}";
+            } else {
+                // Inserim abans del tancament de l'arrel
+                jsonContent = jsonContent.replaceFirst(
+                        "(?s)(\\s*)(\\})(.*)",
+                        "$1" + newStatsBlock + "\n$2$3"
+                );
+            }
+
+            // 5. Escrivim el fitxer
+            Files.write(path, jsonContent.getBytes(), StandardOpenOption.CREATE,
+                    StandardOpenOption.TRUNCATE_EXISTING);
 
         } catch (IOException e) {
             System.err.println("Error en escriure les estadístiques: " + e.getMessage());
@@ -1111,17 +1142,18 @@ public class LectorJSON {
     }
 
 // Mètode auxiliar per crear el bloc JSON d'estadístiques
-
     /**
-     * Genera un bloc de text en format JSON amb les dades d’estadístiques proporcionades.
+     * Genera un bloc de text en format JSON amb les dades d’estadístiques
+     * proporcionades.
      *
-     * Aquest bloc representa un registre d’estadístiques que pot ser afegit dins
-     * d’un array JSON sota la clau "estadisticas".
+     * Aquest bloc representa un registre d’estadístiques que pot ser afegit
+     * dins d’un array JSON sota la clau "estadisticas".
      *
      * @param estadistiques Objecte Estadistiques amb les dades a serialitzar.
-     * @return Una cadena de text formatada com a bloc JSON amb les estadístiques.
+     * @return Una cadena de text formatada com a bloc JSON amb les
+     * estadístiques.
      */
-    private static String crearBloqueEstadisticas(Estadistiques estadistiques) {
+    private static String crearBloqueEstadisticas(Estadistiques stats) {
         return String.format(
                 "  {\n"
                 + "    \"peticionesServidas\": %d,\n"
@@ -1135,16 +1167,16 @@ public class LectorJSON {
                 + "    \"tiempoTotalViaje\": %.2f,\n"
                 + "    \"muestrasViaje\": %d\n"
                 + "  }",
-                estadistiques.getPeticionesServidas(),
-                estadistiques.getPeticionesNoServidas(),
-                estadistiques.getTiempoEsperaPromedio(),
-                estadistiques.getTiempoMaximoEspera(),
-                estadistiques.getOcupacionPromedioVehiculos(),
-                estadistiques.getMuestrasOcupacion(),
-                estadistiques.getPorcentajeBateriaPromedio(),
-                estadistiques.getMuestrasBateria(),
-                estadistiques.getTiempoViajePromedio(),
-                estadistiques.getMuestrasViaje()
+                stats.getPeticionesServidas(),
+                stats.getPeticionesNoServidas(),
+                stats.getTiempoEsperaPromedio(),
+                stats.getTiempoMaximoEspera(),
+                stats.getOcupacionPromedioVehiculos(),
+                stats.getMuestrasOcupacion(),
+                stats.getPorcentajeBateriaPromedio(),
+                stats.getMuestrasBateria(),
+                stats.getTiempoViajePromedio(),
+                stats.getMuestrasViaje()
         );
     }
 

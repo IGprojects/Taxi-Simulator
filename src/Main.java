@@ -28,6 +28,7 @@ import core.Optimitzador;
 import core.Peticio;
 import core.Simulador;
 import core.Vehicle;
+import events.Event;
 import views.EstadistiquesPanel;
 import views.LegendPanel;
 import views.MapPanel;
@@ -77,7 +78,7 @@ public class Main {
      * @param horaFinal
      */
     public static void inicialitzar(File llocsFile, File connexionsFile, File vehiclesFile, File conductorsFile,
-            File peticionsFile, File jsonFile, LocalTime horaInici, LocalTime horaFinal,File EstadisticFile) {
+            File peticionsFile, File jsonFile, LocalTime horaInici, LocalTime horaFinal, File EstadisticFile) {
         List<Lloc> llocs = LectorCSV.carregarLlocs(llocsFile.getAbsolutePath());
         Map<Integer, Lloc> llocsPerId = new HashMap<>();
         for (Lloc l : llocs) {
@@ -106,14 +107,14 @@ public class Main {
         Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors,
                 peticions);
 
-        mostrarMapa(mapa, simulador, vehicles, llocs, false, jsonFile,EstadisticFile);
+        mostrarMapa(mapa, simulador, vehicles, llocs, true, jsonFile, EstadisticFile);
     }
 
     /**
      * @pre cert
      * @post Inicialitza la simulació a partir d'una simulació guardada
      */
-    public static void inicialitzarSimulacioGuardada(File SimulacioFile,File EstadisticFile) {
+    public static void inicialitzarSimulacioGuardada(File SimulacioFile, File EstadisticFile) {
         List<Lloc> llocs = LectorJSON.carregarLlocs(SimulacioFile.getAbsolutePath());
         Map<Integer, Lloc> llocsPerId = new HashMap<>();
         for (Lloc l : llocs) {
@@ -151,15 +152,15 @@ public class Main {
         // CONSTRUCTOR PER SIMULADOR PER AFEGIR DES DE EL INICI TOTS ELS EVENTS QUE HA
         // DE FER
         List<Peticio> peticions = LectorJSON.carregarPeticions(SimulacioFile.getAbsolutePath(), llocsPerId);
-    //    System.out.println(".()" + vehiclesPerId.size() + "--------------------------dwqdwq-------------------");
-  //      System.out.println(".()" + peticions.size() + "--------------------------PET-------------------");
+        System.out.println(".()" + vehiclesPerId.size() + "--------------------------dwqdwq-------------------");
+        System.out.println(".()" + peticions.size() + "--------------------------PET-------------------");
         Map<Integer, Conductor> conductorsID = LectorJSON.convertirLlistaAMap_Conductors(conductors);
-//        System.out.println(".()" + conductorsID.size() + "--------------------------dwqdwq-------------------");
+        System.out.println(".()" + conductorsID.size() + "--------------------------dwqdwq-------------------");
 
-        //List<Event> llistaEvents = LectorJSON.carregarEvents(SimulacioFile.getAbsolutePath(), vehiclesPerId, conductorsID, llocsPerId);
-        //System.out.println(".()" + llistaEvents.size() + "--------------------------ever-------------------");
+        List<Event> llistaEvents = LectorJSON.carregarEvents(SimulacioFile.getAbsolutePath(), vehiclesPerId, conductorsID, llocsPerId);
+        System.out.println(".()" + llistaEvents.size() + "--------------------------ever-------------------");
         Simulador simulador = new Simulador(horaInici, horaFinal, mapa, vehicles, conductors, peticions);
-        //simulador.setEsdeviments(llistaEvents);
+        simulador.setEsdeviments(llistaEvents);
         if (estadistiqueses_Llegides.isEmpty()) {
             simulador.setEstadistiques(new Estadistiques());
 
@@ -167,7 +168,7 @@ public class Main {
             simulador.setEstadistiques(estadistiqueses_Llegides.get(0));
 
         }
-        mostrarMapa(mapa, simulador, vehicles, llocs, true, SimulacioFile,EstadisticFile);
+        mostrarMapa(mapa, simulador, vehicles, llocs, false, SimulacioFile, EstadisticFile);
     }
 
     /**
@@ -181,10 +182,10 @@ public class Main {
                 @Override
                 public void onDadesCompletades(File llocsFile, File connexionsFile, File vehiclesFile,
                         File conductorsFile, File peticionsFile, File JsonFile,
-                        LocalTime horaInici, LocalTime horaFinal,File EstadisticaFile) {
+                        LocalTime horaInici, LocalTime horaFinal, File EstadisticaFile) {
                     try {
                         inicialitzar(llocsFile, connexionsFile, vehiclesFile, conductorsFile, peticionsFile, JsonFile,
-                                horaInici, horaFinal,EstadisticaFile);
+                                horaInici, horaFinal, EstadisticaFile);
                     } catch (Exception e) {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(null, "Error carregant fitxers: " + e.getMessage());
@@ -194,7 +195,7 @@ public class Main {
                 @Override
                 public void onSimulacioJsonSeleccionat(File simulacioJson) {
                     try {
-                        inicialitzarSimulacioGuardada(simulacioJson,null);
+                        inicialitzarSimulacioGuardada(simulacioJson, null);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -260,7 +261,7 @@ public class Main {
      * @param llocs
      */
     private static void mostrarMapa(Mapa mapa, Simulador simulador, List<Vehicle> vehicles, List<Lloc> llocs,
-            boolean simulacioReal, File jsonFile,File EstadisticFile) {
+            boolean simulacioReal, File jsonFile, File EstadisticFile) {
         JFrame frame = new JFrame("Visualització del Mapa");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
@@ -308,7 +309,7 @@ public class Main {
         }
         if (simulacioReal) {
             startButton.addActionListener(e -> {
-                simulador.iniciar(jsonFile,EstadisticFile);
+                simulador.iniciar(jsonFile, EstadisticFile);
             });
         } else {
             startButton.addActionListener(e -> {
