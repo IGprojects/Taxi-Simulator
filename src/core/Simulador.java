@@ -447,14 +447,17 @@ public class Simulador {
             System.out.println("------------------");
             System.out.println("Estadistiques:");
             System.out.println(this.estadistiques.toString());
-            mostrarDialogEstadistiques();
+
+            mostrarDialogEstadistiques(!horaActual.isBefore(horaFi));
             LectorJSON escritorJSON = new LectorJSON();
 
             List<Lloc> listDeLlocs = new ArrayList<>(mapa.getLlocs().keySet());
             List<Cami> listCami = mapa.obtenirTotsElsCamins();
 
             if (guardarDades) {
-                escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.peticions, this.estadistiques, this.esdeveniments, jsonFile.getAbsolutePath());
+                if (jsonFile != null) {
+                    escritorJSON.writeJsonFile(this.conductors, this.vehicles, listDeLlocs, listCami, this.peticions, this.estadistiques, this.esdeveniments, jsonFile.getAbsolutePath());
+                }
             }
             System.out.println("Simulació finalitzada.");
         } catch (IOException ex) {
@@ -527,9 +530,16 @@ public class Simulador {
     /**
      * Mostra un diàleg amb les estadístiques de la simulació.
      */
-    private void mostrarDialogEstadistiques() {
+    private void mostrarDialogEstadistiques(boolean finalitzacioPertemps) {
         // Crear un JDialog modal
-        JDialog dialog = new JDialog((Frame) null, "Estadístiques de la Simulació", true);
+        JDialog dialog;
+        if (finalitzacioPertemps) {
+            dialog = new JDialog((Frame) null, "Estadístiques de la Simulació - " + " Simulacio Finalitzada s'ha arribat a la hora final", true);
+
+        } else {
+            dialog = new JDialog((Frame) null, "Estadístiques de la Simulació - " + " Simulacio Finalitzada no hi han més peticions per servir", true);
+
+        }
         dialog.setLayout(new BorderLayout());
         dialog.setSize(500, 400);
         dialog.setLocationRelativeTo(null); // Centrar en pantalla
@@ -584,9 +594,10 @@ public class Simulador {
         sb.append("Temps maxim d'espera -> ").append(this.estadistiques.getTiempoMaximoEspera()).append("\n\n");
 
         sb.append("--- Vehicles ---\n");
-        sb.append(String.format("Mitjana del percentatge d’ocupaci´o dels vehicles -> ",
-                this.estadistiques.getOcupacionPromedioVehiculos()));
+        sb.append(String.format("Mitjana del percentatge d’ocupació dels vehicles -> ", this.estadistiques.getOcupacionPromedioVehiculos()) + "\n\n");
         sb.append(String.format("Mitjana del temps dels viatges -> ", this.estadistiques.getTiempoViajePromedio()));
+        sb.append(String.format("Bateria Promig -> ", this.estadistiques.getPorcentajeBateriaPromedio()));
+
         sb.append("\n");
 
         return sb.toString();
