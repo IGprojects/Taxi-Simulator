@@ -1,15 +1,15 @@
 package views;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
+import java.util.stream.Collectors;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -17,122 +17,102 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import core.Vehicle;
-
 /**
  * @class VehiclesComparisonPanel
- * @brief Panell gràfic que mostra una comparació entre tots els vehicles i els vehicles redundants.
- * @details Permet veure quins vehicles són considerats innecessaris segons la seva contribució al servei.
- * 
- * @author Grup b9
- * @version 2025.03.04
+ * @brief Panell gràfic que mostra una comparació entre conductors actius i redundants.
+ * @details A l'esquerra es mostren conductors amb almenys una petició servida, i a la dreta els que no n'han servit cap.
+ * @author Ignasi Ferres Iglesias
  */
 public class VehiclesComparisonPanel extends JPanel {
 
     /**
-     * @brief Constructor del panell de comparació de vehicles.
-     * 
-     * @param vehiclesTotals Llista de tots els vehicles disponibles.
-     * @param vehiclesRedundants Llista de vehicles identificats com a redundants.
+     * @brief Constructor que construeix el panell segons les dades de peticions per conductor.
+     * @param conductorsRedundants Map on la clau és l'ID del conductor i el valor el nombre de peticions servides.
      */
-    public VehiclesComparisonPanel(List<Vehicle> vehiclesTotals, List<Vehicle> vehiclesRedundants) {
+    public VehiclesComparisonPanel(Map<Integer, Integer> conductorsRedundants) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Títol del panell
+        // Títol
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
-        JLabel titleLabel = new JLabel("Comparació de Vehicles", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Comparació de Conductors", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         add(titleLabel, gbc);
         gbc.gridwidth = 1;
 
-        // Subtítol per a la llista de tots els vehicles
+        // Labels
         gbc.gridx = 0;
         gbc.gridy = 1;
-        JLabel totalLabel = new JLabel("Tots els Vehicles", SwingConstants.CENTER);
-        totalLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        add(totalLabel, gbc);
+        JLabel actiusLabel = new JLabel("Conductors Actius", SwingConstants.CENTER);
+        actiusLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        add(actiusLabel, gbc);
 
-        // Subtítol per a la llista de vehicles redundants
         gbc.gridx = 1;
         gbc.gridy = 1;
-        JLabel redundantLabel = new JLabel("Vehicles Redundants", SwingConstants.CENTER);
-        redundantLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        add(redundantLabel, gbc);
+        JLabel redundantsLabel = new JLabel("Conductors Redundants", SwingConstants.CENTER);
+        redundantsLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        add(redundantsLabel, gbc);
 
-        // Llista de tots els vehicles
+        // Separació de dades
+        List<String> actius = conductorsRedundants.entrySet().stream()
+            .filter(e -> e.getValue() > 0)
+            .map(e -> String.format("Conductor %d - %d peticions", e.getKey(), e.getValue()))
+            .collect(Collectors.toList());
+
+        List<String> redundants = conductorsRedundants.entrySet().stream()
+            .filter(e -> e.getValue() == 0)
+            .map(e -> String.format("Conductor %d - 0 peticions", e.getKey()))
+            .collect(Collectors.toList());
+
+        // Llistes
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.5;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
-        JList<Vehicle> totalList = new JList<>(new Vector<>(vehiclesTotals));
-        totalList.setCellRenderer(new VehicleListRenderer());
-        JScrollPane totalScrollPane = new JScrollPane(totalList);
-        totalScrollPane.setPreferredSize(new Dimension(300, 400));
-        add(totalScrollPane, gbc);
+        JList<String> actiusList = new JList<>(new Vector<>(actius));
+        JScrollPane scrollActius = new JScrollPane(actiusList);
+        scrollActius.setPreferredSize(new Dimension(300, 400));
+        add(scrollActius, gbc);
 
-        // Llista de vehicles redundants
         gbc.gridx = 1;
         gbc.gridy = 2;
-        JList<Vehicle> redundantList = new JList<>(new Vector<>(vehiclesRedundants));
-        redundantList.setCellRenderer(new VehicleListRenderer());
-        JScrollPane redundantScrollPane = new JScrollPane(redundantList);
-        redundantScrollPane.setPreferredSize(new Dimension(300, 400));
-        add(redundantScrollPane, gbc);
+        JList<String> redundantsList = new JList<>(new Vector<>(redundants));
+        JScrollPane scrollRedundants = new JScrollPane(redundantsList);
+        scrollRedundants.setPreferredSize(new Dimension(300, 400));
+        add(scrollRedundants, gbc);
 
-        // Informació resumida amb comptadors
+        // Resum
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         JLabel countLabel = new JLabel(
-            String.format("Total vehicles: %d | Vehicles redundants: %d (%.1f%%)",
-                vehiclesTotals.size(),
-                vehiclesRedundants.size(),
-                vehiclesTotals.isEmpty() ? 0 : (100.0 * vehiclesRedundants.size() / vehiclesTotals.size())),
+            String.format("Total conductors: %d | Redundants: %d (%.1f%%)",
+                conductorsRedundants.size(),
+                redundants.size(),
+                conductorsRedundants.isEmpty() ? 0 : (100.0 * redundants.size() / conductorsRedundants.size())
+            ),
             SwingConstants.CENTER
         );
         add(countLabel, gbc);
     }
 
     /**
-     * @class VehicleListRenderer
-     * @brief Renderer personalitzat per mostrar informació detallada dels vehicles a les llistes.
+     * @brief Mètode per mostrar la comparació de conductors en una finestra separada.
+     * @param conductorsRedundants Map amb ID de conductor i peticions fetes.
      */
-    private static class VehicleListRenderer extends DefaultListCellRenderer {
-        @Override
-        public Component getListCellRendererComponent(JList<?> list, Object value, int index, 
-                                                      boolean isSelected, boolean cellHasFocus) {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            if (value instanceof Vehicle) {
-                Vehicle vehicle = (Vehicle) value;
-                setText(String.format("Vehicle %d - %s (Autonomia: %d km)", 
-                    vehicle.getId(), 
-                    vehicle.getUbicacioActual().obtenirId(), 
-                    vehicle.getAutonomia()));
-            }
-            return this;
-        }
-    }
-
-    /**
-     * @brief Mètode per mostrar la comparació de vehicles en una finestra separada.
-     * 
-     * @param vehiclesTotals Llista de tots els vehicles.
-     * @param vehiclesRedundants Llista de vehicles considerats com a redundants.
-     */
-    public static void mostrarComparacio(List<Vehicle> vehiclesTotals, List<Vehicle> vehiclesRedundants) {
-        JFrame frame = new JFrame("Comparació de Vehicles");
+    public static void mostrarComparacio(Map<Integer, Integer> conductorsRedundants) {
+        JFrame frame = new JFrame("Comparació de Conductors");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
-        
-        VehiclesComparisonPanel panel = new VehiclesComparisonPanel(vehiclesTotals, vehiclesRedundants);
+
+        VehiclesComparisonPanel panel = new VehiclesComparisonPanel(conductorsRedundants);
         frame.add(panel);
         frame.setVisible(true);
     }

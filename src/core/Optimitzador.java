@@ -1,9 +1,12 @@
 package core;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import events.Event;
 
 /**
  * @class Optimitzador
@@ -31,34 +34,25 @@ public class Optimitzador {
      * empitjorar el servei.
      *
      * @param jsonFile Fitxer JSON amb la configuració de la simulació.
-     * @param vehiclesTotals Llista completa de vehicles.
      * @return Llista de vehicles considerats redundants.
      */
-    public List<Vehicle> obtenirVehiclesRedundants(File jsonFile, List<Vehicle> vehiclesTotals) {
-        List<Vehicle> redundants = new ArrayList<>();
-        List<Vehicle> copiaOriginal = new ArrayList<>(vehiclesTotals); // Còpia de seguretat
+    public Map<Integer, Integer> obtenirConductorsRedundants(File JsonFile) throws IOException {
+        Map<Integer, Integer> vegadesUsat = new HashMap<>();
 
-        // 1. Obtenir el nombre base de peticions no servides amb tots els vehicles
-        Simulador simuladorCompleto = new Simulador(jsonFile, new ArrayList<>(vehiclesTotals));
-        simuladorCompleto.iniciar(jsonFile,null);
-        int peticionsNoServidesCompletes = simuladorCompleto.obtenirPeticionsNoServides();
+        Map<Integer, Lloc> llocsID = LectorJSON.convertirLlistaAMap_Llocs(LectorJSON.carregarLlocs(JsonFile.getAbsolutePath()));
+        Map<Integer, Vehicle> vehiclesPerId = LectorJSON.convertirLlistaAMap_Vehicles(LectorJSON.carregarVehicles(JsonFile.getAbsolutePath(), llocsID));
+        List<Conductor> conductorsTotals = LectorJSON.carregarConductors(JsonFile.getAbsolutePath(), vehiclesPerId, llocsID);
 
-        // 2. Avaluar cada vehicle individualment
-        for (Vehicle vehicle : copiaOriginal) {
-            List<Vehicle> vehiclesProva = new ArrayList<>(copiaOriginal);
-            vehiclesProva.remove(vehicle);
+        // Obtenim els events
+        List<Event> LlistaEventsExec = LectorJSON.carregarEvents2(JsonFile.getAbsolutePath(), vehiclesPerId, LectorJSON.convertirLlistaAMap_Conductors(conductorsTotals), llocsID);
 
-            Simulador simuladorProva = new Simulador(jsonFile, vehiclesProva);
-            simuladorProva.iniciar(jsonFile,null);
-            int peticionsNoServidesProva = simuladorProva.obtenirPeticionsNoServides();
+        // Obtenim conductors que no han deixat passatgers
+        vegadesUsat = LectorJSON.obtenirUsDeixarPassatgersPerConductor(LlistaEventsExec, conductorsTotals);
 
-            // Si eliminar el vehicle no empitjora el servei, és redundant
-            if (peticionsNoServidesProva <= peticionsNoServidesCompletes) {
-                redundants.add(vehicle);
-            }
-        }
+        // Imprimim per verificar
+        System.out.println("Conductors redundants (sense deixar passatgers): " + vegadesUsat.keySet());
 
-        return redundants;
+        return vegadesUsat;
     }
 
     /**
@@ -74,11 +68,21 @@ public class Optimitzador {
      * @return Map amb identificadors de punts de càrrega i el nombre de vegades
      * que s'han utilitzat.
      */
-    public Map<Integer, Integer> obtenirPuntsCarregaRedundants(File JsonFile) {
-        Map<Integer, Integer> vegadesUsat;
+    public Map<Integer, Integer> obtenirPuntsCarregaRedundants(File JsonFile) throws IOException {
+        Map<Integer, Integer> vegadesUsat = new HashMap<>();
+        Map<Integer, Lloc> llocsID = LectorJSON.convertirLlistaAMap_Llocs(LectorJSON.carregarLlocs(JsonFile.getAbsolutePath()));
+        Map<Integer, Vehicle> vehiclesPerId = LectorJSON.convertirLlistaAMap_Vehicles(LectorJSON.carregarVehicles(JsonFile.getAbsolutePath(), llocsID));
+        List<Conductor> conductorsTotals = LectorJSON.carregarConductors(JsonFile.getAbsolutePath(), vehiclesPerId, llocsID);
+        List< Lloc> llocs = LectorJSON.carregarLlocs(JsonFile.getAbsolutePath());
 
-        Simulador simuladorComplet = new Simulador(JsonFile, null);
-        vegadesUsat = simuladorComplet.iniciarOptimitzacioPuntsCarrega(JsonFile);
+        // Obtenim els events
+        List<Event> LlistaEventsExec = LectorJSON.carregarEvents2(JsonFile.getAbsolutePath(), vehiclesPerId, LectorJSON.convertirLlistaAMap_Conductors(conductorsTotals), llocsID);
+
+        // Obtenim conductors que no han deixat passatgers
+        vegadesUsat = LectorJSON.obtenirUsosPuntsCarrega(LlistaEventsExec, llocs);
+
+        // Imprimim per verificar
+        System.out.println("Punts de carrega redundants : " + vegadesUsat.keySet());
 
         return vegadesUsat;
     }

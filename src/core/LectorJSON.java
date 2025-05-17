@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -44,6 +45,7 @@ public class LectorJSON {
      * @return Un mapa amb les parelles ID -> Lloc corresponents.
      */
     public static Map<Integer, Lloc> convertirLlistaAMap_Llocs(List<Lloc> llocs) {
+
         return llocs.stream()
                 .collect(Collectors.toMap(
                         Lloc::obtenirId, // Función para extraer la clave (ID)
@@ -465,8 +467,8 @@ public class LectorJSON {
         List<Event> events = new ArrayList<>();
         String jsonContent = llegirFitxerComplet(pathFitxer);
 
-        // Patrón mejorado para extraer el array de eventos completo
-        Pattern arrayPattern = Pattern.compile("\"events\"\\s*:\\s*\\[(.*?)\\]", Pattern.DOTALL);
+        // Patrón para extraer el array completo de eventos
+        Pattern arrayPattern = Pattern.compile("\"events\"\\s*:\\s*\\[([\\s\\S]*?)\\](?=\\s*[,\\}])");
         Matcher arrayMatcher = arrayPattern.matcher(jsonContent);
 
         if (!arrayMatcher.find()) {
@@ -476,12 +478,11 @@ public class LectorJSON {
 
         String eventsContent = arrayMatcher.group(1);
 
-        // Patrón para cada evento individual
+        // Patrón mejorado para extraer cada evento individual, incluyendo objetos anidados
         Pattern eventPattern = Pattern.compile(
                 "\\{\\s*\"temps\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
                 + "\"type\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
-                + "(.*?)\\s*\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)",
-                Pattern.DOTALL);
+                + "([\\s\\S]*?)\\s*\\}(?=\\s*,\\s*\\{|\\s*\\]\\s*$)");
 
         Matcher matcher = eventPattern.matcher(eventsContent);
 
@@ -491,7 +492,7 @@ public class LectorJSON {
                 String eventType = matcher.group(2);
                 String eventData = matcher.group(3).trim();
 
-                System.out.println("Procesando evento tipo: " + eventType + " con datos: " + eventData);
+                System.out.println("Procesando evento tipo: " + eventType);
 
                 Event event = crearEventFromData(eventType, temps, eventData,
                         vehiclesPerId, conductorsPerId, llocsPerId);
@@ -508,6 +509,114 @@ public class LectorJSON {
         return events;
     }
 
+    public static String extraerCampo(String json, String campo) {
+        Pattern p = Pattern.compile("\"" + campo + "\"\\s*:\\s*\"?([^\",\\}\\{]+)\"?");
+        Matcher m = p.matcher(json);
+        return m.find() ? m.group(1) : null;
+    }
+
+    public static List<Event> carregarEvents2(String nomFitxer,
+            Map<Integer, Vehicle> vehiclesPerId,
+            Map<Integer, Conductor> conductorsPerId,
+            Map<Integer, Lloc> llocsPerId) {
+
+        List<Event> events = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(nomFitxer))) {
+            StringBuilder contingut = new StringBuilder();
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                contingut.append(linea);
+            }
+
+            // Buscar la secció "events": [ ... ] (amb DOTALL per incloure múltiples línies)
+            Pattern eventsPattern = Pattern.compile("\"events\"\\s*:\\s*\\[(.*?)]\\s*}", Pattern.DOTALL);
+            Matcher eventsMatcher = eventsPattern.matcher(contingut.toString());
+
+            if (!eventsMatcher.find()) {
+                System.err.println("No s'ha trobat la secció d'events.");
+                return events;
+            }
+
+            String eventsContent = eventsMatcher.group(1);
+
+            // Buscar cada objecte JSON dins l'array
+            Pattern eventPattern = Pattern.compile("\\{(?:[^{}]*+|\\{(?:[^{}]*+|\\{[^{}]*+\\})*+\\})*+\\}");
+            Matcher matcher = eventPattern.matcher(eventsContent);
+
+            while (matcher.find()) {
+                String eventData = matcher.group();
+
+                String tempsStr = extraerCampo(eventData, "temps");
+                String type = extraerCampo(eventData, "type");
+
+                if (tempsStr == null || type == null) {
+                    System.err.println("Event invàlid o incomplet: " + eventData);
+                    continue;
+                }
+
+                try {
+                    LocalTime temps = LocalTime.parse(tempsStr);
+                    Event event = crearEventFromData(type, temps, eventData, vehiclesPerId, conductorsPerId, llocsPerId);
+                    if (event != null) {
+                        events.add(event);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error parsejant event: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error llegint el fitxer " + nomFitxer + ": " + e.getMessage());
+        }
+
+        return events;
+    }
+
+    public static Map<Integer, Integer> obtenirUsDeixarPassatgersPerConductor(List<Event> esdeveniments, List<Conductor> conductors) {
+        // Inicialitzem el map amb tots els conductors i comptadors a 0
+        Map<Integer, Integer> mapaUsos = new HashMap<>();
+        for (Conductor c : conductors) {
+            mapaUsos.put(c.getId(), 0);
+        }
+
+        // Recorrem els esdeveniments i incrementem el comptador si és DeixarPassatgers
+        for (Event e : esdeveniments) {
+            if (e instanceof DeixarPassatgersEvent) {
+                Conductor c = ((DeixarPassatgersEvent) e).getConductor();
+                if (c != null && mapaUsos.containsKey(c.getId())) {
+                    mapaUsos.put(c.getId(), mapaUsos.get(c.getId()) + 1);
+                }
+            }
+        }
+
+        return mapaUsos;
+    }
+
+    public static Map<Integer, Integer> obtenirUsosPuntsCarrega(List<Event> esdeveniments, List<Lloc> llocs) {
+        Map<Integer, Integer> usosPerPuntCarrega = new HashMap<>();
+
+        // Inicialitzem només els punts de càrrega
+        for (Lloc lloc : llocs) {
+            if (lloc instanceof Parquing) {
+                usosPerPuntCarrega.put(lloc.obtenirId(), 0);
+            }
+        }
+
+        // Comptem els usos en esdeveniments de càrrega
+        for (Event e : esdeveniments) {
+            if (e instanceof CarregarBateriaEvent) {
+                CarregarBateriaEvent carrega = (CarregarBateriaEvent) e;
+                Lloc lloc = carrega.getVehicle().getUbicacioActual();
+                usosPerPuntCarrega.put(lloc.obtenirId(), usosPerPuntCarrega.get(lloc.obtenirId()) + 1);
+
+            }
+        }
+
+        return usosPerPuntCarrega;
+    }
+
+//Metodes per carregar els els diferents tipus d events utilitzant REGEX
     /**
      * Crea un objecte Event a partir de les dades extretes del JSON.
      *
@@ -544,7 +653,7 @@ public class LectorJSON {
                     return null;
             }
         } catch (Exception e) {
-            System.err.println("Error creant event " + eventType + ": " + e.getMessage());
+           // System.err.println("Error creant event " + eventType + ": " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -670,6 +779,7 @@ public class LectorJSON {
      * @param llocsPerId Mapa de llocs indexats pel seu ID.
      * @return Un objecte IniciRutaEvent corresponent a les dades.
      */
+    // Ejemplo para IniciRutaEvent
     private static Event parseIniciRutaEvent(LocalTime temps, String data,
             Map<Integer, Conductor> conductorsPerId,
             Map<Integer, Vehicle> vehiclesPerId,
@@ -678,7 +788,7 @@ public class LectorJSON {
                 "\"conductorId\"\\s*:\\s*(\\d+)\\s*,\\s*"
                 + "\"vehicleId\"\\s*:\\s*(\\d+)\\s*,\\s*"
                 + "\"ruta\"\\s*:\\s*\\{\\s*"
-                + "\"llocs\"\\s*:\\s*\\[(.*?)\\]\\s*,\\s*"
+                + "\"llocs\"\\s*:\\s*\\[([^\\]]*)\\]\\s*,\\s*"
                 + "\"distanciaTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,\\s*"
                 + "\"tempsTotal\"\\s*:\\s*(\\d+\\.?\\d*)\\s*,\\s*"
                 + "\"horaInici\"\\s*:\\s*\"([^\"]+)\"\\s*,\\s*"
@@ -699,11 +809,9 @@ public class LectorJSON {
                         Lloc lloc = llocsPerId.get(id);
                         if (lloc != null) {
                             llocsRuta.add(lloc);
-                        } else {
-                            System.err.println("Lloc no encontrado con ID: " + id);
                         }
                     } catch (NumberFormatException e) {
-                        System.err.println("Error parsejant ID de lloc: " + idStr);
+                        //System.err.println("Error parsejant ID de lloc: " + idStr);
                     }
                 }
 
@@ -721,12 +829,9 @@ public class LectorJSON {
                     ruta.setEsRutaCarrega(esRutaCarrega);
 
                     return new IniciRutaEvent(temps, conductor, vehicle, ruta);
-                } else {
-                    System.err.println("Datos incompletos para IniciRutaEvent");
                 }
             } catch (Exception e) {
                 System.err.println("Error parsejant IniciRutaEvent: " + e.getMessage());
-                e.printStackTrace();
             }
         }
         return null;
@@ -1156,30 +1261,30 @@ public class LectorJSON {
      */
     private static String crearBloqueEstadisticas(Estadistiques stats) {
         return String.format(
-            Locale.US,  // Força el punt decimal
-            "  {\n"
-            + "    \"peticionesServidas\": %d,\n"                     // %d (enter)
-            + "    \"peticionesNoServidas\": %d,\n"                   // %d (enter)
-            + "    \"tiempoTotalEspera\": %.1f,\n"                    // %.1f (decimal)
-            + "    \"tiempoMaximoEspera\": %.1f,\n"                   // %.1f (decimal)
-            + "    \"ocupacionTotalVehiculos\": %.1f,\n"              // %.1f (decimal)
-            + "    \"muestrasOcupacion\": %d,\n"                      // %d (enter)
-            + "    \"porcentajeBateriaPromedio\": %.1f,\n"           // %.1f (decimal)
-            + "    \"muestrasBateria\": %d,\n"                        // %d (enter)
-            + "    \"tiempoTotalViaje\": %.2f,\n"                     // %.2f (decimal)
-            + "    \"muestrasViaje\": %d\n"                          // %d (enter)
-            + "  }",
-            stats.getPeticionesServidas(),                     // int
-            stats.getPeticionesNoServidas(),                  // int
-            stats.getTiempoEsperaPromedio(),                   // double
-            stats.getTiempoMaximoEspera(),                     // double
-            stats.getOcupacionPromedioVehiculos(),             // double
-            stats.getMuestrasOcupacion(),                      // int
-            stats.getPorcentajeBateriaPromedio(),              // double
-            stats.getMuestrasBateria(),                         // int
-            stats.getTiempoViajePromedio(),                     // double
-            stats.getMuestrasViaje()                            // int
-    );
+                Locale.US, // Força el punt decimal
+                "  {\n"
+                + "    \"peticionesServidas\": %d,\n" // %d (enter)
+                + "    \"peticionesNoServidas\": %d,\n" // %d (enter)
+                + "    \"tiempoTotalEspera\": %.1f,\n" // %.1f (decimal)
+                + "    \"tiempoMaximoEspera\": %.1f,\n" // %.1f (decimal)
+                + "    \"ocupacionTotalVehiculos\": %.1f,\n" // %.1f (decimal)
+                + "    \"muestrasOcupacion\": %d,\n" // %d (enter)
+                + "    \"porcentajeBateriaPromedio\": %.1f,\n" // %.1f (decimal)
+                + "    \"muestrasBateria\": %d,\n" // %d (enter)
+                + "    \"tiempoTotalViaje\": %.2f,\n" // %.2f (decimal)
+                + "    \"muestrasViaje\": %d\n" // %d (enter)
+                + "  }",
+                stats.getPeticionesServidas(), // int
+                stats.getPeticionesNoServidas(), // int
+                stats.getTiempoEsperaPromedio(), // double
+                stats.getTiempoMaximoEspera(), // double
+                stats.getOcupacionPromedioVehiculos(), // double
+                stats.getMuestrasOcupacion(), // int
+                stats.getPorcentajeBateriaPromedio(), // double
+                stats.getMuestrasBateria(), // int
+                stats.getTiempoViajePromedio(), // double
+                stats.getMuestrasViaje() // int
+        );
     }
 
 }

@@ -26,6 +26,7 @@ import javax.swing.JTextArea;
 import javax.swing.Timer;
 
 import events.CarregarBateriaEvent;
+import events.DeixarPassatgersEvent;
 import events.Event;
 import events.IniciRutaEvent;
 import events.MoureVehicleEvent;
@@ -81,7 +82,7 @@ public class Simulador {
         assignarPeticions();
     }
 
-    public Simulador(File JsonFile, List<Vehicle> vehiclesSimulacio) {
+    public Simulador(File JsonFile, List<Vehicle> vehiclesSimulacio) throws IOException {
         // CONSTRUCTOR PER L OPTIMITZADOR
         List<Lloc> llocs = LectorJSON.carregarLlocs(JsonFile.getAbsolutePath());
         Map<Integer, Lloc> llocs_ID = LectorJSON.convertirLlistaAMap_Llocs(llocs);
@@ -107,9 +108,14 @@ public class Simulador {
             mapa_Nou.afegirCami(cami);
         }
 
+        List<Event> eventsExec = LectorJSON.carregarEvents2(JsonFile.getAbsolutePath(), LectorJSON.convertirLlistaAMap_Vehicles(vehicles), LectorJSON.convertirLlistaAMap_Conductors(this.conductors), llocs_ID);
+        PriorityQueue<Event> eventQueue = new PriorityQueue<>(eventsExec);
         this.mapa = mapa_Nou;
+        MapPanel mapPanel = new MapPanel(mapa_Nou);
+        setMapPanel(mapPanel);
         this.horaActual = horaInici;
         esdeveniments = new PriorityQueue<>();
+        assignarPeticions();
 
     }
 
@@ -282,7 +288,7 @@ public class Simulador {
                 if (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
                     Event event = esdeveniments.poll();
                     esdevenimentsExecutats.add(event); // Registrar abans d'executar
-
+                    //System.out.println(".(esdeveniment afeegit)"+event.toString());
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
                     //System.out.println("[DEBUG0] Finalitzant - Events executats: "+ esdevenimentsExecutats.size());
@@ -381,7 +387,7 @@ public class Simulador {
                     event.executar(Simulador.this);
 
                 } else {
-                    finalitzarSimulacio(e, jsonFile, null, false);
+                    finalitzarSimulacio(e, null, null, false);
 
                 }
             }
@@ -641,14 +647,12 @@ public class Simulador {
         Map<Lloc, List<Cami>> llocsMapa = mapa.getLlocs();
         List<Lloc> llistaLlocs = new ArrayList<>(llocsMapa.keySet());
         for (int i = 0; i < llistaLlocs.size(); i++) {
-            System.out.println("DUNSSS2");
             if (llistaLlocs.get(i) instanceof Parquing) {
 
                 Parquing parquingExistent = (Parquing) llistaLlocs.get(i);
 
                 if (parquingExistent.obtenirPuntsCarregaPublics() > 1 || parquingExistent.obtenirPuntsCarregaPrivats() > 1) {
                     vegadesUsat.put(parquingExistent.obtenirId(), 0);
-                    System.out.println("DUNSSS");
                 }
 
             }
@@ -657,27 +661,58 @@ public class Simulador {
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!esdeveniments.isEmpty() && horaActual.isBefore(horaFi)) {
-                    Event event = esdeveniments.poll();
+                if (!esdevenimentsExecutats.isEmpty() && horaActual.isBefore(horaFi)) {
+                    Event event = esdevenimentsExecutats.poll();
                     horaActual = event.getTemps();
                     mapPanel.setHoraActual(horaActual);
                     if (event instanceof CarregarBateriaEvent) {
-                        // Fem un casting a CarregaBateria
                         CarregarBateriaEvent carregaEvent = (CarregarBateriaEvent) event;
-                        event.executar(Simulador.this);
                         Integer idCarregaador = carregaEvent.getConductor().getVehicle().getUbicacioActual().obtenirId();
                         vegadesUsat.merge(idCarregaador, 1, Integer::sum);
-                    } // else if (esdeveniments.isEmpty() && !peticions.isEmpty()) {
-                    // // Si no hi ha esdeveniments però hi ha peticions, reintenta
-                    // assignarPeticions();
-                    // }
-                    else {
-                        finalitzarSimulacio(e, JsonFile, null, true);
-
                     }
+                    event.executar(Simulador.this);
+
+                } else {
+                    finalitzarSimulacio(e, null, null, false);
+
                 }
             }
+        });
+        timer.start();
 
+        return vegadesUsat;
+    }
+
+    public Map<Integer, Integer> iniciarOptimitzacioConductors(File JsonFile) {
+
+        Map<Integer, Integer> vegadesUsat = new HashMap<Integer, Integer>();
+        Map<Integer, Lloc> llocsID = LectorJSON.convertirLlistaAMap_Llocs(LectorJSON.carregarLlocs(JsonFile.getAbsolutePath()));
+        Map<Integer, Vehicle> vehiclesPerId = LectorJSON.convertirLlistaAMap_Vehicles(LectorJSON.carregarVehicles(JsonFile.getAbsolutePath(), llocsID));
+        List<Conductor> conductorsTotals = LectorJSON.carregarConductors(JsonFile.getAbsolutePath(), vehiclesPerId, llocsID);
+
+        for (int i = 0; i < conductorsTotals.size(); i++) {
+            vegadesUsat.put(conductorsTotals.get(i).getId(), 0);
+        }
+
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!esdevenimentsExecutats.isEmpty() && horaActual.isBefore(horaFi)) {
+                    Event event = esdevenimentsExecutats.poll();
+                    horaActual = event.getTemps();
+                    mapPanel.setHoraActual(horaActual);
+                    if (event instanceof DeixarPassatgersEvent) {
+                        DeixarPassatgersEvent deixarPassatg = (DeixarPassatgersEvent) event;
+                        Integer idConductor = deixarPassatg.getConductor().getId();
+                        vegadesUsat.merge(idConductor, 1, Integer::sum);
+                    }
+                    event.executar(Simulador.this);
+
+                } else {
+                    finalitzarSimulacio(e, null, null, false);
+
+                }
+            }
         });
         timer.start();
 

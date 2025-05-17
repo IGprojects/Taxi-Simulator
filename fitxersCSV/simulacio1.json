@@ -1,0 +1,703 @@
+{
+  "llocs": [
+    {
+      "ID": 4,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 13,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 3,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 9,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 5,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 17,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 1,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 15,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 10,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 16,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 11,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 12,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 14,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 7,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 18,
+      "TIPUS": "P",
+      "N_CARREGADORS": 5,
+      "N_CARREGADORS_PRIVATS": 0,
+      "MAX_VEHICLES": 10
+    },
+    {
+      "ID": 19,
+      "TIPUS": "P",
+      "N_CARREGADORS": 5,
+      "N_CARREGADORS_PRIVATS": 0,
+      "MAX_VEHICLES": 10
+    },
+    {
+      "ID": 8,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 2,
+      "TIPUS": "L"
+    },
+    {
+      "ID": 6,
+      "TIPUS": "L"
+    }
+  ],
+  "connexions": [
+    {
+      "ORIGEN": 4,
+      "DESTI": 5,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 3.0
+    },
+    {
+      "ORIGEN": 13,
+      "DESTI": 11,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 10.0
+    },
+    {
+      "ORIGEN": 3,
+      "DESTI": 2,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 15.0
+    },
+    {
+      "ORIGEN": 9,
+      "DESTI": 18,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 4.0
+    },
+    {
+      "ORIGEN": 5,
+      "DESTI": 19,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 8.0
+    },
+    {
+      "ORIGEN": 17,
+      "DESTI": 16,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 1,
+      "DESTI": 3,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 43.0
+    },
+    {
+      "ORIGEN": 15,
+      "DESTI": 19,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 10,
+      "DESTI": 18,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 16,
+      "DESTI": 1,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 11,
+      "DESTI": 12,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 5.0
+    },
+    {
+      "ORIGEN": 12,
+      "DESTI": 10,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 23.0
+    },
+    {
+      "ORIGEN": 14,
+      "DESTI": 15,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 1.0
+    },
+    {
+      "ORIGEN": 7,
+      "DESTI": 9,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 2.0
+    },
+    {
+      "ORIGEN": 18,
+      "DESTI": 13,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 18,
+      "DESTI": 14,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 19,
+      "DESTI": 6,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 19,
+      "DESTI": 17,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 19,
+      "DESTI": 18,
+      "DISTANCIA_KM": 5.0,
+      "TEMPS_MIN": 12.0
+    },
+    {
+      "ORIGEN": 8,
+      "DESTI": 7,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 5.0
+    },
+    {
+      "ORIGEN": 2,
+      "DESTI": 19,
+      "DISTANCIA_KM": 2.0,
+      "TEMPS_MIN": 10.0
+    },
+    {
+      "ORIGEN": 6,
+      "DESTI": 4,
+      "DISTANCIA_KM": 4.0,
+      "TEMPS_MIN": 35.0
+    }
+  ],
+  "vehicles": [
+    {
+      "ID": 101,
+      "ID_UBICACIO": 15,
+      "AUTONOMIA_KM": 100,
+      "MAX_PASSATGERS": 8,
+      "TEMPS_CARGA_RAPIDA": 35.0,
+      "TEMPS_CARGA_LENTA": 70.0
+    }
+  ],
+  "conductors": [
+    {
+      "ID": 1,
+      "NOM": "Anna",
+      "TIPUS": "vorac",
+      "IDVEHICLE": 101
+    }
+  ],
+  "peticions": [
+    {
+      "ID": 1,
+      "ORIGEN": 11,
+      "DESTI": 14,
+      "HORA_MIN_RECOLLIDA": "09:35",
+      "HORA_MAX_ARRIBADA": "10:50",
+      "NUM_PASSATGERS": 2,
+      "VEHICLE_COMPARTIT": true
+    },
+    {
+      "ID": 2,
+      "ORIGEN": 1,
+      "DESTI": 17,
+      "HORA_MIN_RECOLLIDA": "11:35",
+      "HORA_MAX_ARRIBADA": "12:30",
+      "NUM_PASSATGERS": 2,
+      "VEHICLE_COMPARTIT": true
+    },
+    {
+      "ID": 3,
+      "ORIGEN": 19,
+      "DESTI": 5,
+      "HORA_MIN_RECOLLIDA": "13:30",
+      "HORA_MAX_ARRIBADA": "14:00",
+      "NUM_PASSATGERS": 2,
+      "VEHICLE_COMPARTIT": true
+    },
+    {
+      "ID": 4,
+      "ORIGEN": 17,
+      "DESTI": 2,
+      "HORA_MIN_RECOLLIDA": "15:30",
+      "HORA_MAX_ARRIBADA": "16:00",
+      "NUM_PASSATGERS": 2,
+      "VEHICLE_COMPARTIT": true
+    },
+    {
+      "ID": 5,
+      "ORIGEN": 19,
+      "DESTI": 15,
+      "HORA_MIN_RECOLLIDA": "14:30",
+      "HORA_MAX_ARRIBADA": "15:00",
+      "NUM_PASSATGERS": 2,
+      "VEHICLE_COMPARTIT": true
+    }
+  ],
+  "horaInici": "08:00",
+  "horaFinal": "20:00",
+  "events": [
+    {
+      "temps": "08:00",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 18,
+      "destiId": 11,
+      "distancia": 7.0
+    },
+    {
+      "temps": "08:00",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 18,
+      "destiId": 11,
+      "distancia": 7.0
+    },
+    {
+      "temps": "09:35",
+      "type": "IniciRuta",
+      "conductorId": 1,
+      "vehicleId": 101,
+      "ruta": {
+        "llocs": [11, 12, 10, 18, 14],
+        "distanciaTotal": 14.0,
+        "tempsTotal": 52.0,
+        "horaInici": "09:35",
+        "esRutaCarrega": false
+      }
+    },
+    {
+      "temps": "09:35",
+      "type": "IniciRuta",
+      "conductorId": 1,
+      "vehicleId": 101,
+      "ruta": {
+        "llocs": [11, 12, 10, 18, 14],
+        "distanciaTotal": 14.0,
+        "tempsTotal": 52.0,
+        "horaInici": "09:35",
+        "esRutaCarrega": false
+      }
+    },
+    {
+      "temps": "09:40",
+      "type": "RecollirPassatgers",
+      "conductorId": 1,
+      "destiId": 11,
+      "passatgersRecollits": 2
+    },
+    {
+      "temps": "09:40",
+      "type": "RecollirPassatgers",
+      "conductorId": 1,
+      "destiId": 11,
+      "passatgersRecollits": 2
+    },
+    {
+      "temps": "09:41",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 11,
+      "destiId": 12,
+      "distancia": 2.0
+    },
+    {
+      "temps": "09:41",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 11,
+      "destiId": 12,
+      "distancia": 2.0
+    },
+    {
+      "temps": "10:05",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 12,
+      "destiId": 10,
+      "distancia": 5.0
+    },
+    {
+      "temps": "10:05",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 12,
+      "destiId": 10,
+      "distancia": 5.0
+    },
+    {
+      "temps": "10:18",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 10,
+      "destiId": 18,
+      "distancia": 2.0
+    },
+    {
+      "temps": "10:18",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 10,
+      "destiId": 18,
+      "distancia": 2.0
+    },
+    {
+      "temps": "10:31",
+      "type": "FiRuta",
+      "conductorId": 1
+    },
+    {
+      "temps": "10:31",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 18,
+      "destiId": 19,
+      "distancia": 15.0
+    },
+    {
+      "temps": "10:31",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 18,
+      "destiId": 14,
+      "distancia": 5.0
+    },
+    {
+      "temps": "10:31",
+      "type": "DeixarPassatgers",
+      "conductorId": 1,
+      "destiId": 14,
+      "passatgersDeixats": 2
+    },
+    {
+      "temps": "10:31",
+      "type": "DeixarPassatgers",
+      "conductorId": 1,
+      "destiId": 14,
+      "passatgersDeixats": 2
+    },
+    {
+      "temps": "10:31",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 18,
+      "destiId": 14,
+      "distancia": 5.0
+    },
+    {
+      "temps": "10:31",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 18,
+      "destiId": 19,
+      "distancia": 15.0
+    },
+    {
+      "temps": "10:31",
+      "type": "FiRuta",
+      "conductorId": 1
+    },
+    {
+      "temps": "13:30",
+      "type": "IniciRuta",
+      "conductorId": 1,
+      "vehicleId": 101,
+      "ruta": {
+        "llocs": [19, 6, 4, 5],
+        "distanciaTotal": 11.0,
+        "tempsTotal": 50.0,
+        "horaInici": "13:30",
+        "esRutaCarrega": false
+      }
+    },
+    {
+      "temps": "13:30",
+      "type": "IniciRuta",
+      "conductorId": 1,
+      "vehicleId": 101,
+      "ruta": {
+        "llocs": [19, 6, 4, 5],
+        "distanciaTotal": 11.0,
+        "tempsTotal": 50.0,
+        "horaInici": "13:30",
+        "esRutaCarrega": false
+      }
+    },
+    {
+      "temps": "13:42",
+      "type": "RecollirPassatgers",
+      "conductorId": 1,
+      "destiId": 19,
+      "passatgersRecollits": 2
+    },
+    {
+      "temps": "13:42",
+      "type": "RecollirPassatgers",
+      "conductorId": 1,
+      "destiId": 19,
+      "passatgersRecollits": 2
+    },
+    {
+      "temps": "13:43",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 19,
+      "destiId": 6,
+      "distancia": 5.0
+    },
+    {
+      "temps": "13:43",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 19,
+      "destiId": 6,
+      "distancia": 5.0
+    },
+    {
+      "temps": "14:19",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 6,
+      "destiId": 4,
+      "distancia": 4.0
+    },
+    {
+      "temps": "14:19",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 6,
+      "destiId": 4,
+      "distancia": 4.0
+    },
+    {
+      "temps": "14:23",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 4,
+      "destiId": 5,
+      "distancia": 2.0
+    },
+    {
+      "temps": "14:23",
+      "type": "DeixarPassatgers",
+      "conductorId": 1,
+      "destiId": 5,
+      "passatgersDeixats": 2
+    },
+    {
+      "temps": "14:23",
+      "type": "FiRuta",
+      "conductorId": 1
+    },
+    {
+      "temps": "14:23",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 5,
+      "destiId": 19,
+      "distancia": 2.0
+    },
+    {
+      "temps": "14:23",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 5,
+      "destiId": 19,
+      "distancia": 2.0
+    },
+    {
+      "temps": "14:23",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 4,
+      "destiId": 5,
+      "distancia": 2.0
+    },
+    {
+      "temps": "14:23",
+      "type": "FiRuta",
+      "conductorId": 1
+    },
+    {
+      "temps": "14:23",
+      "type": "DeixarPassatgers",
+      "conductorId": 1,
+      "destiId": 5,
+      "passatgersDeixats": 2
+    },
+    {
+      "temps": "14:30",
+      "type": "IniciRuta",
+      "conductorId": 1,
+      "vehicleId": 101,
+      "ruta": {
+        "llocs": [19, 18, 14, 15],
+        "distanciaTotal": 15.0,
+        "tempsTotal": 25.0,
+        "horaInici": "14:30",
+        "esRutaCarrega": false
+      }
+    },
+    {
+      "temps": "14:30",
+      "type": "IniciRuta",
+      "conductorId": 1,
+      "vehicleId": 101,
+      "ruta": {
+        "llocs": [19, 18, 14, 15],
+        "distanciaTotal": 15.0,
+        "tempsTotal": 25.0,
+        "horaInici": "14:30",
+        "esRutaCarrega": false
+      }
+    },
+    {
+      "temps": "14:42",
+      "type": "RecollirPassatgers",
+      "conductorId": 1,
+      "destiId": 19,
+      "passatgersRecollits": 2
+    },
+    {
+      "temps": "14:42",
+      "type": "RecollirPassatgers",
+      "conductorId": 1,
+      "destiId": 19,
+      "passatgersRecollits": 2
+    },
+    {
+      "temps": "14:43",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 19,
+      "destiId": 18,
+      "distancia": 5.0
+    },
+    {
+      "temps": "14:43",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 19,
+      "destiId": 18,
+      "distancia": 5.0
+    },
+    {
+      "temps": "14:56",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 18,
+      "destiId": 14,
+      "distancia": 5.0
+    },
+    {
+      "temps": "14:56",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 18,
+      "destiId": 14,
+      "distancia": 5.0
+    },
+    {
+      "temps": "14:58",
+      "type": "FiRuta",
+      "conductorId": 1
+    },
+    {
+      "temps": "14:58",
+      "type": "FiRuta",
+      "conductorId": 1
+    },
+    {
+      "temps": "14:58",
+      "type": "DeixarPassatgers",
+      "conductorId": 1,
+      "destiId": 15,
+      "passatgersDeixats": 2
+    },
+    {
+      "temps": "14:58",
+      "type": "DeixarPassatgers",
+      "conductorId": 1,
+      "destiId": 15,
+      "passatgersDeixats": 2
+    },
+    {
+      "temps": "14:58",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 14,
+      "destiId": 15,
+      "distancia": 5.0
+    },
+    {
+      "temps": "14:58",
+      "type": "MoureVehicle",
+      "vehicleId": 101,
+      "origenId": 14,
+      "destiId": 15,
+      "distancia": 5.0
+    }
+  ],
+  "estadisticas": [
+  {
+    "peticionesServidas": 3,
+    "peticionesNoServidas": 0,
+    "tiempoTotalEspera": 39.5,
+    "tiempoMaximoEspera": 44.0,
+    "ocupacionTotalVehiculos": 2.0,
+    "muestrasOcupacion": 3,
+    "porcentajeBateriaPromedio": 78.3,
+    "muestrasBateria": 3,
+    "tiempoTotalViaje": 42.33,
+    "muestrasViaje": 3
+  }
+  ]
+}

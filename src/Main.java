@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
@@ -207,17 +208,25 @@ public class Main {
                 public void onOptimitzarSimulacio(File simulacioJson) {
 
                     Optimitzador optimitzador = new Optimitzador();
-                    List<Vehicle> vehiclesTotals = LectorJSON.carregarVehicles(simulacioJson.getAbsolutePath(), LectorJSON.convertirLlistaAMap_Llocs(LectorJSON.carregarLlocs(simulacioJson.getAbsolutePath())));
-                    List<Vehicle> vehiclesRedundants = optimitzador.obtenirVehiclesRedundants(simulacioJson, vehiclesTotals);
-                    VehiclesComparisonPanel.mostrarComparacio(vehiclesTotals, vehiclesRedundants);
+                    Map<Integer, Integer> conductorsRedundants;
+                    try {
+                        conductorsRedundants = optimitzador.obtenirConductorsRedundants(simulacioJson);
+                        VehiclesComparisonPanel.mostrarComparacio(conductorsRedundants);
+
+                    } catch (IOException ex) {
+                    }
+
                 }
 
                 @Override
                 public void onOptimitzarSimulacioPuntsCarrega(File simulacioJson) {
 
-                    Optimitzador optimitzador = new Optimitzador();
-                    Map<Integer, Integer> PuntsCarregaRedundants = optimitzador.obtenirPuntsCarregaRedundants(simulacioJson);
-                    VistaPuntsCarrega.mostrar(PuntsCarregaRedundants);
+                    try {
+                        Optimitzador optimitzador = new Optimitzador();
+                        Map<Integer, Integer> PuntsCarregaRedundants = optimitzador.obtenirPuntsCarregaRedundants(simulacioJson);
+                        VistaPuntsCarrega.mostrar(PuntsCarregaRedundants);
+                    } catch (IOException ex) {
+                    }
                 }
 
                 @Override
