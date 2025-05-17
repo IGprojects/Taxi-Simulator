@@ -15,7 +15,5 @@
 - [src](src): codi font (fitxers .java)
 - [test](test): joc de proves
 
-
-**Diagrama**
-
-![Descripción de la imagen](Diagrama/diagrama.png)
+**Taxi SImulator B9**
+![Descripción de la imagen](doc/logo.png)
