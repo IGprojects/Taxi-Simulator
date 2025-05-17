@@ -1,0 +1,227 @@
+\doxysection{Referencia de la clase core.\+Conductor}
+\hypertarget{classcore_1_1_conductor}{}\label{classcore_1_1_conductor}\index{core.Conductor@{core.Conductor}}
+
+
+Defineix la classe pare dels tipus de conductors.  
+
+
+Diagrama de herencia de core.\+Conductor\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcore_1_1_conductor}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcore_1_1_conductor_ac352b2e15ca126d958a52eb255c4aa93}{Conductor}} (int id, String \mbox{\hyperlink{classcore_1_1_conductor_a1d93fac652d7e853ae12814f5a7b4f6d}{nom}}, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a581957a7a992cfd25fcad5df9a026368}{vehicle}})
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Indica si el conductor està ocupat o no. \end{DoxyCompactList}\item 
+abstract void \mbox{\hyperlink{classcore_1_1_conductor_a724c2c984ef8e1b8b82c1904f51c2026}{executar\+Ruta}} (\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} ruta, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a581957a7a992cfd25fcad5df9a026368}{vehicle}}, \mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador)
+\item 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a78e64bfe86cb8a97fb761e3259a5680c}{get\+Vehicle}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_conductor_a31e1c53bbf79cf9ecd4c59d12d42957c}{get\+Id}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_conductor_a3fa34b94e6dacf0d0741dcf53e0a67d3}{is\+Ocupat}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_conductor_ab92769b02a7c4a9df367d9ec4cf44350}{set\+Ocupat}} (boolean \mbox{\hyperlink{classcore_1_1_conductor_ab156e52bea33ad91b939128ee2d44921}{ocupat}})
+\item 
+abstract boolean \mbox{\hyperlink{classcore_1_1_conductor_a457197e56f0861ce0d84295798fd37c9}{te\+Bateria}} (double distancia, \mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador, \mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} mapa, Local\+Time hora\+Inici, Local\+Time hora\+Actual)
+\begin{DoxyCompactList}\small\item\em Comprova si el vehicle té bateria suficient per fer la distància indicada. Si no en té, intenta planificar una ruta cap al pàrquing més proper per carregar. \end{DoxyCompactList}\item 
+abstract boolean \mbox{\hyperlink{classcore_1_1_conductor_a283389196238a1717f670f8f2c4e1d8e}{pot\+Servir\+Peticio}} (int nombre\+Passatgers)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Atributos protegidos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcore_1_1_conductor_a78f5bf4f29f97a5735e4894d02b48053}\label{classcore_1_1_conductor_a78f5bf4f29f97a5735e4894d02b48053} 
+int {\bfseries id}
+\item 
+\Hypertarget{classcore_1_1_conductor_a1d93fac652d7e853ae12814f5a7b4f6d}\label{classcore_1_1_conductor_a1d93fac652d7e853ae12814f5a7b4f6d} 
+String {\bfseries nom}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Identificador del conductor. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_conductor_a581957a7a992cfd25fcad5df9a026368}\label{classcore_1_1_conductor_a581957a7a992cfd25fcad5df9a026368} 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} {\bfseries vehicle}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Nom del conductor. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_conductor_ab156e52bea33ad91b939128ee2d44921}\label{classcore_1_1_conductor_ab156e52bea33ad91b939128ee2d44921} 
+boolean {\bfseries ocupat}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} \doxylink{classcore_1_1_vehicle}{Vehicle} que condueix el conductor \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Defineix la classe pare dels tipus de conductors. 
+
+\begin{DoxyAuthor}{Autor}
+Anouar El Barkouki Hitach 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de constructores y destructores}
+\Hypertarget{classcore_1_1_conductor_ac352b2e15ca126d958a52eb255c4aa93}\index{core.Conductor@{core.Conductor}!Conductor@{Conductor}}
+\index{Conductor@{Conductor}!core.Conductor@{core.Conductor}}
+\doxysubsubsection{\texorpdfstring{Conductor()}{Conductor()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_ac352b2e15ca126d958a52eb255c4aa93} 
+core.\+Conductor.\+Conductor (\begin{DoxyParamCaption}\item[{int}]{id}{, }\item[{String}]{nom}{, }\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{vehicle}{}\end{DoxyParamCaption})}
+
+
+
+\texorpdfstring{$<$}{<} Indica si el conductor està ocupat o no. 
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Crea un conductor amb un id, nom i vehicle especificats.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em id} & Identificador del conductor. \\
+\hline
+{\em nom} & Nom del conductor. \\
+\hline
+{\em vehicle} & \doxylink{classcore_1_1_vehicle}{Vehicle} que condueix el conductor. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_conductor_a724c2c984ef8e1b8b82c1904f51c2026}\index{core.Conductor@{core.Conductor}!executarRuta@{executarRuta}}
+\index{executarRuta@{executarRuta}!core.Conductor@{core.Conductor}}
+\doxysubsubsection{\texorpdfstring{executarRuta()}{executarRuta()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_a724c2c984ef8e1b8b82c1904f51c2026} 
+abstract void core.\+Conductor.\+executar\+Ruta (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}}}]{ruta}{, }\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{vehicle}{, }\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna si el conductor està disponible. 
+\end{DoxyPostcond}
+
+
+Reimplementado en \mbox{\hyperlink{classcore_1_1_conductor_planificador_a75e98b580410500649ca8b24859ebfc3}{core.\+Conductor\+Planificador}} y \mbox{\hyperlink{classcore_1_1_conductor_vorac_ab05c9bd1460106d2879e7de8c238ffd5}{core.\+Conductor\+Vorac}}.
+
+\Hypertarget{classcore_1_1_conductor_a31e1c53bbf79cf9ecd4c59d12d42957c}\index{core.Conductor@{core.Conductor}!getId@{getId}}
+\index{getId@{getId}!core.Conductor@{core.Conductor}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_a31e1c53bbf79cf9ecd4c59d12d42957c} 
+int core.\+Conductor.\+get\+Id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la id del conductor. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+int 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_conductor_a78e64bfe86cb8a97fb761e3259a5680c}\index{core.Conductor@{core.Conductor}!getVehicle@{getVehicle}}
+\index{getVehicle@{getVehicle}!core.Conductor@{core.Conductor}}
+\doxysubsubsection{\texorpdfstring{getVehicle()}{getVehicle()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_a78e64bfe86cb8a97fb761e3259a5680c} 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} core.\+Conductor.\+get\+Vehicle (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el vehicle del conductor.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_vehicle}{Vehicle} 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_conductor_a3fa34b94e6dacf0d0741dcf53e0a67d3}\index{core.Conductor@{core.Conductor}!isOcupat@{isOcupat}}
+\index{isOcupat@{isOcupat}!core.Conductor@{core.Conductor}}
+\doxysubsubsection{\texorpdfstring{isOcupat()}{isOcupat()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_a3fa34b94e6dacf0d0741dcf53e0a67d3} 
+boolean core.\+Conductor.\+is\+Ocupat (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna si el conductor està ocupat o no. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+String 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_conductor_a283389196238a1717f670f8f2c4e1d8e}\index{core.Conductor@{core.Conductor}!potServirPeticio@{potServirPeticio}}
+\index{potServirPeticio@{potServirPeticio}!core.Conductor@{core.Conductor}}
+\doxysubsubsection{\texorpdfstring{potServirPeticio()}{potServirPeticio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_a283389196238a1717f670f8f2c4e1d8e} 
+abstract boolean core.\+Conductor.\+pot\+Servir\+Peticio (\begin{DoxyParamCaption}\item[{int}]{nombre\+Passatgers}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Comprova si el vehicle compleix les condicions per fer la petició. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em nombre\+Passatgers} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true si el vehicle pot fer la petició, false en cas contrari. 
+\end{DoxyReturn}
+
+
+Reimplementado en \mbox{\hyperlink{classcore_1_1_conductor_planificador_a6d3f9cc61a2df581dc34b4bd65966951}{core.\+Conductor\+Planificador}} y \mbox{\hyperlink{classcore_1_1_conductor_vorac_aeb16d801f4e61b8443843becb9cd64d0}{core.\+Conductor\+Vorac}}.
+
+\Hypertarget{classcore_1_1_conductor_ab92769b02a7c4a9df367d9ec4cf44350}\index{core.Conductor@{core.Conductor}!setOcupat@{setOcupat}}
+\index{setOcupat@{setOcupat}!core.Conductor@{core.Conductor}}
+\doxysubsubsection{\texorpdfstring{setOcupat()}{setOcupat()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_ab92769b02a7c4a9df367d9ec4cf44350} 
+void core.\+Conductor.\+set\+Ocupat (\begin{DoxyParamCaption}\item[{boolean}]{ocupat}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Assigna si el conductor està ocupat o no. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_conductor_a457197e56f0861ce0d84295798fd37c9}\index{core.Conductor@{core.Conductor}!teBateria@{teBateria}}
+\index{teBateria@{teBateria}!core.Conductor@{core.Conductor}}
+\doxysubsubsection{\texorpdfstring{teBateria()}{teBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_a457197e56f0861ce0d84295798fd37c9} 
+abstract boolean core.\+Conductor.\+te\+Bateria (\begin{DoxyParamCaption}\item[{double}]{distancia}{, }\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{, }\item[{\mbox{\hyperlink{classcore_1_1_mapa}{Mapa}}}]{mapa}{, }\item[{Local\+Time}]{hora\+Inici}{, }\item[{Local\+Time}]{hora\+Actual}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+
+
+Comprova si el vehicle té bateria suficient per fer la distància indicada. Si no en té, intenta planificar una ruta cap al pàrquing més proper per carregar. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em distancia} & La distància que s’ha de recórrer per completar la petició. \\
+\hline
+{\em simulador} & El simulador on s\textquotesingle{}afegiran esdeveniments si cal carregar. \\
+\hline
+{\em mapa} & El mapa que permet calcular rutes i distàncies. \\
+\hline
+{\em hora\+Inici} & L’hora d’inici de la simulació (referència per calcular horaris). \\
+\hline
+{\em hora\+Actual} & L’hora actual del simulador, per planificar nous esdeveniments. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true si el vehicle té bateria suficient per fer el trajecte, false si no i ha de carregar.
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondición}
+El vehicle ha d’estar inicialitzat i ubicat a un lloc vàlid dins el mapa. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Si no té bateria, pot iniciar una ruta cap a un pàrquing privat per carregar. Si no hi ha pàrquing, es mostra un missatge. 
+\end{DoxyPostcond}
+
+
+Reimplementado en \mbox{\hyperlink{classcore_1_1_conductor_planificador_a3647ec8845f0b768a8a26692ef2c5bcf}{core.\+Conductor\+Planificador}} y \mbox{\hyperlink{classcore_1_1_conductor_vorac_a0470ab7099e8f4ce86bb79fb9b952583}{core.\+Conductor\+Vorac}}.
+
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Conductor.\+java\end{DoxyCompactItemize}

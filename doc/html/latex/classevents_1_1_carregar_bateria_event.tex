@@ -1,0 +1,115 @@
+\doxysection{Referencia de la clase events.\+Carregar\+Bateria\+Event}
+\hypertarget{classevents_1_1_carregar_bateria_event}{}\label{classevents_1_1_carregar_bateria_event}\index{events.CarregarBateriaEvent@{events.CarregarBateriaEvent}}
+
+
+Representa un esdeveniment que indica que un vehicle comença a carregar la bateria.  
+
+
+Diagrama de herencia de events.\+Carregar\+Bateria\+Event\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classevents_1_1_carregar_bateria_event}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classevents_1_1_carregar_bateria_event_a1aff57568395ab3141237c89746fb7e4}\label{classevents_1_1_carregar_bateria_event_a1aff57568395ab3141237c89746fb7e4} 
+{\bfseries Carregar\+Bateria\+Event} (Local\+Time temps, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} vehicle, double duracio\+Carrega\+Minuts, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} conductor)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Conductor que realitza l\textquotesingle{}esdeveniment \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classevents_1_1_carregar_bateria_event_aded1c07836a42848fb397892a1a9bb9a}{executar}} (\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador)
+\item 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classevents_1_1_carregar_bateria_event_a27b86f178a8ee3898fef3d5511f71911}{get\+Vehicle}} ()
+\item 
+double \mbox{\hyperlink{classevents_1_1_carregar_bateria_event_ad170f71c408c4c6ccf865100b7cc9cbb}{get\+Duracio\+Carrega\+Minuts}} ()
+\item 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} \mbox{\hyperlink{classevents_1_1_carregar_bateria_event_a590b4b4bb035f941746481b6ac221de4}{get\+Conductor}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Event} (Local\+Time temps)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Temps associat a l\textquotesingle{}esdeveniment \end{DoxyCompactList}\item 
+Local\+Time \mbox{\hyperlink{classevents_1_1_event_a4986b619b70b10231b2f6ba283e3db28}{get\+Temps}} ()
+\item 
+int \mbox{\hyperlink{classevents_1_1_event_a84b8c3fef86513f10542c2bcdb71e161}{compare\+To}} (\mbox{\hyperlink{classevents_1_1_event}{Event}} altre)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Otros miembros heredados}
+\doxysubsection*{Atributos protegidos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+Local\+Time {\bfseries temps}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Representa un esdeveniment que indica que un vehicle comença a carregar la bateria. 
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classevents_1_1_carregar_bateria_event_aded1c07836a42848fb397892a1a9bb9a}\index{events.CarregarBateriaEvent@{events.CarregarBateriaEvent}!executar@{executar}}
+\index{executar@{executar}!events.CarregarBateriaEvent@{events.CarregarBateriaEvent}}
+\doxysubsubsection{\texorpdfstring{executar()}{executar()}}
+{\footnotesize\ttfamily \label{classevents_1_1_carregar_bateria_event_aded1c07836a42848fb397892a1a9bb9a} 
+void events.\+Carregar\+Bateria\+Event.\+executar (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle del conductor comença a carregar la bateria i es pinta el missatge per pantalla. El vehicle queda ocupat durant la càrrega. Es crea un nou esdeveniment \doxylink{classevents_1_1_fi_carrega_event}{Fi\+Carrega\+Event} per indicar el final de la càrrega. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em simulador} & Simulador on es realitza l\textquotesingle{}esdeveniment \\
+\hline
+\end{DoxyParams}
+
+
+Reimplementado de \mbox{\hyperlink{classevents_1_1_event_a7bf2591ac7ef9d73d2f6d68ac176c179}{events.\+Event}}.
+
+\Hypertarget{classevents_1_1_carregar_bateria_event_a590b4b4bb035f941746481b6ac221de4}\index{events.CarregarBateriaEvent@{events.CarregarBateriaEvent}!getConductor@{getConductor}}
+\index{getConductor@{getConductor}!events.CarregarBateriaEvent@{events.CarregarBateriaEvent}}
+\doxysubsubsection{\texorpdfstring{getConductor()}{getConductor()}}
+{\footnotesize\ttfamily \label{classevents_1_1_carregar_bateria_event_a590b4b4bb035f941746481b6ac221de4} 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} events.\+Carregar\+Bateria\+Event.\+get\+Conductor (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obtiene el conductor que realiza el evento de carga
+
+\begin{DoxyReturn}{Devuelve}
+El objeto Conductor asociado 
+\end{DoxyReturn}
+\Hypertarget{classevents_1_1_carregar_bateria_event_ad170f71c408c4c6ccf865100b7cc9cbb}\index{events.CarregarBateriaEvent@{events.CarregarBateriaEvent}!getDuracioCarregaMinuts@{getDuracioCarregaMinuts}}
+\index{getDuracioCarregaMinuts@{getDuracioCarregaMinuts}!events.CarregarBateriaEvent@{events.CarregarBateriaEvent}}
+\doxysubsubsection{\texorpdfstring{getDuracioCarregaMinuts()}{getDuracioCarregaMinuts()}}
+{\footnotesize\ttfamily \label{classevents_1_1_carregar_bateria_event_ad170f71c408c4c6ccf865100b7cc9cbb} 
+double events.\+Carregar\+Bateria\+Event.\+get\+Duracio\+Carrega\+Minuts (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obtiene la duración de la carga en minutos
+
+\begin{DoxyReturn}{Devuelve}
+Duración en minutos (valor double) 
+\end{DoxyReturn}
+\Hypertarget{classevents_1_1_carregar_bateria_event_a27b86f178a8ee3898fef3d5511f71911}\index{events.CarregarBateriaEvent@{events.CarregarBateriaEvent}!getVehicle@{getVehicle}}
+\index{getVehicle@{getVehicle}!events.CarregarBateriaEvent@{events.CarregarBateriaEvent}}
+\doxysubsubsection{\texorpdfstring{getVehicle()}{getVehicle()}}
+{\footnotesize\ttfamily \label{classevents_1_1_carregar_bateria_event_a27b86f178a8ee3898fef3d5511f71911} 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} events.\+Carregar\+Bateria\+Event.\+get\+Vehicle (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obtiene el vehículo que se está cargando
+
+\begin{DoxyReturn}{Devuelve}
+El objeto Vehicle asociado a la carga 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/events/Carregar\+Bateria\+Event.\+java\end{DoxyCompactItemize}

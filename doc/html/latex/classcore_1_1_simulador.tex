@@ -1,0 +1,364 @@
+\doxysection{Referencia de la clase core.\+Simulador}
+\hypertarget{classcore_1_1_simulador}{}\label{classcore_1_1_simulador}\index{core.Simulador@{core.Simulador}}
+
+
+Classe que gestiona l\textquotesingle{}execució de la simulació.  
+
+
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcore_1_1_simulador_a834482525d1f38aa3576f3a778a48067}\label{classcore_1_1_simulador_a834482525d1f38aa3576f3a778a48067} 
+{\bfseries Simulador} (Local\+Time hora\+Inici, Local\+Time hora\+Fi, \mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} mapa, List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ vehicles, List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ conductors, List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$ peticions\+\_\+)
+\item 
+\Hypertarget{classcore_1_1_simulador_a4540b076d997afd336696cf52ccf7feb}\label{classcore_1_1_simulador_a4540b076d997afd336696cf52ccf7feb} 
+{\bfseries Simulador} (File Json\+File, List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ vehicles\+Simulacio)  throws IOException 
+\begin{DoxyCompactList}\small\item\em Constructor de \doxylink{classcore_1_1_simulador}{Simulador} per a simulacions guardades. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_a267c6f208505189ebdf584dee5ed044f}{assignar\+Peticionsvorac}} ()
+\begin{DoxyCompactList}\small\item\em Assigna peticions pendents als conductors de tipus \doxylink{classcore_1_1_conductor_vorac}{Conductor\+Vorac} utilitzant una estratègia voraça. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_ad9bad9599426149caafe47ad1147a989}{assignar\+Peticions\+Plan}} ()
+\begin{DoxyCompactList}\small\item\em Assigna rutes planificades als conductors de tipus \doxylink{classcore_1_1_conductor_planificador}{Conductor\+Planificador}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_ac34353953580ae673682f8bed53c4b6a}{iniciar}} (File json\+File, File estadistic\+File)
+\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_ada8b7f9589bd65ca50abed2e1346de42}{afegir\+Peticio\+Aleatoria}} (List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Disponibles)
+\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_a09d188139f13101a6bca4e54e54ebc93}{assignar\+Peticions}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_ab90d60f824c1894843252a425fdc4c13}{executar\+Simulacio\+Guardada}} (File json\+File)
+\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_aa62a97ccc21cf92b3511c6a130f11d45}{afegir\+Vehicle}} (\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} v)
+\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_a98f52b79cbbc526e950ae777feb4c999}{afegir\+Conductor}} (\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} c)
+\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_a0043579ea28a581d628b1245c69a9d67}{afegir\+Esdeveniment}} (\mbox{\hyperlink{classevents_1_1_event}{Event}} e)
+\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_a5641b35fc9b4fc06f0222d0f5a5d9231}{afegir\+Peticio}} (\mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} p)
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_simulador_a1fd327f538a9bada55ce322d19f04378}{hi\+Ha\+Peticions}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_simulador_a9dec8ce6b16c6fbf11380f0d0b3163c2}{obtenir\+Peticions\+No\+Servides}} ()
+\begin{DoxyCompactList}\small\item\em Retorna el nombre de peticions no servides. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classcore_1_1_simulador_a42328d708e5d7e31f4da0cdfad4ee940}{calcular\+Temps\+Espera\+Mitja}} ()
+\item 
+\mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} \mbox{\hyperlink{classcore_1_1_simulador_a8eca76227dcf4ba2d2333ce169089e72}{get\+Mapa}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_simulador_afb74b7a8ad97016997f1ffc2ac79691a}{set\+Map\+Panel}} (\mbox{\hyperlink{classviews_1_1_map_panel}{Map\+Panel}} map\+Panel)
+\item 
+\mbox{\hyperlink{classviews_1_1_map_panel}{Map\+Panel}} \mbox{\hyperlink{classcore_1_1_simulador_af4217eba68b0699cd7457dc66091158e}{get\+Map\+Panel}} ()
+\item 
+\Hypertarget{classcore_1_1_simulador_acfa9db3700b9cffaaa7153a190743b7b}\label{classcore_1_1_simulador_acfa9db3700b9cffaaa7153a190743b7b} 
+void {\bfseries pintar\+Missatge} (String missatge)
+\item 
+\Hypertarget{classcore_1_1_simulador_a2f5f71494301f61d2e422a6f17e25ecc}\label{classcore_1_1_simulador_a2f5f71494301f61d2e422a6f17e25ecc} 
+boolean {\bfseries peticions\+Servides} ()
+\item 
+\Hypertarget{classcore_1_1_simulador_acae10edacd42325c990d89b2221c6e39}\label{classcore_1_1_simulador_acae10edacd42325c990d89b2221c6e39} 
+void {\bfseries set\+Estadistiques} (\mbox{\hyperlink{classcore_1_1_estadistiques}{Estadistiques}} estadistiques)
+\item 
+\Hypertarget{classcore_1_1_simulador_a09462168c572337afef1a2a9e6eccbf3}\label{classcore_1_1_simulador_a09462168c572337afef1a2a9e6eccbf3} 
+void {\bfseries set\+Esdeviments} (List$<$ \mbox{\hyperlink{classevents_1_1_event}{Event}} $>$ events)
+\item 
+Map$<$ Integer, Integer $>$ \mbox{\hyperlink{classcore_1_1_simulador_a5ad280132feaf7c188b37e3649bacb94}{iniciar\+Optimitzacio\+Punts\+Carrega}} (File Json\+File)
+\begin{DoxyCompactList}\small\item\em Inicia la simulació per optimitzar l\textquotesingle{}ús dels punts de càrrega dels parquings. Actualment no s\textquotesingle{}utilitza. \end{DoxyCompactList}\item 
+Map$<$ Integer, Integer $>$ \mbox{\hyperlink{classcore_1_1_simulador_a32488c57c6dcaf7108343f40641b0394}{iniciar\+Optimitzacio\+Conductors}} (File Json\+File)
+\begin{DoxyCompactList}\small\item\em Inicia la simulació per optimitzar l\textquotesingle{}activitat dels conductors.\+Actualment no s\textquotesingle{}utilitza. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Classe que gestiona l\textquotesingle{}execució de la simulació. 
+
+Controla els vehicles, conductors i peticions, processant-\/les en funció del temps.
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_simulador_a98f52b79cbbc526e950ae777feb4c999}\index{core.Simulador@{core.Simulador}!afegirConductor@{afegirConductor}}
+\index{afegirConductor@{afegirConductor}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{afegirConductor()}{afegirConductor()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a98f52b79cbbc526e950ae777feb4c999} 
+void core.\+Simulador.\+afegir\+Conductor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}}}]{c}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+c != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El conductor s\textquotesingle{}afegeix a la llista de conductors disponibles per la simulació.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em c} & \doxylink{classcore_1_1_conductor}{Conductor} a afegir. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_simulador_a0043579ea28a581d628b1245c69a9d67}\index{core.Simulador@{core.Simulador}!afegirEsdeveniment@{afegirEsdeveniment}}
+\index{afegirEsdeveniment@{afegirEsdeveniment}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{afegirEsdeveniment()}{afegirEsdeveniment()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a0043579ea28a581d628b1245c69a9d67} 
+void core.\+Simulador.\+afegir\+Esdeveniment (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classevents_1_1_event}{Event}}}]{e}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+e != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+L\textquotesingle{}esdeveniment s\textquotesingle{}afegeix a la cua d\textquotesingle{}esdeveniments programats
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em e} & Esdeveniment a afegir. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_simulador_a5641b35fc9b4fc06f0222d0f5a5d9231}\index{core.Simulador@{core.Simulador}!afegirPeticio@{afegirPeticio}}
+\index{afegirPeticio@{afegirPeticio}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{afegirPeticio()}{afegirPeticio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a5641b35fc9b4fc06f0222d0f5a5d9231} 
+void core.\+Simulador.\+afegir\+Peticio (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_peticio}{Peticio}}}]{p}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+p != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+La petició es registra i queda pendent d’assignació a un vehicle.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em p} & Petició a afegir. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_simulador_ada8b7f9589bd65ca50abed2e1346de42}\index{core.Simulador@{core.Simulador}!afegirPeticioAleatoria@{afegirPeticioAleatoria}}
+\index{afegirPeticioAleatoria@{afegirPeticioAleatoria}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{afegirPeticioAleatoria()}{afegirPeticioAleatoria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_ada8b7f9589bd65ca50abed2e1346de42} 
+void core.\+Simulador.\+afegir\+Peticio\+Aleatoria (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Disponibles}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Es genera una petició de trasllat amb dades aleatòries i s\textquotesingle{}afegeix a la llista de peticions. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_simulador_aa62a97ccc21cf92b3511c6a130f11d45}\index{core.Simulador@{core.Simulador}!afegirVehicle@{afegirVehicle}}
+\index{afegirVehicle@{afegirVehicle}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{afegirVehicle()}{afegirVehicle()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_aa62a97ccc21cf92b3511c6a130f11d45} 
+void core.\+Simulador.\+afegir\+Vehicle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{v}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+v != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle s\textquotesingle{}afegeix a la llista de vehicles disponibles per la simulació.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em v} & \doxylink{classcore_1_1_vehicle}{Vehicle} a afegir. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_simulador_a09d188139f13101a6bca4e54e54ebc93}\index{core.Simulador@{core.Simulador}!assignarPeticions@{assignarPeticions}}
+\index{assignarPeticions@{assignarPeticions}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{assignarPeticions()}{assignarPeticions()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a09d188139f13101a6bca4e54e54ebc93} 
+void core.\+Simulador.\+assignar\+Peticions (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Assigna les peticions pendents als conductors disponibles. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_simulador_ad9bad9599426149caafe47ad1147a989}\index{core.Simulador@{core.Simulador}!assignarPeticionsPlan@{assignarPeticionsPlan}}
+\index{assignarPeticionsPlan@{assignarPeticionsPlan}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{assignarPeticionsPlan()}{assignarPeticionsPlan()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_ad9bad9599426149caafe47ad1147a989} 
+void core.\+Simulador.\+assignar\+Peticions\+Plan (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Assigna rutes planificades als conductors de tipus \doxylink{classcore_1_1_conductor_planificador}{Conductor\+Planificador}. 
+
+Aquesta funció demana a cada conductor planificador que intenti generar una ruta òptima tenint en compte totes les peticions disponibles. Si la ruta és vàlida, s’afegeix un esdeveniment d’inici de ruta a la simulació.
+
+\begin{DoxyPrecond}{Precondición}
+La llista de conductors i peticions ha d’estar inicialitzada i no ser nul·la. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Alguns conductors poden iniciar una ruta planificada, i es generen esdeveniments corresponents. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_simulador_a267c6f208505189ebdf584dee5ed044f}\index{core.Simulador@{core.Simulador}!assignarPeticionsvorac@{assignarPeticionsvorac}}
+\index{assignarPeticionsvorac@{assignarPeticionsvorac}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{assignarPeticionsvorac()}{assignarPeticionsvorac()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a267c6f208505189ebdf584dee5ed044f} 
+void core.\+Simulador.\+assignar\+Peticionsvorac (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Assigna peticions pendents als conductors de tipus \doxylink{classcore_1_1_conductor_vorac}{Conductor\+Vorac} utilitzant una estratègia voraça. 
+
+Aquesta funció recorre totes les peticions pendents i intenta assignar-\/les al conductor més proper (en distància fins a l\textquotesingle{}origen de la petició) que pugui atendre la petició (capacitat i bateria suficient), i que pugui arribar abans de l\textquotesingle{}hora límit d\textquotesingle{}arribada.
+
+\begin{DoxyPrecond}{Precondición}
+El conjunt de peticions i conductors ha d’estar inicialitzat. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Algunes peticions poden ser assignades a conductors i es generen esdeveniments de moviment i inici de ruta. 
+
+S\textquotesingle{}actualitzen les estadístiques de peticions servides i no servides. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_simulador_a42328d708e5d7e31f4da0cdfad4ee940}\index{core.Simulador@{core.Simulador}!calcularTempsEsperaMitja@{calcularTempsEsperaMitja}}
+\index{calcularTempsEsperaMitja@{calcularTempsEsperaMitja}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{calcularTempsEsperaMitja()}{calcularTempsEsperaMitja()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a42328d708e5d7e31f4da0cdfad4ee940} 
+double core.\+Simulador.\+calcular\+Temps\+Espera\+Mitja (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el temps mig d\textquotesingle{}espera en minuts.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Temps mitjà d\textquotesingle{}espera en minuts. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_simulador_ab90d60f824c1894843252a425fdc4c13}\index{core.Simulador@{core.Simulador}!executarSimulacioGuardada@{executarSimulacioGuardada}}
+\index{executarSimulacioGuardada@{executarSimulacioGuardada}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{executarSimulacioGuardada()}{executarSimulacioGuardada()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_ab90d60f824c1894843252a425fdc4c13} 
+void core.\+Simulador.\+executar\+Simulacio\+Guardada (\begin{DoxyParamCaption}\item[{File}]{json\+File}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Inicia l\textquotesingle{}execució d\textquotesingle{}una simulacio guardada 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_simulador_a8eca76227dcf4ba2d2333ce169089e72}\index{core.Simulador@{core.Simulador}!getMapa@{getMapa}}
+\index{getMapa@{getMapa}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{getMapa()}{getMapa()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a8eca76227dcf4ba2d2333ce169089e72} 
+\mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} core.\+Simulador.\+get\+Mapa (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el mapa de la simulació. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_simulador_af4217eba68b0699cd7457dc66091158e}\index{core.Simulador@{core.Simulador}!getMapPanel@{getMapPanel}}
+\index{getMapPanel@{getMapPanel}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{getMapPanel()}{getMapPanel()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_af4217eba68b0699cd7457dc66091158e} 
+\mbox{\hyperlink{classviews_1_1_map_panel}{Map\+Panel}} core.\+Simulador.\+get\+Map\+Panel (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el panell del mapa. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_simulador_a1fd327f538a9bada55ce322d19f04378}\index{core.Simulador@{core.Simulador}!hiHaPeticions@{hiHaPeticions}}
+\index{hiHaPeticions@{hiHaPeticions}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{hiHaPeticions()}{hiHaPeticions()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a1fd327f538a9bada55ce322d19f04378} 
+boolean core.\+Simulador.\+hi\+Ha\+Peticions (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+peticions != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Comprova si queden peticions pendents. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+True si hi ha peticions pendents, false en cas contrari. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_simulador_ac34353953580ae673682f8bed53c4b6a}\index{core.Simulador@{core.Simulador}!iniciar@{iniciar}}
+\index{iniciar@{iniciar}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{iniciar()}{iniciar()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_ac34353953580ae673682f8bed53c4b6a} 
+void core.\+Simulador.\+iniciar (\begin{DoxyParamCaption}\item[{File}]{json\+File}{, }\item[{File}]{estadistic\+File}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Inicia l\textquotesingle{}execució de la simulació. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_simulador_a32488c57c6dcaf7108343f40641b0394}\index{core.Simulador@{core.Simulador}!iniciarOptimitzacioConductors@{iniciarOptimitzacioConductors}}
+\index{iniciarOptimitzacioConductors@{iniciarOptimitzacioConductors}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{iniciarOptimitzacioConductors()}{iniciarOptimitzacioConductors()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a32488c57c6dcaf7108343f40641b0394} 
+Map$<$ Integer, Integer $>$ core.\+Simulador.\+iniciar\+Optimitzacio\+Conductors (\begin{DoxyParamCaption}\item[{File}]{Json\+File}{}\end{DoxyParamCaption})}
+
+
+
+Inicia la simulació per optimitzar l\textquotesingle{}activitat dels conductors.\+Actualment no s\textquotesingle{}utilitza. 
+
+Carrega dades des del fitxer JSON i inicialitza un recompte d’usos per cada conductor. Durant la simulació, incrementa aquest recompte cada vegada que un conductor deixa passatgers.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em Json\+File} & Arxiu JSON amb informació dels conductors, vehicles i llocs. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Un mapa amb l’\+ID del conductor com a clau i el nombre de viatges completats com a valor. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_simulador_a5ad280132feaf7c188b37e3649bacb94}\index{core.Simulador@{core.Simulador}!iniciarOptimitzacioPuntsCarrega@{iniciarOptimitzacioPuntsCarrega}}
+\index{iniciarOptimitzacioPuntsCarrega@{iniciarOptimitzacioPuntsCarrega}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{iniciarOptimitzacioPuntsCarrega()}{iniciarOptimitzacioPuntsCarrega()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a5ad280132feaf7c188b37e3649bacb94} 
+Map$<$ Integer, Integer $>$ core.\+Simulador.\+iniciar\+Optimitzacio\+Punts\+Carrega (\begin{DoxyParamCaption}\item[{File}]{Json\+File}{}\end{DoxyParamCaption})}
+
+
+
+Inicia la simulació per optimitzar l\textquotesingle{}ús dels punts de càrrega dels parquings. Actualment no s\textquotesingle{}utilitza. 
+
+Llegeix el mapa per identificar parquings amb més d’un punt de càrrega (públic o privat) i fa un seguiment de quantes vegades s’utilitza cada un durant la simulació.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em Json\+File} & Arxiu JSON que conté informació de la simulació (vehicles, llocs, etc.). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Un mapa amb l’\+ID del punt de càrrega com a clau i el nombre de vegades usat com a valor. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_simulador_a9dec8ce6b16c6fbf11380f0d0b3163c2}\index{core.Simulador@{core.Simulador}!obtenirPeticionsNoServides@{obtenirPeticionsNoServides}}
+\index{obtenirPeticionsNoServides@{obtenirPeticionsNoServides}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{obtenirPeticionsNoServides()}{obtenirPeticionsNoServides()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_a9dec8ce6b16c6fbf11380f0d0b3163c2} 
+int core.\+Simulador.\+obtenir\+Peticions\+No\+Servides (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Retorna el nombre de peticions no servides. 
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre de peticions que no han pogut ser servides.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Nombre de peticions no servides. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_simulador_afb74b7a8ad97016997f1ffc2ac79691a}\index{core.Simulador@{core.Simulador}!setMapPanel@{setMapPanel}}
+\index{setMapPanel@{setMapPanel}!core.Simulador@{core.Simulador}}
+\doxysubsubsection{\texorpdfstring{setMapPanel()}{setMapPanel()}}
+{\footnotesize\ttfamily \label{classcore_1_1_simulador_afb74b7a8ad97016997f1ffc2ac79691a} 
+void core.\+Simulador.\+set\+Map\+Panel (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classviews_1_1_map_panel}{Map\+Panel}}}]{map\+Panel}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Fa un set de la vista del mapa. 
+\end{DoxyPostcond}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Simulador.\+java\end{DoxyCompactItemize}

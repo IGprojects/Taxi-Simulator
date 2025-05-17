@@ -1,0 +1,139 @@
+\doxysection{Referencia de la clase core.\+Lector\+CSV}
+\hypertarget{classcore_1_1_lector_c_s_v}{}\label{classcore_1_1_lector_c_s_v}\index{core.LectorCSV@{core.LectorCSV}}
+
+
+Classe per llegir fitxers CSV i carregar dades a la simulació.  
+
+
+\doxysubsubsection*{Métodos públicos estáticos}
+\begin{DoxyCompactItemize}
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ \mbox{\hyperlink{classcore_1_1_lector_c_s_v_acf06eab74202754ea5259dfecda58b04}{carregar\+Llocs}} (String path\+Fitxer)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ \mbox{\hyperlink{classcore_1_1_lector_c_s_v_a7838b5250a6258261ab5fc56ee42f5d9}{carregar\+Camins}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$ \mbox{\hyperlink{classcore_1_1_lector_c_s_v_a09c7bcd948d190a232af1fe18391875d}{carregar\+Peticions}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ \mbox{\hyperlink{classcore_1_1_lector_c_s_v_aef61add448fe68dba3c94591fc122e35}{carregar\+Conductors}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ vehicles\+Per\+Id, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ \mbox{\hyperlink{classcore_1_1_lector_c_s_v_a2044fefafb43d957e2f0474c64720f73}{carregar\+Vehicles}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Classe per llegir fitxers CSV i carregar dades a la simulació. 
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+05.\+13 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_lector_c_s_v_a7838b5250a6258261ab5fc56ee42f5d9}\index{core.LectorCSV@{core.LectorCSV}!carregarCamins@{carregarCamins}}
+\index{carregarCamins@{carregarCamins}!core.LectorCSV@{core.LectorCSV}}
+\doxysubsubsection{\texorpdfstring{carregarCamins()}{carregarCamins()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_c_s_v_a7838b5250a6258261ab5fc56ee42f5d9} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ core.\+Lector\+CSV.\+carregar\+Camins (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Llegeix un fitxer CSV i retorna una llista de camins entre llocs.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer CSV \\
+\hline
+{\em llocs\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} amb els llocs ja carregats (id -\/\texorpdfstring{$>$}{>} \doxylink{classcore_1_1_lloc}{Lloc}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Llista de camins 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_c_s_v_aef61add448fe68dba3c94591fc122e35}\index{core.LectorCSV@{core.LectorCSV}!carregarConductors@{carregarConductors}}
+\index{carregarConductors@{carregarConductors}!core.LectorCSV@{core.LectorCSV}}
+\doxysubsubsection{\texorpdfstring{carregarConductors()}{carregarConductors()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_c_s_v_aef61add448fe68dba3c94591fc122e35} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ core.\+Lector\+CSV.\+carregar\+Conductors (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$}]{vehicles\+Per\+Id}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyPrecond}{Precondición}
+path\+Fitxer != null \&\& vehicles\+Per\+Id != null \&\& llocs\+Per\+Id != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Llegeix un fitxer CSV i carrega una llista de conductors, associats avehicles ja existents. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer conductors.\+csv \\
+\hline
+{\em vehicles\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} d’\+ID -\/\texorpdfstring{$>$}{>} \doxylink{classcore_1_1_vehicle}{Vehicle} (vehicles ja carregats) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Llista de conductors 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_c_s_v_acf06eab74202754ea5259dfecda58b04}\index{core.LectorCSV@{core.LectorCSV}!carregarLlocs@{carregarLlocs}}
+\index{carregarLlocs@{carregarLlocs}!core.LectorCSV@{core.LectorCSV}}
+\doxysubsubsection{\texorpdfstring{carregarLlocs()}{carregarLlocs()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_c_s_v_acf06eab74202754ea5259dfecda58b04} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ core.\+Lector\+CSV.\+carregar\+Llocs (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyPrecond}{Precondición}
+path\+Fitxer != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Carrega una llista de llocs des d\textquotesingle{}un fitxer CSV. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Llista de llocs carregats 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_c_s_v_a09c7bcd948d190a232af1fe18391875d}\index{core.LectorCSV@{core.LectorCSV}!carregarPeticions@{carregarPeticions}}
+\index{carregarPeticions@{carregarPeticions}!core.LectorCSV@{core.LectorCSV}}
+\doxysubsubsection{\texorpdfstring{carregarPeticions()}{carregarPeticions()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_c_s_v_a09c7bcd948d190a232af1fe18391875d} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$ core.\+Lector\+CSV.\+carregar\+Peticions (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyPrecond}{Precondición}
+path\+Fitxer != null \&\& llocs\+Per\+Id != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Carrega una llista de peticions des d\textquotesingle{}un fitxer CSV. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \\
+\hline
+{\em llocs\+Per\+Id} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Llista de peticions carregades 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_c_s_v_a2044fefafb43d957e2f0474c64720f73}\index{core.LectorCSV@{core.LectorCSV}!carregarVehicles@{carregarVehicles}}
+\index{carregarVehicles@{carregarVehicles}!core.LectorCSV@{core.LectorCSV}}
+\doxysubsubsection{\texorpdfstring{carregarVehicles()}{carregarVehicles()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_c_s_v_a2044fefafb43d957e2f0474c64720f73} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ core.\+Lector\+CSV.\+carregar\+Vehicles (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Llegeix vehicles des d’un fitxer CSV i retorna una llista de vehicles, associats als llocs corresponents.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del CSV \\
+\hline
+{\em llocs\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} ID -\/\texorpdfstring{$>$}{>} \doxylink{classcore_1_1_lloc}{Lloc} (ja carregats) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Llista de vehicles 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Lector\+CSV.\+java\end{DoxyCompactItemize}

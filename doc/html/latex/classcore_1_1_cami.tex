@@ -1,0 +1,147 @@
+\doxysection{Referencia de la clase core.\+Cami}
+\hypertarget{classcore_1_1_cami}{}\label{classcore_1_1_cami}\index{core.Cami@{core.Cami}}
+
+
+Representa un camí entre dos llocs del mapa.  
+
+
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcore_1_1_cami_ae009dc92c616e21cebf4cf1b766718b0}{Cami}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti, double distancia, double temps)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Temps estimat en minuts. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} \mbox{\hyperlink{classcore_1_1_cami_a398a59414a0fd8b038a439a814df173e}{obtenir\+Origen}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_cami_a78cff000acbf3508c305f5cf871d93d2}{equals}} (Object obj)
+\item 
+int \mbox{\hyperlink{classcore_1_1_cami_ac92ac788fc7d66500e1f5144a4702f82}{hash\+Code}} ()
+\item 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} \mbox{\hyperlink{classcore_1_1_cami_aabe36d31b09448d5d427088a80501e60}{obtenir\+Desti}} ()
+\item 
+double \mbox{\hyperlink{classcore_1_1_cami_ac81b693a0ef8c20f7a7880fe444ec7a8}{obtenir\+Distancia}} ()
+\item 
+double \mbox{\hyperlink{classcore_1_1_cami_ad7c0f01ea428e00c60bd788e38a96f7e}{obtenir\+Temps}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Representa un camí entre dos llocs del mapa. 
+
+Cada camí és unidireccional i conté informació sobre la distància i el temps estimat de trajecte.
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de constructores y destructores}
+\Hypertarget{classcore_1_1_cami_ae009dc92c616e21cebf4cf1b766718b0}\index{core.Cami@{core.Cami}!Cami@{Cami}}
+\index{Cami@{Cami}!core.Cami@{core.Cami}}
+\doxysubsubsection{\texorpdfstring{Cami()}{Cami()}}
+{\footnotesize\ttfamily \label{classcore_1_1_cami_ae009dc92c616e21cebf4cf1b766718b0} 
+core.\+Cami.\+Cami (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{origen}{, }\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{desti}{, }\item[{double}]{distancia}{, }\item[{double}]{temps}{}\end{DoxyParamCaption})}
+
+
+
+\texorpdfstring{$<$}{<} Temps estimat en minuts. 
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Crea un camí entre dos llocs amb la distància i el temps estimat especificats.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em origen} & Punt d\textquotesingle{}origen del camí. \\
+\hline
+{\em desti} & Punt de destí del camí. \\
+\hline
+{\em distancia} & Distància en quilòmetres. \\
+\hline
+{\em temps} & Temps estimat en minuts. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_cami_a78cff000acbf3508c305f5cf871d93d2}\index{core.Cami@{core.Cami}!equals@{equals}}
+\index{equals@{equals}!core.Cami@{core.Cami}}
+\doxysubsubsection{\texorpdfstring{equals()}{equals()}}
+{\footnotesize\ttfamily \label{classcore_1_1_cami_a78cff000acbf3508c305f5cf871d93d2} 
+boolean core.\+Cami.\+equals (\begin{DoxyParamCaption}\item[{Object}]{obj}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si el camí és igual a l\textquotesingle{}altre, false en cas contrari. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_cami_ac92ac788fc7d66500e1f5144a4702f82}\index{core.Cami@{core.Cami}!hashCode@{hashCode}}
+\index{hashCode@{hashCode}!core.Cami@{core.Cami}}
+\doxysubsubsection{\texorpdfstring{hashCode()}{hashCode()}}
+{\footnotesize\ttfamily \label{classcore_1_1_cami_ac92ac788fc7d66500e1f5144a4702f82} 
+int core.\+Cami.\+hash\+Code (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna un enter que representa el hash del camí. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_cami_aabe36d31b09448d5d427088a80501e60}\index{core.Cami@{core.Cami}!obtenirDesti@{obtenirDesti}}
+\index{obtenirDesti@{obtenirDesti}!core.Cami@{core.Cami}}
+\doxysubsubsection{\texorpdfstring{obtenirDesti()}{obtenirDesti()}}
+{\footnotesize\ttfamily \label{classcore_1_1_cami_aabe36d31b09448d5d427088a80501e60} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} core.\+Cami.\+obtenir\+Desti (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el punt de destí del camí. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_cami_ac81b693a0ef8c20f7a7880fe444ec7a8}\index{core.Cami@{core.Cami}!obtenirDistancia@{obtenirDistancia}}
+\index{obtenirDistancia@{obtenirDistancia}!core.Cami@{core.Cami}}
+\doxysubsubsection{\texorpdfstring{obtenirDistancia()}{obtenirDistancia()}}
+{\footnotesize\ttfamily \label{classcore_1_1_cami_ac81b693a0ef8c20f7a7880fe444ec7a8} 
+double core.\+Cami.\+obtenir\+Distancia (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la distància del camí. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_cami_a398a59414a0fd8b038a439a814df173e}\index{core.Cami@{core.Cami}!obtenirOrigen@{obtenirOrigen}}
+\index{obtenirOrigen@{obtenirOrigen}!core.Cami@{core.Cami}}
+\doxysubsubsection{\texorpdfstring{obtenirOrigen()}{obtenirOrigen()}}
+{\footnotesize\ttfamily \label{classcore_1_1_cami_a398a59414a0fd8b038a439a814df173e} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} core.\+Cami.\+obtenir\+Origen (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el punt d\textquotesingle{}origen del camí. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_cami_ad7c0f01ea428e00c60bd788e38a96f7e}\index{core.Cami@{core.Cami}!obtenirTemps@{obtenirTemps}}
+\index{obtenirTemps@{obtenirTemps}!core.Cami@{core.Cami}}
+\doxysubsubsection{\texorpdfstring{obtenirTemps()}{obtenirTemps()}}
+{\footnotesize\ttfamily \label{classcore_1_1_cami_ad7c0f01ea428e00c60bd788e38a96f7e} 
+double core.\+Cami.\+obtenir\+Temps (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el temps estimat per recórrer el camí. 
+\end{DoxyPostcond}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Cami.\+java\end{DoxyCompactItemize}

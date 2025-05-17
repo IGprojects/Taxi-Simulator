@@ -1,0 +1,120 @@
+\doxysection{Referencia de la clase events.\+Recollir\+Passatgers\+Event}
+\hypertarget{classevents_1_1_recollir_passatgers_event}{}\label{classevents_1_1_recollir_passatgers_event}\index{events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}}
+
+
+Representa un esdeveniment que indica que un vehicle comença a recollir passatgers.  
+
+
+Diagrama de herencia de events.\+Recollir\+Passatgers\+Event\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classevents_1_1_recollir_passatgers_event}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classevents_1_1_recollir_passatgers_event_a1c76819985568eec5c39990825418508}\label{classevents_1_1_recollir_passatgers_event_a1c76819985568eec5c39990825418508} 
+{\bfseries Recollir\+Passatgers\+Event} (Local\+Time temps, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} conductor, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti, int passatgers\+Recollits)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Nombre de passatgers recollits \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classevents_1_1_recollir_passatgers_event_a17ad5c2da467a598640874956e41cce0}{executar}} (\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador)
+\item 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} \mbox{\hyperlink{classevents_1_1_recollir_passatgers_event_a99984300a298d9d6da54db9a099739e9}{get\+Conductor}} ()
+\item 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} \mbox{\hyperlink{classevents_1_1_recollir_passatgers_event_a900403f037720d00d72f593f90be5f32}{get\+Desti}} ()
+\item 
+int \mbox{\hyperlink{classevents_1_1_recollir_passatgers_event_a16b60c51cb861563908b3f111c986b37}{get\+Passatgers\+Recollits}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Event} (Local\+Time temps)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Temps associat a l\textquotesingle{}esdeveniment \end{DoxyCompactList}\item 
+Local\+Time \mbox{\hyperlink{classevents_1_1_event_a4986b619b70b10231b2f6ba283e3db28}{get\+Temps}} ()
+\item 
+int \mbox{\hyperlink{classevents_1_1_event_a84b8c3fef86513f10542c2bcdb71e161}{compare\+To}} (\mbox{\hyperlink{classevents_1_1_event}{Event}} altre)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Otros miembros heredados}
+\doxysubsection*{Atributos protegidos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+Local\+Time {\bfseries temps}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Representa un esdeveniment que indica que un vehicle comença a recollir passatgers. 
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+05.\+15 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classevents_1_1_recollir_passatgers_event_a17ad5c2da467a598640874956e41cce0}\index{events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}!executar@{executar}}
+\index{executar@{executar}!events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}}
+\doxysubsubsection{\texorpdfstring{executar()}{executar()}}
+{\footnotesize\ttfamily \label{classevents_1_1_recollir_passatgers_event_a17ad5c2da467a598640874956e41cce0} 
+void events.\+Recollir\+Passatgers\+Event.\+executar (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle del conductor recull els passatgers especificats i pinta el missatge per pantalla. 
+\end{DoxyPostcond}
+
+
+Reimplementado de \mbox{\hyperlink{classevents_1_1_event_a7bf2591ac7ef9d73d2f6d68ac176c179}{events.\+Event}}.
+
+\Hypertarget{classevents_1_1_recollir_passatgers_event_a99984300a298d9d6da54db9a099739e9}\index{events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}!getConductor@{getConductor}}
+\index{getConductor@{getConductor}!events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}}
+\doxysubsubsection{\texorpdfstring{getConductor()}{getConductor()}}
+{\footnotesize\ttfamily \label{classevents_1_1_recollir_passatgers_event_a99984300a298d9d6da54db9a099739e9} 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} events.\+Recollir\+Passatgers\+Event.\+get\+Conductor (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obté el conductor associat a l\textquotesingle{}esdeveniment de recollida de passatgers
+
+\begin{DoxyReturn}{Devuelve}
+objecte Conductor que realitza l\textquotesingle{}acció 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Excepciones}
+{\em Illegal\+State\+Exception} & si no hi ha conductor assignat \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classevents_1_1_recollir_passatgers_event_a900403f037720d00d72f593f90be5f32}\index{events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}!getDesti@{getDesti}}
+\index{getDesti@{getDesti}!events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}}
+\doxysubsubsection{\texorpdfstring{getDesti()}{getDesti()}}
+{\footnotesize\ttfamily \label{classevents_1_1_recollir_passatgers_event_a900403f037720d00d72f593f90be5f32} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} events.\+Recollir\+Passatgers\+Event.\+get\+Desti (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obté la ubicació on es recullen els passatgers
+
+\begin{DoxyReturn}{Devuelve}
+objecte Lloc destí de la recollida 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Excepciones}
+{\em Illegal\+State\+Exception} & si no hi ha destí assignat \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classevents_1_1_recollir_passatgers_event_a16b60c51cb861563908b3f111c986b37}\index{events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}!getPassatgersRecollits@{getPassatgersRecollits}}
+\index{getPassatgersRecollits@{getPassatgersRecollits}!events.RecollirPassatgersEvent@{events.RecollirPassatgersEvent}}
+\doxysubsubsection{\texorpdfstring{getPassatgersRecollits()}{getPassatgersRecollits()}}
+{\footnotesize\ttfamily \label{classevents_1_1_recollir_passatgers_event_a16b60c51cb861563908b3f111c986b37} 
+int events.\+Recollir\+Passatgers\+Event.\+get\+Passatgers\+Recollits (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obté el nombre de passatgers recollits
+
+\begin{DoxyReturn}{Devuelve}
+enter amb el nombre de passatgers (valor inicial 0) 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/events/Recollir\+Passatgers\+Event.\+java\end{DoxyCompactItemize}

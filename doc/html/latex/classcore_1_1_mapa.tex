@@ -1,0 +1,232 @@
+\doxysection{Referencia de la clase core.\+Mapa}
+\hypertarget{classcore_1_1_mapa}{}\label{classcore_1_1_mapa}\index{core.Mapa@{core.Mapa}}
+
+
+\doxylink{classcore_1_1_mapa}{Mapa} dels diferents llocs i connexions.  
+
+
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcore_1_1_mapa_aa39d12a2e5c807ee9d60e80bc707f543}{Mapa}} ()
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Llista de llocs i les seves connexions \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_mapa_a93878f1e0fdfb6f4a2df741c9b898582}{afegir\+Lloc}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} lloc)
+\item 
+void \mbox{\hyperlink{classcore_1_1_mapa_afcb7fa495a853fb855e8eeffdb3807fc}{afegir\+Cami}} (\mbox{\hyperlink{classcore_1_1_cami}{Cami}} cami)
+\item 
+\mbox{\hyperlink{classcore_1_1_cami}{Cami}} \mbox{\hyperlink{classcore_1_1_mapa_a67f04d1f4a3268c8ebb02cd9f8304235}{hiha\+Cami}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti)
+\item 
+double \mbox{\hyperlink{classcore_1_1_mapa_a669b1462e0216acc0dbf0bbd01eb2f7f}{calcular\+Distancia}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti)
+\item 
+double \mbox{\hyperlink{classcore_1_1_mapa_acb22566c6ac33fa9c76986b892969a27}{calcular\+Temps\+Ruta}} (List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ ruta)
+\item 
+double \mbox{\hyperlink{classcore_1_1_mapa_a6add79300f7ffab2bcb4f77211e258a4}{calcular\+Distancia\+Ruta}} (List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ ruta)
+\item 
+double \mbox{\hyperlink{classcore_1_1_mapa_aa1fd6bd7c6102daa3e8ff53b4392c491}{calcular\+Temps}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti)
+\item 
+List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ \mbox{\hyperlink{classcore_1_1_mapa_a942327d0e17104ceb9bb4d4d41ab8efa}{camivorac}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti)
+\item 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} \mbox{\hyperlink{classcore_1_1_mapa_aaa3eac8c59a974f60d0639587c89ec43}{ruta\+Parquing\+Mes\+Proper}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, Local\+Time hora\+Inici, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} conductor)
+\item 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} \mbox{\hyperlink{classcore_1_1_mapa_a5abf3ba0a49a4845e52c981756b743ac}{ruta\+Parquing\+Privat\+Mes\+Proper}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, Local\+Time hora\+Inici, \mbox{\hyperlink{classcore_1_1_conductor_planificador}{Conductor\+Planificador}} conductor)
+\item 
+Map$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}, List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ $>$ \mbox{\hyperlink{classcore_1_1_mapa_a151f1db1a0a07ac860aa1b358d9fc05c}{get\+Llocs}} ()
+\item 
+List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ \mbox{\hyperlink{classcore_1_1_mapa_aef804d0c4a161e1037d26bebbab5a387}{obtenir\+Tots\+Els\+Camins}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+\doxylink{classcore_1_1_mapa}{Mapa} dels diferents llocs i connexions. 
+
+Definirà el mapa i les connexions entre llocs
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de constructores y destructores}
+\Hypertarget{classcore_1_1_mapa_aa39d12a2e5c807ee9d60e80bc707f543}\index{core.Mapa@{core.Mapa}!Mapa@{Mapa}}
+\index{Mapa@{Mapa}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{Mapa()}{Mapa()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_aa39d12a2e5c807ee9d60e80bc707f543} 
+core.\+Mapa.\+Mapa (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+\texorpdfstring{$<$}{<} Llista de llocs i les seves connexions 
+
+Constructor de la classe \doxylink{classcore_1_1_mapa}{Mapa} 
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_mapa_afcb7fa495a853fb855e8eeffdb3807fc}\index{core.Mapa@{core.Mapa}!afegirCami@{afegirCami}}
+\index{afegirCami@{afegirCami}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{afegirCami()}{afegirCami()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_afcb7fa495a853fb855e8eeffdb3807fc} 
+void core.\+Mapa.\+afegir\+Cami (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_cami}{Cami}}}]{cami}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Afegeix un nou camí a la llista de connexions 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_mapa_a93878f1e0fdfb6f4a2df741c9b898582}\index{core.Mapa@{core.Mapa}!afegirLloc@{afegirLloc}}
+\index{afegirLloc@{afegirLloc}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{afegirLloc()}{afegirLloc()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_a93878f1e0fdfb6f4a2df741c9b898582} 
+void core.\+Mapa.\+afegir\+Lloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{lloc}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Afegeix un nou lloc a la llista de llocs 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_mapa_a669b1462e0216acc0dbf0bbd01eb2f7f}\index{core.Mapa@{core.Mapa}!calcularDistancia@{calcularDistancia}}
+\index{calcularDistancia@{calcularDistancia}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{calcularDistancia()}{calcularDistancia()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_a669b1462e0216acc0dbf0bbd01eb2f7f} 
+double core.\+Mapa.\+calcular\+Distancia (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{origen}{, }\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{desti}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Origen i desti existents
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la distància en km que hi ha entre dos llocs 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_mapa_a6add79300f7ffab2bcb4f77211e258a4}\index{core.Mapa@{core.Mapa}!calcularDistanciaRuta@{calcularDistanciaRuta}}
+\index{calcularDistanciaRuta@{calcularDistanciaRuta}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{calcularDistanciaRuta()}{calcularDistanciaRuta()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_a6add79300f7ffab2bcb4f77211e258a4} 
+double core.\+Mapa.\+calcular\+Distancia\+Ruta (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{ruta}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el temps en km que dura la ruta. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+El temps total de la ruta en km. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_mapa_aa1fd6bd7c6102daa3e8ff53b4392c491}\index{core.Mapa@{core.Mapa}!calcularTemps@{calcularTemps}}
+\index{calcularTemps@{calcularTemps}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{calcularTemps()}{calcularTemps()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_aa1fd6bd7c6102daa3e8ff53b4392c491} 
+double core.\+Mapa.\+calcular\+Temps (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{origen}{, }\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{desti}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Origen i desti existents
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el temps en min que hi ha entre dos llocs 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_mapa_acb22566c6ac33fa9c76986b892969a27}\index{core.Mapa@{core.Mapa}!calcularTempsRuta@{calcularTempsRuta}}
+\index{calcularTempsRuta@{calcularTempsRuta}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{calcularTempsRuta()}{calcularTempsRuta()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_acb22566c6ac33fa9c76986b892969a27} 
+double core.\+Mapa.\+calcular\+Temps\+Ruta (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{ruta}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el temps en minuts que dura la ruta. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+El temps total de la ruta en minuts. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_mapa_a942327d0e17104ceb9bb4d4d41ab8efa}\index{core.Mapa@{core.Mapa}!camivorac@{camivorac}}
+\index{camivorac@{camivorac}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{camivorac()}{camivorac()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_a942327d0e17104ceb9bb4d4d41ab8efa} 
+List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ core.\+Mapa.\+camivorac (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{origen}{, }\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{desti}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Origen i desti existents
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el camí més ràpid entre dos llocs 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_mapa_a151f1db1a0a07ac860aa1b358d9fc05c}\index{core.Mapa@{core.Mapa}!getLlocs@{getLlocs}}
+\index{getLlocs@{getLlocs}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{getLlocs()}{getLlocs()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_a151f1db1a0a07ac860aa1b358d9fc05c} 
+Map$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}, List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ $>$ core.\+Mapa.\+get\+Llocs (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la llista de llocs i les seves connexions 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Llista de llocs i les seves connexions 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_mapa_a67f04d1f4a3268c8ebb02cd9f8304235}\index{core.Mapa@{core.Mapa}!hihaCami@{hihaCami}}
+\index{hihaCami@{hihaCami}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{hihaCami()}{hihaCami()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_a67f04d1f4a3268c8ebb02cd9f8304235} 
+\mbox{\hyperlink{classcore_1_1_cami}{Cami}} core.\+Mapa.\+hiha\+Cami (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{origen}{, }\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{desti}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Origen i desti existents
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el \doxylink{classcore_1_1_cami}{Cami} si hi ha camí entre origen i desti, altrament null 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_mapa_aef804d0c4a161e1037d26bebbab5a387}\index{core.Mapa@{core.Mapa}!obtenirTotsElsCamins@{obtenirTotsElsCamins}}
+\index{obtenirTotsElsCamins@{obtenirTotsElsCamins}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{obtenirTotsElsCamins()}{obtenirTotsElsCamins()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_aef804d0c4a161e1037d26bebbab5a387} 
+List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ core.\+Mapa.\+obtenir\+Tots\+Els\+Camins (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la llista de connexions 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Llista de connexions 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_mapa_aaa3eac8c59a974f60d0639587c89ec43}\index{core.Mapa@{core.Mapa}!rutaParquingMesProper@{rutaParquingMesProper}}
+\index{rutaParquingMesProper@{rutaParquingMesProper}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{rutaParquingMesProper()}{rutaParquingMesProper()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_aaa3eac8c59a974f60d0639587c89ec43} 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} core.\+Mapa.\+ruta\+Parquing\+Mes\+Proper (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{origen}{, }\item[{Local\+Time}]{hora\+Inici}{, }\item[{\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}}}]{conductor}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la ruta més ràpida per arribar a un parquing públic 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_ruta}{Ruta} més ràpida per arribar a un parquing públic 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_mapa_a5abf3ba0a49a4845e52c981756b743ac}\index{core.Mapa@{core.Mapa}!rutaParquingPrivatMesProper@{rutaParquingPrivatMesProper}}
+\index{rutaParquingPrivatMesProper@{rutaParquingPrivatMesProper}!core.Mapa@{core.Mapa}}
+\doxysubsubsection{\texorpdfstring{rutaParquingPrivatMesProper()}{rutaParquingPrivatMesProper()}}
+{\footnotesize\ttfamily \label{classcore_1_1_mapa_a5abf3ba0a49a4845e52c981756b743ac} 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} core.\+Mapa.\+ruta\+Parquing\+Privat\+Mes\+Proper (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{origen}{, }\item[{Local\+Time}]{hora\+Inici}{, }\item[{\mbox{\hyperlink{classcore_1_1_conductor_planificador}{Conductor\+Planificador}}}]{conductor}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la ruta més ràpida per arribar a un parquing privat 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_ruta}{Ruta} més ràpida per arribar a un parquing privat 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Mapa.\+java\end{DoxyCompactItemize}

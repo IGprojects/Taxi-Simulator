@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['calculardistancia_0',['calcularDistancia',['../classcore_1_1_mapa.html#a669b1462e0216acc0dbf0bbd01eb2f7f',1,'core::Mapa']]],
+  ['calculardistanciaruta_1',['calcularDistanciaRuta',['../classcore_1_1_mapa.html#a6add79300f7ffab2bcb4f77211e258a4',1,'core::Mapa']]],
+  ['calculartemps_2',['calcularTemps',['../classcore_1_1_mapa.html#aa1fd6bd7c6102daa3e8ff53b4392c491',1,'core::Mapa']]],
+  ['calculartempsesperamitja_3',['calcularTempsEsperaMitja',['../classcore_1_1_simulador.html#a42328d708e5d7e31f4da0cdfad4ee940',1,'core::Simulador']]],
+  ['calculartempsruta_4',['calcularTempsRuta',['../classcore_1_1_mapa.html#acb22566c6ac33fa9c76986b892969a27',1,'core::Mapa']]],
+  ['cami_5',['Cami',['../classcore_1_1_cami.html#ae009dc92c616e21cebf4cf1b766718b0',1,'core::Cami']]],
+  ['camivorac_6',['camivorac',['../classcore_1_1_mapa.html#a942327d0e17104ceb9bb4d4d41ab8efa',1,'core::Mapa']]],
+  ['carregarbateria_7',['carregarBateria',['../classcore_1_1_vehicle.html#a0e305fac0612edb79e92e336d4e67d0f',1,'core::Vehicle']]],
+  ['carregarbateriaevent_8',['CarregarBateriaEvent',['../classevents_1_1_carregar_bateria_event.html#a1aff57568395ab3141237c89746fb7e4',1,'events::CarregarBateriaEvent']]],
+  ['carregarcamins_9',['carregarCamins',['../classcore_1_1_lector_c_s_v.html#a7838b5250a6258261ab5fc56ee42f5d9',1,'core.LectorCSV.carregarCamins()'],['../classcore_1_1_lector_j_s_o_n.html#ad229162cc68210a57c9be97b270e5377',1,'core.LectorJSON.carregarCamins()']]],
+  ['carregarconductors_10',['carregarConductors',['../classcore_1_1_lector_c_s_v.html#aef61add448fe68dba3c94591fc122e35',1,'core.LectorCSV.carregarConductors()'],['../classcore_1_1_lector_j_s_o_n.html#a910ccedf31aec9bc84502d6d125deae2',1,'core.LectorJSON.carregarConductors(String pathFitxer, Map&lt; Integer, Vehicle &gt; vehiclesPerId, Map&lt; Integer, Lloc &gt; llocsPerId)']]],
+  ['carregarestadistiques_11',['carregarEstadistiques',['../classcore_1_1_lector_j_s_o_n.html#a40595950c62871a31c6febcd789f8109',1,'core::LectorJSON']]],
+  ['carregarevents_12',['carregarEvents',['../classcore_1_1_lector_j_s_o_n.html#af59334e51ef1a25ae9b6ea8ac7f5cffd',1,'core::LectorJSON']]],
+  ['carregarhorari_13',['carregarHorari',['../classcore_1_1_lector_j_s_o_n.html#ab4c0b2f5ba97170c033206a300cd9bb7',1,'core::LectorJSON']]],
+  ['carregarllocs_14',['carregarLlocs',['../classcore_1_1_lector_c_s_v.html#acf06eab74202754ea5259dfecda58b04',1,'core.LectorCSV.carregarLlocs()'],['../classcore_1_1_lector_j_s_o_n.html#a9ca49bd9eb16ef77231a8e9ecd61a17e',1,'core.LectorJSON.carregarLlocs()']]],
+  ['carregarmapa_15',['carregarMapa',['../class_main.html#a6d2f81069cf423e9949df010739c6c68',1,'Main']]],
+  ['carregarpeticions_16',['carregarPeticions',['../classcore_1_1_lector_c_s_v.html#a09c7bcd948d190a232af1fe18391875d',1,'core.LectorCSV.carregarPeticions()'],['../classcore_1_1_lector_j_s_o_n.html#a206ebd09268dac3600c6288e15b872f1',1,'core.LectorJSON.carregarPeticions()']]],
+  ['carregarvehicles_17',['carregarVehicles',['../classcore_1_1_lector_c_s_v.html#a2044fefafb43d957e2f0474c64720f73',1,'core.LectorCSV.carregarVehicles()'],['../classcore_1_1_lector_j_s_o_n.html#ad0d40e2ac1d6422c9b32d55bd35bc45e',1,'core.LectorJSON.carregarVehicles()']]],
+  ['compareto_18',['compareTo',['../classevents_1_1_event.html#a84b8c3fef86513f10542c2bcdb71e161',1,'events::Event']]],
+  ['conductor_19',['Conductor',['../classcore_1_1_conductor.html#ac352b2e15ca126d958a52eb255c4aa93',1,'core::Conductor']]],
+  ['conductorplanificador_20',['ConductorPlanificador',['../classcore_1_1_conductor_planificador.html#a55ff20e4c1041bef3d7b18df4d6d03c9',1,'core::ConductorPlanificador']]],
+  ['consumirbateria_21',['consumirBateria',['../classcore_1_1_vehicle.html#a39e3553d8e76407586d7d5cc5e008767',1,'core::Vehicle']]],
+  ['convertirllistaamap_5fconductors_22',['convertirLlistaAMap_Conductors',['../classcore_1_1_lector_j_s_o_n.html#ab4913a90fc8bea3a0d71ced32ce323a7',1,'core::LectorJSON']]],
+  ['convertirllistaamap_5fllocs_23',['convertirLlistaAMap_Llocs',['../classcore_1_1_lector_j_s_o_n.html#a42de07ef6d6ba084498af7d326c23ce1',1,'core::LectorJSON']]],
+  ['convertirllistaamap_5fvehicles_24',['convertirLlistaAMap_Vehicles',['../classcore_1_1_lector_j_s_o_n.html#ac3ec0db5eeaa0af26cd1f7fc44da334d',1,'core::LectorJSON']]]
+];

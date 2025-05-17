@@ -1,0 +1,395 @@
+\doxysection{Referencia de la clase core.\+Estadistiques}
+\hypertarget{classcore_1_1_estadistiques}{}\label{classcore_1_1_estadistiques}\index{core.Estadistiques@{core.Estadistiques}}
+
+
+Classe per gestionar i calcular estadístiques de simulacions.  
+
+
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcore_1_1_estadistiques_a3f62cf71e43641200673fc65ebe9e871}\label{classcore_1_1_estadistiques_a3f62cf71e43641200673fc65ebe9e871} 
+{\bfseries Estadistiques} ()
+\begin{DoxyCompactList}\small\item\em Constructor per defecte. Inicialitza totes les estadístiques a zero. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_estadistiques_a422d236d1f04a782327128351d064150}{Estadistiques}} (int peticiones\+Servidas, int peticiones\+No\+Servidas, double tiempo\+Total\+Espera, double tiempo\+Maximo\+Espera, double ocupacion\+Total\+Vehiculos, int muestras\+Ocupacion, double porcentaje\+Bateria\+Promedio, int muestras\+Bateria, double tiempo\+Total\+Viaje, int muestras\+Viaje)
+\begin{DoxyCompactList}\small\item\em Constructor amb paràmetres. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a02a08ece583f43ea1b26991934a8019b}\label{classcore_1_1_estadistiques_a02a08ece583f43ea1b26991934a8019b} 
+void {\bfseries resetear} ()
+\begin{DoxyCompactList}\small\item\em Reinicia totes les estadístiques a zero. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_estadistiques_a2c2cebaa88bf5e1991f731736e4cc50f}{registrar\+Peticion\+Servida}} (double tiempo\+Espera)
+\begin{DoxyCompactList}\small\item\em Registra una petició servida i el seu temps d\textquotesingle{}espera. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_estadistiques_a32ad55f2af8dd944fd134c173ea43cdc}{registrar\+Peticion\+No\+Servida}} (int num\+Peticions)
+\begin{DoxyCompactList}\small\item\em Registra el nombre total de peticions no servides. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_estadistiques_a2d39202d6296ef117a8360efe0ce30fa}{registrar\+Ocupacion\+Vehiculo}} (double porcentaje\+Ocupacion)
+\begin{DoxyCompactList}\small\item\em Registra una nova mostra d\textquotesingle{}ocupació de vehicle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_estadistiques_aef6ad02676a5089a68f5354fbfbe42d3}{registrar\+Estado\+Bateria}} (double porcentaje\+Bateria)
+\begin{DoxyCompactList}\small\item\em Registra una nova mostra d\textquotesingle{}estat de bateria. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_estadistiques_a13f45d343f9c2ffff47e2650facf0960}{registrar\+Tiempo\+Viaje}} (double tiempo\+Viaje)
+\begin{DoxyCompactList}\small\item\em Registra una nova mostra de temps de viatge. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a1af532cf20639ecc4497b078ff7feaba}\label{classcore_1_1_estadistiques_a1af532cf20639ecc4497b078ff7feaba} 
+void {\bfseries finalizar\+Simulacion} ()
+\begin{DoxyCompactList}\small\item\em Finalitza la simulació i desa les estadístiques a l\textquotesingle{}historial. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classcore_1_1_estadistiques_a0d138ab41c710f96491894975525a904}{get\+Tiempo\+Espera\+Promedio}} ()
+\begin{DoxyCompactList}\small\item\em Calcula el temps d\textquotesingle{}espera mitjà per petició. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classcore_1_1_estadistiques_a98ea73d1e03191aa139193ce1ef57b9b}{get\+Ocupacion\+Promedio\+Vehiculos}} ()
+\begin{DoxyCompactList}\small\item\em Calcula l\textquotesingle{}ocupació mitjana dels vehicles. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classcore_1_1_estadistiques_ad7c9f87d3f1032f98e2a3efd03e0e4b8}{get\+Porcentaje\+Bateria\+Promedio}} ()
+\begin{DoxyCompactList}\small\item\em Calcula el percentatge mitjà de bateria. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classcore_1_1_estadistiques_a715c23bdfe3fad6af00caa6749f1da0a}{get\+Tiempo\+Viaje\+Promedio}} ()
+\begin{DoxyCompactList}\small\item\em Calcula el temps mitjà de viatge. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classcore_1_1_estadistiques_a8fe9fbffeee6f219421aa73b4147f02d}{get\+Porcentaje\+Exito}} ()
+\begin{DoxyCompactList}\small\item\em Calcula el percentatge d\textquotesingle{}èxit de les peticions. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classcore_1_1_estadistiques_a9796b7dcb39b2297b36f6b9f3608ae29}{get\+Muestras\+Ocupacion}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_estadistiques_ae74b111a4eeb05dc0aa3c93c0e4547c7}{get\+Muestras\+Bateria}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_estadistiques_a62699ed7a34e257744e85e6a6e57c6b8}{get\+Muestras\+Viaje}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_estadistiques_aeb8918aae3d616d948ce258d607215f1}{get\+Peticiones\+Servidas}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_estadistiques_a713f2705146f37f8e3d0886db5795120}{get\+Peticiones\+No\+Servidas}} ()
+\item 
+double \mbox{\hyperlink{classcore_1_1_estadistiques_acd28245fc1d9dca520af7bf39a872601}{get\+Tiempo\+Maximo\+Espera}} ()
+\item 
+String \mbox{\hyperlink{classcore_1_1_estadistiques_a352f0f42b965ac7d769ee2dcb32ac849}{to\+String}} ()
+\begin{DoxyCompactList}\small\item\em Retorna les estadístiques de la simulació en format llegible. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a5614d8490e0e927a2cb374dac386e05b}\label{classcore_1_1_estadistiques_a5614d8490e0e927a2cb374dac386e05b} 
+void {\bfseries set\+Peticiones\+Servidas} (int peticiones\+Servidas)
+\begin{DoxyCompactList}\small\item\em Estableix el nombre de peticions servides. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_ac742163a8edce8a8c788ff2ad67c0bc8}\label{classcore_1_1_estadistiques_ac742163a8edce8a8c788ff2ad67c0bc8} 
+void {\bfseries set\+Peticiones\+No\+Servidas} (int peticiones\+No\+Servidas)
+\begin{DoxyCompactList}\small\item\em Estableix el nombre de peticions no servides. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a41862fd04f8d7e523b45ef7ac7248b02}\label{classcore_1_1_estadistiques_a41862fd04f8d7e523b45ef7ac7248b02} 
+void {\bfseries set\+Tiempo\+Total\+Espera} (double tiempo\+Total\+Espera)
+\begin{DoxyCompactList}\small\item\em Estableix el temps total d\textquotesingle{}espera. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_af75aff5fa63cfe2d9bdcff3bc579ee00}\label{classcore_1_1_estadistiques_af75aff5fa63cfe2d9bdcff3bc579ee00} 
+void {\bfseries set\+Tiempo\+Maximo\+Espera} (double tiempo\+Maximo\+Espera)
+\begin{DoxyCompactList}\small\item\em Estableix el temps màxim d\textquotesingle{}espera. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_af120c8e3f1dc4658c1fc750f3b9c211d}\label{classcore_1_1_estadistiques_af120c8e3f1dc4658c1fc750f3b9c211d} 
+void {\bfseries set\+Ocupacion\+Total\+Vehiculos} (double ocupacion\+Total\+Vehiculos)
+\begin{DoxyCompactList}\small\item\em Estableix l\textquotesingle{}ocupació total dels vehicles. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a1186e27ed5bfdbda3e1b4a2bd7af3fcd}\label{classcore_1_1_estadistiques_a1186e27ed5bfdbda3e1b4a2bd7af3fcd} 
+void {\bfseries set\+Muestras\+Ocupacion} (int muestras\+Ocupacion)
+\begin{DoxyCompactList}\small\item\em Estableix el nombre de mostres d\textquotesingle{}ocupació. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a7c20f797e95b8a073551987f34cfd610}\label{classcore_1_1_estadistiques_a7c20f797e95b8a073551987f34cfd610} 
+void {\bfseries set\+Porcentaje\+Bateria\+Promedio} (double porcentaje\+Bateria\+Promedio)
+\begin{DoxyCompactList}\small\item\em Estableix la suma dels percentatges de bateria. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a7794055483d6336d248b24260b9ecc7d}\label{classcore_1_1_estadistiques_a7794055483d6336d248b24260b9ecc7d} 
+void {\bfseries set\+Muestras\+Bateria} (int muestras\+Bateria)
+\begin{DoxyCompactList}\small\item\em Estableix el nombre de mostres de bateria. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a53508d8301c0db25b6be4f6b365b5f08}\label{classcore_1_1_estadistiques_a53508d8301c0db25b6be4f6b365b5f08} 
+void {\bfseries set\+Tiempo\+Total\+Viaje} (double tiempo\+Total\+Viaje)
+\begin{DoxyCompactList}\small\item\em Estableix el temps total de viatge. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_estadistiques_a38ff16f92b45b3fcff09c3f2f8418ab9}\label{classcore_1_1_estadistiques_a38ff16f92b45b3fcff09c3f2f8418ab9} 
+void {\bfseries set\+Muestras\+Viaje} (int muestras\+Viaje)
+\begin{DoxyCompactList}\small\item\em Estableix el nombre de mostres de viatge. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Métodos públicos estáticos}
+\begin{DoxyCompactItemize}
+\item 
+static double \mbox{\hyperlink{classcore_1_1_estadistiques_aa2cc0d4659567af227b224cbea3d8ec6}{get\+Porcentaje\+Exito\+Agregado}} ()
+\begin{DoxyCompactList}\small\item\em Calcula el percentatge d\textquotesingle{}èxit global de totes les simulacions. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{classcore_1_1_estadistiques_a2b83b3cbd98723f42cde8141df79db1a}{get\+Tiempo\+Espera\+Promedio\+Agregado}} ()
+\begin{DoxyCompactList}\small\item\em Calcula el temps d\textquotesingle{}espera mitjà agregat de totes les simulacions. \end{DoxyCompactList}\item 
+static String \mbox{\hyperlink{classcore_1_1_estadistiques_a18fae3a71e8084dc3566207bb4db6494}{get\+Estadisticas\+Agregadas}} ()
+\begin{DoxyCompactList}\small\item\em Retorna les estadístiques agregades de totes les simulacions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Classe per gestionar i calcular estadístiques de simulacions. 
+
+\begin{DoxyAuthor}{Autor}
+Ignasi Ferrés Iglesias 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+05.\+13 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de constructores y destructores}
+\Hypertarget{classcore_1_1_estadistiques_a422d236d1f04a782327128351d064150}\index{core.Estadistiques@{core.Estadistiques}!Estadistiques@{Estadistiques}}
+\index{Estadistiques@{Estadistiques}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{Estadistiques()}{Estadistiques()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a422d236d1f04a782327128351d064150} 
+core.\+Estadistiques.\+Estadistiques (\begin{DoxyParamCaption}\item[{int}]{peticiones\+Servidas}{, }\item[{int}]{peticiones\+No\+Servidas}{, }\item[{double}]{tiempo\+Total\+Espera}{, }\item[{double}]{tiempo\+Maximo\+Espera}{, }\item[{double}]{ocupacion\+Total\+Vehiculos}{, }\item[{int}]{muestras\+Ocupacion}{, }\item[{double}]{porcentaje\+Bateria\+Promedio}{, }\item[{int}]{muestras\+Bateria}{, }\item[{double}]{tiempo\+Total\+Viaje}{, }\item[{int}]{muestras\+Viaje}{}\end{DoxyParamCaption})}
+
+
+
+Constructor amb paràmetres. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em peticiones\+Servidas} & Nombre de peticions servides \\
+\hline
+{\em peticiones\+No\+Servidas} & Nombre de peticions no servides \\
+\hline
+{\em tiempo\+Total\+Espera} & Temps total d\textquotesingle{}espera \\
+\hline
+{\em tiempo\+Maximo\+Espera} & Temps màxim d\textquotesingle{}espera \\
+\hline
+{\em ocupacion\+Total\+Vehiculos} & Ocupació total dels vehicles \\
+\hline
+{\em muestras\+Ocupacion} & Nombre de mostres d\textquotesingle{}ocupació \\
+\hline
+{\em porcentaje\+Bateria\+Promedio} & Percentatge total de bateria \\
+\hline
+{\em muestras\+Bateria} & Nombre de mostres de bateria \\
+\hline
+{\em tiempo\+Total\+Viaje} & Temps total de viatge \\
+\hline
+{\em muestras\+Viaje} & Nombre de mostres de viatge \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_estadistiques_a18fae3a71e8084dc3566207bb4db6494}\index{core.Estadistiques@{core.Estadistiques}!getEstadisticasAgregadas@{getEstadisticasAgregadas}}
+\index{getEstadisticasAgregadas@{getEstadisticasAgregadas}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getEstadisticasAgregadas()}{getEstadisticasAgregadas()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a18fae3a71e8084dc3566207bb4db6494} 
+static String core.\+Estadistiques.\+get\+Estadisticas\+Agregadas (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Retorna les estadístiques agregades de totes les simulacions. 
+
+\begin{DoxyReturn}{Devuelve}
+String amb estadístiques agregades formatades 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_ae74b111a4eeb05dc0aa3c93c0e4547c7}\index{core.Estadistiques@{core.Estadistiques}!getMuestrasBateria@{getMuestrasBateria}}
+\index{getMuestrasBateria@{getMuestrasBateria}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getMuestrasBateria()}{getMuestrasBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_ae74b111a4eeb05dc0aa3c93c0e4547c7} 
+int core.\+Estadistiques.\+get\+Muestras\+Bateria (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Devuelve}
+Nombre de mostres de bateria 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_a9796b7dcb39b2297b36f6b9f3608ae29}\index{core.Estadistiques@{core.Estadistiques}!getMuestrasOcupacion@{getMuestrasOcupacion}}
+\index{getMuestrasOcupacion@{getMuestrasOcupacion}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getMuestrasOcupacion()}{getMuestrasOcupacion()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a9796b7dcb39b2297b36f6b9f3608ae29} 
+int core.\+Estadistiques.\+get\+Muestras\+Ocupacion (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Devuelve}
+Nombre de mostres d\textquotesingle{}ocupació 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_a62699ed7a34e257744e85e6a6e57c6b8}\index{core.Estadistiques@{core.Estadistiques}!getMuestrasViaje@{getMuestrasViaje}}
+\index{getMuestrasViaje@{getMuestrasViaje}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getMuestrasViaje()}{getMuestrasViaje()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a62699ed7a34e257744e85e6a6e57c6b8} 
+int core.\+Estadistiques.\+get\+Muestras\+Viaje (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Devuelve}
+Nombre de mostres de viatge 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_a98ea73d1e03191aa139193ce1ef57b9b}\index{core.Estadistiques@{core.Estadistiques}!getOcupacionPromedioVehiculos@{getOcupacionPromedioVehiculos}}
+\index{getOcupacionPromedioVehiculos@{getOcupacionPromedioVehiculos}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getOcupacionPromedioVehiculos()}{getOcupacionPromedioVehiculos()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a98ea73d1e03191aa139193ce1ef57b9b} 
+double core.\+Estadistiques.\+get\+Ocupacion\+Promedio\+Vehiculos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Calcula l\textquotesingle{}ocupació mitjana dels vehicles. 
+
+\begin{DoxyReturn}{Devuelve}
+Ocupació mitjana 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_a713f2705146f37f8e3d0886db5795120}\index{core.Estadistiques@{core.Estadistiques}!getPeticionesNoServidas@{getPeticionesNoServidas}}
+\index{getPeticionesNoServidas@{getPeticionesNoServidas}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getPeticionesNoServidas()}{getPeticionesNoServidas()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a713f2705146f37f8e3d0886db5795120} 
+int core.\+Estadistiques.\+get\+Peticiones\+No\+Servidas (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Devuelve}
+Nombre de peticions no servides 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_aeb8918aae3d616d948ce258d607215f1}\index{core.Estadistiques@{core.Estadistiques}!getPeticionesServidas@{getPeticionesServidas}}
+\index{getPeticionesServidas@{getPeticionesServidas}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getPeticionesServidas()}{getPeticionesServidas()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_aeb8918aae3d616d948ce258d607215f1} 
+int core.\+Estadistiques.\+get\+Peticiones\+Servidas (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Devuelve}
+Nombre de peticions servides 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_ad7c9f87d3f1032f98e2a3efd03e0e4b8}\index{core.Estadistiques@{core.Estadistiques}!getPorcentajeBateriaPromedio@{getPorcentajeBateriaPromedio}}
+\index{getPorcentajeBateriaPromedio@{getPorcentajeBateriaPromedio}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getPorcentajeBateriaPromedio()}{getPorcentajeBateriaPromedio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_ad7c9f87d3f1032f98e2a3efd03e0e4b8} 
+double core.\+Estadistiques.\+get\+Porcentaje\+Bateria\+Promedio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Calcula el percentatge mitjà de bateria. 
+
+\begin{DoxyReturn}{Devuelve}
+Percentatge mitjà de bateria 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_a8fe9fbffeee6f219421aa73b4147f02d}\index{core.Estadistiques@{core.Estadistiques}!getPorcentajeExito@{getPorcentajeExito}}
+\index{getPorcentajeExito@{getPorcentajeExito}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getPorcentajeExito()}{getPorcentajeExito()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a8fe9fbffeee6f219421aa73b4147f02d} 
+double core.\+Estadistiques.\+get\+Porcentaje\+Exito (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Calcula el percentatge d\textquotesingle{}èxit de les peticions. 
+
+\begin{DoxyReturn}{Devuelve}
+Percentatge d\textquotesingle{}èxit 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_aa2cc0d4659567af227b224cbea3d8ec6}\index{core.Estadistiques@{core.Estadistiques}!getPorcentajeExitoAgregado@{getPorcentajeExitoAgregado}}
+\index{getPorcentajeExitoAgregado@{getPorcentajeExitoAgregado}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getPorcentajeExitoAgregado()}{getPorcentajeExitoAgregado()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_aa2cc0d4659567af227b224cbea3d8ec6} 
+static double core.\+Estadistiques.\+get\+Porcentaje\+Exito\+Agregado (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calcula el percentatge d\textquotesingle{}èxit global de totes les simulacions. 
+
+\begin{DoxyReturn}{Devuelve}
+Percentatge d\textquotesingle{}èxit agregat 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_a0d138ab41c710f96491894975525a904}\index{core.Estadistiques@{core.Estadistiques}!getTiempoEsperaPromedio@{getTiempoEsperaPromedio}}
+\index{getTiempoEsperaPromedio@{getTiempoEsperaPromedio}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getTiempoEsperaPromedio()}{getTiempoEsperaPromedio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a0d138ab41c710f96491894975525a904} 
+double core.\+Estadistiques.\+get\+Tiempo\+Espera\+Promedio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Calcula el temps d\textquotesingle{}espera mitjà per petició. 
+
+\begin{DoxyReturn}{Devuelve}
+Temps mitjà d\textquotesingle{}espera 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_a2b83b3cbd98723f42cde8141df79db1a}\index{core.Estadistiques@{core.Estadistiques}!getTiempoEsperaPromedioAgregado@{getTiempoEsperaPromedioAgregado}}
+\index{getTiempoEsperaPromedioAgregado@{getTiempoEsperaPromedioAgregado}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getTiempoEsperaPromedioAgregado()}{getTiempoEsperaPromedioAgregado()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a2b83b3cbd98723f42cde8141df79db1a} 
+static double core.\+Estadistiques.\+get\+Tiempo\+Espera\+Promedio\+Agregado (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calcula el temps d\textquotesingle{}espera mitjà agregat de totes les simulacions. 
+
+\begin{DoxyReturn}{Devuelve}
+Temps d\textquotesingle{}espera mitjà global 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_acd28245fc1d9dca520af7bf39a872601}\index{core.Estadistiques@{core.Estadistiques}!getTiempoMaximoEspera@{getTiempoMaximoEspera}}
+\index{getTiempoMaximoEspera@{getTiempoMaximoEspera}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getTiempoMaximoEspera()}{getTiempoMaximoEspera()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_acd28245fc1d9dca520af7bf39a872601} 
+double core.\+Estadistiques.\+get\+Tiempo\+Maximo\+Espera (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Devuelve}
+Temps màxim d\textquotesingle{}espera registrat 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_a715c23bdfe3fad6af00caa6749f1da0a}\index{core.Estadistiques@{core.Estadistiques}!getTiempoViajePromedio@{getTiempoViajePromedio}}
+\index{getTiempoViajePromedio@{getTiempoViajePromedio}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{getTiempoViajePromedio()}{getTiempoViajePromedio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a715c23bdfe3fad6af00caa6749f1da0a} 
+double core.\+Estadistiques.\+get\+Tiempo\+Viaje\+Promedio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Calcula el temps mitjà de viatge. 
+
+\begin{DoxyReturn}{Devuelve}
+Temps mitjà de viatge 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_estadistiques_aef6ad02676a5089a68f5354fbfbe42d3}\index{core.Estadistiques@{core.Estadistiques}!registrarEstadoBateria@{registrarEstadoBateria}}
+\index{registrarEstadoBateria@{registrarEstadoBateria}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{registrarEstadoBateria()}{registrarEstadoBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_aef6ad02676a5089a68f5354fbfbe42d3} 
+void core.\+Estadistiques.\+registrar\+Estado\+Bateria (\begin{DoxyParamCaption}\item[{double}]{porcentaje\+Bateria}{}\end{DoxyParamCaption})}
+
+
+
+Registra una nova mostra d\textquotesingle{}estat de bateria. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em porcentaje\+Bateria} & Percentatge de bateria \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_estadistiques_a2d39202d6296ef117a8360efe0ce30fa}\index{core.Estadistiques@{core.Estadistiques}!registrarOcupacionVehiculo@{registrarOcupacionVehiculo}}
+\index{registrarOcupacionVehiculo@{registrarOcupacionVehiculo}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{registrarOcupacionVehiculo()}{registrarOcupacionVehiculo()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a2d39202d6296ef117a8360efe0ce30fa} 
+void core.\+Estadistiques.\+registrar\+Ocupacion\+Vehiculo (\begin{DoxyParamCaption}\item[{double}]{porcentaje\+Ocupacion}{}\end{DoxyParamCaption})}
+
+
+
+Registra una nova mostra d\textquotesingle{}ocupació de vehicle. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em porcentaje\+Ocupacion} & Percentatge d\textquotesingle{}ocupació \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_estadistiques_a32ad55f2af8dd944fd134c173ea43cdc}\index{core.Estadistiques@{core.Estadistiques}!registrarPeticionNoServida@{registrarPeticionNoServida}}
+\index{registrarPeticionNoServida@{registrarPeticionNoServida}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{registrarPeticionNoServida()}{registrarPeticionNoServida()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a32ad55f2af8dd944fd134c173ea43cdc} 
+void core.\+Estadistiques.\+registrar\+Peticion\+No\+Servida (\begin{DoxyParamCaption}\item[{int}]{num\+Peticions}{}\end{DoxyParamCaption})}
+
+
+
+Registra el nombre total de peticions no servides. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em num\+Peticions} & Nombre de peticions no servides \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_estadistiques_a2c2cebaa88bf5e1991f731736e4cc50f}\index{core.Estadistiques@{core.Estadistiques}!registrarPeticionServida@{registrarPeticionServida}}
+\index{registrarPeticionServida@{registrarPeticionServida}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{registrarPeticionServida()}{registrarPeticionServida()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a2c2cebaa88bf5e1991f731736e4cc50f} 
+void core.\+Estadistiques.\+registrar\+Peticion\+Servida (\begin{DoxyParamCaption}\item[{double}]{tiempo\+Espera}{}\end{DoxyParamCaption})}
+
+
+
+Registra una petició servida i el seu temps d\textquotesingle{}espera. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em tiempo\+Espera} & Temps d\textquotesingle{}espera de la petició \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_estadistiques_a13f45d343f9c2ffff47e2650facf0960}\index{core.Estadistiques@{core.Estadistiques}!registrarTiempoViaje@{registrarTiempoViaje}}
+\index{registrarTiempoViaje@{registrarTiempoViaje}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{registrarTiempoViaje()}{registrarTiempoViaje()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a13f45d343f9c2ffff47e2650facf0960} 
+void core.\+Estadistiques.\+registrar\+Tiempo\+Viaje (\begin{DoxyParamCaption}\item[{double}]{tiempo\+Viaje}{}\end{DoxyParamCaption})}
+
+
+
+Registra una nova mostra de temps de viatge. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em tiempo\+Viaje} & Temps de viatge \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_estadistiques_a352f0f42b965ac7d769ee2dcb32ac849}\index{core.Estadistiques@{core.Estadistiques}!toString@{toString}}
+\index{toString@{toString}!core.Estadistiques@{core.Estadistiques}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily \label{classcore_1_1_estadistiques_a352f0f42b965ac7d769ee2dcb32ac849} 
+String core.\+Estadistiques.\+to\+String (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Retorna les estadístiques de la simulació en format llegible. 
+
+\begin{DoxyReturn}{Devuelve}
+String amb estadístiques formatades 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Estadistiques.\+java\end{DoxyCompactItemize}

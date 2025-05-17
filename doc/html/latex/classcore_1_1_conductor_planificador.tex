@@ -1,0 +1,283 @@
+\doxysection{Referencia de la clase core.\+Conductor\+Planificador}
+\hypertarget{classcore_1_1_conductor_planificador}{}\label{classcore_1_1_conductor_planificador}\index{core.ConductorPlanificador@{core.ConductorPlanificador}}
+
+
+\doxylink{classcore_1_1_conductor}{Conductor} que planifica rutes entre càrregues completes.  
+
+
+Diagrama de herencia de core.\+Conductor\+Planificador\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcore_1_1_conductor_planificador}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcore_1_1_conductor_planificador_a55ff20e4c1041bef3d7b18df4d6d03c9}{Conductor\+Planificador}} (int id, String \mbox{\hyperlink{classcore_1_1_conductor_a1d93fac652d7e853ae12814f5a7b4f6d}{nom}}, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} vehicle, \mbox{\hyperlink{classcore_1_1_parquing}{Parquing}} parquing\+Privat)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Pàrquing privat assignat al conductor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} \mbox{\hyperlink{classcore_1_1_conductor_planificador_a6e862e99832356f047cee0107e3b265e}{planificar\+Ruta}} (List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$ peticions, \mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} s, Local\+Time hora\+Inici\+Simulacio)
+\begin{DoxyCompactList}\small\item\em Planifica una ruta per recollir i deixar passatgers, tenint en compte l\textquotesingle{}autonomia del vehicle i les peticions pendents. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classcore_1_1_conductor_planificador_a3647ec8845f0b768a8a26692ef2c5bcf}{te\+Bateria}} (double distancia, \mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador, \mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} mapa, Local\+Time hora\+Inici, Local\+Time hora\+Actual)
+\begin{DoxyCompactList}\small\item\em Comprova si el vehicle té bateria suficient per fer la distància indicada. Si no en té, intenta planificar una ruta cap al pàrquing més proper per carregar. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classcore_1_1_conductor_planificador_a6d3f9cc61a2df581dc34b4bd65966951}{pot\+Servir\+Peticio}} (int nombre\+Passatgers)
+\begin{DoxyCompactList}\small\item\em Comprova si el vehicle pot servir una petició de passatgers. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_conductor_planificador_a75e98b580410500649ca8b24859ebfc3}{executar\+Ruta}} (\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} ruta, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} vehicle, \mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador)
+\begin{DoxyCompactList}\small\item\em Executa una ruta detallada amb múltiples punts d’origen i destí, gestionant passatgers i càrrega. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_parquing}{Parquing}} \mbox{\hyperlink{classcore_1_1_conductor_planificador_aae46dda06101a70ba3731b620ff2a723}{get\+Parquing\+Privat}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_conductor_planificador_ad1cb7271971ff81bac3066e5b0bc1faa}{get\+Id\+Parquing}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos heredados de \mbox{\hyperlink{classcore_1_1_conductor}{core.\+Conductor}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcore_1_1_conductor_ac352b2e15ca126d958a52eb255c4aa93}{Conductor}} (int id, String \mbox{\hyperlink{classcore_1_1_conductor_a1d93fac652d7e853ae12814f5a7b4f6d}{nom}}, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a581957a7a992cfd25fcad5df9a026368}{vehicle}})
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Indica si el conductor està ocupat o no. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a78e64bfe86cb8a97fb761e3259a5680c}{get\+Vehicle}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_conductor_a31e1c53bbf79cf9ecd4c59d12d42957c}{get\+Id}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_conductor_a3fa34b94e6dacf0d0741dcf53e0a67d3}{is\+Ocupat}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_conductor_ab92769b02a7c4a9df367d9ec4cf44350}{set\+Ocupat}} (boolean \mbox{\hyperlink{classcore_1_1_conductor_ab156e52bea33ad91b939128ee2d44921}{ocupat}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Otros miembros heredados}
+\doxysubsection*{Atributos protegidos heredados de \mbox{\hyperlink{classcore_1_1_conductor}{core.\+Conductor}}}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries id}
+\item 
+String {\bfseries nom}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Identificador del conductor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} {\bfseries vehicle}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Nom del conductor. \end{DoxyCompactList}\item 
+boolean {\bfseries ocupat}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} \doxylink{classcore_1_1_vehicle}{Vehicle} que condueix el conductor \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+\doxylink{classcore_1_1_conductor}{Conductor} que planifica rutes entre càrregues completes. 
+
+\begin{DoxyAuthor}{Autor}
+Anouar El Barkouki Hitach 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de constructores y destructores}
+\Hypertarget{classcore_1_1_conductor_planificador_a55ff20e4c1041bef3d7b18df4d6d03c9}\index{core.ConductorPlanificador@{core.ConductorPlanificador}!ConductorPlanificador@{ConductorPlanificador}}
+\index{ConductorPlanificador@{ConductorPlanificador}!core.ConductorPlanificador@{core.ConductorPlanificador}}
+\doxysubsubsection{\texorpdfstring{ConductorPlanificador()}{ConductorPlanificador()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_planificador_a55ff20e4c1041bef3d7b18df4d6d03c9} 
+core.\+Conductor\+Planificador.\+Conductor\+Planificador (\begin{DoxyParamCaption}\item[{int}]{id}{, }\item[{String}]{nom}{, }\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{vehicle}{, }\item[{\mbox{\hyperlink{classcore_1_1_parquing}{Parquing}}}]{parquing\+Privat}{}\end{DoxyParamCaption})}
+
+
+
+\texorpdfstring{$<$}{<} Pàrquing privat assignat al conductor. 
+
+Constructor de la classe \doxylink{classcore_1_1_conductor_planificador}{Conductor\+Planificador}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em id} & Identificador del conductor. \\
+\hline
+{\em nom} & Nom del conductor. \\
+\hline
+{\em vehicle} & \doxylink{classcore_1_1_vehicle}{Vehicle} que condueix el conductor. \\
+\hline
+{\em parquing\+Privat} & Pàrquing privat assignat al conductor. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_conductor_planificador_a75e98b580410500649ca8b24859ebfc3}\index{core.ConductorPlanificador@{core.ConductorPlanificador}!executarRuta@{executarRuta}}
+\index{executarRuta@{executarRuta}!core.ConductorPlanificador@{core.ConductorPlanificador}}
+\doxysubsubsection{\texorpdfstring{executarRuta()}{executarRuta()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_planificador_a75e98b580410500649ca8b24859ebfc3} 
+void core.\+Conductor\+Planificador.\+executar\+Ruta (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}}}]{ruta}{, }\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{vehicle}{, }\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{}\end{DoxyParamCaption})}
+
+
+
+Executa una ruta detallada amb múltiples punts d’origen i destí, gestionant passatgers i càrrega. 
+
+Aquest mètode recorre el camí de la ruta planificada, afegint esdeveniments al simulador com recollida o deixada de passatgers en cada lloc intermedi, així com el moviment entre punts i la càrrega final si escau.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em ruta} & La ruta que conté el camí i la informació dels passatgers a recollir i deixar. \\
+\hline
+{\em vehicle} & El vehicle que realitza la ruta. \\
+\hline
+{\em simulador} & El simulador on s’afegeixen els esdeveniments de la ruta.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondición}
+La ruta ha d’incloure almenys dos llocs. \doxylink{classcore_1_1_vehicle}{Vehicle} i simulador han d’estar inicialitzats. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Es generen esdeveniments de moviment, recollida i/o deixada de passatgers, o càrrega si cal. 
+\end{DoxyPostcond}
+
+
+Reimplementado de \mbox{\hyperlink{classcore_1_1_conductor_a724c2c984ef8e1b8b82c1904f51c2026}{core.\+Conductor}}.
+
+\Hypertarget{classcore_1_1_conductor_planificador_ad1cb7271971ff81bac3066e5b0bc1faa}\index{core.ConductorPlanificador@{core.ConductorPlanificador}!getIdParquing@{getIdParquing}}
+\index{getIdParquing@{getIdParquing}!core.ConductorPlanificador@{core.ConductorPlanificador}}
+\doxysubsubsection{\texorpdfstring{getIdParquing()}{getIdParquing()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_planificador_ad1cb7271971ff81bac3066e5b0bc1faa} 
+int core.\+Conductor\+Planificador.\+get\+Id\+Parquing (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+retorna l\textquotesingle{}ID del parquing privat assignat al conductor. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+ID del parquing privat assignat al conductor. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_conductor_planificador_aae46dda06101a70ba3731b620ff2a723}\index{core.ConductorPlanificador@{core.ConductorPlanificador}!getParquingPrivat@{getParquingPrivat}}
+\index{getParquingPrivat@{getParquingPrivat}!core.ConductorPlanificador@{core.ConductorPlanificador}}
+\doxysubsubsection{\texorpdfstring{getParquingPrivat()}{getParquingPrivat()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_planificador_aae46dda06101a70ba3731b620ff2a723} 
+\mbox{\hyperlink{classcore_1_1_parquing}{Parquing}} core.\+Conductor\+Planificador.\+get\+Parquing\+Privat (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el parquing privat assignat al conductor. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_parquing}{Parquing} privat assignat al conductor. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_conductor_planificador_a6e862e99832356f047cee0107e3b265e}\index{core.ConductorPlanificador@{core.ConductorPlanificador}!planificarRuta@{planificarRuta}}
+\index{planificarRuta@{planificarRuta}!core.ConductorPlanificador@{core.ConductorPlanificador}}
+\doxysubsubsection{\texorpdfstring{planificarRuta()}{planificarRuta()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_planificador_a6e862e99832356f047cee0107e3b265e} 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} core.\+Conductor\+Planificador.\+planificar\+Ruta (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$}]{peticions}{, }\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{s}{, }\item[{Local\+Time}]{hora\+Inici\+Simulacio}{}\end{DoxyParamCaption})}
+
+
+
+Planifica una ruta per recollir i deixar passatgers, tenint en compte l\textquotesingle{}autonomia del vehicle i les peticions pendents. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em peticions} & Llista de peticions pendents a recollir. \\
+\hline
+{\em s} & \doxylink{classcore_1_1_simulador}{Simulador} on es realitza la planificació. \\
+\hline
+{\em hora\+Inici\+Simulacio} & Hora d\textquotesingle{}inici de la simulació. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_ruta}{Ruta} planificada amb els llocs d\textquotesingle{}origen i destí, així com l\textquotesingle{}hora de sortida real.
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondición}
+El vehicle ha d\textquotesingle{}estar inicialitzat i ubicat a un lloc vàlid dins el mapa. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna una ruta planificada amb les peticions assignades. 
+\end{DoxyPostcond}
+\texorpdfstring{$<$}{<} Peticions recollides durant la ruta.
+
+\texorpdfstring{$<$}{<} Llocs que formen la ruta.
+
+\texorpdfstring{$<$}{<} Últim camí recorregut.
+
+\texorpdfstring{$<$}{<} Llocs d\textquotesingle{}origen de les peticions.
+
+\texorpdfstring{$<$}{<} Llocs de destí de les peticions.
+
+\texorpdfstring{$<$}{<} \doxylink{classcore_1_1_vehicle}{Vehicle} que condueix el conductor.
+
+\texorpdfstring{$<$}{<} Ubicació actual del vehicle.
+
+\texorpdfstring{$<$}{<} Hora actual de la simulació.
+
+\texorpdfstring{$<$}{<} Primera petició a recollir.
+
+\texorpdfstring{$<$}{<} Temps fins a la primera petició.
+
+\texorpdfstring{$<$}{<} Autonomia restant del vehicle.
+
+\texorpdfstring{$<$}{<} Distància total de la ruta.
+
+\texorpdfstring{$<$}{<} Indica si la ruta inclou càrrega.
+
+\texorpdfstring{$<$}{<} Passatgers actuals del vehicle.
+
+\texorpdfstring{$<$}{<} Indica si s\textquotesingle{}ha de finalitzar la ruta.
+
+\texorpdfstring{$<$}{<} Afegim la ubicació inicial a la ruta.\Hypertarget{classcore_1_1_conductor_planificador_a6d3f9cc61a2df581dc34b4bd65966951}\index{core.ConductorPlanificador@{core.ConductorPlanificador}!potServirPeticio@{potServirPeticio}}
+\index{potServirPeticio@{potServirPeticio}!core.ConductorPlanificador@{core.ConductorPlanificador}}
+\doxysubsubsection{\texorpdfstring{potServirPeticio()}{potServirPeticio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_planificador_a6d3f9cc61a2df581dc34b4bd65966951} 
+boolean core.\+Conductor\+Planificador.\+pot\+Servir\+Peticio (\begin{DoxyParamCaption}\item[{int}]{nombre\+Passatgers}{}\end{DoxyParamCaption})}
+
+
+
+Comprova si el vehicle pot servir una petició de passatgers. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em nombre\+Passatgers} & Nombre de passatgers a recollir. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true si el vehicle pot servir la petició, false en cas contrari.
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondición}
+El vehicle ha d\textquotesingle{}estar inicialitzat i no estar ocupat. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si el vehicle pot servir la petició, false en cas contrari. 
+\end{DoxyPostcond}
+
+
+Reimplementado de \mbox{\hyperlink{classcore_1_1_conductor_a283389196238a1717f670f8f2c4e1d8e}{core.\+Conductor}}.
+
+\Hypertarget{classcore_1_1_conductor_planificador_a3647ec8845f0b768a8a26692ef2c5bcf}\index{core.ConductorPlanificador@{core.ConductorPlanificador}!teBateria@{teBateria}}
+\index{teBateria@{teBateria}!core.ConductorPlanificador@{core.ConductorPlanificador}}
+\doxysubsubsection{\texorpdfstring{teBateria()}{teBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_planificador_a3647ec8845f0b768a8a26692ef2c5bcf} 
+boolean core.\+Conductor\+Planificador.\+te\+Bateria (\begin{DoxyParamCaption}\item[{double}]{distancia}{, }\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{, }\item[{\mbox{\hyperlink{classcore_1_1_mapa}{Mapa}}}]{mapa}{, }\item[{Local\+Time}]{hora\+Inici}{, }\item[{Local\+Time}]{hora\+Actual}{}\end{DoxyParamCaption})}
+
+
+
+Comprova si el vehicle té bateria suficient per fer la distància indicada. Si no en té, intenta planificar una ruta cap al pàrquing més proper per carregar. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em distancia} & La distància que s’ha de recórrer per completar la petició. \\
+\hline
+{\em simulador} & El simulador on s\textquotesingle{}afegiran esdeveniments si cal carregar. \\
+\hline
+{\em mapa} & El mapa que permet calcular rutes i distàncies. \\
+\hline
+{\em hora\+Inici} & L’hora d’inici de la simulació (referència per calcular horaris). \\
+\hline
+{\em hora\+Actual} & L’hora actual del simulador, per planificar nous esdeveniments. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true si el vehicle té bateria suficient per fer el trajecte, false si no i ha de carregar.
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondición}
+El vehicle ha d’estar inicialitzat i ubicat a un lloc vàlid dins el mapa. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Si no té bateria, pot iniciar una ruta cap a un pàrquing privat per carregar. Si no hi ha pàrquing, es mostra un missatge. 
+\end{DoxyPostcond}
+
+
+Reimplementado de \mbox{\hyperlink{classcore_1_1_conductor_a457197e56f0861ce0d84295798fd37c9}{core.\+Conductor}}.
+
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Conductor\+Planificador.\+java\end{DoxyCompactItemize}

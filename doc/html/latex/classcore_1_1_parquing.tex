@@ -1,0 +1,169 @@
+\doxysection{Referencia de la clase core.\+Parquing}
+\hypertarget{classcore_1_1_parquing}{}\label{classcore_1_1_parquing}\index{core.Parquing@{core.Parquing}}
+
+
+Defineix la localitzacio amb pàrquing.  
+
+
+Diagrama de herencia de core.\+Parquing\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcore_1_1_parquing}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcore_1_1_parquing_adf406bb3ade7318e75c76444d57caff8}\label{classcore_1_1_parquing_adf406bb3ade7318e75c76444d57caff8} 
+{\bfseries Parquing} (int id, int capacitat\+Maxima, List$<$ \mbox{\hyperlink{classcore_1_1_punt_carrega}{Punt\+Carrega}} $>$ punts\+Carga\+Publics, List$<$ \mbox{\hyperlink{classcore_1_1_punt_carrega}{Punt\+Carrega}} $>$ punts\+Carga\+Privats)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Capacitat màxima de vehicles en el pàrquing. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_punt_carrega}{Punt\+Carrega}} \mbox{\hyperlink{classcore_1_1_parquing_a56e38145f0ff8c6564e2502a0db631d4}{punt\+Carrega\+Public\+Disponible}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_parquing_a9eedab9d318387f558903c4448282f0b}{es\+Carregador\+Privat}} (int id)
+\item 
+int \mbox{\hyperlink{classcore_1_1_parquing_aa2a1decbbc65c9bf9562f3ed0a3c1ced}{obtenir\+Capacitat\+Maxima}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_parquing_accb9eda174532452dfcfd523e668023d}{obtenir\+Punts\+Carrega\+Privats}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_parquing_a6a66b96957415d439296d19bd9cc08bc}{obtenir\+Punts\+Carrega\+Publics}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_parquing_a84b2c4ea49a7bb0471bf6c15b072fa64}{obtenir\+Places}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_parquing_a1c74f3aca51e529c8a9498d730f16365}{obtenir\+Id}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos heredados de \mbox{\hyperlink{classcore_1_1_lloc}{core.\+Lloc}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Lloc} (int id)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Identificador del lloc \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Otros miembros heredados}
+\doxysubsection*{Atributos protegidos heredados de \mbox{\hyperlink{classcore_1_1_lloc}{core.\+Lloc}}}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries id}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Defineix la localitzacio amb pàrquing. 
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_parquing_a9eedab9d318387f558903c4448282f0b}\index{core.Parquing@{core.Parquing}!esCarregadorPrivat@{esCarregadorPrivat}}
+\index{esCarregadorPrivat@{esCarregadorPrivat}!core.Parquing@{core.Parquing}}
+\doxysubsubsection{\texorpdfstring{esCarregadorPrivat()}{esCarregadorPrivat()}}
+{\footnotesize\ttfamily \label{classcore_1_1_parquing_a9eedab9d318387f558903c4448282f0b} 
+boolean core.\+Parquing.\+es\+Carregador\+Privat (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna si el punt de càrrega és privat. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_parquing_aa2a1decbbc65c9bf9562f3ed0a3c1ced}\index{core.Parquing@{core.Parquing}!obtenirCapacitatMaxima@{obtenirCapacitatMaxima}}
+\index{obtenirCapacitatMaxima@{obtenirCapacitatMaxima}!core.Parquing@{core.Parquing}}
+\doxysubsubsection{\texorpdfstring{obtenirCapacitatMaxima()}{obtenirCapacitatMaxima()}}
+{\footnotesize\ttfamily \label{classcore_1_1_parquing_aa2a1decbbc65c9bf9562f3ed0a3c1ced} 
+int core.\+Parquing.\+obtenir\+Capacitat\+Maxima (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna un enter representant la capacitat màxima de vehicles en el lloc.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Capacitat màxima de vehicles en el lloc. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_parquing_a1c74f3aca51e529c8a9498d730f16365}\index{core.Parquing@{core.Parquing}!obtenirId@{obtenirId}}
+\index{obtenirId@{obtenirId}!core.Parquing@{core.Parquing}}
+\doxysubsubsection{\texorpdfstring{obtenirId()}{obtenirId()}}
+{\footnotesize\ttfamily \label{classcore_1_1_parquing_a1c74f3aca51e529c8a9498d730f16365} 
+int core.\+Parquing.\+obtenir\+Id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la id del pàrquing.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+id del pàrquing. 
+\end{DoxyReturn}
+
+
+Reimplementado de \mbox{\hyperlink{classcore_1_1_lloc_a36ae5b3170788c9dff4f8730c2828125}{core.\+Lloc}}.
+
+\Hypertarget{classcore_1_1_parquing_a84b2c4ea49a7bb0471bf6c15b072fa64}\index{core.Parquing@{core.Parquing}!obtenirPlaces@{obtenirPlaces}}
+\index{obtenirPlaces@{obtenirPlaces}!core.Parquing@{core.Parquing}}
+\doxysubsubsection{\texorpdfstring{obtenirPlaces()}{obtenirPlaces()}}
+{\footnotesize\ttfamily \label{classcore_1_1_parquing_a84b2c4ea49a7bb0471bf6c15b072fa64} 
+int core.\+Parquing.\+obtenir\+Places (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre de places de pàrquing disponibles.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Nombre de places de pàrquing disponibles. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_parquing_accb9eda174532452dfcfd523e668023d}\index{core.Parquing@{core.Parquing}!obtenirPuntsCarregaPrivats@{obtenirPuntsCarregaPrivats}}
+\index{obtenirPuntsCarregaPrivats@{obtenirPuntsCarregaPrivats}!core.Parquing@{core.Parquing}}
+\doxysubsubsection{\texorpdfstring{obtenirPuntsCarregaPrivats()}{obtenirPuntsCarregaPrivats()}}
+{\footnotesize\ttfamily \label{classcore_1_1_parquing_accb9eda174532452dfcfd523e668023d} 
+int core.\+Parquing.\+obtenir\+Punts\+Carrega\+Privats (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre de punts de càrrega privats disponibles.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Nombre de punts de càrrega privats disponibles. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_parquing_a6a66b96957415d439296d19bd9cc08bc}\index{core.Parquing@{core.Parquing}!obtenirPuntsCarregaPublics@{obtenirPuntsCarregaPublics}}
+\index{obtenirPuntsCarregaPublics@{obtenirPuntsCarregaPublics}!core.Parquing@{core.Parquing}}
+\doxysubsubsection{\texorpdfstring{obtenirPuntsCarregaPublics()}{obtenirPuntsCarregaPublics()}}
+{\footnotesize\ttfamily \label{classcore_1_1_parquing_a6a66b96957415d439296d19bd9cc08bc} 
+int core.\+Parquing.\+obtenir\+Punts\+Carrega\+Publics (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre de punts de càrrega públics disponibles.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Nombre de punts de càrrega públics disponibles. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_parquing_a56e38145f0ff8c6564e2502a0db631d4}\index{core.Parquing@{core.Parquing}!puntCarregaPublicDisponible@{puntCarregaPublicDisponible}}
+\index{puntCarregaPublicDisponible@{puntCarregaPublicDisponible}!core.Parquing@{core.Parquing}}
+\doxysubsubsection{\texorpdfstring{puntCarregaPublicDisponible()}{puntCarregaPublicDisponible()}}
+{\footnotesize\ttfamily \label{classcore_1_1_parquing_a56e38145f0ff8c6564e2502a0db631d4} 
+\mbox{\hyperlink{classcore_1_1_punt_carrega}{Punt\+Carrega}} core.\+Parquing.\+punt\+Carrega\+Public\+Disponible (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna un punt de càrrega public disponible. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_punt_carrega}{Punt\+Carrega} si hi ha un punt de càrrega disponible, null en cas contrari. 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Parquing.\+java\end{DoxyCompactItemize}

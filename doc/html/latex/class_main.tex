@@ -1,0 +1,110 @@
+\doxysection{Referencia de la clase Main}
+\hypertarget{class_main}{}\label{class_main}\index{Main@{Main}}
+
+
+Classe principal que inicialitza la simulació  
+
+
+\doxysubsubsection*{Métodos públicos estáticos}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} \mbox{\hyperlink{class_main_a6d2f81069cf423e9949df010739c6c68}{carregar\+Mapa}} (List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs, List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ camins)
+\item 
+static void \mbox{\hyperlink{class_main_afb8b4edab41c76841e2e97d0462db5fa}{inicialitzar}} (File llocs\+File, File connexions\+File, File vehicles\+File, File conductors\+File, File peticions\+File, File json\+File, Local\+Time hora\+Inici, Local\+Time hora\+Final, File Estadistic\+File)
+\item 
+static void \mbox{\hyperlink{class_main_a662db179f095431bb5910478b21f64b4}{inicialitzar\+Simulacio\+Guardada}} (File Simulacio\+File, File Estadistic\+File)
+\item 
+static void \mbox{\hyperlink{class_main_a8a5d0f827edddff706cc0e6740d0579a}{main}} (String\mbox{[}$\,$\mbox{]} args)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Classe principal que inicialitza la simulació 
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+05.\+13 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{class_main_a6d2f81069cf423e9949df010739c6c68}\index{Main@{Main}!carregarMapa@{carregarMapa}}
+\index{carregarMapa@{carregarMapa}!Main@{Main}}
+\doxysubsubsection{\texorpdfstring{carregarMapa()}{carregarMapa()}}
+{\footnotesize\ttfamily \label{class_main_a6d2f81069cf423e9949df010739c6c68} 
+static \mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} Main.\+carregar\+Mapa (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs}{, }\item[{List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$}]{camins}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyPrecond}{Precondición}
+llocs != null \&\& camins != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Afegim tots els llocs i camins al mapa 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Retorna el mapa carregat 
+\end{DoxyReturn}
+\Hypertarget{class_main_afb8b4edab41c76841e2e97d0462db5fa}\index{Main@{Main}!inicialitzar@{inicialitzar}}
+\index{inicialitzar@{inicialitzar}!Main@{Main}}
+\doxysubsubsection{\texorpdfstring{inicialitzar()}{inicialitzar()}}
+{\footnotesize\ttfamily \label{class_main_afb8b4edab41c76841e2e97d0462db5fa} 
+static void Main.\+inicialitzar (\begin{DoxyParamCaption}\item[{File}]{llocs\+File}{, }\item[{File}]{connexions\+File}{, }\item[{File}]{vehicles\+File}{, }\item[{File}]{conductors\+File}{, }\item[{File}]{peticions\+File}{, }\item[{File}]{json\+File}{, }\item[{Local\+Time}]{hora\+Inici}{, }\item[{Local\+Time}]{hora\+Final}{, }\item[{File}]{Estadistic\+File}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyPrecond}{Precondición}
+cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Inicialitza la simulació amb els fitxers especificats 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em llocs\+File} & \\
+\hline
+{\em connexions\+File} & \\
+\hline
+{\em vehicles\+File} & \\
+\hline
+{\em conductors\+File} & \\
+\hline
+{\em peticions\+File} & \\
+\hline
+{\em hora\+Inici} & \\
+\hline
+{\em hora\+Final} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_main_a662db179f095431bb5910478b21f64b4}\index{Main@{Main}!inicialitzarSimulacioGuardada@{inicialitzarSimulacioGuardada}}
+\index{inicialitzarSimulacioGuardada@{inicialitzarSimulacioGuardada}!Main@{Main}}
+\doxysubsubsection{\texorpdfstring{inicialitzarSimulacioGuardada()}{inicialitzarSimulacioGuardada()}}
+{\footnotesize\ttfamily \label{class_main_a662db179f095431bb5910478b21f64b4} 
+static void Main.\+inicialitzar\+Simulacio\+Guardada (\begin{DoxyParamCaption}\item[{File}]{Simulacio\+File}{, }\item[{File}]{Estadistic\+File}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyPrecond}{Precondición}
+cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Inicialitza la simulació a partir d\textquotesingle{}una simulació guardada 
+\end{DoxyPostcond}
+\Hypertarget{class_main_a8a5d0f827edddff706cc0e6740d0579a}\index{Main@{Main}!main@{main}}
+\index{main@{main}!Main@{Main}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{class_main_a8a5d0f827edddff706cc0e6740d0579a} 
+static void Main.\+main (\begin{DoxyParamCaption}\item[{String\mbox{[}$\,$\mbox{]}}]{args}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyPrecond}{Precondición}
+cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Inicia el programa 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em args} & \\
+\hline
+\end{DoxyParams}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/Main.\+java\end{DoxyCompactItemize}

@@ -1,0 +1,330 @@
+\doxysection{Referencia de la clase core.\+Lector\+JSON}
+\hypertarget{classcore_1_1_lector_j_s_o_n}{}\label{classcore_1_1_lector_j_s_o_n}\index{core.LectorJSON@{core.LectorJSON}}
+
+
+Fitxer per a la lectura i carrega de dades en JSON de les simulacions i estadistiques.  
+
+
+\doxysubsubsection*{Métodos públicos estáticos}
+\begin{DoxyCompactItemize}
+\item 
+static Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_a42de07ef6d6ba084498af7d326c23ce1}{convertir\+Llista\+AMap\+\_\+\+Llocs}} (List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs)
+\item 
+static Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_ac3ec0db5eeaa0af26cd1f7fc44da334d}{convertir\+Llista\+AMap\+\_\+\+Vehicles}} (List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ vehicles)
+\item 
+static Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_ab4913a90fc8bea3a0d71ced32ce323a7}{convertir\+Llista\+AMap\+\_\+\+Conductors}} (List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ conductors)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_a9ca49bd9eb16ef77231a8e9ecd61a17e}{carregar\+Llocs}} (String path\+Fitxer)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_ad229162cc68210a57c9be97b270e5377}{carregar\+Camins}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_ad0d40e2ac1d6422c9b32d55bd35bc45e}{carregar\+Vehicles}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_estadistiques}{Estadistiques}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_a40595950c62871a31c6febcd789f8109}{carregar\+Estadistiques}} (String path\+Fitxer)
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_a910ccedf31aec9bc84502d6d125deae2}{carregar\+Conductors}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ vehicles\+Per\+Id, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+static Local\+Time\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_ab4c0b2f5ba97170c033206a300cd9bb7}{carregar\+Horari}} (String path\+Fitxer)
+\item 
+static List$<$ \mbox{\hyperlink{classevents_1_1_event}{Event}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_af59334e51ef1a25ae9b6ea8ac7f5cffd}{carregar\+Events}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ vehicles\+Per\+Id, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ conductors\+Per\+Id, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a5898d85433e28c1dabe07c9f66d1fe65}\label{classcore_1_1_lector_j_s_o_n_a5898d85433e28c1dabe07c9f66d1fe65} 
+static String {\bfseries extraer\+Campo} (String json, String campo)
+\item 
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a254c7463840e7288e00051208e17e0bd}\label{classcore_1_1_lector_j_s_o_n_a254c7463840e7288e00051208e17e0bd} 
+static List$<$ \mbox{\hyperlink{classevents_1_1_event}{Event}} $>$ {\bfseries carregar\+Events2} (String nom\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ vehicles\+Per\+Id, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ conductors\+Per\+Id, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a3be22537a246781820d9b5678821e791}\label{classcore_1_1_lector_j_s_o_n_a3be22537a246781820d9b5678821e791} 
+static Map$<$ Integer, Integer $>$ {\bfseries obtenir\+Us\+Deixar\+Passatgers\+Per\+Conductor} (List$<$ \mbox{\hyperlink{classevents_1_1_event}{Event}} $>$ esdeveniments, List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ conductors)
+\item 
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a07872c9339a8d3d6b06a038d8248c8bb}\label{classcore_1_1_lector_j_s_o_n_a07872c9339a8d3d6b06a038d8248c8bb} 
+static Map$<$ Integer, Integer $>$ {\bfseries obtenir\+Usos\+Punts\+Carrega} (List$<$ \mbox{\hyperlink{classevents_1_1_event}{Event}} $>$ esdeveniments, List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs)
+\item 
+static void \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_a78af07c3275656e1e62ccbe1bc46ae84}{write\+Json\+File}} (List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ conductors, List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ vehicles, List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs, List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ connexions, List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$ peticions, \mbox{\hyperlink{classcore_1_1_estadistiques}{Estadistiques}} estadistiques, Priority\+Queue$<$ \mbox{\hyperlink{classevents_1_1_event}{Event}} $>$ events, String file\+Path)  throws IOException 
+\item 
+static List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$ \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_a206ebd09268dac3600c6288e15b872f1}{carregar\+Peticions}} (String path\+Fitxer, Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs\+Per\+Id)
+\item 
+static void \mbox{\hyperlink{classcore_1_1_lector_j_s_o_n_a04c12aaebfe184a92b228c493185b37e}{write\+Estadistiques}} (String absolute\+Path, \mbox{\hyperlink{classcore_1_1_estadistiques}{Estadistiques}} estadistiques)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Fitxer per a la lectura i carrega de dades en JSON de les simulacions i estadistiques. 
+
+\begin{DoxyAuthor}{Autor}
+Ignasi Ferrés Iglesias 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+05.\+13 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_ad229162cc68210a57c9be97b270e5377}\index{core.LectorJSON@{core.LectorJSON}!carregarCamins@{carregarCamins}}
+\index{carregarCamins@{carregarCamins}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{carregarCamins()}{carregarCamins()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_ad229162cc68210a57c9be97b270e5377} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ core.\+Lector\+JSON.\+carregar\+Camins (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Carrega una llista de camins a partir d’un fitxer JSON amb estructura parcialment lliure.
+
+El JSON ha de contenir un array sota la clau "{}camins"{}, on cada element és un objecte amb els camps "{}\+ORIGEN"{}, "{}\+DESTI"{}, "{}\+DISTANCIA\+\_\+\+KM"{} i "{}\+TEMPS\+\_\+\+MIN"{}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON que conté les dades dels camins. \\
+\hline
+{\em llocs\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} que relaciona ID de llocs amb els seus objectes \doxylink{classcore_1_1_lloc}{Lloc}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Una llista de camins carregats des del fitxer. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a910ccedf31aec9bc84502d6d125deae2}\index{core.LectorJSON@{core.LectorJSON}!carregarConductors@{carregarConductors}}
+\index{carregarConductors@{carregarConductors}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{carregarConductors()}{carregarConductors()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_a910ccedf31aec9bc84502d6d125deae2} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ core.\+Lector\+JSON.\+carregar\+Conductors (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$}]{vehicles\+Per\+Id}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Carrega una llista de conductors a partir d’un fitxer JSON amb estructura parcialment lliure.
+
+El JSON ha de contenir un array sota la clau "{}conductors"{}, on cada element és un objecte amb els camps "{}\+ID"{}, "{}\+NOM"{}, "{}\+TIPUS"{}, "{}\+IDVEHICLE"{} i opcionalment "{}\+ID\+\_\+\+PARQUING\+\_\+\+PRIVAT"{}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON que conté les dades dels conductors. \\
+\hline
+{\em vehicles\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} que relaciona ID de vehicles amb els seus objectes \doxylink{classcore_1_1_vehicle}{Vehicle}. \\
+\hline
+{\em llocs\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} que relaciona ID de llocs amb els seus objectes \doxylink{classcore_1_1_lloc}{Lloc}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Una llista de conductors carregats des del fitxer. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a40595950c62871a31c6febcd789f8109}\index{core.LectorJSON@{core.LectorJSON}!carregarEstadistiques@{carregarEstadistiques}}
+\index{carregarEstadistiques@{carregarEstadistiques}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{carregarEstadistiques()}{carregarEstadistiques()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_a40595950c62871a31c6febcd789f8109} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_estadistiques}{Estadistiques}} $>$ core.\+Lector\+JSON.\+carregar\+Estadistiques (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Carrega una llista d\textquotesingle{}estadístiques a partir d’un fitxer JSON amb estructura parcialment lliure.
+
+El JSON ha de contenir un array sota la clau "{}estadistiques"{}, on cada element és un objecte amb els camps "{}peticions\+Servides"{}, "{}peticions\+No\+Servides"{}, "{}tiempo\+Total\+Espera"{}, "{}tiempo\+Maximo\+Espera"{}, "{}ocupacion\+Total\+Vehiculos"{}, "{}muestras\+Ocupacion"{}, "{}porcentaje\+Bateria\+Promedio"{}, "{}muestras\+Bateria"{}, "{}tiempo\+Total\+Viaje"{} i "{}muestras\+Viaje"{}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON que conté les estadístiques. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Una llista d\textquotesingle{}estadístiques carregades des del fitxer. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_af59334e51ef1a25ae9b6ea8ac7f5cffd}\index{core.LectorJSON@{core.LectorJSON}!carregarEvents@{carregarEvents}}
+\index{carregarEvents@{carregarEvents}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{carregarEvents()}{carregarEvents()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_af59334e51ef1a25ae9b6ea8ac7f5cffd} 
+static List$<$ \mbox{\hyperlink{classevents_1_1_event}{Event}} $>$ core.\+Lector\+JSON.\+carregar\+Events (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$}]{vehicles\+Per\+Id}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$}]{conductors\+Per\+Id}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Carrega una llista d\textquotesingle{}esdeveniments a partir d\textquotesingle{}un fitxer JSON i crea objectes Event corresponents.
+
+El fitxer ha de contenir un array sota la clau "{}events"{}, i cada element ha de tenir els camps "{}temps"{}, "{}type"{} i la informació específica segons el tipus d\textquotesingle{}event.
+
+Utilitza els mapes de vehicles, conductors i llocs per instanciar correctament cada Event.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON que conté els esdeveniments. \\
+\hline
+{\em vehicles\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} de vehicles indexats pel seu ID. \\
+\hline
+{\em conductors\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} de conductors indexats pel seu ID. \\
+\hline
+{\em llocs\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} de llocs indexats pel seu ID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Una llista d\textquotesingle{}objectes Event carregats i instanciats des del fitxer. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_ab4c0b2f5ba97170c033206a300cd9bb7}\index{core.LectorJSON@{core.LectorJSON}!carregarHorari@{carregarHorari}}
+\index{carregarHorari@{carregarHorari}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{carregarHorari()}{carregarHorari()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_ab4c0b2f5ba97170c033206a300cd9bb7} 
+static Local\+Time\mbox{[}$\,$\mbox{]} core.\+Lector\+JSON.\+carregar\+Horari (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Carrega l\textquotesingle{}horari d\textquotesingle{}inici i final a partir d\textquotesingle{}un fitxer JSON.
+
+El fitxer ha de contenir els camps "{}hora\+Inici"{} i "{}hora\+Final"{} amb format d\textquotesingle{}hora (HH\+:mm).
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON que conté l\textquotesingle{}horari. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Un array de dos valors Local\+Time\+: \mbox{[}hora\+Inici, hora\+Final\mbox{]}, o null si hi ha error. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a9ca49bd9eb16ef77231a8e9ecd61a17e}\index{core.LectorJSON@{core.LectorJSON}!carregarLlocs@{carregarLlocs}}
+\index{carregarLlocs@{carregarLlocs}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{carregarLlocs()}{carregarLlocs()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_a9ca49bd9eb16ef77231a8e9ecd61a17e} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ core.\+Lector\+JSON.\+carregar\+Llocs (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Carrega una llista de llocs a partir d’un fitxer JSON amb estructura parcialment lliure.
+
+El JSON ha de contenir un array sota la clau "{}llocs"{}, on cada element pot ser un objecte de tipus \doxylink{classcore_1_1_lloc}{Lloc} o \doxylink{classcore_1_1_parquing}{Parquing}. La detecció es fa mitjançant el camp "{}\+TIPUS"{}\+: "{}\+L"{} per \doxylink{classcore_1_1_lloc}{Lloc} i "{}\+P"{} per \doxylink{classcore_1_1_parquing}{Parquing}.
+
+En el cas dels parquings, també es processen els camps opcionals "{}\+MAX\+\_\+\+VEHICLES"{}, "{}\+N\+\_\+\+CARREGADORS"{} i "{}\+N\+\_\+\+CARREGADORS\+\_\+\+PRIVATS"{}, utilitzats per generar punts de càrrega públics i privats amb tipus alternatius (ràpida/lenta).
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON que conté les dades dels llocs. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Una llista de Llocs i Parquings carregats des del fitxer. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a206ebd09268dac3600c6288e15b872f1}\index{core.LectorJSON@{core.LectorJSON}!carregarPeticions@{carregarPeticions}}
+\index{carregarPeticions@{carregarPeticions}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{carregarPeticions()}{carregarPeticions()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_a206ebd09268dac3600c6288e15b872f1} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$ core.\+Lector\+JSON.\+carregar\+Peticions (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Carrega les peticions des d’un fitxer JSON amb format específic.
+
+Cada petició ha de contenir els camps\+: ID, ORIGEN, DESTI, HORA\+\_\+\+MIN\+\_\+\+RECOLLIDA, HORA\+\_\+\+MAX\+\_\+\+ARRIBADA, NUM\+\_\+\+PASSATGERS i VEHICLE\+\_\+\+COMPARTIT.
+
+Els camps d\textquotesingle{}ORIGEN i DESTI són IDs que es resolen a objectes \doxylink{classcore_1_1_lloc}{Lloc} mitjançant el mapa proporcionat.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON que conté les peticions. \\
+\hline
+{\em llocs\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} d\textquotesingle{}objectes \doxylink{classcore_1_1_lloc}{Lloc} indexats pel seu ID. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Una llista de Peticions carregades correctament. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_ad0d40e2ac1d6422c9b32d55bd35bc45e}\index{core.LectorJSON@{core.LectorJSON}!carregarVehicles@{carregarVehicles}}
+\index{carregarVehicles@{carregarVehicles}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{carregarVehicles()}{carregarVehicles()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_ad0d40e2ac1d6422c9b32d55bd35bc45e} 
+static List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ core.\+Lector\+JSON.\+carregar\+Vehicles (\begin{DoxyParamCaption}\item[{String}]{path\+Fitxer}{, }\item[{Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs\+Per\+Id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Carrega una llista de vehicles a partir d’un fitxer JSON amb estructura parcialment lliure.
+
+El JSON ha de contenir un array sota la clau "{}vehicles"{}, on cada element és un objecte amb els camps "{}\+ID"{}, "{}\+ID\+\_\+\+UBICACIO"{}, "{}\+AUTONOMIA\+\_\+\+KM"{}, "{}\+MAX\+\_\+\+PASSATGERS"{}, "{}\+TEMPS\+\_\+\+CARGA\+\_\+\+RAPIDA"{} i "{}\+TEMPS\+\_\+\+CARGA\+\_\+\+LENTA"{}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em path\+Fitxer} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON que conté les dades dels vehicles. \\
+\hline
+{\em llocs\+Per\+Id} & \doxylink{classcore_1_1_mapa}{Mapa} que relaciona ID de llocs amb els seus objectes \doxylink{classcore_1_1_lloc}{Lloc}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Una llista de vehicles carregats des del fitxer. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_ab4913a90fc8bea3a0d71ced32ce323a7}\index{core.LectorJSON@{core.LectorJSON}!convertirLlistaAMap\_Conductors@{convertirLlistaAMap\_Conductors}}
+\index{convertirLlistaAMap\_Conductors@{convertirLlistaAMap\_Conductors}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{convertirLlistaAMap\_Conductors()}{convertirLlistaAMap\_Conductors()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_ab4913a90fc8bea3a0d71ced32ce323a7} 
+static Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$ core.\+Lector\+JSON.\+convertir\+Llista\+AMap\+\_\+\+Conductors (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$}]{conductors}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Converteix una llista de Conductors a un mapa on la clau és l\textquotesingle{}ID del conductor i el valor és el propi objecte \doxylink{classcore_1_1_conductor}{Conductor}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em conductors} & Llista de conductors a convertir. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Un mapa amb les parelles ID -\/\texorpdfstring{$>$}{>} \doxylink{classcore_1_1_conductor}{Conductor} corresponents. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a42de07ef6d6ba084498af7d326c23ce1}\index{core.LectorJSON@{core.LectorJSON}!convertirLlistaAMap\_Llocs@{convertirLlistaAMap\_Llocs}}
+\index{convertirLlistaAMap\_Llocs@{convertirLlistaAMap\_Llocs}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{convertirLlistaAMap\_Llocs()}{convertirLlistaAMap\_Llocs()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_a42de07ef6d6ba084498af7d326c23ce1} 
+static Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ core.\+Lector\+JSON.\+convertir\+Llista\+AMap\+\_\+\+Llocs (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Converteix una llista de Llocs a un mapa on la clau és l\textquotesingle{}ID del lloc i el valor és el propi objecte \doxylink{classcore_1_1_lloc}{Lloc}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em llocs} & Llista de llocs a convertir. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Un mapa amb les parelles ID -\/\texorpdfstring{$>$}{>} \doxylink{classcore_1_1_lloc}{Lloc} corresponents. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_ac3ec0db5eeaa0af26cd1f7fc44da334d}\index{core.LectorJSON@{core.LectorJSON}!convertirLlistaAMap\_Vehicles@{convertirLlistaAMap\_Vehicles}}
+\index{convertirLlistaAMap\_Vehicles@{convertirLlistaAMap\_Vehicles}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{convertirLlistaAMap\_Vehicles()}{convertirLlistaAMap\_Vehicles()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_ac3ec0db5eeaa0af26cd1f7fc44da334d} 
+static Map$<$ Integer, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$ core.\+Lector\+JSON.\+convertir\+Llista\+AMap\+\_\+\+Vehicles (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$}]{vehicles}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Converteix una llista de Vehicles a un mapa on la clau és l\textquotesingle{}ID del vehicle i el valor és el propi objecte \doxylink{classcore_1_1_vehicle}{Vehicle}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em vehicles} & Llista de vehicles a convertir. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Un mapa amb les parelles ID -\/\texorpdfstring{$>$}{>} \doxylink{classcore_1_1_vehicle}{Vehicle} corresponents. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a04c12aaebfe184a92b228c493185b37e}\index{core.LectorJSON@{core.LectorJSON}!writeEstadistiques@{writeEstadistiques}}
+\index{writeEstadistiques@{writeEstadistiques}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{writeEstadistiques()}{writeEstadistiques()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_a04c12aaebfe184a92b228c493185b37e} 
+static void core.\+Lector\+JSON.\+write\+Estadistiques (\begin{DoxyParamCaption}\item[{String}]{absolute\+Path}{, }\item[{\mbox{\hyperlink{classcore_1_1_estadistiques}{Estadistiques}}}]{estadistiques}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Escriu un bloc d’estadístiques dins d’un fitxer JSON. Si el fitxer ja existeix, afegeix la nova entrada a l’array existent. Si no existeix, el crea.
+
+El bloc s\textquotesingle{}afegeix dins d\textquotesingle{}una clau "{}estadisticas"{}, que conté una llista de registres.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em absolute\+Path} & \doxylink{classcore_1_1_ruta}{Ruta} absoluta del fitxer JSON on s’escriuran les estadístiques. \\
+\hline
+{\em estadistiques} & Objecte \doxylink{classcore_1_1_estadistiques}{Estadistiques} que es vol serialitzar i escriure. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_lector_j_s_o_n_a78af07c3275656e1e62ccbe1bc46ae84}\index{core.LectorJSON@{core.LectorJSON}!writeJsonFile@{writeJsonFile}}
+\index{writeJsonFile@{writeJsonFile}!core.LectorJSON@{core.LectorJSON}}
+\doxysubsubsection{\texorpdfstring{writeJsonFile()}{writeJsonFile()}}
+{\footnotesize\ttfamily \label{classcore_1_1_lector_j_s_o_n_a78af07c3275656e1e62ccbe1bc46ae84} 
+static void core.\+Lector\+JSON.\+write\+Json\+File (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} $>$}]{conductors}{, }\item[{List$<$ \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} $>$}]{vehicles}{, }\item[{List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$}]{llocs}{, }\item[{List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$}]{connexions}{, }\item[{List$<$ \mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} $>$}]{peticions}{, }\item[{\mbox{\hyperlink{classcore_1_1_estadistiques}{Estadistiques}}}]{estadistiques}{, }\item[{Priority\+Queue$<$ \mbox{\hyperlink{classevents_1_1_event}{Event}} $>$}]{events}{, }\item[{String}]{file\+Path}{}\end{DoxyParamCaption}) throws IOException\hspace{0.3cm}{\ttfamily [static]}}
+
+Escribe un fitxer JSON amb la informació dels vehicles, conductors, llocs, connexions i peticions.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em conductors} & Llista de conductors a escriure al fitxer. \\
+\hline
+{\em vehicles} & Llista de vehicles a escriure al fitxer. \\
+\hline
+{\em llocs} & Llista de llocs a escriure al fitxer. \\
+\hline
+{\em connexions} & Llista de connexions a escriure al fitxer. \\
+\hline
+{\em peticions} & Llista de peticions a escriure al fitxer. \\
+\hline
+{\em estadistiques} & Estadístiques a escriure al fitxer. \\
+\hline
+{\em events} & Llista d\textquotesingle{}esdeveniments a escriure al fitxer. \\
+\hline
+{\em file\+Path} & \doxylink{classcore_1_1_ruta}{Ruta} del fitxer JSON on s\textquotesingle{}escriurà la informació. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Excepciones}
+{\em IOException} & Si hi ha un error d\textquotesingle{}entrada/sortida durant l\textquotesingle{}escriptura del fitxer. \\
+\hline
+\end{DoxyExceptions}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Lector\+JSON.\+java\end{DoxyCompactItemize}

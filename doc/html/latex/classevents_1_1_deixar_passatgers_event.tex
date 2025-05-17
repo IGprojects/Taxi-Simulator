@@ -1,0 +1,125 @@
+\doxysection{Referencia de la clase events.\+Deixar\+Passatgers\+Event}
+\hypertarget{classevents_1_1_deixar_passatgers_event}{}\label{classevents_1_1_deixar_passatgers_event}\index{events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}}
+
+
+Representa un esdeveniment que indica que un vehicle comença a deixar passatgers.  
+
+
+Diagrama de herencia de events.\+Deixar\+Passatgers\+Event\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classevents_1_1_deixar_passatgers_event}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classevents_1_1_deixar_passatgers_event_aeda1dc892c6c5fd1cffecfdc2a2598a7}\label{classevents_1_1_deixar_passatgers_event_aeda1dc892c6c5fd1cffecfdc2a2598a7} 
+{\bfseries Deixar\+Passatgers\+Event} (Local\+Time temps, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} conductor, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti, int passatgers\+Deixats)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Nombre de passatgers deixats \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classevents_1_1_deixar_passatgers_event_a0fc60bc3799a30a721289b3941013cc8}{executar}} (\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador)
+\item 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} \mbox{\hyperlink{classevents_1_1_deixar_passatgers_event_a0621ddd2b3f5c201e88a3b0283114b9c}{get\+Conductor}} ()
+\item 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} \mbox{\hyperlink{classevents_1_1_deixar_passatgers_event_a696495933c84e7ec53401aa62df40b59}{get\+Desti}} ()
+\item 
+int \mbox{\hyperlink{classevents_1_1_deixar_passatgers_event_a34c0c522fe6c2d9a6eced07cb853521e}{get\+Passatgers\+Deixats}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Event} (Local\+Time temps)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Temps associat a l\textquotesingle{}esdeveniment \end{DoxyCompactList}\item 
+Local\+Time \mbox{\hyperlink{classevents_1_1_event_a4986b619b70b10231b2f6ba283e3db28}{get\+Temps}} ()
+\item 
+int \mbox{\hyperlink{classevents_1_1_event_a84b8c3fef86513f10542c2bcdb71e161}{compare\+To}} (\mbox{\hyperlink{classevents_1_1_event}{Event}} altre)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Otros miembros heredados}
+\doxysubsection*{Atributos protegidos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+Local\+Time {\bfseries temps}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Representa un esdeveniment que indica que un vehicle comença a deixar passatgers. 
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+05.\+15 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classevents_1_1_deixar_passatgers_event_a0fc60bc3799a30a721289b3941013cc8}\index{events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}!executar@{executar}}
+\index{executar@{executar}!events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}}
+\doxysubsubsection{\texorpdfstring{executar()}{executar()}}
+{\footnotesize\ttfamily \label{classevents_1_1_deixar_passatgers_event_a0fc60bc3799a30a721289b3941013cc8} 
+void events.\+Deixar\+Passatgers\+Event.\+executar (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle del conductor deixa els passatgers especificats i pinta el missatge per pantalla. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em simulador} & Simulador on es realitza l\textquotesingle{}esdeveniment \\
+\hline
+\end{DoxyParams}
+
+
+Reimplementado de \mbox{\hyperlink{classevents_1_1_event_a7bf2591ac7ef9d73d2f6d68ac176c179}{events.\+Event}}.
+
+\Hypertarget{classevents_1_1_deixar_passatgers_event_a0621ddd2b3f5c201e88a3b0283114b9c}\index{events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}!getConductor@{getConductor}}
+\index{getConductor@{getConductor}!events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}}
+\doxysubsubsection{\texorpdfstring{getConductor()}{getConductor()}}
+{\footnotesize\ttfamily \label{classevents_1_1_deixar_passatgers_event_a0621ddd2b3f5c201e88a3b0283114b9c} 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} events.\+Deixar\+Passatgers\+Event.\+get\+Conductor (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obté el conductor associat a l\textquotesingle{}esdeveniment de deixar passatgers
+
+\begin{DoxyReturn}{Devuelve}
+objecte Conductor que realitza l\textquotesingle{}acció 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Excepciones}
+{\em Illegal\+State\+Exception} & si no hi ha conductor assignat \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classevents_1_1_deixar_passatgers_event_a696495933c84e7ec53401aa62df40b59}\index{events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}!getDesti@{getDesti}}
+\index{getDesti@{getDesti}!events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}}
+\doxysubsubsection{\texorpdfstring{getDesti()}{getDesti()}}
+{\footnotesize\ttfamily \label{classevents_1_1_deixar_passatgers_event_a696495933c84e7ec53401aa62df40b59} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} events.\+Deixar\+Passatgers\+Event.\+get\+Desti (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obté la ubicació on es deixen els passatgers
+
+\begin{DoxyReturn}{Devuelve}
+objecte Lloc destí on es deixen els passatgers 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Excepciones}
+{\em Illegal\+State\+Exception} & si no hi ha destí assignat \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{classevents_1_1_deixar_passatgers_event_a34c0c522fe6c2d9a6eced07cb853521e}\index{events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}!getPassatgersDeixats@{getPassatgersDeixats}}
+\index{getPassatgersDeixats@{getPassatgersDeixats}!events.DeixarPassatgersEvent@{events.DeixarPassatgersEvent}}
+\doxysubsubsection{\texorpdfstring{getPassatgersDeixats()}{getPassatgersDeixats()}}
+{\footnotesize\ttfamily \label{classevents_1_1_deixar_passatgers_event_a34c0c522fe6c2d9a6eced07cb853521e} 
+int events.\+Deixar\+Passatgers\+Event.\+get\+Passatgers\+Deixats (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+Obté el nombre de passatgers deixats
+
+\begin{DoxyReturn}{Devuelve}
+enter amb el nombre de passatgers deixats 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/events/Deixar\+Passatgers\+Event.\+java\end{DoxyCompactItemize}

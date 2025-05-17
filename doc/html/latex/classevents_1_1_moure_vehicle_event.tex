@@ -1,0 +1,88 @@
+\doxysection{Referencia de la clase events.\+Moure\+Vehicle\+Event}
+\hypertarget{classevents_1_1_moure_vehicle_event}{}\label{classevents_1_1_moure_vehicle_event}\index{events.MoureVehicleEvent@{events.MoureVehicleEvent}}
+
+
+Representa un esdeveniment de moviment d\textquotesingle{}un vehicle.  
+
+
+Diagrama de herencia de events.\+Moure\+Vehicle\+Event\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classevents_1_1_moure_vehicle_event}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classevents_1_1_moure_vehicle_event_a1a0160bbb4353b7d218faa8b2ff2c8e7}\label{classevents_1_1_moure_vehicle_event_a1a0160bbb4353b7d218faa8b2ff2c8e7} 
+{\bfseries Moure\+Vehicle\+Event} (Local\+Time temps, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} vehicle, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti, double distancia)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Distància entre l\textquotesingle{}origen i el destí \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classevents_1_1_moure_vehicle_event_ab541297e05c5848796c68e7e401b6c23}{executar}} (\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador)
+\item 
+\Hypertarget{classevents_1_1_moure_vehicle_event_aae90982e75356279d2f4630fe2639d1a}\label{classevents_1_1_moure_vehicle_event_aae90982e75356279d2f4630fe2639d1a} 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} {\bfseries get\+Vehicle} ()
+\item 
+\Hypertarget{classevents_1_1_moure_vehicle_event_a1beccc9fec7f8e18c176ec56a67a86dd}\label{classevents_1_1_moure_vehicle_event_a1beccc9fec7f8e18c176ec56a67a86dd} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} {\bfseries get\+Origen} ()
+\item 
+\Hypertarget{classevents_1_1_moure_vehicle_event_adfa98687d54b86504ceb258b9deb1e86}\label{classevents_1_1_moure_vehicle_event_adfa98687d54b86504ceb258b9deb1e86} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} {\bfseries get\+Desti} ()
+\item 
+\Hypertarget{classevents_1_1_moure_vehicle_event_a33bf4cfae02191af6bdc343046ad9dc9}\label{classevents_1_1_moure_vehicle_event_a33bf4cfae02191af6bdc343046ad9dc9} 
+double {\bfseries get\+Distancia} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Event} (Local\+Time temps)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Temps associat a l\textquotesingle{}esdeveniment \end{DoxyCompactList}\item 
+Local\+Time \mbox{\hyperlink{classevents_1_1_event_a4986b619b70b10231b2f6ba283e3db28}{get\+Temps}} ()
+\item 
+int \mbox{\hyperlink{classevents_1_1_event_a84b8c3fef86513f10542c2bcdb71e161}{compare\+To}} (\mbox{\hyperlink{classevents_1_1_event}{Event}} altre)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Otros miembros heredados}
+\doxysubsection*{Atributos protegidos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+Local\+Time {\bfseries temps}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Representa un esdeveniment de moviment d\textquotesingle{}un vehicle. 
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classevents_1_1_moure_vehicle_event_ab541297e05c5848796c68e7e401b6c23}\index{events.MoureVehicleEvent@{events.MoureVehicleEvent}!executar@{executar}}
+\index{executar@{executar}!events.MoureVehicleEvent@{events.MoureVehicleEvent}}
+\doxysubsubsection{\texorpdfstring{executar()}{executar()}}
+{\footnotesize\ttfamily \label{classevents_1_1_moure_vehicle_event_ab541297e05c5848796c68e7e401b6c23} 
+void events.\+Moure\+Vehicle\+Event.\+executar (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle es mou de l\textquotesingle{}origen al destí, es pinta el camí i es pinta el missatge per pantalla. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em simulador} & Simulador on es realitza l\textquotesingle{}esdeveniment \\
+\hline
+\end{DoxyParams}
+
+
+Reimplementado de \mbox{\hyperlink{classevents_1_1_event_a7bf2591ac7ef9d73d2f6d68ac176c179}{events.\+Event}}.
+
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/events/Moure\+Vehicle\+Event.\+java\end{DoxyCompactItemize}

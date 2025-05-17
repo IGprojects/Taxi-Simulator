@@ -30,8 +30,8 @@ import events.MoureVehicleEvent;
 import events.RecollirPassatgersEvent;
 
 /**
- * @class LectorJSon
- * @brief Classe per carregar i llegir simulacions en json.
+ * @class LectorJSON
+ * @brief Fitxer per a la lectura i carrega de dades en JSON de les simulacions i estadistiques
  * @author Ignasi Ferrés Iglesias
  * @version 2025.05.13
  */

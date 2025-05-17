@@ -1,0 +1,86 @@
+\doxysection{Referencia de la clase core.\+Optimitzador}
+\hypertarget{classcore_1_1_optimitzador}{}\label{classcore_1_1_optimitzador}\index{core.Optimitzador@{core.Optimitzador}}
+
+
+Classe encarregada d’optimitzar la simulació.  
+
+
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcore_1_1_optimitzador_af6f201f764953816db85f88adbf87f9e}\label{classcore_1_1_optimitzador_af6f201f764953816db85f88adbf87f9e} 
+{\bfseries Optimitzador} ()
+\begin{DoxyCompactList}\small\item\em Constructor per defecte. \end{DoxyCompactList}\item 
+Map$<$ Integer, Integer $>$ \mbox{\hyperlink{classcore_1_1_optimitzador_a1371eb67ad23225ef2d53db2ddd1d0e5}{obtenir\+Conductors\+Redundants}} (File Json\+File)  throws IOException 
+\begin{DoxyCompactList}\small\item\em Determina quins vehicles es poden eliminar sense augmentar les peticions no servides. \end{DoxyCompactList}\item 
+Map$<$ Integer, Integer $>$ \mbox{\hyperlink{classcore_1_1_optimitzador_aab097da71b97b467034daebeec5b2995}{obtenir\+Punts\+Carrega\+Redundants}} (File Json\+File)  throws IOException 
+\begin{DoxyCompactList}\small\item\em Determina quins punts de càrrega són redundants basant-\/se en el seu ús. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Classe encarregada d’optimitzar la simulació. 
+
+Processa els vehicles i punts de càrrega per identificar-\/ne aquells que no són necessaris
+
+\begin{DoxyAuthor}{Autor}
+Ignasi Ferrés Iglesias 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+05.\+13 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_optimitzador_a1371eb67ad23225ef2d53db2ddd1d0e5}\index{core.Optimitzador@{core.Optimitzador}!obtenirConductorsRedundants@{obtenirConductorsRedundants}}
+\index{obtenirConductorsRedundants@{obtenirConductorsRedundants}!core.Optimitzador@{core.Optimitzador}}
+\doxysubsubsection{\texorpdfstring{obtenirConductorsRedundants()}{obtenirConductorsRedundants()}}
+{\footnotesize\ttfamily \label{classcore_1_1_optimitzador_a1371eb67ad23225ef2d53db2ddd1d0e5} 
+Map$<$ Integer, Integer $>$ core.\+Optimitzador.\+obtenir\+Conductors\+Redundants (\begin{DoxyParamCaption}\item[{File}]{Json\+File}{}\end{DoxyParamCaption}) throws IOException}
+
+
+
+Determina quins vehicles es poden eliminar sense augmentar les peticions no servides. 
+
+\begin{DoxyPrecond}{Precondición}
+El simulador està inicialitzat i conté una llista de vehicles. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna una llista amb els vehicles que poden ser eliminats sense empitjorar el servei.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em json\+File} & Fitxer JSON amb la configuració de la simulació. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Llista de vehicles considerats redundants. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_optimitzador_aab097da71b97b467034daebeec5b2995}\index{core.Optimitzador@{core.Optimitzador}!obtenirPuntsCarregaRedundants@{obtenirPuntsCarregaRedundants}}
+\index{obtenirPuntsCarregaRedundants@{obtenirPuntsCarregaRedundants}!core.Optimitzador@{core.Optimitzador}}
+\doxysubsubsection{\texorpdfstring{obtenirPuntsCarregaRedundants()}{obtenirPuntsCarregaRedundants()}}
+{\footnotesize\ttfamily \label{classcore_1_1_optimitzador_aab097da71b97b467034daebeec5b2995} 
+Map$<$ Integer, Integer $>$ core.\+Optimitzador.\+obtenir\+Punts\+Carrega\+Redundants (\begin{DoxyParamCaption}\item[{File}]{Json\+File}{}\end{DoxyParamCaption}) throws IOException}
+
+
+
+Determina quins punts de càrrega són redundants basant-\/se en el seu ús. 
+
+\begin{DoxyPrecond}{Precondición}
+El mapa de punts de càrrega i el registre d\textquotesingle{}ús han d\textquotesingle{}estar inicialitzats. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna un mapa amb els identificadors dels punts de càrrega i el seu nombre d\textquotesingle{}usos.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em Json\+File} & Fitxer JSON amb la configuració de la simulació. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+Map amb identificadors de punts de càrrega i el nombre de vegades que s\textquotesingle{}han utilitzat. 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Optimitzador.\+java\end{DoxyCompactItemize}

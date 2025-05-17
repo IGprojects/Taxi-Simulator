@@ -1,0 +1,331 @@
+\doxysection{Referencia de la clase core.\+Vehicle}
+\hypertarget{classcore_1_1_vehicle}{}\label{classcore_1_1_vehicle}\index{core.Vehicle@{core.Vehicle}}
+
+
+Defineix el vehicle i les seves característiques.  
+
+
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcore_1_1_vehicle_a34bbc3e8d426fce69c323ed9b1f6b0e0}{Vehicle}} (int id, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} ubicacio, int maxpassatgers, int autonomia, double temps\+Carga\+Lenta, double temps\+Carga\+Rapida)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Indica si el vehicle està carregant. \end{DoxyCompactList}\item 
+\Hypertarget{classcore_1_1_vehicle_a45e718ccb4ec6f2bc14e808ed9c4a5c0}\label{classcore_1_1_vehicle_a45e718ccb4ec6f2bc14e808ed9c4a5c0} 
+int {\bfseries get\+Id} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_vehicle_a3194fc0f09ecc6512e9f7c5d8e4725ca}{te\+Bateria}} (double km, boolean vorac)
+\item 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} \mbox{\hyperlink{classcore_1_1_vehicle_a15169085eaa23d092fc4aa412494b58c}{get\+Ubicacio\+Actual}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_vehicle_a4b3111648fe0c474bda1dc031cf0b26e}{es\+Ple}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_vehicle_ab65f8f002750e32618f54687ff0a63ba}{afegir\+Passatgers}} (int n\+Passatgers)
+\item 
+void \mbox{\hyperlink{classcore_1_1_vehicle_ab7c71a734535a98f68bb17b889a4507b}{alliberar\+Passatgers}} ()
+\begin{DoxyCompactList}\small\item\em Allibera tots els passatgers del vehicle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classcore_1_1_vehicle_a367ecd5d3bd5c924f067c73cf13ce2e1}{alliberar\+Passatgers\+Concret}} (int n)
+\begin{DoxyCompactList}\small\item\em Allibera un numero concrey de passatgers del vehicle. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classcore_1_1_vehicle_a3daa9a7470fa0288d4244a838241dd0e}{passatgers\+Actuals}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_vehicle_a0e305fac0612edb79e92e336d4e67d0f}{carregar\+Bateria}} (boolean vorac)
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_vehicle_a39e3553d8e76407586d7d5cc5e008767}{consumir\+Bateria}} (double distancia)
+\item 
+double \mbox{\hyperlink{classcore_1_1_vehicle_a59bb97825ba693b00fa562f32ff4f189}{obtenir\+Bateria}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_vehicle_a6358fa39a29d6013cc262443b2aa0472}{bateria\+Baixa}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_vehicle_a284b4a4b622ccdee3f4679ba94b94fbf}{moure}} (\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} nova\+Ubicacio, double distancia)
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_vehicle_a82a37b1d10db37ad8ca385915dc2fe7d}{es\+Carregant}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_vehicle_aa982c563576bb75be6bbb77845fe7233}{get\+Max\+Passatgers}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_vehicle_a72510852205e4b6d171d054e73858460}{get\+Passatgers\+Actuals}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_vehicle_aa1404d7cd01f377ed958ed55cfa3ebdc}{get\+Autonomia}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Defineix el vehicle i les seves característiques. 
+
+\begin{DoxyAuthor}{Autor}
+Anouar El Barkouki Hitach 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de constructores y destructores}
+\Hypertarget{classcore_1_1_vehicle_a34bbc3e8d426fce69c323ed9b1f6b0e0}\index{core.Vehicle@{core.Vehicle}!Vehicle@{Vehicle}}
+\index{Vehicle@{Vehicle}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{Vehicle()}{Vehicle()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a34bbc3e8d426fce69c323ed9b1f6b0e0} 
+core.\+Vehicle.\+Vehicle (\begin{DoxyParamCaption}\item[{int}]{id}{, }\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{ubicacio}{, }\item[{int}]{maxpassatgers}{, }\item[{int}]{autonomia}{, }\item[{double}]{temps\+Carga\+Lenta}{, }\item[{double}]{temps\+Carga\+Rapida}{}\end{DoxyParamCaption})}
+
+
+
+\texorpdfstring{$<$}{<} Indica si el vehicle està carregant. 
+
+Constructor de la classe \doxylink{classcore_1_1_vehicle}{Vehicle}.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em ubicacio} & La ubicació inicial del vehicle. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_vehicle_ab65f8f002750e32618f54687ff0a63ba}\index{core.Vehicle@{core.Vehicle}!afegirPassatgers@{afegirPassatgers}}
+\index{afegirPassatgers@{afegirPassatgers}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{afegirPassatgers()}{afegirPassatgers()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_ab65f8f002750e32618f54687ff0a63ba} 
+void core.\+Vehicle.\+afegir\+Passatgers (\begin{DoxyParamCaption}\item[{int}]{n\+Passatgers}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+n\+Passatgers \texorpdfstring{$<$}{<} MAXPassatgers 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+S \textquotesingle{}afegeixen els passatgers especificats al vehicle si hi ha espai suficient.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em n\+Passatgers} & Nombre de passatgers a afegir. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_vehicle_ab7c71a734535a98f68bb17b889a4507b}\index{core.Vehicle@{core.Vehicle}!alliberarPassatgers@{alliberarPassatgers}}
+\index{alliberarPassatgers@{alliberarPassatgers}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{alliberarPassatgers()}{alliberarPassatgers()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_ab7c71a734535a98f68bb17b889a4507b} 
+void core.\+Vehicle.\+alliberar\+Passatgers (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Allibera tots els passatgers del vehicle. 
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle queda buit sense passatgers. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_vehicle_a367ecd5d3bd5c924f067c73cf13ce2e1}\index{core.Vehicle@{core.Vehicle}!alliberarPassatgersConcret@{alliberarPassatgersConcret}}
+\index{alliberarPassatgersConcret@{alliberarPassatgersConcret}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{alliberarPassatgersConcret()}{alliberarPassatgersConcret()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a367ecd5d3bd5c924f067c73cf13ce2e1} 
+void core.\+Vehicle.\+alliberar\+Passatgers\+Concret (\begin{DoxyParamCaption}\item[{int}]{n}{}\end{DoxyParamCaption})}
+
+
+
+Allibera un numero concrey de passatgers del vehicle. 
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle queda buit sense passatgers. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_vehicle_a6358fa39a29d6013cc262443b2aa0472}\index{core.Vehicle@{core.Vehicle}!bateriaBaixa@{bateriaBaixa}}
+\index{bateriaBaixa@{bateriaBaixa}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{bateriaBaixa()}{bateriaBaixa()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a6358fa39a29d6013cc262443b2aa0472} 
+boolean core.\+Vehicle.\+bateria\+Baixa (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si la bateria està per sota del 20\%, false en cas contrari.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+true si la bateria és baixa, false si encara és suficient. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_vehicle_a0e305fac0612edb79e92e336d4e67d0f}\index{core.Vehicle@{core.Vehicle}!carregarBateria@{carregarBateria}}
+\index{carregarBateria@{carregarBateria}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{carregarBateria()}{carregarBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a0e305fac0612edb79e92e336d4e67d0f} 
+void core.\+Vehicle.\+carregar\+Bateria (\begin{DoxyParamCaption}\item[{boolean}]{vorac}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+bateria \texorpdfstring{$>$}{>}= 0. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Incrementa el nivell de bateria segons el percentatge indicat.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em percentatge} & Percentatge a carregar (ha d\textquotesingle{}estar en l\textquotesingle{}interval \mbox{[}0, 100\mbox{]}). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_vehicle_a39e3553d8e76407586d7d5cc5e008767}\index{core.Vehicle@{core.Vehicle}!consumirBateria@{consumirBateria}}
+\index{consumirBateria@{consumirBateria}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{consumirBateria()}{consumirBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a39e3553d8e76407586d7d5cc5e008767} 
+boolean core.\+Vehicle.\+consumir\+Bateria (\begin{DoxyParamCaption}\item[{double}]{distancia}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+bateria \texorpdfstring{$>$}{>}0. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+La bateria es redueix en funció de la distància recorreguda.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em distancia} & Distància en quilòmetres que el vehicle ha recorregut. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_vehicle_a82a37b1d10db37ad8ca385915dc2fe7d}\index{core.Vehicle@{core.Vehicle}!esCarregant@{esCarregant}}
+\index{esCarregant@{esCarregant}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{esCarregant()}{esCarregant()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a82a37b1d10db37ad8ca385915dc2fe7d} 
+boolean core.\+Vehicle.\+es\+Carregant (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si el vehicle està carregant, false en cas contrari. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_vehicle_a4b3111648fe0c474bda1dc031cf0b26e}\index{core.Vehicle@{core.Vehicle}!esPle@{esPle}}
+\index{esPle@{esPle}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{esPle()}{esPle()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a4b3111648fe0c474bda1dc031cf0b26e} 
+boolean core.\+Vehicle.\+es\+Ple (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si el vehicle està ple, altrament false. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_vehicle_aa1404d7cd01f377ed958ed55cfa3ebdc}\index{core.Vehicle@{core.Vehicle}!getAutonomia@{getAutonomia}}
+\index{getAutonomia@{getAutonomia}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{getAutonomia()}{getAutonomia()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_aa1404d7cd01f377ed958ed55cfa3ebdc} 
+int core.\+Vehicle.\+get\+Autonomia (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna El nombre d\textquotesingle{}AUTONOMIA vehicle.. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+El nombre d\textquotesingle{}AUTONOMIA vehicle. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_vehicle_aa982c563576bb75be6bbb77845fe7233}\index{core.Vehicle@{core.Vehicle}!getMaxPassatgers@{getMaxPassatgers}}
+\index{getMaxPassatgers@{getMaxPassatgers}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{getMaxPassatgers()}{getMaxPassatgers()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_aa982c563576bb75be6bbb77845fe7233} 
+int core.\+Vehicle.\+get\+Max\+Passatgers (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre màxim de passatgers que pot transportar el vehicle.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em MAXPASSATGERS} & Nombre màxim de passatgers que pot transportar el vehicle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+El nombre màxim de passatgers que pot transportar el vehicle. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_vehicle_a72510852205e4b6d171d054e73858460}\index{core.Vehicle@{core.Vehicle}!getPassatgersActuals@{getPassatgersActuals}}
+\index{getPassatgersActuals@{getPassatgersActuals}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{getPassatgersActuals()}{getPassatgersActuals()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a72510852205e4b6d171d054e73858460} 
+int core.\+Vehicle.\+get\+Passatgers\+Actuals (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre de passatgers que transporta el vehicle.. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+El nombre de passatgers que transporta el vehicle. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_vehicle_a15169085eaa23d092fc4aa412494b58c}\index{core.Vehicle@{core.Vehicle}!getUbicacioActual@{getUbicacioActual}}
+\index{getUbicacioActual@{getUbicacioActual}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{getUbicacioActual()}{getUbicacioActual()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a15169085eaa23d092fc4aa412494b58c} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} core.\+Vehicle.\+get\+Ubicacio\+Actual (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la ubicacio actual del vehicle 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_lloc}{Lloc} on es troba actualment el conductor 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_vehicle_a284b4a4b622ccdee3f4679ba94b94fbf}\index{core.Vehicle@{core.Vehicle}!moure@{moure}}
+\index{moure@{moure}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{moure()}{moure()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a284b4a4b622ccdee3f4679ba94b94fbf} 
+void core.\+Vehicle.\+moure (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}}}]{nova\+Ubicacio}{, }\item[{double}]{distancia}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+nova\+Ubicacio != null i distancia \texorpdfstring{$>$}{>}= 0. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle es desplaça a la nova ubicació i la seva bateria es redueix en funció de la distància recorreguda.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em nova\+Ubicacio} & \doxylink{classcore_1_1_lloc}{Lloc} on es mourà el vehicle. \\
+\hline
+{\em distancia} & Distància recorreguda per arribar a la nova ubicació. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_vehicle_a59bb97825ba693b00fa562f32ff4f189}\index{core.Vehicle@{core.Vehicle}!obtenirBateria@{obtenirBateria}}
+\index{obtenirBateria@{obtenirBateria}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{obtenirBateria()}{obtenirBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a59bb97825ba693b00fa562f32ff4f189} 
+double core.\+Vehicle.\+obtenir\+Bateria (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nivell de bateria en percentatge (0\% -\/ 100\%). 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_vehicle_a3daa9a7470fa0288d4244a838241dd0e}\index{core.Vehicle@{core.Vehicle}!passatgersActuals@{passatgersActuals}}
+\index{passatgersActuals@{passatgersActuals}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{passatgersActuals()}{passatgersActuals()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a3daa9a7470fa0288d4244a838241dd0e} 
+int core.\+Vehicle.\+passatgers\+Actuals (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre de passatgers actuals del vehicle. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_vehicle_a3194fc0f09ecc6512e9f7c5d8e4725ca}\index{core.Vehicle@{core.Vehicle}!teBateria@{teBateria}}
+\index{teBateria@{teBateria}!core.Vehicle@{core.Vehicle}}
+\doxysubsubsection{\texorpdfstring{teBateria()}{teBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_vehicle_a3194fc0f09ecc6512e9f7c5d8e4725ca} 
+boolean core.\+Vehicle.\+te\+Bateria (\begin{DoxyParamCaption}\item[{double}]{km}{, }\item[{boolean}]{vorac}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si el vehicle té bateria (\texorpdfstring{$>$}{>}0\%), altrament false. 
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+true si el vehicle té bateria disponible, false si està esgotada. 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Vehicle.\+java\end{DoxyCompactItemize}

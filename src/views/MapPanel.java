@@ -1,13 +1,27 @@
 package views;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import core.Cami;
 import core.Lloc;
@@ -15,10 +29,12 @@ import core.Mapa;
 import core.Parquing;
 import core.Vehicle;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.time.LocalTime;
-
+/**
+ * @class MapPanel
+ * @author Ignasi Ferres Igles i millora Didac Gros Ladrador
+ * @brief Panell gràfic per mostrar el mapa amb llocs, camins i vehicles en
+ * moviment.
+ */
 public class MapPanel extends JPanel {
 
     private final Mapa mapa;
@@ -30,6 +46,11 @@ public class MapPanel extends JPanel {
     private Point offset = null;
     private String horaActual = "00:00";
 
+    /**
+     * @brief Constructor que inicialitza el panell i calcula les posicions dels
+     * llocs.
+     * @param mapa El mapa que conté els llocs i camins.
+     */
     public MapPanel(Mapa mapa) {
         this.mapa = mapa;
         setBackground(Color.WHITE);
@@ -38,22 +59,35 @@ public class MapPanel extends JPanel {
     }
 
     private static final Color[] COLORS = {
-            new Color(0x1f77b4), // blau
-            new Color(0xff7f0e), // taronja
-            new Color(0x2ca02c), // verd
-            new Color(0xd62728), // vermell
-            new Color(0x9467bd), // lila
-            new Color(0x8c564b), // marró
-            new Color(0xe377c2), // rosa
-            new Color(0x7f7f7f), // gris
-            new Color(0xbcbd22), // oliva
-            new Color(0x17becf) // turquesa
+        new Color(0x1f77b4), // blau
+        new Color(0xff7f0e), // taronja
+        new Color(0x2ca02c), // verd
+        new Color(0xd62728), // vermell
+        new Color(0x9467bd), // lila
+        new Color(0x8c564b), // marró
+        new Color(0xe377c2), // rosa
+        new Color(0x7f7f7f), // gris
+        new Color(0xbcbd22), // oliva
+        new Color(0x17becf) // turquesa
     };
 
+
+    /**
+     * @brief Genera un color únic a partir d'un índex.
+     * @param index Índex numèric.
+     * @return Color assignat.
+     */
     private Color generarColor(int index) {
         return COLORS[index % COLORS.length];
     }
 
+
+    
+    /**
+     * @brief Afegeix un camí a un vehicle concret.
+     * @param vehicle El vehicle.
+     * @param cami El camí a afegir.
+     */
     public void afegirCamiPerVehicle(Vehicle vehicle, Cami cami) {
         caminsPerVehicle.computeIfAbsent(vehicle, v -> new ArrayList<>()).add(cami);
 
@@ -64,6 +98,9 @@ public class MapPanel extends JPanel {
         repaint();
     }
 
+     /**
+     * @brief Configura els esdeveniments del ratolí per permetre arrossegar llocs.
+     */
     private void configurarMouseListeners() {
         addMouseListener(new MouseAdapter() {
             @Override
@@ -98,8 +135,13 @@ public class MapPanel extends JPanel {
         });
     }
 
+        /**
+     * @brief Anima un camí entre dos punts per a un vehicle concret.
+     * @param cami El camí a animar.
+     * @param vehicle El vehicle que recorre el camí.
+     */
     public void animarCami(Cami cami, Vehicle vehicle) {
-        final int[] progress = { 0 }; // 0 → 100
+        final int[] progress = {0}; // 0 → 100
         Timer timer = new Timer(100, null); // cada 100 ms
 
         timer.addActionListener(e -> {
@@ -119,6 +161,12 @@ public class MapPanel extends JPanel {
         timer.start();
     }
 
+        /**
+     * @brief Pinta parcialment un camí segons el percentatge de progrés.
+     * @param cami El camí.
+     * @param vehicle El vehicle que el recorre.
+     * @param percentatge Percentatge del camí (0 a 1).
+     */
     private void pintarCamiParcial(Cami cami, Vehicle vehicle, double percentatge) {
         Graphics2D g2 = (Graphics2D) getGraphics();
         Color color = colorPerVehicle.getOrDefault(vehicle, Color.BLACK);
@@ -137,12 +185,19 @@ public class MapPanel extends JPanel {
         g2.drawLine(x1, y1, xParcial, yParcial);
     }
 
+    /**
+     * @brief Assigna un color aleatori a un vehicle.
+     * @param v El vehicle.
+     */
     public void assignarColorVehicle(Vehicle v) {
         Random rand = new Random();
         Color colorAleatori = new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
         colorPerVehicle.put(v, colorAleatori);
     }
 
+    /**
+     * @brief Calcula automàticament posicions en una graella per als llocs.
+     */
     private void calcularPosicionsAutomatiques() {
         int margin = 100;
         int separacio = 120;
@@ -160,6 +215,10 @@ public class MapPanel extends JPanel {
     }
 
     @Override
+    /**
+     * @brief Sobreescriu el mètode de dibuix del component per mostrar el mapa i la informació.
+     * @param g L'objecte gràfic.
+     */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -286,6 +345,9 @@ public class MapPanel extends JPanel {
 
     }
 
+      /**
+     * @brief Dibuixa una fletxa discontínua entre dos punts.
+     */
     private void drawArrow(Graphics2D g2, int x1, int y1, int x2, int y2) {
         int arrowSize = 10;
         int nodeRadius = 25;
@@ -301,7 +363,7 @@ public class MapPanel extends JPanel {
 
         // Línia discontínua
         Stroke originalStroke = g2.getStroke();
-        float[] dashPattern = { 10, 10 }; // 10 píxels pintats, 10 píxels en blanc
+        float[] dashPattern = {10, 10}; // 10 píxels pintats, 10 píxels en blanc
         g2.setStroke(new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10, dashPattern, 0));
         g2.drawLine(x1, y1, newX2, newY2);
         g2.setStroke(originalStroke); // Tornar a l'estil anterior
@@ -312,11 +374,14 @@ public class MapPanel extends JPanel {
         int xArrow2 = (int) (newX2 - arrowSize * Math.cos(angle + Math.PI / 6));
         int yArrow2 = (int) (newY2 - arrowSize * Math.sin(angle + Math.PI / 6));
 
-        int[] xPoints = { newX2, xArrow1, xArrow2 };
-        int[] yPoints = { newY2, yArrow1, yArrow2 };
+        int[] xPoints = {newX2, xArrow1, xArrow2};
+        int[] yPoints = {newY2, yArrow1, yArrow2};
         g2.fillPolygon(xPoints, yPoints, 3);
     }
 
+       /**
+     * @brief Dibuixa una línia contínua amb fletxa entre dos punts.
+     */
     private void drawLiniaContinua(Graphics2D g2, int x1, int y1, int x2, int y2) {
         int arrowSize = 10;
         int nodeRadius = 25;
@@ -339,16 +404,24 @@ public class MapPanel extends JPanel {
         int xArrow2 = (int) (newX2 - arrowSize * Math.cos(angle + Math.PI / 6));
         int yArrow2 = (int) (newY2 - arrowSize * Math.sin(angle + Math.PI / 6));
 
-        int[] xPoints = { newX2, xArrow1, xArrow2 };
-        int[] yPoints = { newY2, yArrow1, yArrow2 };
+        int[] xPoints = {newX2, xArrow1, xArrow2};
+        int[] yPoints = {newY2, yArrow1, yArrow2};
         g2.fillPolygon(xPoints, yPoints, 3);
     }
 
+       /**
+     * @brief Estableix l'hora actual a mostrar al panell.
+     * @param hora Hora actual.
+     */
     public void setHoraActual(LocalTime hora) {
         this.horaActual = hora.toString();
         repaint();
     }
 
+     /**
+     * @brief Afegeix un missatge informatiu a la llista del panell.
+     * @param missatge Missatge nou.
+     */
     public void afegirMissatge(String missatge) {
         missatges.add(missatge);
         if (missatges.size() > 9) { // manté només els últims 5 missatges

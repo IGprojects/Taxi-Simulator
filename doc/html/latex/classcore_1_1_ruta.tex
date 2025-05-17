@@ -1,0 +1,306 @@
+\doxysection{Referencia de la clase core.\+Ruta}
+\hypertarget{classcore_1_1_ruta}{}\label{classcore_1_1_ruta}\index{core.Ruta@{core.Ruta}}
+
+
+Representa la ruta que segueix un vehicle per completar una petició.  
+
+
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcore_1_1_ruta_a7a4a2a93fea7d69efe9adeffbfcf3321}\label{classcore_1_1_ruta_a7a4a2a93fea7d69efe9adeffbfcf3321} 
+{\bfseries Ruta} (List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs, Local\+Time hora\+Inici, double distancia\+Total, double temps\+Total, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} conductor, boolean es\+Ruta\+Carrega)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Nombre de passatgers de la petició. \end{DoxyCompactList}\item 
+List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ \mbox{\hyperlink{classcore_1_1_ruta_a644cde59eb07e65b00019758a8c5ad7a}{get\+Llocs}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_ruta_aae10e33136137a63fdf3ca64bfb8cbc2}{assignar\+Passatgers\+Peticio}} (int passatgers)
+\item 
+int \mbox{\hyperlink{classcore_1_1_ruta_a0dc889de954681793ca0639fe1f67b57}{obtenir\+Passatgers\+Peticio}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_ruta_a5730bb4239a6b45568608b62c76a466b}{assignar\+Llocs\+Origen\+Peticions}} (List$<$ \mbox{\hyperlink{classcore_1_1_pair}{Pair}}$<$ Integer, Integer $>$ $>$ llocs)
+\item 
+void \mbox{\hyperlink{classcore_1_1_ruta_a6531b6860fe5b0c39b3faebd3f5decc4}{assignar\+Llocs\+Desti\+Peticions}} (List$<$ \mbox{\hyperlink{classcore_1_1_pair}{Pair}}$<$ Integer, Integer $>$ $>$ llocs)
+\item 
+int \mbox{\hyperlink{classcore_1_1_ruta_a3cf49ce1f691223e0dbdf69e3d5a40ec}{trobar\+Origen\+Id}} (int valor)
+\item 
+int \mbox{\hyperlink{classcore_1_1_ruta_a76e9fb298a5390f7f2e16aabc3af4851}{trobar\+Desti\+Id}} (int valor)
+\item 
+double \mbox{\hyperlink{classcore_1_1_ruta_af12cb971a656ca38e77ba7e5a3738def}{obtenir\+Distancia\+Total}} ()
+\item 
+double \mbox{\hyperlink{classcore_1_1_ruta_a569b2c4d800f40aeb33c9d9fb8a21bd9}{obtenir\+Temps\+Total}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_ruta_a0b99000a6c411664154a6ca938c69509}{is\+Ruta\+Carrega}} ()
+\item 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} \mbox{\hyperlink{classcore_1_1_ruta_a45d8aedc5e57f4cd30586e09e21c67a8}{obtenir\+Conductor}} ()
+\item 
+List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ \mbox{\hyperlink{classcore_1_1_ruta_a3b79fdb3c2f86fb7bd9388d6fa5c9674}{obtenir\+Trams}} ()
+\item 
+Local\+Time \mbox{\hyperlink{classcore_1_1_ruta_aa3d140c6ee9b5228652a898710514c4f}{obtenir\+Hora\+Inici}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_ruta_ab612117aba93b5a366ac5fc3208801bb}{es\+Buida}} ()
+\item 
+\Hypertarget{classcore_1_1_ruta_af25cf729f2bb4c664cf869051594fc25}\label{classcore_1_1_ruta_af25cf729f2bb4c664cf869051594fc25} 
+void {\bfseries set\+Llocs} (List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ llocs)
+\item 
+\Hypertarget{classcore_1_1_ruta_abe305a77ed877a4b728aacca86a155ed}\label{classcore_1_1_ruta_abe305a77ed877a4b728aacca86a155ed} 
+void {\bfseries set\+Distancia\+Total} (double distancia\+Total)
+\item 
+\Hypertarget{classcore_1_1_ruta_ab0be10ada8a35f9c49ef4d16c6d005ce}\label{classcore_1_1_ruta_ab0be10ada8a35f9c49ef4d16c6d005ce} 
+void {\bfseries set\+Temps\+Total} (double temps\+Total)
+\item 
+\Hypertarget{classcore_1_1_ruta_a5bca1c055faeb69483de17475995ff59}\label{classcore_1_1_ruta_a5bca1c055faeb69483de17475995ff59} 
+void {\bfseries set\+Hora\+Inici} (Local\+Time hora\+Inici)
+\item 
+\Hypertarget{classcore_1_1_ruta_af0ee37cf53b850e99fadc87e346e5a4a}\label{classcore_1_1_ruta_af0ee37cf53b850e99fadc87e346e5a4a} 
+void {\bfseries set\+Conductor} (\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} conductor)
+\item 
+\Hypertarget{classcore_1_1_ruta_a54b3f77a5db3ac535b0cf7375d5623dc}\label{classcore_1_1_ruta_a54b3f77a5db3ac535b0cf7375d5623dc} 
+void {\bfseries set\+Es\+Ruta\+Carrega} (boolean es\+Ruta\+Carrega)
+\item 
+\Hypertarget{classcore_1_1_ruta_a2ba252535d22bb1ed2f7aec821f5a7e0}\label{classcore_1_1_ruta_a2ba252535d22bb1ed2f7aec821f5a7e0} 
+Local\+Time {\bfseries get\+Hora\+Inici} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Representa la ruta que segueix un vehicle per completar una petició. 
+
+Conté una seqüència de llocs per on passa la ruta, així com la distància i el temps total del recorregut.
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_ruta_a6531b6860fe5b0c39b3faebd3f5decc4}\index{core.Ruta@{core.Ruta}!assignarLlocsDestiPeticions@{assignarLlocsDestiPeticions}}
+\index{assignarLlocsDestiPeticions@{assignarLlocsDestiPeticions}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{assignarLlocsDestiPeticions()}{assignarLlocsDestiPeticions()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a6531b6860fe5b0c39b3faebd3f5decc4} 
+void core.\+Ruta.\+assignar\+Llocs\+Desti\+Peticions (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_pair}{Pair}}$<$ Integer, Integer $>$ $>$}]{llocs}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Assigna la llista de parells de llocs de destí i passatgers.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em llocs} & Llista de parells que contenen l\textquotesingle{}ID del lloc i el nombre de passatgers. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_ruta_a5730bb4239a6b45568608b62c76a466b}\index{core.Ruta@{core.Ruta}!assignarLlocsOrigenPeticions@{assignarLlocsOrigenPeticions}}
+\index{assignarLlocsOrigenPeticions@{assignarLlocsOrigenPeticions}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{assignarLlocsOrigenPeticions()}{assignarLlocsOrigenPeticions()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a5730bb4239a6b45568608b62c76a466b} 
+void core.\+Ruta.\+assignar\+Llocs\+Origen\+Peticions (\begin{DoxyParamCaption}\item[{List$<$ \mbox{\hyperlink{classcore_1_1_pair}{Pair}}$<$ Integer, Integer $>$ $>$}]{llocs}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Assigna la llista de parells de llocs d\textquotesingle{}origen i passatgers.
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em llocs} & Llista de parells que contenen l\textquotesingle{}ID del lloc i el nombre de passatgers. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_ruta_aae10e33136137a63fdf3ca64bfb8cbc2}\index{core.Ruta@{core.Ruta}!assignarPassatgersPeticio@{assignarPassatgersPeticio}}
+\index{assignarPassatgersPeticio@{assignarPassatgersPeticio}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{assignarPassatgersPeticio()}{assignarPassatgersPeticio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_aae10e33136137a63fdf3ca64bfb8cbc2} 
+void core.\+Ruta.\+assignar\+Passatgers\+Peticio (\begin{DoxyParamCaption}\item[{int}]{passatgers}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Assigna el nombre de passatgers a la ruta. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em passatgers} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classcore_1_1_ruta_ab612117aba93b5a366ac5fc3208801bb}\index{core.Ruta@{core.Ruta}!esBuida@{esBuida}}
+\index{esBuida@{esBuida}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{esBuida()}{esBuida()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_ab612117aba93b5a366ac5fc3208801bb} 
+boolean core.\+Ruta.\+es\+Buida (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si la ruta conté llocs, false si està buida. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_ruta_a644cde59eb07e65b00019758a8c5ad7a}\index{core.Ruta@{core.Ruta}!getLlocs@{getLlocs}}
+\index{getLlocs@{getLlocs}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{getLlocs()}{getLlocs()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a644cde59eb07e65b00019758a8c5ad7a} 
+List$<$ \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} $>$ core.\+Ruta.\+get\+Llocs (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+llocs != null 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+retorna la llista del llocs per on te que passar per fer la ruta.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+llista de llocs que es passa per realitzar la ruta 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_a0b99000a6c411664154a6ca938c69509}\index{core.Ruta@{core.Ruta}!isRutaCarrega@{isRutaCarrega}}
+\index{isRutaCarrega@{isRutaCarrega}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{isRutaCarrega()}{isRutaCarrega()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a0b99000a6c411664154a6ca938c69509} 
+boolean core.\+Ruta.\+is\+Ruta\+Carrega (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna si la ruta és per fer una càrrega o no.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+true si és una ruta per fer una càrrega, false en cas contrari. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_a45d8aedc5e57f4cd30586e09e21c67a8}\index{core.Ruta@{core.Ruta}!obtenirConductor@{obtenirConductor}}
+\index{obtenirConductor@{obtenirConductor}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{obtenirConductor()}{obtenirConductor()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a45d8aedc5e57f4cd30586e09e21c67a8} 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} core.\+Ruta.\+obtenir\+Conductor (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el conductor que realitza la ruta.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_conductor}{Conductor} que realitza la ruta. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_af12cb971a656ca38e77ba7e5a3738def}\index{core.Ruta@{core.Ruta}!obtenirDistanciaTotal@{obtenirDistanciaTotal}}
+\index{obtenirDistanciaTotal@{obtenirDistanciaTotal}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{obtenirDistanciaTotal()}{obtenirDistanciaTotal()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_af12cb971a656ca38e77ba7e5a3738def} 
+double core.\+Ruta.\+obtenir\+Distancia\+Total (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la distància acumulada de la ruta.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Distància total en quilòmetres. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_aa3d140c6ee9b5228652a898710514c4f}\index{core.Ruta@{core.Ruta}!obtenirHoraInici@{obtenirHoraInici}}
+\index{obtenirHoraInici@{obtenirHoraInici}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{obtenirHoraInici()}{obtenirHoraInici()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_aa3d140c6ee9b5228652a898710514c4f} 
+Local\+Time core.\+Ruta.\+obtenir\+Hora\+Inici (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna l\textquotesingle{}hora inicial.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Hora inicial. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_a0dc889de954681793ca0639fe1f67b57}\index{core.Ruta@{core.Ruta}!obtenirPassatgersPeticio@{obtenirPassatgersPeticio}}
+\index{obtenirPassatgersPeticio@{obtenirPassatgersPeticio}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{obtenirPassatgersPeticio()}{obtenirPassatgersPeticio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a0dc889de954681793ca0639fe1f67b57} 
+int core.\+Ruta.\+obtenir\+Passatgers\+Peticio (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre de passatgers assignats a la ruta.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Nombre de passatgers assignats a la ruta. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_a569b2c4d800f40aeb33c9d9fb8a21bd9}\index{core.Ruta@{core.Ruta}!obtenirTempsTotal@{obtenirTempsTotal}}
+\index{obtenirTempsTotal@{obtenirTempsTotal}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{obtenirTempsTotal()}{obtenirTempsTotal()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a569b2c4d800f40aeb33c9d9fb8a21bd9} 
+double core.\+Ruta.\+obtenir\+Temps\+Total (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el temps acumulat de la ruta.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Temps total en minuts. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_a3b79fdb3c2f86fb7bd9388d6fa5c9674}\index{core.Ruta@{core.Ruta}!obtenirTrams@{obtenirTrams}}
+\index{obtenirTrams@{obtenirTrams}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{obtenirTrams()}{obtenirTrams()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a3b79fdb3c2f86fb7bd9388d6fa5c9674} 
+List$<$ \mbox{\hyperlink{classcore_1_1_cami}{Cami}} $>$ core.\+Ruta.\+obtenir\+Trams (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la llista de camins de la ruta.
+\end{DoxyPostcond}
+\begin{DoxyReturn}{Devuelve}
+Llista de camins de la ruta. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_a76e9fb298a5390f7f2e16aabc3af4851}\index{core.Ruta@{core.Ruta}!trobarDestiId@{trobarDestiId}}
+\index{trobarDestiId@{trobarDestiId}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{trobarDestiId()}{trobarDestiId()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a76e9fb298a5390f7f2e16aabc3af4851} 
+int core.\+Ruta.\+trobar\+Desti\+Id (\begin{DoxyParamCaption}\item[{int}]{valor}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Es retorna el primer element que compleixi la condició. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em valor} & El valor que es vol cercar com a clau (first) dins la llista de parells. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+El primer \doxylink{classcore_1_1_pair}{Pair} que té la clau igual al valor donat, o null si no es troba cap coincidència. 
+\end{DoxyReturn}
+\Hypertarget{classcore_1_1_ruta_a3cf49ce1f691223e0dbdf69e3d5a40ec}\index{core.Ruta@{core.Ruta}!trobarOrigenId@{trobarOrigenId}}
+\index{trobarOrigenId@{trobarOrigenId}!core.Ruta@{core.Ruta}}
+\doxysubsubsection{\texorpdfstring{trobarOrigenId()}{trobarOrigenId()}}
+{\footnotesize\ttfamily \label{classcore_1_1_ruta_a3cf49ce1f691223e0dbdf69e3d5a40ec} 
+int core.\+Ruta.\+trobar\+Origen\+Id (\begin{DoxyParamCaption}\item[{int}]{valor}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Es retorna el primer element que compleixi la condició. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em valor} & El valor que es vol cercar com a clau (first) dins la llista de parells. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+El primer \doxylink{classcore_1_1_pair}{Pair} que té la clau igual al valor donat, o null si no es troba cap coincidència. 
+\end{DoxyReturn}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Ruta.\+java\end{DoxyCompactItemize}

@@ -1,0 +1,177 @@
+\doxysection{Referencia de la clase core.\+Peticio}
+\hypertarget{classcore_1_1_peticio}{}\label{classcore_1_1_peticio}\index{core.Peticio@{core.Peticio}}
+
+
+Representa una petició de transport feta per un client.  
+
+
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcore_1_1_peticio_a6031036ba4a6f1a18c272aea8ea34eb9}\label{classcore_1_1_peticio_a6031036ba4a6f1a18c272aea8ea34eb9} 
+{\bfseries Peticio} (int id, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} origen, \mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} desti, Local\+Time hora\+Minima\+Recollida, Local\+Time hora\+Maxima\+Arribada, int num\+Passatgers, boolean vehicle\+Compartit)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Estat actual de la petició. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{enumcore_1_1_estat_peticio}{Estat\+Peticio}} \mbox{\hyperlink{classcore_1_1_peticio_a88537d12071a06314c6adc70b8b50a64}{estat\+Actual}} ()
+\item 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} \mbox{\hyperlink{classcore_1_1_peticio_a96ee6912854b7c2047d142da9d67d9ec}{obtenir\+Origen}} ()
+\item 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} \mbox{\hyperlink{classcore_1_1_peticio_a9aa1c92eeef7813e54cd433a83f2d31c}{obtenir\+Desti}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_peticio_a6410942d57f593e92a8326b5cbcdee12}{obtenir\+Id}} ()
+\item 
+Local\+Time \mbox{\hyperlink{classcore_1_1_peticio_ae5b4a58bcbbb8782baa1566e780fab8d}{obtenir\+Hora\+Minima\+Recollida}} ()
+\item 
+Local\+Time \mbox{\hyperlink{classcore_1_1_peticio_ab98a61065ce96b6bccddba3b04277c9c}{obtenir\+Hora\+Maxima\+Arribada}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_peticio_a68c832dbbea1be4547ff6b2a5021c3cb}{obtenir\+Num\+Passatgers}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_peticio_a0e4dc2b6e04061bea710c1ce10069e8f}{es\+Vehicle\+Compartit}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_peticio_ab1b4aa48b9c6c0c8fe4eb5305f65f2f5}{peticio\+Servida}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_peticio_a4f035e75e5783447424b6ce7baa27c78}{peticio\+En\+Proces}} ()
+\item 
+\Hypertarget{classcore_1_1_peticio_a6b17cf2f879a7f405a7aa11c3c4a007c}\label{classcore_1_1_peticio_a6b17cf2f879a7f405a7aa11c3c4a007c} 
+double {\bfseries diferencia\+En\+Minuts} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Representa una petició de transport feta per un client. 
+
+Conté la informació necessària per determinar si un vehicle pot satisfer la petició.
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_peticio_a88537d12071a06314c6adc70b8b50a64}\index{core.Peticio@{core.Peticio}!estatActual@{estatActual}}
+\index{estatActual@{estatActual}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{estatActual()}{estatActual()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_a88537d12071a06314c6adc70b8b50a64} 
+\mbox{\hyperlink{enumcore_1_1_estat_peticio}{Estat\+Peticio}} core.\+Peticio.\+estat\+Actual (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna l\textquotesingle{}estat actual de la petició. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_a0e4dc2b6e04061bea710c1ce10069e8f}\index{core.Peticio@{core.Peticio}!esVehicleCompartit@{esVehicleCompartit}}
+\index{esVehicleCompartit@{esVehicleCompartit}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{esVehicleCompartit()}{esVehicleCompartit()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_a0e4dc2b6e04061bea710c1ce10069e8f} 
+boolean core.\+Peticio.\+es\+Vehicle\+Compartit (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si el client vol un vehicle compartit, false en cas contrari. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_a9aa1c92eeef7813e54cd433a83f2d31c}\index{core.Peticio@{core.Peticio}!obtenirDesti@{obtenirDesti}}
+\index{obtenirDesti@{obtenirDesti}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{obtenirDesti()}{obtenirDesti()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_a9aa1c92eeef7813e54cd433a83f2d31c} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} core.\+Peticio.\+obtenir\+Desti (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el lloc on el client vol arribar. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_ab98a61065ce96b6bccddba3b04277c9c}\index{core.Peticio@{core.Peticio}!obtenirHoraMaximaArribada@{obtenirHoraMaximaArribada}}
+\index{obtenirHoraMaximaArribada@{obtenirHoraMaximaArribada}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{obtenirHoraMaximaArribada()}{obtenirHoraMaximaArribada()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_ab98a61065ce96b6bccddba3b04277c9c} 
+Local\+Time core.\+Peticio.\+obtenir\+Hora\+Maxima\+Arribada (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna l\textquotesingle{}hora màxima en què el client vol arribar al seu destí. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_ae5b4a58bcbbb8782baa1566e780fab8d}\index{core.Peticio@{core.Peticio}!obtenirHoraMinimaRecollida@{obtenirHoraMinimaRecollida}}
+\index{obtenirHoraMinimaRecollida@{obtenirHoraMinimaRecollida}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{obtenirHoraMinimaRecollida()}{obtenirHoraMinimaRecollida()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_ae5b4a58bcbbb8782baa1566e780fab8d} 
+Local\+Time core.\+Peticio.\+obtenir\+Hora\+Minima\+Recollida (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna l\textquotesingle{}hora més primerenca en què el client vol ser recollit. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_a6410942d57f593e92a8326b5cbcdee12}\index{core.Peticio@{core.Peticio}!obtenirId@{obtenirId}}
+\index{obtenirId@{obtenirId}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{obtenirId()}{obtenirId()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_a6410942d57f593e92a8326b5cbcdee12} 
+int core.\+Peticio.\+obtenir\+Id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna la id de la peticio. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_a68c832dbbea1be4547ff6b2a5021c3cb}\index{core.Peticio@{core.Peticio}!obtenirNumPassatgers@{obtenirNumPassatgers}}
+\index{obtenirNumPassatgers@{obtenirNumPassatgers}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{obtenirNumPassatgers()}{obtenirNumPassatgers()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_a68c832dbbea1be4547ff6b2a5021c3cb} 
+int core.\+Peticio.\+obtenir\+Num\+Passatgers (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el nombre de passatgers que han de viatjar. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_a96ee6912854b7c2047d142da9d67d9ec}\index{core.Peticio@{core.Peticio}!obtenirOrigen@{obtenirOrigen}}
+\index{obtenirOrigen@{obtenirOrigen}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{obtenirOrigen()}{obtenirOrigen()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_a96ee6912854b7c2047d142da9d67d9ec} 
+\mbox{\hyperlink{classcore_1_1_lloc}{Lloc}} core.\+Peticio.\+obtenir\+Origen (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna el lloc on el client vol ser recollit. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_a4f035e75e5783447424b6ce7baa27c78}\index{core.Peticio@{core.Peticio}!peticioEnProces@{peticioEnProces}}
+\index{peticioEnProces@{peticioEnProces}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{peticioEnProces()}{peticioEnProces()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_a4f035e75e5783447424b6ce7baa27c78} 
+void core.\+Peticio.\+peticio\+En\+Proces (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+La petició passa a l\textquotesingle{}estat EN\+\_\+\+PROCES. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_peticio_ab1b4aa48b9c6c0c8fe4eb5305f65f2f5}\index{core.Peticio@{core.Peticio}!peticioServida@{peticioServida}}
+\index{peticioServida@{peticioServida}!core.Peticio@{core.Peticio}}
+\doxysubsubsection{\texorpdfstring{peticioServida()}{peticioServida()}}
+{\footnotesize\ttfamily \label{classcore_1_1_peticio_ab1b4aa48b9c6c0c8fe4eb5305f65f2f5} 
+void core.\+Peticio.\+peticio\+Servida (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+La petició passa a l\textquotesingle{}estat SERVIDA. 
+\end{DoxyPostcond}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Peticio.\+java\end{DoxyCompactItemize}

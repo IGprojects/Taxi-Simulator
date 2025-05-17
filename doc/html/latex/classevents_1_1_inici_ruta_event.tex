@@ -1,0 +1,85 @@
+\doxysection{Referencia de la clase events.\+Inici\+Ruta\+Event}
+\hypertarget{classevents_1_1_inici_ruta_event}{}\label{classevents_1_1_inici_ruta_event}\index{events.IniciRutaEvent@{events.IniciRutaEvent}}
+
+
+Representa un esdeveniment que indica l\textquotesingle{}inici d\textquotesingle{}una ruta per un conductor.  
+
+
+Diagrama de herencia de events.\+Inici\+Ruta\+Event\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classevents_1_1_inici_ruta_event}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classevents_1_1_inici_ruta_event_a5b9258c9d81b5778f472e3243d246055}\label{classevents_1_1_inici_ruta_event_a5b9258c9d81b5778f472e3243d246055} 
+{\bfseries Inici\+Ruta\+Event} (Local\+Time temps, \mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} conductor, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} vehicle, \mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} ruta)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Vehicle que es fa servir per realitzar la ruta \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classevents_1_1_inici_ruta_event_a33bfcf6c60201086f35e55d3d863bd34}{executar}} (\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador)
+\item 
+\Hypertarget{classevents_1_1_inici_ruta_event_ade8d4016b7ca5935967559daa76f4243}\label{classevents_1_1_inici_ruta_event_ade8d4016b7ca5935967559daa76f4243} 
+\mbox{\hyperlink{classcore_1_1_conductor}{Conductor}} {\bfseries get\+Conductor} ()
+\item 
+\Hypertarget{classevents_1_1_inici_ruta_event_a4a91a36fb18beaeb0c9508c97ae4528a}\label{classevents_1_1_inici_ruta_event_a4a91a36fb18beaeb0c9508c97ae4528a} 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} {\bfseries get\+Ruta} ()
+\item 
+\Hypertarget{classevents_1_1_inici_ruta_event_ad97d89290b97f1d0bff6a2f3f1539ae5}\label{classevents_1_1_inici_ruta_event_ad97d89290b97f1d0bff6a2f3f1539ae5} 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} {\bfseries get\+Vehicle} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Event} (Local\+Time temps)
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Temps associat a l\textquotesingle{}esdeveniment \end{DoxyCompactList}\item 
+Local\+Time \mbox{\hyperlink{classevents_1_1_event_a4986b619b70b10231b2f6ba283e3db28}{get\+Temps}} ()
+\item 
+int \mbox{\hyperlink{classevents_1_1_event_a84b8c3fef86513f10542c2bcdb71e161}{compare\+To}} (\mbox{\hyperlink{classevents_1_1_event}{Event}} altre)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Otros miembros heredados}
+\doxysubsection*{Atributos protegidos heredados de \mbox{\hyperlink{classevents_1_1_event}{events.\+Event}}}
+\begin{DoxyCompactItemize}
+\item 
+Local\+Time {\bfseries temps}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Representa un esdeveniment que indica l\textquotesingle{}inici d\textquotesingle{}una ruta per un conductor. 
+
+\begin{DoxyAuthor}{Autor}
+Dídac Gros Labrador 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classevents_1_1_inici_ruta_event_a33bfcf6c60201086f35e55d3d863bd34}\index{events.IniciRutaEvent@{events.IniciRutaEvent}!executar@{executar}}
+\index{executar@{executar}!events.IniciRutaEvent@{events.IniciRutaEvent}}
+\doxysubsubsection{\texorpdfstring{executar()}{executar()}}
+{\footnotesize\ttfamily \label{classevents_1_1_inici_ruta_event_a33bfcf6c60201086f35e55d3d863bd34} 
+void events.\+Inici\+Ruta\+Event.\+executar (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{}\end{DoxyParamCaption})}
+
+\begin{DoxyPrecond}{Precondición}
+Cert. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+El vehicle del conductor inicia la ruta i es pinta el missatge per pantalla. El conductor queda ocupat durant la ruta. 
+\end{DoxyPostcond}
+
+\begin{DoxyParams}{Parámetros}
+{\em simulador} & Simulador on es realitza l\textquotesingle{}esdeveniment \\
+\hline
+\end{DoxyParams}
+
+
+Reimplementado de \mbox{\hyperlink{classevents_1_1_event_a7bf2591ac7ef9d73d2f6d68ac176c179}{events.\+Event}}.
+
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/events/Inici\+Ruta\+Event.\+java\end{DoxyCompactItemize}

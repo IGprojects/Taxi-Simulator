@@ -1,0 +1,28 @@
+{
+  "estadisticas": [
+    {
+      "peticionesServidas": 120,
+      "peticionesNoServidas": 5,
+      "tiempoTotalEspera": 3200.5,
+      "tiempoMaximoEspera": 120.0,
+      "ocupacionTotalVehiculos": 78.4,
+      "muestrasOcupacion": 25,
+      "porcentajeBateriaPromedio": 63.2,
+      "muestrasBateria": 25,
+      "tiempoTotalViaje": 5400.75,
+      "muestrasViaje": 30
+    },
+    {
+      "peticionesServidas": 100,
+      "peticionesNoServidas": 8,
+      "tiempoTotalEspera": 2980.0,
+      "tiempoMaximoEspera": 150.0,
+      "ocupacionTotalVehiculos": 65.1,
+      "muestrasOcupacion": 22,
+      "porcentajeBateriaPromedio": 59.7,
+      "muestrasBateria": 22,
+      "tiempoTotalViaje": 5000.0,
+      "muestrasViaje": 28
+    }
+  ]
+}

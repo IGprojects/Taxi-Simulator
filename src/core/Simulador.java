@@ -82,6 +82,9 @@ public class Simulador {
         assignarPeticions();
     }
 
+    /**
+     * @brief Constructor de Simulador per a simulacions guardades.
+     */
     public Simulador(File JsonFile, List<Vehicle> vehiclesSimulacio) throws IOException {
         // CONSTRUCTOR PER L OPTIMITZADOR
         List<Lloc> llocs = LectorJSON.carregarLlocs(JsonFile.getAbsolutePath());
@@ -641,6 +644,19 @@ public class Simulador {
         esdeveniments = eventsQueue;
     }
 
+    /**
+     * @brief Inicia la simulació per optimitzar l'ús dels punts de càrrega dels
+     * parquings. Actualment no s'utilitza
+     *
+     * Llegeix el mapa per identificar parquings amb més d’un punt de càrrega
+     * (públic o privat) i fa un seguiment de quantes vegades s’utilitza cada un
+     * durant la simulació.
+     *
+     * @param JsonFile Arxiu JSON que conté informació de la simulació
+     * (vehicles, llocs, etc.).
+     * @return Un mapa amb l’ID del punt de càrrega com a clau i el nombre de
+     * vegades usat com a valor.
+     */
     public Map<Integer, Integer> iniciarOptimitzacioPuntsCarrega(File JsonFile) {
 
         Map<Integer, Integer> vegadesUsat = new HashMap<Integer, Integer>();
@@ -683,6 +699,18 @@ public class Simulador {
         return vegadesUsat;
     }
 
+    /**
+     * @brief Inicia la simulació per optimitzar l'activitat dels conductors.Actualment no s'utilitza
+     *
+     * Carrega dades des del fitxer JSON i inicialitza un recompte d’usos per
+     * cada conductor. Durant la simulació, incrementa aquest recompte cada
+     * vegada que un conductor deixa passatgers.
+     *
+     * @param JsonFile Arxiu JSON amb informació dels conductors, vehicles i
+     * llocs.
+     * @return Un mapa amb l’ID del conductor com a clau i el nombre de viatges
+     * completats com a valor.
+     */
     public Map<Integer, Integer> iniciarOptimitzacioConductors(File JsonFile) {
 
         Map<Integer, Integer> vegadesUsat = new HashMap<Integer, Integer>();

@@ -1,0 +1,196 @@
+\doxysection{Referencia de la clase core.\+Conductor\+Vorac}
+\hypertarget{classcore_1_1_conductor_vorac}{}\label{classcore_1_1_conductor_vorac}\index{core.ConductorVorac@{core.ConductorVorac}}
+
+
+Defineix un tipus de conductor (conductor vorac)  
+
+
+Diagrama de herencia de core.\+Conductor\+Vorac\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classcore_1_1_conductor_vorac}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classcore_1_1_conductor_vorac_af8a105dfa271521937871b6502632b41}\label{classcore_1_1_conductor_vorac_af8a105dfa271521937871b6502632b41} 
+{\bfseries Conductor\+Vorac} (int id, String \mbox{\hyperlink{classcore_1_1_conductor_a1d93fac652d7e853ae12814f5a7b4f6d}{nom}}, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a581957a7a992cfd25fcad5df9a026368}{vehicle}})
+\item 
+void \mbox{\hyperlink{classcore_1_1_conductor_vorac_ab05c9bd1460106d2879e7de8c238ffd5}{executar\+Ruta}} (\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} ruta, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a581957a7a992cfd25fcad5df9a026368}{vehicle}}, \mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador)
+\begin{DoxyCompactList}\small\item\em Executa una ruta generant els esdeveniments corresponents segons el tipus de ruta (passatgers o càrrega). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} \mbox{\hyperlink{classcore_1_1_conductor_vorac_a74aaefe37bcb057c927968a1472b6dce}{planificar\+Ruta}} (\mbox{\hyperlink{classcore_1_1_peticio}{Peticio}} peticio, \mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} mapa)
+\begin{DoxyCompactList}\small\item\em Planifica una ruta directa des de l\textquotesingle{}origen fins al destí de la petició utilitzant un camí vorac. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classcore_1_1_conductor_vorac_a0470ab7099e8f4ce86bb79fb9b952583}{te\+Bateria}} (double distancia, \mbox{\hyperlink{classcore_1_1_simulador}{Simulador}} simulador, \mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} mapa, Local\+Time hora\+Inici, Local\+Time hora\+Actual)
+\begin{DoxyCompactList}\small\item\em Comprova si el vehicle té bateria suficient per fer la distància indicada. Si no en té, intenta planificar una ruta cap al pàrquing més proper per carregar. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{classcore_1_1_conductor_vorac_aeb16d801f4e61b8443843becb9cd64d0}{pot\+Servir\+Peticio}} (int nombre\+Passatgers)
+\begin{DoxyCompactList}\small\item\em Comprova si el vehicle pot servir la petició de passatgers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Métodos públicos heredados de \mbox{\hyperlink{classcore_1_1_conductor}{core.\+Conductor}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classcore_1_1_conductor_ac352b2e15ca126d958a52eb255c4aa93}{Conductor}} (int id, String \mbox{\hyperlink{classcore_1_1_conductor_a1d93fac652d7e853ae12814f5a7b4f6d}{nom}}, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a581957a7a992cfd25fcad5df9a026368}{vehicle}})
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Indica si el conductor està ocupat o no. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} \mbox{\hyperlink{classcore_1_1_conductor_a78e64bfe86cb8a97fb761e3259a5680c}{get\+Vehicle}} ()
+\item 
+int \mbox{\hyperlink{classcore_1_1_conductor_a31e1c53bbf79cf9ecd4c59d12d42957c}{get\+Id}} ()
+\item 
+boolean \mbox{\hyperlink{classcore_1_1_conductor_a3fa34b94e6dacf0d0741dcf53e0a67d3}{is\+Ocupat}} ()
+\item 
+void \mbox{\hyperlink{classcore_1_1_conductor_ab92769b02a7c4a9df367d9ec4cf44350}{set\+Ocupat}} (boolean \mbox{\hyperlink{classcore_1_1_conductor_ab156e52bea33ad91b939128ee2d44921}{ocupat}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Otros miembros heredados}
+\doxysubsection*{Atributos protegidos heredados de \mbox{\hyperlink{classcore_1_1_conductor}{core.\+Conductor}}}
+\begin{DoxyCompactItemize}
+\item 
+int {\bfseries id}
+\item 
+String {\bfseries nom}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Identificador del conductor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} {\bfseries vehicle}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} Nom del conductor. \end{DoxyCompactList}\item 
+boolean {\bfseries ocupat}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} \doxylink{classcore_1_1_vehicle}{Vehicle} que condueix el conductor \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Defineix un tipus de conductor (conductor vorac) 
+
+\begin{DoxyAuthor}{Autor}
+Anouar El Barkouki Hitach 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Versión}
+2025.\+03.\+04 
+\end{DoxyVersion}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classcore_1_1_conductor_vorac_ab05c9bd1460106d2879e7de8c238ffd5}\index{core.ConductorVorac@{core.ConductorVorac}!executarRuta@{executarRuta}}
+\index{executarRuta@{executarRuta}!core.ConductorVorac@{core.ConductorVorac}}
+\doxysubsubsection{\texorpdfstring{executarRuta()}{executarRuta()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_vorac_ab05c9bd1460106d2879e7de8c238ffd5} 
+void core.\+Conductor\+Vorac.\+executar\+Ruta (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}}}]{ruta}{, }\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{vehicle}{, }\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{}\end{DoxyParamCaption})}
+
+
+
+Executa una ruta generant els esdeveniments corresponents segons el tipus de ruta (passatgers o càrrega). 
+
+Aquest mètode recorre els trams de la ruta planificada i afegeix esdeveniments de moviment, recollida, deixada de passatgers o càrrega de bateria, segons el tipus de ruta.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em ruta} & La ruta que s\textquotesingle{}ha d\textquotesingle{}executar. \\
+\hline
+{\em vehicle} & El vehicle que realitzarà la ruta. \\
+\hline
+{\em simulador} & El simulador que gestiona els esdeveniments.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondición}
+La ruta ha d’estar inicialitzada amb almenys dos llocs i una hora d’inici vàlida. 
+
+El vehicle ha d’estar preparat per executar la ruta (bateria suficient, ubicació correcta, etc.). 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Es generen i registren esdeveniments al simulador per recollida, moviment, deixada o càrrega de bateria. 
+\end{DoxyPostcond}
+
+
+Reimplementado de \mbox{\hyperlink{classcore_1_1_conductor_a724c2c984ef8e1b8b82c1904f51c2026}{core.\+Conductor}}.
+
+\Hypertarget{classcore_1_1_conductor_vorac_a74aaefe37bcb057c927968a1472b6dce}\index{core.ConductorVorac@{core.ConductorVorac}!planificarRuta@{planificarRuta}}
+\index{planificarRuta@{planificarRuta}!core.ConductorVorac@{core.ConductorVorac}}
+\doxysubsubsection{\texorpdfstring{planificarRuta()}{planificarRuta()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_vorac_a74aaefe37bcb057c927968a1472b6dce} 
+\mbox{\hyperlink{classcore_1_1_ruta}{Ruta}} core.\+Conductor\+Vorac.\+planificar\+Ruta (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_peticio}{Peticio}}}]{peticio}{, }\item[{\mbox{\hyperlink{classcore_1_1_mapa}{Mapa}}}]{mapa}{}\end{DoxyParamCaption})}
+
+
+
+Planifica una ruta directa des de l\textquotesingle{}origen fins al destí de la petició utilitzant un camí vorac. 
+
+Es calcula la ruta més ràpida (segons l\textquotesingle{}algorisme vorac del mapa) entre l’origen i el destí de la petició. A partir del camí, es calcula la distància i temps totals, i es construeix l’objecte \doxylink{classcore_1_1_ruta}{Ruta} associat al conductor.
+
+
+\begin{DoxyParams}{Parámetros}
+{\em peticio} & La petició que s\textquotesingle{}ha de servir, amb origen, destí i número de passatgers. \\
+\hline
+{\em mapa} & El mapa que conté la informació dels camins i permet calcular rutes i distàncies. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+\doxylink{classcore_1_1_ruta}{Ruta} objecte que representa la ruta planificada, o null si no es pot planificar cap camí vàlid.
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondición}
+La petició i el mapa han d’estar inicialitzats. El mapa ha de poder retornar un camí vàlid entre els llocs. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Es retorna una ruta (\doxylink{classcore_1_1_ruta}{Ruta}) amb el camí, hora d\textquotesingle{}inici, distància i temps totals, i nombre de passatgers assignat. 
+\end{DoxyPostcond}
+\Hypertarget{classcore_1_1_conductor_vorac_aeb16d801f4e61b8443843becb9cd64d0}\index{core.ConductorVorac@{core.ConductorVorac}!potServirPeticio@{potServirPeticio}}
+\index{potServirPeticio@{potServirPeticio}!core.ConductorVorac@{core.ConductorVorac}}
+\doxysubsubsection{\texorpdfstring{potServirPeticio()}{potServirPeticio()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_vorac_aeb16d801f4e61b8443843becb9cd64d0} 
+boolean core.\+Conductor\+Vorac.\+pot\+Servir\+Peticio (\begin{DoxyParamCaption}\item[{int}]{nombre\+Passatgers}{}\end{DoxyParamCaption})}
+
+
+
+Comprova si el vehicle pot servir la petició de passatgers. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em nombre\+Passatgers} & Nombre de passatgers que es volen recollir. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true si el vehicle pot servir la petició, false en cas contrari.
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondición}
+El vehicle ha d\textquotesingle{}estar inicialitzat i ubicat a un lloc vàlid dins el mapa. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Retorna true si el vehicle pot servir la petició, false en cas contrari. 
+\end{DoxyPostcond}
+
+
+Reimplementado de \mbox{\hyperlink{classcore_1_1_conductor_a283389196238a1717f670f8f2c4e1d8e}{core.\+Conductor}}.
+
+\Hypertarget{classcore_1_1_conductor_vorac_a0470ab7099e8f4ce86bb79fb9b952583}\index{core.ConductorVorac@{core.ConductorVorac}!teBateria@{teBateria}}
+\index{teBateria@{teBateria}!core.ConductorVorac@{core.ConductorVorac}}
+\doxysubsubsection{\texorpdfstring{teBateria()}{teBateria()}}
+{\footnotesize\ttfamily \label{classcore_1_1_conductor_vorac_a0470ab7099e8f4ce86bb79fb9b952583} 
+boolean core.\+Conductor\+Vorac.\+te\+Bateria (\begin{DoxyParamCaption}\item[{double}]{distancia}{, }\item[{\mbox{\hyperlink{classcore_1_1_simulador}{Simulador}}}]{simulador}{, }\item[{\mbox{\hyperlink{classcore_1_1_mapa}{Mapa}}}]{mapa}{, }\item[{Local\+Time}]{hora\+Inici}{, }\item[{Local\+Time}]{hora\+Actual}{}\end{DoxyParamCaption})}
+
+
+
+Comprova si el vehicle té bateria suficient per fer la distància indicada. Si no en té, intenta planificar una ruta cap al pàrquing més proper per carregar. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em distancia} & La distància que s’ha de recórrer per completar la petició. \\
+\hline
+{\em simulador} & El simulador on s\textquotesingle{}afegiran esdeveniments si cal carregar. \\
+\hline
+{\em mapa} & El mapa que permet calcular rutes i distàncies. \\
+\hline
+{\em hora\+Inici} & L’hora d’inici de la simulació (referència per calcular horaris). \\
+\hline
+{\em hora\+Actual} & L’hora actual del simulador, per planificar nous esdeveniments. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Devuelve}
+true si el vehicle té bateria suficient per fer el trajecte, false si no i ha de carregar.
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondición}
+El vehicle ha d’estar inicialitzat i ubicat a un lloc vàlid dins el mapa. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondición}
+Si no té bateria, pot iniciar una ruta cap a un pàrquing privat per carregar. Si no hi ha pàrquing, es mostra un missatge. 
+\end{DoxyPostcond}
+
+
+Reimplementado de \mbox{\hyperlink{classcore_1_1_conductor_a457197e56f0861ce0d84295798fd37c9}{core.\+Conductor}}.
+
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/core/Conductor\+Vorac.\+java\end{DoxyCompactItemize}

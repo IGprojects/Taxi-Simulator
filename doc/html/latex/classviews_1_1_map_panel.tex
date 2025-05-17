@@ -1,0 +1,161 @@
+\doxysection{Referencia de la clase views.\+Map\+Panel}
+\hypertarget{classviews_1_1_map_panel}{}\label{classviews_1_1_map_panel}\index{views.MapPanel@{views.MapPanel}}
+
+
+Panell gràfic per mostrar el mapa amb llocs, camins i vehicles en moviment.  
+
+
+Diagrama de herencia de views.\+Map\+Panel\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classviews_1_1_map_panel}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Métodos públicos}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classviews_1_1_map_panel_aa2fb80bd3f42355be2c68f905f63f647}{Map\+Panel}} (\mbox{\hyperlink{classcore_1_1_mapa}{Mapa}} mapa)
+\begin{DoxyCompactList}\small\item\em Constructor que inicialitza el panell i calcula les posicions dels llocs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classviews_1_1_map_panel_aa19b5791e40b297c87356444eff0f660}{afegir\+Cami\+Per\+Vehicle}} (\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} vehicle, \mbox{\hyperlink{classcore_1_1_cami}{Cami}} cami)
+\begin{DoxyCompactList}\small\item\em Afegeix un camí a un vehicle concret. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classviews_1_1_map_panel_af6c772c4b8cb27e724628e70ea52ae00}{animar\+Cami}} (\mbox{\hyperlink{classcore_1_1_cami}{Cami}} cami, \mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} vehicle)
+\begin{DoxyCompactList}\small\item\em Anima un camí entre dos punts per a un vehicle concret. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classviews_1_1_map_panel_a907ac7d25d37a5e2b4ef66dd4d40c365}{assignar\+Color\+Vehicle}} (\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}} v)
+\begin{DoxyCompactList}\small\item\em Assigna un color aleatori a un vehicle. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classviews_1_1_map_panel_a97807383868dc6fa5cf22fa75bc98404}{set\+Hora\+Actual}} (Local\+Time hora)
+\begin{DoxyCompactList}\small\item\em Estableix l\textquotesingle{}hora actual a mostrar al panell. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classviews_1_1_map_panel_a0f3fedd8a7984609261d8bab6e27eb01}{afegir\+Missatge}} (String missatge)
+\begin{DoxyCompactList}\small\item\em Afegeix un missatge informatiu a la llista del panell. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Métodos protegidos}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classviews_1_1_map_panel_a2a789cfbefe6774bb56bb77bbe66391c}{paint\+Component}} (Graphics g)
+\begin{DoxyCompactList}\small\item\em Sobreescriu el mètode de dibuix del component per mostrar el mapa i la informació. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descripción detallada}
+Panell gràfic per mostrar el mapa amb llocs, camins i vehicles en moviment. 
+
+\begin{DoxyAuthor}{Autor}
+Ignasi Ferres Igles i millora Didac Gros Ladrador 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Documentación de constructores y destructores}
+\Hypertarget{classviews_1_1_map_panel_aa2fb80bd3f42355be2c68f905f63f647}\index{views.MapPanel@{views.MapPanel}!MapPanel@{MapPanel}}
+\index{MapPanel@{MapPanel}!views.MapPanel@{views.MapPanel}}
+\doxysubsubsection{\texorpdfstring{MapPanel()}{MapPanel()}}
+{\footnotesize\ttfamily \label{classviews_1_1_map_panel_aa2fb80bd3f42355be2c68f905f63f647} 
+views.\+Map\+Panel.\+Map\+Panel (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_mapa}{Mapa}}}]{mapa}{}\end{DoxyParamCaption})}
+
+
+
+Constructor que inicialitza el panell i calcula les posicions dels llocs. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em mapa} & El mapa que conté els llocs i camins. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Documentación de funciones miembro}
+\Hypertarget{classviews_1_1_map_panel_aa19b5791e40b297c87356444eff0f660}\index{views.MapPanel@{views.MapPanel}!afegirCamiPerVehicle@{afegirCamiPerVehicle}}
+\index{afegirCamiPerVehicle@{afegirCamiPerVehicle}!views.MapPanel@{views.MapPanel}}
+\doxysubsubsection{\texorpdfstring{afegirCamiPerVehicle()}{afegirCamiPerVehicle()}}
+{\footnotesize\ttfamily \label{classviews_1_1_map_panel_aa19b5791e40b297c87356444eff0f660} 
+void views.\+Map\+Panel.\+afegir\+Cami\+Per\+Vehicle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{vehicle}{, }\item[{\mbox{\hyperlink{classcore_1_1_cami}{Cami}}}]{cami}{}\end{DoxyParamCaption})}
+
+
+
+Afegeix un camí a un vehicle concret. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em vehicle} & El vehicle. \\
+\hline
+{\em cami} & El camí a afegir. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classviews_1_1_map_panel_a0f3fedd8a7984609261d8bab6e27eb01}\index{views.MapPanel@{views.MapPanel}!afegirMissatge@{afegirMissatge}}
+\index{afegirMissatge@{afegirMissatge}!views.MapPanel@{views.MapPanel}}
+\doxysubsubsection{\texorpdfstring{afegirMissatge()}{afegirMissatge()}}
+{\footnotesize\ttfamily \label{classviews_1_1_map_panel_a0f3fedd8a7984609261d8bab6e27eb01} 
+void views.\+Map\+Panel.\+afegir\+Missatge (\begin{DoxyParamCaption}\item[{String}]{missatge}{}\end{DoxyParamCaption})}
+
+
+
+Afegeix un missatge informatiu a la llista del panell. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em missatge} & Missatge nou. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classviews_1_1_map_panel_af6c772c4b8cb27e724628e70ea52ae00}\index{views.MapPanel@{views.MapPanel}!animarCami@{animarCami}}
+\index{animarCami@{animarCami}!views.MapPanel@{views.MapPanel}}
+\doxysubsubsection{\texorpdfstring{animarCami()}{animarCami()}}
+{\footnotesize\ttfamily \label{classviews_1_1_map_panel_af6c772c4b8cb27e724628e70ea52ae00} 
+void views.\+Map\+Panel.\+animar\+Cami (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_cami}{Cami}}}]{cami}{, }\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{vehicle}{}\end{DoxyParamCaption})}
+
+
+
+Anima un camí entre dos punts per a un vehicle concret. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em cami} & El camí a animar. \\
+\hline
+{\em vehicle} & El vehicle que recorre el camí. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classviews_1_1_map_panel_a907ac7d25d37a5e2b4ef66dd4d40c365}\index{views.MapPanel@{views.MapPanel}!assignarColorVehicle@{assignarColorVehicle}}
+\index{assignarColorVehicle@{assignarColorVehicle}!views.MapPanel@{views.MapPanel}}
+\doxysubsubsection{\texorpdfstring{assignarColorVehicle()}{assignarColorVehicle()}}
+{\footnotesize\ttfamily \label{classviews_1_1_map_panel_a907ac7d25d37a5e2b4ef66dd4d40c365} 
+void views.\+Map\+Panel.\+assignar\+Color\+Vehicle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classcore_1_1_vehicle}{Vehicle}}}]{v}{}\end{DoxyParamCaption})}
+
+
+
+Assigna un color aleatori a un vehicle. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em v} & El vehicle. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classviews_1_1_map_panel_a2a789cfbefe6774bb56bb77bbe66391c}\index{views.MapPanel@{views.MapPanel}!paintComponent@{paintComponent}}
+\index{paintComponent@{paintComponent}!views.MapPanel@{views.MapPanel}}
+\doxysubsubsection{\texorpdfstring{paintComponent()}{paintComponent()}}
+{\footnotesize\ttfamily \label{classviews_1_1_map_panel_a2a789cfbefe6774bb56bb77bbe66391c} 
+void views.\+Map\+Panel.\+paint\+Component (\begin{DoxyParamCaption}\item[{Graphics}]{g}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Sobreescriu el mètode de dibuix del component per mostrar el mapa i la informació. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em g} & L\textquotesingle{}objecte gràfic. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classviews_1_1_map_panel_a97807383868dc6fa5cf22fa75bc98404}\index{views.MapPanel@{views.MapPanel}!setHoraActual@{setHoraActual}}
+\index{setHoraActual@{setHoraActual}!views.MapPanel@{views.MapPanel}}
+\doxysubsubsection{\texorpdfstring{setHoraActual()}{setHoraActual()}}
+{\footnotesize\ttfamily \label{classviews_1_1_map_panel_a97807383868dc6fa5cf22fa75bc98404} 
+void views.\+Map\+Panel.\+set\+Hora\+Actual (\begin{DoxyParamCaption}\item[{Local\+Time}]{hora}{}\end{DoxyParamCaption})}
+
+
+
+Estableix l\textquotesingle{}hora actual a mostrar al panell. 
+
+
+\begin{DoxyParams}{Parámetros}
+{\em hora} & Hora actual. \\
+\hline
+\end{DoxyParams}
+
+
+La documentación de esta clase está generada del siguiente archivo\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/iferr/\+One\+Drive/\+Escriptori/\+Enginyeria Informatica/2n Carrera/\+PROJECTE DE PROGRAMACIO/projecte-\/b9/src/views/Map\+Panel.\+java\end{DoxyCompactItemize}
