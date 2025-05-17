@@ -14,62 +14,48 @@ import javax.swing.JPanel;
 
 import core.Estadistiques;
 
-/**
- * @author Ignasi Ferres Iglesias
- * @brief Panell que mostra diversos gràfics de línia amb estadístiques de funcionament.
- */
 public class EstadistiquesPanel extends JPanel {
 
     private final Map<String, Estadistiques> dades;
 
-    /**
-     * @brief Constructor que rep les estadístiques i crea el layout de gràfics.
-     * @param dades Mapa amb identificadors (clau) i objectes Estadistiques.
-     */
     public EstadistiquesPanel(Map<String, Estadistiques> dades) {
         this.dades = dades;
-        setLayout(new GridLayout(3, 2, 10, 10)); ///< Configura un layout de 3 files i 2 columnes
+        setLayout(new GridLayout(3, 2, 10, 10));
+        setBackground(new Color(240, 240, 240)); // Fons clar per al panell principal
         afegirGrafics();
     }
 
-    /**
-     * @brief Afegeix diferents gràfics amb diverses mètriques al panell.
-     */
     private void afegirGrafics() {
         add(new Grafica("Peticions Servides", dades, est -> (double) est.getPeticionesServidas()));
-        add(new Grafica("Temps Total Espera", dades, Estadistiques::getTiempoEsperaPromedio));
-        add(new Grafica("Ocupació Total Vehicles", dades, Estadistiques::getOcupacionPromedioVehiculos));
+        add(new Grafica("Temps Total Espera (min)", dades, Estadistiques::getTiempoEsperaPromedio));
+        add(new Grafica("Ocupació Vehicles (%)", dades, Estadistiques::getOcupacionPromedioVehiculos));
         add(new Grafica("Bateria Promig (%)", dades, Estadistiques::getPorcentajeBateriaPromedio));
-        add(new Grafica("Temps Total Viatge", dades, Estadistiques::getTiempoViajePromedio));
+        add(new Grafica("Temps Total Viatge (min)", dades, Estadistiques::getTiempoViajePromedio));
     }
 
-    /**
-     * @class Grafica
-     * @brief Component que representa un gràfic de línia d'una mètrica estadística.
-     */
     private static class Grafica extends JPanel {
 
         private final String titol;
         private final Map<String, Estadistiques> dades;
         private final ValGetter getter;
+        private final Color[] colors = {
+            new Color(55, 126, 184), // Blau
+            new Color(228, 26, 28), // Vermell
+            new Color(77, 175, 74), // Verd
+            new Color(152, 78, 163), // Lila
+            new Color(255, 127, 0), // Taronja
+            new Color(166, 86, 40) // Marró
+        };
 
-        /**
-         * @brief Constructor de la classe Grafica.
-         * @param titol Títol del gràfic.
-         * @param dades Dades a representar.
-         * @param getter Funció per obtenir el valor numèric de l'objecte Estadistiques.
-         */
         public Grafica(String titol, Map<String, Estadistiques> dades, ValGetter getter) {
             this.titol = titol;
             this.dades = dades;
             this.getter = getter;
-            setPreferredSize(new Dimension(400, 250)); ///< Mida predeterminada del gràfic
+            setPreferredSize(new Dimension(500, 350)); // Mida més gran
+            setBackground(Color.WHITE);
+            setBorder(javax.swing.BorderFactory.createLineBorder(new Color(200, 200, 200)));
         }
 
-        /**
-         * @brief Dibuixa el gràfic, eixos, punts, línies i etiquetes.
-         * @param g Objecte gràfic per pintar.
-         */
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -77,24 +63,35 @@ public class EstadistiquesPanel extends JPanel {
 
             int width = getWidth();
             int height = getHeight();
-            int padding = 40;
-            int labelPadding = 30;
+            int padding = 50;
+            int labelPadding = 40;
             int graphWidth = width - 2 * padding - labelPadding;
             int graphHeight = height - 2 * padding;
 
+            // Títol
             g2.setFont(new Font("Arial", Font.BOLD, 16));
-            g2.drawString(titol, padding, padding - 10);
+            g2.setColor(new Color(60, 60, 60));
+            g2.drawString(titol, padding, padding - 15);
 
+            // Obtenir valors
             List<Double> valors = dades.values().stream().map(getter::get).toList();
             double maxValor = valors.stream().mapToDouble(v -> v).max().orElse(1);
-            double minValor = 0;
+            double minValor = valors.stream().mapToDouble(v -> v).min().orElse(0);
+            if (minValor > 0) {
+                minValor = 0;
+            }
 
+            // Ajustar màxim per millor visualització
+            maxValor = maxValor * 1.1;
+
+            // Eixos
             int x0 = padding + labelPadding;
             int y0 = padding;
             int xStep = graphWidth / Math.max(dades.size() - 1, 1);
 
+            // Graella
             int liniesY = 5;
-            g2.setColor(Color.LIGHT_GRAY);
+            g2.setColor(new Color(220, 220, 220));
             g2.setFont(new Font("Arial", Font.PLAIN, 10));
             for (int i = 0; i <= liniesY; i++) {
                 int y = y0 + (i * graphHeight / liniesY);
@@ -103,9 +100,9 @@ public class EstadistiquesPanel extends JPanel {
                 g2.drawString(String.format("%.1f", val), padding, y + 4);
             }
 
+            // Dibuixar punts i línies
             int[] xs = new int[dades.size()];
             int[] ys = new int[dades.size()];
-            Color[] colors = {Color.RED, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.CYAN};
 
             int i = 0;
             for (Map.Entry<String, Estadistiques> entry : dades.entrySet()) {
@@ -117,37 +114,53 @@ public class EstadistiquesPanel extends JPanel {
                 i++;
             }
 
-            g2.setColor(Color.DARK_GRAY);
-            g2.setStroke(new BasicStroke(2));
+            // Línia connectant punts
+            g2.setColor(new Color(100, 100, 100, 70));
+            g2.setStroke(new BasicStroke(2.5f));
             for (int j = 0; j < xs.length - 1; j++) {
                 g2.drawLine(xs[j], ys[j], xs[j + 1], ys[j + 1]);
             }
 
-            g2.setFont(new Font("Arial", Font.PLAIN, 11));
+            // Punts i etiquetes
+            g2.setFont(new Font("Arial", Font.PLAIN, 12));
             i = 0;
             for (Map.Entry<String, Estadistiques> entry : dades.entrySet()) {
                 g2.setColor(colors[i % colors.length]);
-                g2.fillOval(xs[i] - 4, ys[i] - 4, 8, 8);
-                String label = entry.getKey() + " (" + String.format("%.2f", getter.get(entry.getValue())) + ")";
-                g2.drawString(label, xs[i] - 20, ys[i] - 10);
+                g2.fillOval(xs[i] - 6, ys[i] - 6, 12, 12);
+
+                // Etiqueta alternant posició
+                int yOffset = (i % 2 == 0) ? -18 : 20;
+                String label = String.format("%s: %.1f",
+                        entry.getKey().replace("Simulació ", "S"),
+                        getter.get(entry.getValue()));
+                g2.drawString(label, xs[i] - 15, ys[i] + yOffset);
                 i++;
             }
 
+            // Eixos
             g2.setColor(Color.BLACK);
-            g2.drawLine(x0, y0, x0, y0 + graphHeight);           ///< Eix Y
-            g2.drawLine(x0, y0 + graphHeight, x0 + graphWidth, y0 + graphHeight); ///< Eix X
+            g2.setStroke(new BasicStroke(2));
+            g2.drawLine(x0, y0, x0, y0 + graphHeight);
+            g2.drawLine(x0, y0 + graphHeight, x0 + graphWidth, y0 + graphHeight);
+
+            // Llegenda
+            int legendX = width - padding - 120;
+            int legendY = padding + 20;
+            g2.setFont(new Font("Arial", Font.BOLD, 12));
+            g2.drawString("Llegenda:", legendX, legendY);
+
+            i = 0;
+            for (Map.Entry<String, Estadistiques> entry : dades.entrySet()) {
+                g2.setColor(colors[i % colors.length]);
+                g2.fillRect(legendX, legendY + 15 + i * 20, 12, 12);
+                g2.setColor(Color.BLACK);
+                g2.drawString(entry.getKey(), legendX + 18, legendY + 25 + i * 20);
+                i++;
+            }
         }
 
-        /**
-         * @interface ValGetter
-         * @brief Interfície funcional per obtenir un valor de l'objecte Estadistiques.
-         */
         interface ValGetter {
-            /**
-             * @brief Retorna un valor doble des de l'objecte Estadistiques.
-             * @param est Objecte Estadistiques.
-             * @return Valor numèric.
-             */
+
             double get(Estadistiques est);
         }
     }

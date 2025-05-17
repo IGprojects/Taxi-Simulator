@@ -12,6 +12,7 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.regex.Matcher;
@@ -841,198 +842,198 @@ public class LectorJSON {
      * l'escriptura del fitxer.
      */
     // METODES D ESCRIPTURA
-public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs,
-        List<Cami> connexions, List<Peticio> peticions,
-        Estadistiques estadistiques, PriorityQueue<Event> events, String filePath) throws IOException {
-    
-    StringBuilder jsonBuilder = new StringBuilder();
-    jsonBuilder.append("{\n");
+    public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehicles, List<Lloc> llocs,
+            List<Cami> connexions, List<Peticio> peticions,
+            Estadistiques estadistiques, PriorityQueue<Event> events, String filePath) throws IOException {
 
-    // 1. Escribir "llocs" (se mantiene igual)
-    jsonBuilder.append("  \"llocs\": [\n");
-    for (int i = 0; i < llocs.size(); i++) {
-        Lloc lloc = llocs.get(i);
-        jsonBuilder.append("    {\n");
-        jsonBuilder.append("      \"ID\": ").append(lloc.obtenirId()).append(",\n");
-        if (lloc instanceof Parquing) {
-            Parquing p = (Parquing) lloc;
-            jsonBuilder.append("      \"TIPUS\": \"").append("P").append("\",\n");
-            jsonBuilder.append("      \"N_CARREGADORS\": ").append(p.obtenirPuntsCarregaPublics()).append(",\n");
-            jsonBuilder.append("      \"N_CARREGADORS_PRIVATS\": ").append(p.obtenirPuntsCarregaPrivats())
-                    .append(",\n");
-            jsonBuilder.append("      \"MAX_VEHICLES\": ").append(p.obtenirCapacitatMaxima()).append("\n");
-        } else {
-            jsonBuilder.append("      \"TIPUS\": \"").append("L").append("\"\n");
-        }
-        jsonBuilder.append("    }").append(i < llocs.size() - 1 ? ",\n" : "\n");
-    }
-    jsonBuilder.append("  ],\n");
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{\n");
 
-    // 2. Escribir "connexions" (se mantiene igual)
-    jsonBuilder.append("  \"connexions\": [\n");
-    boolean first = true;
-    for (Object obj : connexions) {
-        if (obj instanceof Cami con) {
-            if (!first) {
-                jsonBuilder.append(",\n");
-            }
+        // 1. Escribir "llocs" (se mantiene igual)
+        jsonBuilder.append("  \"llocs\": [\n");
+        for (int i = 0; i < llocs.size(); i++) {
+            Lloc lloc = llocs.get(i);
             jsonBuilder.append("    {\n");
-            jsonBuilder.append("      \"ORIGEN\": ").append(con.obtenirOrigen().obtenirId()).append(",\n");
-            jsonBuilder.append("      \"DESTI\": ").append(con.obtenirDesti().obtenirId()).append(",\n");
-            jsonBuilder.append("      \"DISTANCIA_KM\": ").append(con.obtenirDistancia()).append(",\n");
-            jsonBuilder.append("      \"TEMPS_MIN\": ").append(con.obtenirTemps()).append("\n");
-            jsonBuilder.append("    }");
-            first = false;
-        } else {
-            System.err.println("⚠️ Objecte no vàlid dins la llista de connexions: " + obj.getClass());
-        }
-    }
-    jsonBuilder.append("\n  ],\n");
-
-    // 3. Escribir "vehicles" (se mantiene igual)
-    jsonBuilder.append("  \"vehicles\": [\n");
-    for (int i = 0; i < vehicles.size(); i++) {
-        Vehicle vehicle = vehicles.get(i);
-        jsonBuilder.append("    {\n");
-        jsonBuilder.append("      \"ID\": ").append(vehicle.getId()).append(",\n");
-        jsonBuilder.append("      \"ID_UBICACIO\": ").append(vehicle.getUbicacioActual().obtenirId()).append(",\n");
-        jsonBuilder.append("      \"AUTONOMIA_KM\": ").append(vehicle.AUTONOMIA).append(",\n");
-        jsonBuilder.append("      \"MAX_PASSATGERS\": ").append(vehicle.getMaxPassatgers()).append(",\n");
-        jsonBuilder.append("      \"TEMPS_CARGA_RAPIDA\": ").append(vehicle.TEMPSCARGARAPIDA).append(",\n");
-        jsonBuilder.append("      \"TEMPS_CARGA_LENTA\": ").append(vehicle.TEMPSCARGALENTA).append("\n");
-        jsonBuilder.append("    }").append(i < vehicles.size() - 1 ? ",\n" : "\n");
-    }
-    jsonBuilder.append("  ],\n");
-
-    // 4. Escribir "conductors" (se mantiene igual)
-    jsonBuilder.append("  \"conductors\": [\n");
-    for (int i = 0; i < conductors.size(); i++) {
-        Conductor conductor = conductors.get(i);
-        jsonBuilder.append("    {\n");
-        jsonBuilder.append("      \"ID\": ").append(conductor.getId()).append(",\n");
-        jsonBuilder.append("      \"NOM\": \"").append(conductor.nom).append("\",\n");
-        if (conductor instanceof ConductorPlanificador) {
-            ConductorPlanificador conductorPlan = (ConductorPlanificador) conductor;
-            jsonBuilder.append("      \"TIPUS\": \"").append("planificador").append("\",\n");
-            jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append(",\n");
-            jsonBuilder.append("      \"ID_PARQUING_PRIVAT\": ")
-                    .append(conductorPlan.getParquingPrivat().obtenirId()).append("\n");
-        } else {
-            jsonBuilder.append("      \"TIPUS\": \"").append("vorac").append("\",\n");
-            jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append("\n");
-        }
-        jsonBuilder.append("    }").append(i < conductors.size() - 1 ? ",\n" : "\n");
-    }
-    jsonBuilder.append("  ],\n");
-
-    // 5. Escribir "peticions" (se mantiene igual)
-    jsonBuilder.append("  \"peticions\": [\n");
-    for (int i = 0; i < peticions.size(); i++) {
-        Peticio peticio = peticions.get(i);
-        jsonBuilder.append("    {\n");
-        jsonBuilder.append("      \"ID\": ").append(peticio.obtenirId()).append(",\n");
-        jsonBuilder.append("      \"ORIGEN\": ").append(peticio.obtenirOrigen().obtenirId()).append(",\n");
-        jsonBuilder.append("      \"DESTI\": ").append(peticio.obtenirDesti().obtenirId()).append(",\n");
-        jsonBuilder.append("      \"HORA_MIN_RECOLLIDA\": \"").append(peticio.obtenirHoraMinimaRecollida())
-                .append("\",\n");
-        jsonBuilder.append("      \"HORA_MAX_ARRIBADA\": \"").append(peticio.obtenirHoraMaximaArribada())
-                .append("\",\n");
-        jsonBuilder.append("      \"NUM_PASSATGERS\": ").append(peticio.obtenirNumPassatgers()).append(",\n");
-        jsonBuilder.append("      \"VEHICLE_COMPARTIT\": ").append(peticio.esVehicleCompartit()).append("\n");
-        jsonBuilder.append("    }").append(i < peticions.size() - 1 ? ",\n" : "\n");
-    }
-    jsonBuilder.append("  ],\n");
-
-    // 6. Escribir "horaInici" y "horaFinal" (se mantiene igual)
-    jsonBuilder.append("  \"horaInici\": \"08:00\",\n");
-    jsonBuilder.append("  \"horaFinal\": \"20:00\",\n");
-
-    // 7. Escribir "events"
-    jsonBuilder.append("  \"events\": [\n");
-
-    // Convert PriorityQueue to a list while preserving order
-    List<Event> eventsList = new ArrayList<>();
-    while (!events.isEmpty()) {
-        eventsList.add(events.poll());
-    }
-
-    for (int i = 0; i < eventsList.size(); i++) {
-        Event event = eventsList.get(i);
-        jsonBuilder.append("    {\n");
-        jsonBuilder.append("      \"temps\": \"").append(event.getTemps()).append("\"");
-
-        // Determinar el tipo de evento y sus campos específicos
-        if (event instanceof MoureVehicleEvent) {
-            MoureVehicleEvent mve = (MoureVehicleEvent) event;
-            jsonBuilder.append(",\n      \"type\": \"MoureVehicle\"");
-            jsonBuilder.append(",\n      \"vehicleId\": ").append(mve.getVehicle().getId());
-            jsonBuilder.append(",\n      \"origenId\": ").append(mve.getOrigen().obtenirId());
-            jsonBuilder.append(",\n      \"destiId\": ").append(mve.getDesti().obtenirId());
-            jsonBuilder.append(",\n      \"distancia\": ").append(mve.getDistancia());
-        } else if (event instanceof IniciRutaEvent) {
-            IniciRutaEvent ire = (IniciRutaEvent) event;
-            jsonBuilder.append(",\n      \"type\": \"IniciRuta\"");
-            jsonBuilder.append(",\n      \"conductorId\": ").append(ire.getConductor().getId());
-            jsonBuilder.append(",\n      \"vehicleId\": ").append(ire.getVehicle().getId());
-            jsonBuilder.append(",\n      \"ruta\": {\n");
-            jsonBuilder.append("        \"llocs\": [");
-            List<Lloc> llocsRuta = ire.getRuta().getLlocs();
-            for (int j = 0; j < llocsRuta.size(); j++) {
-                jsonBuilder.append(llocsRuta.get(j).obtenirId());
-                if (j < llocsRuta.size() - 1) {
-                    jsonBuilder.append(", ");
-                }
+            jsonBuilder.append("      \"ID\": ").append(lloc.obtenirId()).append(",\n");
+            if (lloc instanceof Parquing) {
+                Parquing p = (Parquing) lloc;
+                jsonBuilder.append("      \"TIPUS\": \"").append("P").append("\",\n");
+                jsonBuilder.append("      \"N_CARREGADORS\": ").append(p.obtenirPuntsCarregaPublics()).append(",\n");
+                jsonBuilder.append("      \"N_CARREGADORS_PRIVATS\": ").append(p.obtenirPuntsCarregaPrivats())
+                        .append(",\n");
+                jsonBuilder.append("      \"MAX_VEHICLES\": ").append(p.obtenirCapacitatMaxima()).append("\n");
+            } else {
+                jsonBuilder.append("      \"TIPUS\": \"").append("L").append("\"\n");
             }
-            jsonBuilder.append("],\n");
-            jsonBuilder.append("        \"distanciaTotal\": ").append(ire.getRuta().obtenirDistanciaTotal()).append(",\n");
-            jsonBuilder.append("        \"tempsTotal\": ").append(ire.getRuta().obtenirTempsTotal()).append(",\n");
-            jsonBuilder.append("        \"horaInici\": \"").append(ire.getRuta().getHoraInici()).append("\",\n");
-            jsonBuilder.append("        \"esRutaCarrega\": ").append(ire.getRuta().isRutaCarrega()).append("\n");
-            jsonBuilder.append("      }");
-        } else if (event instanceof FiRutaEvent) {
-            FiRutaEvent fre = (FiRutaEvent) event;
-            jsonBuilder.append(",\n      \"type\": \"FiRuta\"");
-            jsonBuilder.append(",\n      \"conductorId\": ").append(fre.getConductor().getId());
-        } else if (event instanceof FiCarregaEvent) {
-            FiCarregaEvent fce = (FiCarregaEvent) event;
-            jsonBuilder.append(",\n      \"type\": \"FiCarrega\"");
-            jsonBuilder.append(",\n      \"conductorId\": ").append(fce.getConductor().getId());
-        } else if (event instanceof CarregarBateriaEvent) {
-            CarregarBateriaEvent cbe = (CarregarBateriaEvent) event;
-            jsonBuilder.append(",\n      \"type\": \"CarregarBateria\"");
-            jsonBuilder.append(",\n      \"vehicleId\": ").append(cbe.getVehicle().getId());
-            jsonBuilder.append(",\n      \"duracioCarregaMinuts\": ").append(cbe.getDuracioCarregaMinuts());
-            jsonBuilder.append(",\n      \"conductorId\": ").append(cbe.getConductor().getId());
-        } else if (event instanceof RecollirPassatgersEvent) {
-            RecollirPassatgersEvent rpe = (RecollirPassatgersEvent) event;
-            jsonBuilder.append(",\n      \"type\": \"RecollirPassatgers\"");
-            jsonBuilder.append(",\n      \"conductorId\": ").append(rpe.getConductor().getId());
-            jsonBuilder.append(",\n      \"destiId\": ").append(rpe.getDesti().obtenirId());
-            jsonBuilder.append(",\n      \"passatgersRecollits\": ").append(rpe.getPassatgersRecollits());
-        } else if (event instanceof DeixarPassatgersEvent) {
-            DeixarPassatgersEvent dpe = (DeixarPassatgersEvent) event;
-            jsonBuilder.append(",\n      \"type\": \"DeixarPassatgers\"");
-            jsonBuilder.append(",\n      \"conductorId\": ").append(dpe.getConductor().getId());
-            jsonBuilder.append(",\n      \"destiId\": ").append(dpe.getDesti().obtenirId());
-            jsonBuilder.append(",\n      \"passatgersDeixats\": ").append(dpe.getPassatgersDeixats());
+            jsonBuilder.append("    }").append(i < llocs.size() - 1 ? ",\n" : "\n");
+        }
+        jsonBuilder.append("  ],\n");
+
+        // 2. Escribir "connexions" (se mantiene igual)
+        jsonBuilder.append("  \"connexions\": [\n");
+        boolean first = true;
+        for (Object obj : connexions) {
+            if (obj instanceof Cami con) {
+                if (!first) {
+                    jsonBuilder.append(",\n");
+                }
+                jsonBuilder.append("    {\n");
+                jsonBuilder.append("      \"ORIGEN\": ").append(con.obtenirOrigen().obtenirId()).append(",\n");
+                jsonBuilder.append("      \"DESTI\": ").append(con.obtenirDesti().obtenirId()).append(",\n");
+                jsonBuilder.append("      \"DISTANCIA_KM\": ").append(con.obtenirDistancia()).append(",\n");
+                jsonBuilder.append("      \"TEMPS_MIN\": ").append(con.obtenirTemps()).append("\n");
+                jsonBuilder.append("    }");
+                first = false;
+            } else {
+                System.err.println("⚠️ Objecte no vàlid dins la llista de connexions: " + obj.getClass());
+            }
+        }
+        jsonBuilder.append("\n  ],\n");
+
+        // 3. Escribir "vehicles" (se mantiene igual)
+        jsonBuilder.append("  \"vehicles\": [\n");
+        for (int i = 0; i < vehicles.size(); i++) {
+            Vehicle vehicle = vehicles.get(i);
+            jsonBuilder.append("    {\n");
+            jsonBuilder.append("      \"ID\": ").append(vehicle.getId()).append(",\n");
+            jsonBuilder.append("      \"ID_UBICACIO\": ").append(vehicle.getUbicacioActual().obtenirId()).append(",\n");
+            jsonBuilder.append("      \"AUTONOMIA_KM\": ").append(vehicle.AUTONOMIA).append(",\n");
+            jsonBuilder.append("      \"MAX_PASSATGERS\": ").append(vehicle.getMaxPassatgers()).append(",\n");
+            jsonBuilder.append("      \"TEMPS_CARGA_RAPIDA\": ").append(vehicle.TEMPSCARGARAPIDA).append(",\n");
+            jsonBuilder.append("      \"TEMPS_CARGA_LENTA\": ").append(vehicle.TEMPSCARGALENTA).append("\n");
+            jsonBuilder.append("    }").append(i < vehicles.size() - 1 ? ",\n" : "\n");
+        }
+        jsonBuilder.append("  ],\n");
+
+        // 4. Escribir "conductors" (se mantiene igual)
+        jsonBuilder.append("  \"conductors\": [\n");
+        for (int i = 0; i < conductors.size(); i++) {
+            Conductor conductor = conductors.get(i);
+            jsonBuilder.append("    {\n");
+            jsonBuilder.append("      \"ID\": ").append(conductor.getId()).append(",\n");
+            jsonBuilder.append("      \"NOM\": \"").append(conductor.nom).append("\",\n");
+            if (conductor instanceof ConductorPlanificador) {
+                ConductorPlanificador conductorPlan = (ConductorPlanificador) conductor;
+                jsonBuilder.append("      \"TIPUS\": \"").append("planificador").append("\",\n");
+                jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append(",\n");
+                jsonBuilder.append("      \"ID_PARQUING_PRIVAT\": ")
+                        .append(conductorPlan.getParquingPrivat().obtenirId()).append("\n");
+            } else {
+                jsonBuilder.append("      \"TIPUS\": \"").append("vorac").append("\",\n");
+                jsonBuilder.append("      \"IDVEHICLE\": ").append(conductor.getVehicle().getId()).append("\n");
+            }
+            jsonBuilder.append("    }").append(i < conductors.size() - 1 ? ",\n" : "\n");
+        }
+        jsonBuilder.append("  ],\n");
+
+        // 5. Escribir "peticions" (se mantiene igual)
+        jsonBuilder.append("  \"peticions\": [\n");
+        for (int i = 0; i < peticions.size(); i++) {
+            Peticio peticio = peticions.get(i);
+            jsonBuilder.append("    {\n");
+            jsonBuilder.append("      \"ID\": ").append(peticio.obtenirId()).append(",\n");
+            jsonBuilder.append("      \"ORIGEN\": ").append(peticio.obtenirOrigen().obtenirId()).append(",\n");
+            jsonBuilder.append("      \"DESTI\": ").append(peticio.obtenirDesti().obtenirId()).append(",\n");
+            jsonBuilder.append("      \"HORA_MIN_RECOLLIDA\": \"").append(peticio.obtenirHoraMinimaRecollida())
+                    .append("\",\n");
+            jsonBuilder.append("      \"HORA_MAX_ARRIBADA\": \"").append(peticio.obtenirHoraMaximaArribada())
+                    .append("\",\n");
+            jsonBuilder.append("      \"NUM_PASSATGERS\": ").append(peticio.obtenirNumPassatgers()).append(",\n");
+            jsonBuilder.append("      \"VEHICLE_COMPARTIT\": ").append(peticio.esVehicleCompartit()).append("\n");
+            jsonBuilder.append("    }").append(i < peticions.size() - 1 ? ",\n" : "\n");
+        }
+        jsonBuilder.append("  ],\n");
+
+        // 6. Escribir "horaInici" y "horaFinal" (se mantiene igual)
+        jsonBuilder.append("  \"horaInici\": \"08:00\",\n");
+        jsonBuilder.append("  \"horaFinal\": \"20:00\",\n");
+
+        // 7. Escribir "events"
+        jsonBuilder.append("  \"events\": [\n");
+
+        // Convert PriorityQueue to a list while preserving order
+        List<Event> eventsList = new ArrayList<>();
+        while (!events.isEmpty()) {
+            eventsList.add(events.poll());
         }
 
-        jsonBuilder.append("\n    }").append(i < eventsList.size() - 1 ? ",\n" : "\n");
-    }
-    jsonBuilder.append("  ],\n");  // Cierre del array events
-    
-    // 8. Escribir estadísticas
-    jsonBuilder.append("  \"estadisticas\": [\n");
-    jsonBuilder.append(crearBloqueEstadisticas(estadistiques));
-    jsonBuilder.append("\n  ]\n"); // Cierre del array estadisticas
-    
-    jsonBuilder.append("}\n");    // Cierre del objeto JSON principal
+        for (int i = 0; i < eventsList.size(); i++) {
+            Event event = eventsList.get(i);
+            jsonBuilder.append("    {\n");
+            jsonBuilder.append("      \"temps\": \"").append(event.getTemps()).append("\"");
 
-    // Escribir en el archivo
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-        writer.write(jsonBuilder.toString());
+            // Determinar el tipo de evento y sus campos específicos
+            if (event instanceof MoureVehicleEvent) {
+                MoureVehicleEvent mve = (MoureVehicleEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"MoureVehicle\"");
+                jsonBuilder.append(",\n      \"vehicleId\": ").append(mve.getVehicle().getId());
+                jsonBuilder.append(",\n      \"origenId\": ").append(mve.getOrigen().obtenirId());
+                jsonBuilder.append(",\n      \"destiId\": ").append(mve.getDesti().obtenirId());
+                jsonBuilder.append(",\n      \"distancia\": ").append(mve.getDistancia());
+            } else if (event instanceof IniciRutaEvent) {
+                IniciRutaEvent ire = (IniciRutaEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"IniciRuta\"");
+                jsonBuilder.append(",\n      \"conductorId\": ").append(ire.getConductor().getId());
+                jsonBuilder.append(",\n      \"vehicleId\": ").append(ire.getVehicle().getId());
+                jsonBuilder.append(",\n      \"ruta\": {\n");
+                jsonBuilder.append("        \"llocs\": [");
+                List<Lloc> llocsRuta = ire.getRuta().getLlocs();
+                for (int j = 0; j < llocsRuta.size(); j++) {
+                    jsonBuilder.append(llocsRuta.get(j).obtenirId());
+                    if (j < llocsRuta.size() - 1) {
+                        jsonBuilder.append(", ");
+                    }
+                }
+                jsonBuilder.append("],\n");
+                jsonBuilder.append("        \"distanciaTotal\": ").append(ire.getRuta().obtenirDistanciaTotal()).append(",\n");
+                jsonBuilder.append("        \"tempsTotal\": ").append(ire.getRuta().obtenirTempsTotal()).append(",\n");
+                jsonBuilder.append("        \"horaInici\": \"").append(ire.getRuta().getHoraInici()).append("\",\n");
+                jsonBuilder.append("        \"esRutaCarrega\": ").append(ire.getRuta().isRutaCarrega()).append("\n");
+                jsonBuilder.append("      }");
+            } else if (event instanceof FiRutaEvent) {
+                FiRutaEvent fre = (FiRutaEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"FiRuta\"");
+                jsonBuilder.append(",\n      \"conductorId\": ").append(fre.getConductor().getId());
+            } else if (event instanceof FiCarregaEvent) {
+                FiCarregaEvent fce = (FiCarregaEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"FiCarrega\"");
+                jsonBuilder.append(",\n      \"conductorId\": ").append(fce.getConductor().getId());
+            } else if (event instanceof CarregarBateriaEvent) {
+                CarregarBateriaEvent cbe = (CarregarBateriaEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"CarregarBateria\"");
+                jsonBuilder.append(",\n      \"vehicleId\": ").append(cbe.getVehicle().getId());
+                jsonBuilder.append(",\n      \"duracioCarregaMinuts\": ").append(cbe.getDuracioCarregaMinuts());
+                jsonBuilder.append(",\n      \"conductorId\": ").append(cbe.getConductor().getId());
+            } else if (event instanceof RecollirPassatgersEvent) {
+                RecollirPassatgersEvent rpe = (RecollirPassatgersEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"RecollirPassatgers\"");
+                jsonBuilder.append(",\n      \"conductorId\": ").append(rpe.getConductor().getId());
+                jsonBuilder.append(",\n      \"destiId\": ").append(rpe.getDesti().obtenirId());
+                jsonBuilder.append(",\n      \"passatgersRecollits\": ").append(rpe.getPassatgersRecollits());
+            } else if (event instanceof DeixarPassatgersEvent) {
+                DeixarPassatgersEvent dpe = (DeixarPassatgersEvent) event;
+                jsonBuilder.append(",\n      \"type\": \"DeixarPassatgers\"");
+                jsonBuilder.append(",\n      \"conductorId\": ").append(dpe.getConductor().getId());
+                jsonBuilder.append(",\n      \"destiId\": ").append(dpe.getDesti().obtenirId());
+                jsonBuilder.append(",\n      \"passatgersDeixats\": ").append(dpe.getPassatgersDeixats());
+            }
+
+            jsonBuilder.append("\n    }").append(i < eventsList.size() - 1 ? ",\n" : "\n");
+        }
+        jsonBuilder.append("  ],\n");  // Cierre del array events
+
+        // 8. Escribir estadísticas
+        jsonBuilder.append("  \"estadisticas\": [\n");
+        jsonBuilder.append(crearBloqueEstadisticas(estadistiques));
+        jsonBuilder.append("\n  ]\n"); // Cierre del array estadisticas
+
+        jsonBuilder.append("}\n");    // Cierre del objeto JSON principal
+
+        // Escribir en el archivo
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(jsonBuilder.toString());
+        }
     }
-}
 
     /**
      * Carrega les peticions des d’un fitxer JSON amb format específic.
@@ -1155,29 +1156,30 @@ public static void writeJsonFile(List<Conductor> conductors, List<Vehicle> vehic
      */
     private static String crearBloqueEstadisticas(Estadistiques stats) {
         return String.format(
-                "  {\n"
-                + "    \"peticionesServidas\": %d,\n"
-                + "    \"peticionesNoServidas\": %d,\n"
-                + "    \"tiempoTotalEspera\": %.1f,\n"
-                + "    \"tiempoMaximoEspera\": %.1f,\n"
-                + "    \"ocupacionTotalVehiculos\": %.1f,\n"
-                + "    \"muestrasOcupacion\": %d,\n"
-                + "    \"porcentajeBateriaPromedio\": %.1f,\n"
-                + "    \"muestrasBateria\": %d,\n"
-                + "    \"tiempoTotalViaje\": %.2f,\n"
-                + "    \"muestrasViaje\": %d\n"
-                + "  }",
-                stats.getPeticionesServidas(),
-                stats.getPeticionesNoServidas(),
-                stats.getTiempoEsperaPromedio(),
-                stats.getTiempoMaximoEspera(),
-                stats.getOcupacionPromedioVehiculos(),
-                stats.getMuestrasOcupacion(),
-                stats.getPorcentajeBateriaPromedio(),
-                stats.getMuestrasBateria(),
-                stats.getTiempoViajePromedio(),
-                stats.getMuestrasViaje()
-        );
+            Locale.US,  // Força el punt decimal
+            "  {\n"
+            + "    \"peticionesServidas\": %d,\n"                     // %d (enter)
+            + "    \"peticionesNoServidas\": %d,\n"                   // %d (enter)
+            + "    \"tiempoTotalEspera\": %.1f,\n"                    // %.1f (decimal)
+            + "    \"tiempoMaximoEspera\": %.1f,\n"                   // %.1f (decimal)
+            + "    \"ocupacionTotalVehiculos\": %.1f,\n"              // %.1f (decimal)
+            + "    \"muestrasOcupacion\": %d,\n"                      // %d (enter)
+            + "    \"porcentajeBateriaPromedio\": %.1f,\n"           // %.1f (decimal)
+            + "    \"muestrasBateria\": %d,\n"                        // %d (enter)
+            + "    \"tiempoTotalViaje\": %.2f,\n"                     // %.2f (decimal)
+            + "    \"muestrasViaje\": %d\n"                          // %d (enter)
+            + "  }",
+            stats.getPeticionesServidas(),                     // int
+            stats.getPeticionesNoServidas(),                  // int
+            stats.getTiempoEsperaPromedio(),                   // double
+            stats.getTiempoMaximoEspera(),                     // double
+            stats.getOcupacionPromedioVehiculos(),             // double
+            stats.getMuestrasOcupacion(),                      // int
+            stats.getPorcentajeBateriaPromedio(),              // double
+            stats.getMuestrasBateria(),                         // int
+            stats.getTiempoViajePromedio(),                     // double
+            stats.getMuestrasViaje()                            // int
+    );
     }
 
 }
