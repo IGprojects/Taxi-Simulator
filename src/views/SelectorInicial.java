@@ -136,10 +136,6 @@ public class SelectorInicial {
         gbc.gridwidth = 2;
         panel.add(startBtn, gbc);
 
-        JButton testBtn = new JButton("Mode proves");
-        gbc.gridy = 10;
-        panel.add(testBtn, gbc);
-
         JButton jsonBtn = new JButton("Carregar Simulació");
         gbc.gridy = 11;
         panel.add(jsonBtn, gbc);
@@ -156,27 +152,7 @@ public class SelectorInicial {
         gbc.gridy = 14;
         panel.add(veureEstadistiquesBtn, gbc);
 
-        // Mode de proves amb fitxers predefinits
-        testBtn.addActionListener(e -> {
-            try {
-                selectedFiles[0] = new File("fitxersCSV/test3/llocs.csv");
-                selectedFiles[1] = new File("fitxersCSV/test3/camins.csv");
-                selectedFiles[2] = new File("fitxersCSV/test3/vehicles.csv");
-                selectedFiles[3] = new File("fitxersCSV/test3/conductors.csv");
-                selectedFiles[4] = new File("fitxersCSV/test3/peticions.csv");
-                selectedFiles[6] = new File("fitxersCSV/test3/Estadistiques.json"); // <-- Afegit
-
-                LocalTime horaInici = LocalTime.parse("08:00");
-                LocalTime horaFinal = LocalTime.parse("20:00");
-
-                frame.dispose();
-                listener.onDadesCompletades(selectedFiles[0], selectedFiles[1], selectedFiles[2],
-                        selectedFiles[3], selectedFiles[4], selectedFiles[5], horaInici, horaFinal, selectedFiles[6]);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(frame, "Error al mode de proves: " + ex.getMessage(), "Error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        
 
         // Carregar simulació JSON
         jsonBtn.addActionListener(e -> {
