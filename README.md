@@ -12,7 +12,6 @@
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
 ![JavaFX](https://img.shields.io/badge/JavaFX-FF0000?style=for-the-badge&logo=java&logoColor=white)
 ![Algorithms](https://img.shields.io/badge/Algorítmia-Optimització-blue?style=for-the-badge)
-![AR](https://img.shields.io/badge/AR-Augmented%20Reality-darkgreen?style=for-the-badge)
 
 * **Optimització en Temps Real:** Implementació d'algorismes de cerca de camins i gestió de trànsit.
 * **Interfície Gràfica:** Desenvolupada completament amb JavaFX per a una experiència fluida.
